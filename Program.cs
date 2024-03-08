@@ -29,6 +29,8 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin", builder =>
     {
+        //https://ramonavocado.github.io/CyberMercadillo/
+        //http://127.0.0.1:5500
         builder.WithOrigins("https://ramonavocado.github.io/CyberMercadillo/");
         builder.AllowAnyHeader();
         builder.AllowAnyMethod();
