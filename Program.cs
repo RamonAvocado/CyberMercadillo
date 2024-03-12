@@ -108,12 +108,11 @@ app.MapPost("/producto", async (HttpContext context,Supabase.Client client) =>
     }
 });
 
+app.MapGet("/status", () => Results.Ok("El backend está en funcionamiento correctamente."));
+
 app.Run();
-var x = 1;
-while (x<350){
-    Console.WriteLine(x);
-    x++;
-}
+
+
 public class SearchData
 {
     public string? searchTerm { get; set;}
