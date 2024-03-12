@@ -109,7 +109,11 @@ app.MapPost("/producto", async (HttpContext context,Supabase.Client client) =>
 });
 
 app.Run();
-
+var x = 1;
+while (x<350){
+    Console.WriteLine(x);
+    x++;
+}
 public class SearchData
 {
     public string? searchTerm { get; set;}
