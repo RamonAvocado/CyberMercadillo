@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ramon\\OneDrive\\Escritorio\\ProyectoPSW\\CyberMercadillo\\CyberMercadillo.csproj": {}
+    "C:\\Users\\ramon\\OneDrive\\Escritorio\\ProyectoPSW\\CyberMercadillo\\CyberMercadillo\\CyberMercadillo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ramon\\OneDrive\\Escritorio\\ProyectoPSW\\CyberMercadillo\\CyberMercadillo.csproj": {
+    "C:\\Users\\ramon\\OneDrive\\Escritorio\\ProyectoPSW\\CyberMercadillo\\CyberMercadillo\\CyberMercadillo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ramon\\OneDrive\\Escritorio\\ProyectoPSW\\CyberMercadillo\\CyberMercadillo.csproj",
+        "projectUniqueName": "C:\\Users\\ramon\\OneDrive\\Escritorio\\ProyectoPSW\\CyberMercadillo\\CyberMercadillo\\CyberMercadillo.csproj",
         "projectName": "CyberMercadillo",
-        "projectPath": "C:\\Users\\ramon\\OneDrive\\Escritorio\\ProyectoPSW\\CyberMercadillo\\CyberMercadillo.csproj",
+        "projectPath": "C:\\Users\\ramon\\OneDrive\\Escritorio\\ProyectoPSW\\CyberMercadillo\\CyberMercadillo\\CyberMercadillo.csproj",
         "packagesPath": "C:\\Users\\ramon\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ramon\\OneDrive\\Escritorio\\ProyectoPSW\\CyberMercadillo\\obj\\",
+        "outputPath": "C:\\Users\\ramon\\OneDrive\\Escritorio\\ProyectoPSW\\CyberMercadillo\\CyberMercadillo\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ramon\\AppData\\Roaming\\NuGet\\NuGet.Config",
