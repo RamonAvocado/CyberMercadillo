@@ -8,11 +8,24 @@ namespace CyberMercadillo.Models
     [Table("Producto")]
     public class Producto : BaseModel
     {
-        [PrimaryKey("id", false)]
-        public int id { get; set; }
+        [PrimaryKey("idproducto", false)]
+        public int idproducto { get; set; }
 
-        [Column("Nombre")]
-        public string? Name { get; set; }
+        [Column("nombreproducto")]
+        public string? nombreproducto { get; set; }
+
+        [Column("precio")]
+        public string? precio { get; set; }
+
+        [Column("categoria")]
+        public string? categoria { get; set; }
+
+        [Column("descripcion")]
+        public string? descripcion { get; set; }
+
+        [Column("imagen")]
+        public string? imagen { get; set; }
+
 
     }
 }

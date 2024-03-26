@@ -18,8 +18,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<Supabase.Client>(cliente =>
     new Supabase.Client(
-        builder.Configuration["https://eymloqwpndmgytltgyjn.supabase.co"] ?? "https://eymloqwpndmgytltgyjn.supabase.co",
-        builder.Configuration["eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5bWxvcXdwbmRtZ3l0bHRneWpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDk1NjMzMzEsImV4cCI6MjAyNTEzOTMzMX0.pd32IFNMJSpXH2vpB9EG0BrR-yjASIF6LAvBzeRuamc"] ?? "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5bWxvcXdwbmRtZ3l0bHRneWpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDk1NjMzMzEsImV4cCI6MjAyNTEzOTMzMX0.pd32IFNMJSpXH2vpB9EG0BrR-yjASIF6LAvBzeRuamc",
+        builder.Configuration["https://mkuspisvkpkvyxfxcgfk.supabase.co"] ?? "https://mkuspisvkpkvyxfxcgfk.supabase.co",
+        builder.Configuration["eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1rdXNwaXN2a3Brdnl4ZnhjZ2ZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDk3NTgyNjEsImV4cCI6MjAyNTMzNDI2MX0.5meCQtNIfiAIgsiWJppLHQ_tMfD0Y5hM4hhNFdntokM"] ?? "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1rdXNwaXN2a3Brdnl4ZnhjZ2ZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDk3NTgyNjEsImV4cCI6MjAyNTMzNDI2MX0.5meCQtNIfiAIgsiWJppLHQ_tMfD0Y5hM4hhNFdntokM",
         new SupabaseOptions
         {
             AutoRefreshToken = true,
@@ -58,7 +58,7 @@ app.MapPost("/añadir",  async (Supabase.Client client) =>
 {
     var producto = new Producto
     {
-        Name = "Producto CCC"
+        nombreproducto = "Producto CCC"
     };
 
     await client.From<Producto>().Insert(new List<Producto> { producto });
@@ -70,11 +70,11 @@ app.MapPost("/añadir",  async (Supabase.Client client) =>
 //Buscar Productos
 app.MapPost("/buscar",  async (Supabase.Client client) => 
 {
-    string nombreBuscado = "Producto B";
-    var result = await client.From<Producto>().Filter("Nombre",Postgrest.Constants.Operator.Equals,nombreBuscado).Single();
+    string nombreBuscado = "Smartphone X";
+    var result = await client.From<Producto>().Filter("nombreproducto",Postgrest.Constants.Operator.Equals,nombreBuscado).Single();
 
     #nullable disable
-    var respuesta = result.id!.ToString() ?? "No existe ese producto";
+    var respuesta = result.idproducto!.ToString() ?? "No existe ese producto";
     #nullable restore
     return Results.Ok(respuesta);
 
@@ -91,11 +91,11 @@ app.MapPost("/producto", async (HttpContext context,Supabase.Client client) =>
             var searchData = JsonConvert.DeserializeObject<SearchData>(requestBody);
 
             // Utilizar searchData.searchTerm en la lógica de búsqueda
-            var nombreBuscado = searchData!.searchTerm ?? "Producto B";
-            var result = await client.From<Producto>().Filter("Nombre", Postgrest.Constants.Operator.Equals, nombreBuscado).Single();
+            var nombreBuscado = searchData!.searchTerm ?? "Smartphone X";
+            var result = await client.From<Producto>().Filter("nombreproducto", Postgrest.Constants.Operator.Equals, nombreBuscado).Single();
 
             // Devolver la respuesta al frontend
-            var jsonResponse = new { resultado = result?.id.ToString() ?? "No existe ese producto" };
+            var jsonResponse = new { resultado = result?.idproducto.ToString() ?? "No existe ese producto" };
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
         } catch (Exception ex)
