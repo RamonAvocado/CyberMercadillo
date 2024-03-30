@@ -59,18 +59,18 @@ app.UseCors("AllowSpecificOrigin");
 *
 */
 
-//Crear objetos
+//Crear objetos de manera manual
 app.MapPost("/añadir",  async (Supabase.Client client) => 
 {
     FabricaDeProductos f1 = new FabricaDeProductos();
-    Producto prod = f1.CrearProducto("Smartphone XX","20","CatPrueba","Nuevo Smatphone Pro xx Max","https://www.ejemplo.com/imagen.jpg",5);
+    Producto prod = f1.CrearProducto("Smartphone XX","20","CatPrueba","Nuevo Smatphone Pro xx Max","imagen.jpg",5);
     await client.From<Producto>().Insert(new List<Producto> { prod });
 
     return Results.Ok("Producto created successfully");
 });
 
 
-//Buscar Productos
+//Buscar Productos de manera manual
 app.MapPost("/buscar",  async (Supabase.Client client) => 
 {
     string nombreBuscado = "Smartphone X";
@@ -84,7 +84,8 @@ app.MapPost("/buscar",  async (Supabase.Client client) =>
 });
 
 
-app.MapPost("/producto", async (HttpContext context,Supabase.Client client) =>
+//Busca un producto desde el forntend
+app.MapPost("/BuscarProducto", async (HttpContext context,Supabase.Client client) =>
 {
     // Leer el cuerpo de la solicitud para obtener la información de búsqueda
     using (var reader = new StreamReader(context.Request.Body))
@@ -94,7 +95,7 @@ app.MapPost("/producto", async (HttpContext context,Supabase.Client client) =>
             var searchData = JsonConvert.DeserializeObject<SearchData>(requestBody);
 
             // Utilizar searchData.searchTerm en la lógica de búsqueda
-            var nombreBuscado = searchData!.searchTerm ?? "Smartphone X";
+            var nombreBuscado = searchData!.searchTerm ?? "Producto de Serie Busqueda";
             var result = await client.From<Producto>().Filter("nombreproducto", Postgrest.Constants.Operator.Equals, nombreBuscado).Single();
 
             // Devolver la respuesta al frontend
@@ -110,6 +111,49 @@ app.MapPost("/producto", async (HttpContext context,Supabase.Client client) =>
         
     }
 });
+
+
+//Metodo para agreagar producto desde el frontend
+app.MapPost("/AgregarProducto", async (HttpContext context,Supabase.Client client) =>
+{
+    // Leer el cuerpo de la solicitud para obtener la información de búsqueda
+    using (var reader = new StreamReader(context.Request.Body))
+    {
+        try{
+            var requestBody = await reader.ReadToEndAsync();
+            var productoData = JsonConvert.DeserializeObject<Producto>(requestBody);
+
+            // Utiliza los datos recibidos para crear un nuevo producto
+            var fabrica = new FabricaDeProductos();
+
+#pragma warning disable CS8602 // Esto es para quitar un warning raro
+
+            var nuevoProducto = fabrica.CrearProducto(
+                productoData.nombreproducto ?? "Producto de Serie Creación", //Este tmb
+                productoData.precio ?? "-1", 
+                productoData.categoria ?? "CatPrueba", 
+                productoData.descripcion ?? "Este articulo es el predeterminado por si llega un null a esta funcion", 
+                productoData.imagen ?? "/rutaPrueba",  //Este lo pone siempre
+                productoData.cantidad ?? -1);//predeterminado que si llega un nulo, sea -1 
+
+#pragma warning restore CS8602 // Y aqui para volver a instaurarlo
+
+            // Inserta el nuevo producto en la base de datos
+            await client.From<Producto>().Insert(new List<Producto> { nuevoProducto });
+
+            // Devuelve una respuesta al frontend (opcional)
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync("Producto creado exitosamente");
+        } catch (Exception ex)
+        {
+            context.Response.StatusCode = 500;
+            context.Response.ContentType = "text/plain";  // Establecer el tipo de contenido si no es JSON
+            await context.Response.WriteAsync($"Error al crear el producto: {ex.Message}");
+        }
+    }
+    return Results.Ok("Producto created successfully"); 
+});
+
 
 app.MapGet("/status", () => Results.Ok("El backend está en funcionamiento correctamente."));
 

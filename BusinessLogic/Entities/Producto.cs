@@ -2,7 +2,6 @@ using Postgrest.Attributes;
 using Postgrest.Models;
 using System;
 using System.Collections.Generic;
-using Postgrest.Models;
 using CyberMercadillo;
 using System.Linq;
 using System.Text;

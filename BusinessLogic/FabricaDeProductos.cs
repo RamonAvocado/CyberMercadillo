@@ -20,16 +20,8 @@ namespace CyberMercadillo.BusinessLogic{
     public class FabricaDeProductos{
 
         public FabricaDeProductos(){}
-        public Producto CrearProducto(string nombre, string precioProducto, string categoriaProd, string descripcionProd, string imgProd, int cantProd) {
-            return new Producto(nombre,precioProducto,categoriaProd,descripcionProd, imgProd, cantProd);
+        public Producto CrearProducto(string nombreProd, string precioProd, string categoriaProd, string descripcionProd, string imgProd, int cantProd) {
+            return new Producto(nombreProd,precioProd,categoriaProd,descripcionProd, imgProd, cantProd);
         }
     }
-    /*app.MapPost("/añadir",  async (Supabase.Client client) => 
-    {
-        var producto = new Producto{
-            nombreproducto = "Producto CCC"
-        };
-        return producto;
-    });
-    */
 }
