@@ -2,11 +2,15 @@ using Postgrest.Attributes;
 using Postgrest.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks; 
 
 namespace CyberMercadillo.Models
 {
     [Table("Producto")]
-    public class Producto : BaseModel
+    public partial class Producto : BaseModel
     {
         [PrimaryKey("idproducto", false)]
         public int idproducto { get; set; }
@@ -25,8 +29,7 @@ namespace CyberMercadillo.Models
 
         [Column("imagen")]
         public string? imagen { get; set; }
-
-
     }
+
 }
     

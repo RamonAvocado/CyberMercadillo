@@ -8,6 +8,7 @@ using Supabase;
 using Supabase.Interfaces;
 using CyberMercadillo.Models;
 using Newtonsoft.Json;
+using CyberMercadillo.BusinessLogic;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -56,12 +57,9 @@ app.UseCors("AllowSpecificOrigin");
 //Crear objetos
 app.MapPost("/añadir",  async (Supabase.Client client) => 
 {
-    var producto = new Producto
-    {
-        nombreproducto = "Producto CCC"
-    };
-
-    await client.From<Producto>().Insert(new List<Producto> { producto });
+    FabricaDeProductos f1 = new FabricaDeProductos();
+    Producto prod = f1.CrearProducto("Smartphone XX","20","20","Nuevo Smatphone Pro xx Max","https://www.ejemplo.com/imagen.jpg");
+    await client.From<Producto>().Insert(new List<Producto> { prod });
 
     return Results.Ok("Producto created successfully");
 });
@@ -117,3 +115,4 @@ public class SearchData
 {
     public string? searchTerm { get; set;}
 }
+
