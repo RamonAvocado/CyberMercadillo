@@ -98,7 +98,6 @@ C:\Users\ramon\OneDrive\Escritorio\ProyectoPSW\CyberMercadillo\CyberMercadillo\o
 C:\Users\ramon\OneDrive\Escritorio\ProyectoPSW\CyberMercadillo\CyberMercadillo\obj\Debug\net7.0\ref\CyberMercadillo.dll
 C:\Users\2003h\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\appsettings.Development.json
 C:\Users\2003h\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\appsettings.json
-C:\Users\2003h\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\package.json
 C:\Users\2003h\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\CyberMercadillo.exe
 C:\Users\2003h\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\CyberMercadillo.deps.json
 C:\Users\2003h\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\CyberMercadillo.runtimeconfig.json

@@ -7,10 +7,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Postgrest.Models;
 using Supabase;
 using Supabase.Interfaces;
-using CyberMercadillo.Models;
+using CyberMercadillo.Entities;
 using Newtonsoft.Json;
 
 //Crear objetos
@@ -21,8 +20,8 @@ namespace CyberMercadillo.BusinessLogic{
     public class FabricaDeProductos{
 
         public FabricaDeProductos(){}
-        public Producto CrearProducto(string nombre, string precioProducto, string cantidadPro, string descripcionProd, string img) {
-            return new Producto(nombre,precioProducto,cantidadPro,descripcionProd,img);
+        public Producto CrearProducto(string nombre, string precioProducto, string categoriaProd, string descripcionProd, string imgProd, int cantProd) {
+            return new Producto(nombre,precioProducto,categoriaProd,descripcionProd, imgProd, cantProd);
         }
     }
     /*app.MapPost("/añadir",  async (Supabase.Client client) => 

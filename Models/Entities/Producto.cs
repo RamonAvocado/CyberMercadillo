@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks; 
 
-namespace CyberMercadillo.Models
+namespace CyberMercadillo.Entities
 {
     [Table("Producto")]
     public partial class Producto : BaseModel
@@ -29,6 +29,9 @@ namespace CyberMercadillo.Models
 
         [Column("imagen")]
         public string? imagen { get; set; }
+        
+        [Column("cantidad")]
+        public int? cantidad { get; set; }
     }
 
 }
