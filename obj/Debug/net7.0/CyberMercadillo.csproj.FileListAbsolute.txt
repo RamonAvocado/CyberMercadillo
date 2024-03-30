@@ -148,7 +148,6 @@ C:\Users\2003h\OneDrive\Documentos\GitHub\CyberMercadillo\obj\Debug\net7.0\Cyber
 C:\Users\2003h\OneDrive\Documentos\GitHub\CyberMercadillo\obj\Debug\net7.0\ref\CyberMercadillo.dll
 C:\Users\vane_\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\appsettings.Development.json
 C:\Users\vane_\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\appsettings.json
-C:\Users\vane_\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\package.json
 C:\Users\vane_\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\CyberMercadillo.exe
 C:\Users\vane_\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\CyberMercadillo.deps.json
 C:\Users\vane_\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\CyberMercadillo.runtimeconfig.json
@@ -191,9 +190,9 @@ C:\Users\vane_\OneDrive\Documentos\GitHub\CyberMercadillo\obj\Debug\net7.0\stati
 C:\Users\vane_\OneDrive\Documentos\GitHub\CyberMercadillo\obj\Debug\net7.0\staticwebassets\msbuild.buildTransitive.CyberMercadillo.props
 C:\Users\vane_\OneDrive\Documentos\GitHub\CyberMercadillo\obj\Debug\net7.0\staticwebassets.pack.json
 C:\Users\vane_\OneDrive\Documentos\GitHub\CyberMercadillo\obj\Debug\net7.0\scopedcss\bundle\CyberMercadillo.styles.css
-C:\Users\vane_\OneDrive\Documentos\GitHub\CyberMercadillo\obj\Debug\net7.0\CyberMer.CD6B3755.Up2Date
 C:\Users\vane_\OneDrive\Documentos\GitHub\CyberMercadillo\obj\Debug\net7.0\CyberMercadillo.dll
 C:\Users\vane_\OneDrive\Documentos\GitHub\CyberMercadillo\obj\Debug\net7.0\refint\CyberMercadillo.dll
 C:\Users\vane_\OneDrive\Documentos\GitHub\CyberMercadillo\obj\Debug\net7.0\CyberMercadillo.pdb
 C:\Users\vane_\OneDrive\Documentos\GitHub\CyberMercadillo\obj\Debug\net7.0\CyberMercadillo.genruntimeconfig.cache
 C:\Users\vane_\OneDrive\Documentos\GitHub\CyberMercadillo\obj\Debug\net7.0\ref\CyberMercadillo.dll
+C:\Users\vane_\OneDrive\Documentos\GitHub\CyberMercadillo\obj\Debug\net7.0\CyberMercadillo.csproj.CopyComplete
