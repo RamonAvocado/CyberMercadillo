@@ -1,3 +1,4 @@
+
 async function buscar() {
     var searchTerm = document.getElementById('searchInput').value;
 
@@ -20,6 +21,32 @@ async function buscar() {
     } catch (error) {
         console.error('Error inesperado:', error);
     }
+}
+
+/*
+    NO BORRAR    
+
+    Esto es lo que había antes en PaginaPrincipal, NO BORRAR, lo usaré más tarde,
+    ya que tenemos que hacer bien la pagina principal y más cosas
+
+
+        <h1>Búsqueda de Productos</h1>
+        <input type="text" id="searchInput" placeholder="Ingrese su búsqueda...">
+        <button onclick="buscar()">Buscar</button>
+        <div id ="resultados"></div>
+*/
+
+function redirigirABusqueda(){
+    window.location.href = "BuscarProducto.html"
+}
+
+function redirigirArandom(){
+    window.location.href = "Random.html"
+}
+
+
+function volverPaginaAnterior(){
+    window.history.back();
 }
 
 // Función para mostrar el resultado en la página

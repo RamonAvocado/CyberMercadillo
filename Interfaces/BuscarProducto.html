@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Buscar Producto</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="section">
+            <div class="section-header">
+                <h1>Buscar Producto</h1>
+            </div>
+            <div class="section-content">
+                <input type="text" id = "searchInput" placeholder="Ingrese su búsqueda ...">
+                <button onclick = "buscarProducto()">Buscar</button>
+                <button onclick="redirigirArandom()">redirigirArandom</button>
+                <div id = "resultados"></div>            
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div calss="section">
+            <div class="section-header">
+                <h1>Volver Antrás</h1>
+            </div>
+            <div class = "section-content">
+                <button onclick="volverPaginaAnterior()">Voler</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="Metodos.js"></script>
+</body>
+</html>
