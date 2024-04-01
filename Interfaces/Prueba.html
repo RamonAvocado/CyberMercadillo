@@ -1,69 +1,24 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda de Productos</title>
-    <link rel="stylesheet" href="styleBuscador.css">
-</head>
-<body>
-    <header>
-        <h1>Cyber Mercadillo</h1>
-    </header>
-    <div class="search-bar">
-        <input type="text" placeholder="Buscar productos...">
-        <button>Buscar</button>
-    </div>
-    <div class="featured-products-container">
-        <h2>Productos destacados</h2>
-        <div class="featured-products">
-            <div class="product-card">
-                <img src="ruta-de-la-imagen.jpg" alt="Producto 1">
-                <h3>Producto 1</h3>
-                <p>$59.99 / lb</p>
-                <p>Mostrado en San Juan Capistrano, CA</p>
+<nav>
+    <ul class="nav-list">
+        <li>
+            <div class="back-button">
+                <a href="#" onclick="volverPaginaAnterior()">Volver atrás</a>
             </div>
-            <div class="product-card">
-                <img src="ruta-de-la-imagen.jpg" alt="Producto 2">
-                <h3>Producto 2</h3>
-                <p>$59.99 / lb</p>
-                <p>Mostrado en San Juan Capistrano, CA</p>
+        </li>
+        <li><a href="#">Principal</a></li>
+        <li><a href="#">Lista Deseados</a></li>
+        <li><a href="#">Productos</a></li>
+        <li>
+            <div class="user-icons">
+                <!-- Iconos de usuario (por ejemplo, inicio de sesión, carrito de compras) -->
             </div>
-            <div class="product-card">
-                <img src="ruta-de-la-imagen.jpg" alt="Producto 3">
-                <h3>Producto 3</h3>
-                <p>$59.99 / lb</p>
-                <p>Mostrado en San Juan Capistrano, CA</p>
-            </div>
-        </div>
-    </div>
-    <div class="recommended-products">
-        <h2>Recomendaciones</h2>
-        <div class="product-card">
-            <img src="ruta-de-la-imagen.jpg" alt="Recommended Product 2">
-            <h3>Recommended Product 2</h3>
-            <p>$59.99 / lb</p>
-            <p>Mostrado en San Juan Capistrano, CA</p>
-        </div>
-        <div class="product-card">
-            <img src="ruta-de-la-imagen.jpg" alt="Recommended Product 3">
-            <h3>Recommended Product 3</h3>
-            <p>$59.99 / lb</p>
-            <p>Mostrado en San Juan Capistrano, CA</p>
-        </div>
-        <div class="product-card">
-            <img src="ruta-de-la-imagen.jpg" alt="Recommended Product 4">
-            <h3>Recommended Product 4</h3>
-            <p>$59.99 / lb</p>
-            <p>Mostrado en San Juan Capistrano, CA</p>
-        </div>
-    </div>
-    <footer>
-        <p>Información de Contacto</p>
-        <p>Telefono de contacto: 999 999 999</p>
-        <p>Correo Electrónico: E21.07CyberMercadillo.com</p>
-        <a href="#">Términos de Servicio</a>
-        <a href="#">Política de Privacidad</a>
-    </footer>
-</body>
-</html>
+        </li>
+    </ul>
+</nav>
+
+
+<div class="search-bar">
+    <input type="text" id = "searchInput" placeholder="Ingrese su búsqueda ...">
+    <button onclick = "buscarProducto()">Buscar</button>
+    <div id = "resultados"></div>
+</div>

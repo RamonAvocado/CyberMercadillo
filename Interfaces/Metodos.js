@@ -40,9 +40,6 @@ function redirigirABusqueda(){
     window.location.href = "BuscarProducto.html"
 }
 
-function redirigirArandom(){
-    window.location.href = "Random.html"
-}
 
 
 function volverPaginaAnterior(){

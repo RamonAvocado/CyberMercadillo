@@ -3,36 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Buscar Producto</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Cyber Mercadillo</title>
+    <link rel="stylesheet" href="styleBuscador.css">
 </head>
 <body>
-
-    <div class="container">
-        <div class="section">
-            <div class="section-header">
-                <h1>Buscar Producto</h1>
+    <header>
+        <div  class="parte-superior">
+            <div class="img-logo">   
+                <img src="Imagenes/Logo.png">
             </div>
-            <div class="section-content">
-                <input type="text" id = "searchInput" placeholder="Ingrese su búsqueda ...">
-                <button onclick = "buscarProducto()">Buscar</button>
-                <button onclick="redirigirArandom()">redirigirArandom</button>
-                <div id = "resultados"></div>            
+            <h1>
+                <span>Cyber </span><br>
+                <span>Mercadillo</span>
+            </h1>
+        </div>
+        <nav>
+            <ul class="nav-list">
+                <li>
+                    <div class="back-button">
+                        <a href="#" onclick="volverPaginaAnterior()">Volver atrás</a>
+                    </div>
+                </li>
+                <li><a href="#">Principal</a></li>
+                <li><a href="#">Lista Deseados</a></li>
+                <li><a href="#">Productos</a></li>
+                <li>
+                    <div class="user-icons">
+                        <!-- Iconos de usuario (por ejemplo, inicio de sesión, carrito de compras) -->
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <div class="search-bar">
+        <input type="text" id = "searchInput" placeholder="Ingrese su búsqueda ...">
+        <button onclick = "buscarProducto()">Buscar</button>
+        <div id = "resultados"></div>
+    </div>
+    <div class="featured-products-container">
+        <!-- Productos destacados (similar a la imagen) -->
+        <h2>Productos destacados</h2>
+        <div class="featured-products">
+            <div class="product-card">
+                <img src="ruta-de-la-imagen.jpg" alt="Producto 1">
+                <h3>Producto 1</h3>
+                <p>$59.99 / lb</p>
+                <p>Mostrado en San Juan Capistrano, CA</p>
+            </div>
+            <div class="product-card">
+                <img src="ruta-de-la-imagen.jpg" alt="Producto 2">
+                <h3>Producto 2</h3>
+                <p>$59.99 / lb</p>
+                <p>Mostrado en San Juan Capistrano, CA</p>
+            </div>
+            <div class="product-card">
+                <img src="ruta-de-la-imagen.jpg" alt="Producto 3">
+                <h3>Producto 3</h3>
+                <p>$59.99 / lb</p>
+                <p>Mostrado en San Juan Capistrano, CA</p>
+            </div>
+            <div class="product-card">
+                <img src="ruta-de-la-imagen.jpg" alt="Producto 4">
+                <h3>Producto 4</h3>
+                <p>$59.99 / lb</p>
+                <p>Mostrado en San Juan Capistrano, CA</p>
+            </div>
+            <div class="product-card">
+                <img src="ruta-de-la-imagen.jpg" alt="Producto 5">
+                <h3>Producto 5</h3>
+                <p>$59.99 / lb</p>
+                <p>Mostrado en San Juan Capistrano, CA</p>
+            </div>
+            <div class="product-card">
+                <img src="ruta-de-la-imagen.jpg" alt="Producto 6">
+                <h3>Producto 6</h3>
+                <p>$59.99 / lb</p>
+                <p>Mostrado en San Juan Capistrano, CA</p>
             </div>
         </div>
     </div>
-
-    <div class="container">
-        <div calss="section">
-            <div class="section-header">
-                <h1>Volver Antrás</h1>
-            </div>
-            <div class = "section-content">
-                <button onclick="volverPaginaAnterior()">Voler</button>
-            </div>
+    <div class="recommended-products">
+        <!-- Recomendaciones (similar a la imagen) -->
+        <h2>Recomendaciones</h2>
+        <div class="product-card">
+            <img src="ruta-de-la-imagen.jpg" alt="Recommended Product 1">
+            <h3>Recommended Product 1</h3>
+            <p>$59.99 / lb</p>
+            <p>Mostrado en San Juan Capistrano, CA</p>
+        </div>
+        <div class="product-card">
+            <img src="ruta-de-la-imagen.jpg" alt="Recommended Product 2">
+            <h3>Recommended Product 2</h3>
+            <p>$59.99 / lb</p>
+            <p>Mostrado en San Juan Capistrano, CA</p>
+        </div>
+        <div class="product-card">
+            <img src="ruta-de-la-imagen.jpg" alt="Recommended Product 3">
+            <h3>Recommended Product 3</h3>
+            <p>$59.99 / lb</p>
+            <p>Mostrado en San Juan Capistrano, CA</p>
+        </div>
+        <div class="product-card">
+            <img src="ruta-de-la-imagen.jpg" alt="Producto 4">
+            <h3>Producto 4</h3>
+            <p>$59.99 / lb</p>
+            <p>Mostrado en San Juan Capistrano, CA</p>
+        </div>
+        <div class="product-card">
+            <img src="ruta-de-la-imagen.jpg" alt="Producto 5">
+            <h3>Producto 5</h3>
+            <p>$59.99 / lb</p>
+            <p>Mostrado en San Juan Capistrano, CA</p>
+        </div>
+        <div class="product-card">
+            <img src="ruta-de-la-imagen.jpg" alt="Producto 6">
+            <h3>Producto 6</h3>
+            <p>$59.99 / lb</p>
+            <p>Mostrado en San Juan Capistrano, CA</p>
         </div>
     </div>
-
+    <footer>
+        <p>Información de Contacto</p>
+        <p>Teléfono de contacto: 999 999 999</p>
+        <p>Correo Electrónico: cybermercadillo@example.com</p>
+        <a href="#">Términos de Servicio</a>
+        <a href="#">Política de Privacidad</a>
+    </footer>
     <script src="Metodos.js"></script>
 </body>
 </html>
