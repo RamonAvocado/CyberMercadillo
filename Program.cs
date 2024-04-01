@@ -95,11 +95,25 @@ app.MapPost("/BuscarProducto", async (HttpContext context,Supabase.Client client
             var searchData = JsonConvert.DeserializeObject<SearchData>(requestBody);
 
             // Utilizar searchData.searchTerm en la lógica de búsqueda
-            var nombreBuscado = searchData!.searchTerm ?? "Producto de Serie Busqueda";
-            var result = await client.From<Producto>().Filter("nombreproducto", Postgrest.Constants.Operator.Equals, nombreBuscado).Single();
+            var nombreBuscado = searchData!.searchTerm ?? "Auriculares Bluetooth";
+            var categoriaBuscada = searchData!.category ?? "Electrónica";
+
+            var query = client.From<Producto>().Filter("nombreproducto", Postgrest.Constants.Operator.Equals, nombreBuscado);
+
+
+           // Aplicar el filtro de la categoría si existe
+           /*
+            if (!string.IsNullOrEmpty(categoriaBuscada))
+            {
+                query = query.Filter("categoria", Postgrest.Constants.Operator.Equals, categoriaBuscada);
+            }
+*/
+            // Ejecutar la consulta
+            var producto = await query.Single();
+
 
             // Devolver la respuesta al frontend
-            var jsonResponse = new { resultado = result?.idproducto.ToString() ?? "No existe ese producto" };
+            var jsonResponse = new { resultado = producto?.idproducto.ToString() ?? "No existe ese producto" };
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
         } catch (Exception ex)
@@ -163,5 +177,6 @@ app.Run();
 public class SearchData
 {
     public string? searchTerm { get; set;}
+    public string? category {get; set;}
 }
 

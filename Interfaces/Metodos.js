@@ -1,6 +1,7 @@
 
 async function buscar() {
     var searchTerm = document.getElementById('searchInput').value;
+    var category  = document.getElementById('categorySelect').value;
 
     // Realizar una solicitud POST al backend con la información de búsqueda
     try {
@@ -9,7 +10,8 @@ async function buscar() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ searchTerm: searchTerm }),
+            //le paso la búsqueda y la categoría 
+            body: JSON.stringify({ searchTerm: searchTerm, category: category  }),
         });
 
         if (response.ok) {
@@ -23,18 +25,6 @@ async function buscar() {
     }
 }
 
-/*
-    NO BORRAR    
-
-    Esto es lo que había antes en PaginaPrincipal, NO BORRAR, lo usaré más tarde,
-    ya que tenemos que hacer bien la pagina principal y más cosas
-
-
-        <h1>Búsqueda de Productos</h1>
-        <input type="text" id="searchInput" placeholder="Ingrese su búsqueda...">
-        <button onclick="buscar()">Buscar</button>
-        <div id ="resultados"></div>
-*/
 
 function redirigirABusqueda(){
     window.location.href = "BuscarProducto.html"

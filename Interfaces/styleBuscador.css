@@ -10,7 +10,7 @@ body {
 header {
     background-color: #6a0572;
     color: #ffffff;
-    padding: 10px;
+    padding: 10px 20px;
     text-align: center;
 }
 
@@ -19,14 +19,16 @@ header h1 {
     margin: 0;
 }
 
-/*Logo, texto y bsucador*/
-.parte-superior {
-    display: flex;
-    align-items: center;
-}
 
 .img-logo img {
     width: 180px; /* Ajusta el tamaño del logo según tus necesidades */
+}
+
+
+/*Logo, texto y buscador*/
+.parte-superior {
+    display: flex;
+    align-items: center;
 }
 
 .parte-superior h1 {
@@ -35,8 +37,50 @@ header h1 {
     text-align: left;
 }
 
+/* Barra de búsqueda */
+.search-bar {
+    display: flex;
+    align-items: center;
+    background-color: #6a0572;
+    flex: 1;
+}
 
+/* Aplicamos estilos básicos para los elementos de la barra de búsqueda */
+.search-bar input[type="text"]
+{
+    margin-left: 20px; /* Espacio entre los elementos */
+    margin-right: 10px; /* Espacio entre los elementos */
+    padding: 8px; /* Espaciado interno */
+    border: 1px solid #ccc; /* Borde */
+    border-radius: 5px; /* Borde redondeado */
+    font-size: 16px; /* Tamaño de fuente */
+    width: 100%; /* Hacemos que los elementos ocupen todo el ancho disponible */
+}
 
+.search-bar select {
+    
+    width: auto; /* El select se ajusta automáticamente al tamaño de su contenido */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+.search-bar button {
+    background-color: #8a2f91;
+    color: #ffffff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 5px;
+}
+
+.grupo-nav-list{
+    background-color: #d9d9d9;
+    padding: 1px;
+    text-align: center;
+}
 /* Estilos para la lista de navegación */
 .nav-list {
     list-style: none;
@@ -48,27 +92,14 @@ header h1 {
     margin: 0;
 }
 
-/* Barra de búsqueda */
-.search-bar {
-    background-color: #D9D9D9;
-    padding: 10px;
-    text-align: center;
+.nav-list a {
+    color: #0e4c82;
+    text-decoration: none;
+    margin: 0 10px;
 }
 
-.search-bar input[type="text"] {
-    width: 80%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.search-bar button {
-    background-color: #6a0572;
-    color: #ffffff;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
+.texto-titulo{
+    margin-left: 50px;
 }
 
 /* Sección de productos destacados */
@@ -131,9 +162,20 @@ footer {
     text-align: center;
     padding: 20px;
 }
+.footer-parte-izuierda{
+    text-align: left;
+}
+
+.info{
+    font-size: 24px;
+}
+.footer-parte-derecha{
+    text-align: right;
+}
 
 footer a {
-    color: #ffffff;
+    color: #000000;
     text-decoration: none;
     margin: 0 10px;
 }
+
