@@ -37,6 +37,21 @@ header h1 {
     text-align: left;
 }
 
+
+/* Estilos para el botón de búsqueda */
+.barra-busqueda button {
+    background-color: #8a2f91;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px; /* Borde redondeado */
+    font-size: 20px; /* Tamaño de fuente */
+    padding: 8px 15px;
+    cursor: pointer;
+    margin-left: 20px; /* Espacio entre los elementos */
+    margin-right: 10px; /* Espacio entre los elementos */
+    width: 470%; /* Hacemos que los elementos ocupen todo el ancho disponible */
+}
+
 /* Barra de búsqueda */
 .search-bar {
     display: flex;
@@ -44,6 +59,7 @@ header h1 {
     background-color: #6a0572;
     flex: 1;
 }
+
 
 /* Aplicamos estilos básicos para los elementos de la barra de búsqueda */
 .search-bar input[type="text"]
@@ -126,6 +142,17 @@ header h1 {
     background-color: #D9D9D9;
     text-align: center; /* Centrar los productos */
 }
+.productos-resultado-busqueda{
+    padding: 10px;
+    border: 1px solid #1f0404;
+    border-radius: 20px;
+    margin-top: 20px;
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-bottom: 20px;
+    background-color: #D9D9D9;
+    text-align: center; /* Centrar los productos */
+}
 
 /*Productos*/
 .product-card {
@@ -179,3 +206,42 @@ footer a {
     margin: 0 10px;
 }
 
+.num-pagina {
+    background-color: #d9d9d9;
+    padding: 1px;
+    text-align: center;
+    list-style: none;
+    display: flex; /* Corregir: Eliminar '= 1' */
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    gap: 20px; /* Espacio entre los elementos de la lista */
+}
+
+.boton-historial{
+    margin: 20px; /* Ajusta el valor según sea necesario */
+    margin-right: 50px; /* Agrega una sangría de 50px a la derecha */
+    margin-left: auto; /* Mueve el elemento hacia la derecha */
+    display: flex; /* Para que el elemento ocupe el ancho disponible */
+    justify-content: flex-end; /* Alinea el contenido al final del contenedor */
+    align-items: center; /* Centra verticalmente el contenido */
+}
+
+.favorite-btn {
+    background-image: url("Imagenes/estrella.png"); /* Cambia por la imagen de la estrella */
+    width: 28px;
+    height: 28px;
+}
+
+.cart-btn{
+    margin: 20px; /* Ajusta el valor según sea necesario */
+}
+.cart-btn,
+.search-history-btn {
+    background-color: #f39c12;
+    color: rgb(0, 0, 0);
+    padding: 10px 56px;
+    border-radius: 20px;
+    font-size: 24px;
+    border: none;
+    cursor: pointer;
+}

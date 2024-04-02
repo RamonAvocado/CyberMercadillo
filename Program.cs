@@ -83,6 +83,34 @@ app.MapPost("/buscar",  async (Supabase.Client client) =>
 
 });
 
+/*Busca un producto desde el forntend
+app.MapPost("/BuscarProducto", async (HttpContext context,Supabase.Client client) =>
+{
+    // Leer el cuerpo de la solicitud para obtener la información de búsqueda
+    using (var reader = new StreamReader(context.Request.Body))
+    {
+        try{
+            var requestBody = await reader.ReadToEndAsync();
+            var searchData = JsonConvert.DeserializeObject<SearchData>(requestBody);
+
+            // Utilizar searchData.searchTerm en la lógica de búsqueda
+            var nombreBuscado = searchData!.searchTerm ?? "Producto de Serie Busqueda";
+            var result = await client.From<Producto>().Filter("nombreproducto", Postgrest.Constants.Operator.Equals, nombreBuscado).Single();
+
+            // Devolver la respuesta al frontend
+            var jsonResponse = new { resultado = result?.idproducto.ToString() ?? "No existe ese producto" };
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+        } catch (Exception ex)
+        {
+            context.Response.StatusCode = 500;
+            context.Response.ContentType = "text/plain";  // Establecer el tipo de contenido si no es JSON
+            await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+        }
+        
+    }
+});*/
+
 
 //Busca un producto desde el forntend
 app.MapPost("/BuscarProducto", async (HttpContext context,Supabase.Client client) =>

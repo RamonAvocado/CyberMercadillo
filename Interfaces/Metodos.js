@@ -1,5 +1,6 @@
 
 async function buscar() {
+    //window.location.href = "ResultadoBusqueda.html"
     var searchTerm = document.getElementById('searchInput').value;
     var category  = document.getElementById('categorySelect').value;
 
@@ -25,15 +26,25 @@ async function buscar() {
     }
 }
 
+//Ir a la página de búsqueda
+function IrABuquedaProducto(){
+    window.location.href = "ResultadoBusqueda.html"
+}
 
+//boton para redirigir a la página de Búsqueda
 function redirigirABusqueda(){
     window.location.href = "BuscarProducto.html"
 }
 
 
-
+//Boton para volver a at´ras
 function volverPaginaAnterior(){
     window.history.back();
+}
+
+//Boton para ir al historial de Busqueda
+function irHistorialDeBúsqueda(){
+    window.location.href = "HistorialDeBusqueda.html"
 }
 
 // Función para mostrar el resultado en la página

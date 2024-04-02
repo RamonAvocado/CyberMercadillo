@@ -16,8 +16,17 @@
                 <span>Cyber </span><br>
                 <span>Mercadillo</span>
             </h1>
-            <div class="barra-busqueda">
-                <button id="searchButton" onclick="IrABuquedaProducto()">Buscar Producto ...</button>
+            <div class="search-bar">
+                <input type="text" id = "searchInput" placeholder="Ingrese su búsqueda ...">
+                <select id="categorySelect">
+                    <option value="all">Todas las categorías</option>
+                    <option value="electronics">Electrónica</option>
+                    <option value="clothing">Ropa</option>
+                    <option value="clothing">Hogar</option>
+                    <option value="clothing">CategoriaPrueba</option>
+                    <!-- Agrega más opciones de categorías según tus necesidades -->
+                </select>
+                <button onclick = "buscar()">Buscar</button>
             </div>
         </div>
         <div id = "resultados"></div>
@@ -41,66 +50,13 @@
             </ul>
         </nav>
     </div>
-    <div class = "texto-titulo">
-        <h2>Productos destacados</h2>
+    <div class="boton-historial">
+        <button onclick = "irHistorialDeBúsqueda()" class="search-history-btn">Historial de Búsqueda</button>
     </div>
-    <div class="featured-products-container">
-        <!-- Productos destacados (similar a la imagen) -->
-        <div class="featured-products">
-            <div class="product-card">
-                <button class="favorite-btn"></button>
-                <img src="ruta-de-la-imagen.jpg" alt="Producto 1">
-                <h3>Producto 1</h3>
-                <p>$59.99 / lb</p>
-                <p>Mostrado en San Juan Capistrano, CA</p>
-            </div>
-            <div class="product-card">
-                <button class="favorite-btn"></button>
-                <img src="ruta-de-la-imagen.jpg" alt="Producto 2">
-                <h3>Producto 2</h3>
-                <p>$59.99 / lb</p>
-                <p>Mostrado en San Juan Capistrano, CA</p>
-            </div>
-            <div class="product-card">
-                <button class="favorite-btn"></button>
-                <img src="ruta-de-la-imagen.jpg" alt="Producto 3">
-                <h3>Producto 3</h3>
-                <p>$59.99 / lb</p>
-                <p>Mostrado en San Juan Capistrano, CA</p>
-            </div>
-            <div class="product-card">
-                <button class="favorite-btn"></button>
-                <img src="ruta-de-la-imagen.jpg" alt="Producto 4">
-                <h3>Producto 4</h3>
-                <p>$59.99 / lb</p>
-                <p>Mostrado en San Juan Capistrano, CA</p>
-            </div>
-            <div class="product-card">
-                <button class="favorite-btn"></button>
-                <img src="ruta-de-la-imagen.jpg" alt="Producto 5">
-                <h3>Producto 5</h3>
-                <p>$59.99 / lb</p>
-                <p>Mostrado en San Juan Capistrano, CA</p>
-            </div>
-            <div class="product-card">
-                <button class="favorite-btn"></button>
-                <img src="ruta-de-la-imagen.jpg" alt="Producto 6">
-                <h3>Producto 6</h3>
-                <p>$59.99 / lb</p>
-                <p>Mostrado en San Juan Capistrano, CA</p>
-            </div>
+    <div class="productos-resultado-busqueda">
+        <div>
+            <button class="cart-btn">Añadir al Carrito de Compra</button>
         </div>
-        <div class = "num-pagina">
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-        </div>
-    </div>
-    
-    <div class = "texto-titulo">
-        <h2>Recomendaciones</h2>
-    </div>
-    <div class="recommended-products">
         <!-- Recomendaciones (similar a la imagen) -->
         <div class="product-card">
             <button class="favorite-btn"></button>
@@ -144,10 +100,47 @@
             <p>$59.99 / lb</p>
             <p>Mostrado en San Juan Capistrano, CA</p>
         </div>
-        <div class = "num-pagina">
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
+        <div class="product-card">
+            <button class="favorite-btn"></button>
+            <img src="ruta-de-la-imagen.jpg" alt="Producto 7">
+            <h3>Producto 7</h3>
+            <p>$59.99 / lb</p>
+            <p>Mostrado en San Juan Capistrano, CA</p>
+        </div>
+        <div class="product-card">
+            <button class="favorite-btn"></button>
+            <img src="ruta-de-la-imagen.jpg" alt="Producto 8">
+            <h3>Producto 8</h3>
+            <p>$59.99 / lb</p>
+            <p>Mostrado en San Juan Capistrano, CA</p>
+        </div>
+        <div class="product-card">
+            <button class="favorite-btn"></button>
+            <img src="ruta-de-la-imagen.jpg" alt="Producto 9">
+            <h3>Producto 9</h3>
+            <p>$59.99 / lb</p>
+            <p>Mostrado en San Juan Capistrano, CA</p>
+        </div>
+        <div class="product-card">
+            <button class="favorite-btn"></button>
+            <img src="ruta-de-la-imagen.jpg" alt="Producto 10">
+            <h3>Producto 10</h3>
+            <p>$59.99 / lb</p>
+            <p>Mostrado en San Juan Capistrano, CA</p>
+        </div>
+        <div class="product-card">
+            <button class="favorite-btn"></button>
+            <img src="ruta-de-la-imagen.jpg" alt="Producto 11">
+            <h3>Producto 11</h3>
+            <p>$59.99 / lb</p>
+            <p>Mostrado en San Juan Capistrano, CA</p>
+        </div>
+        <div class="product-card">
+            <button class="favorite-btn"></button>
+            <img src="ruta-de-la-imagen.jpg" alt="Producto 12">
+            <h3>Producto 12</h3>
+            <p>$59.99 / lb</p>
+            <p>Mostrado en San Juan Capistrano, CA</p>
         </div>
     </div>
     <footer>
