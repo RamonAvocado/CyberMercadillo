@@ -26,6 +26,75 @@ async function buscar() {
     }
 }
 
+
+//carga los 6 primero productos de la base de datos
+async function CargarProductos() {
+    try {
+        // Realizar una solicitud GET al backend para obtener los 6 primeros productos
+        const response = await fetch('http://localhost:5169/ObtenerProductosDestacados');
+        if (response.ok) {
+            const data = await response.json();
+            mostrarProductos(data); // Llama a una función para mostrar los productos en la página
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+function mostrarProductos(respuesta) {
+    const productos = respuesta.productos.Models;
+    const container = document.querySelector('.featured-products');
+
+    // Itera sobre los productos y crea elementos para mostrarlos
+    productos.forEach((producto) => {
+        const productCard = document.createElement('div');
+        productCard.classList.add('product-card');
+
+        // Agrega la imagen, nombre y precio del producto
+        productCard.innerHTML = `
+            <button class="favorite-btn"></button>
+            <img src="${producto.imagen}" alt="${producto.nombreproducto}">
+            <h3>${producto.nombreproducto}</h3>
+            <p>${producto.precio} €</p>
+            <p>${producto.descripcion}</p>
+        `;
+
+        container.appendChild(productCard);
+    });
+}
+
+//OTRA FORMA DE HACER MOSTRAR PRODUCTOS DETACADOS
+
+function mostrarProductosDestacados(productos) {
+    const container = document.getElementById('featured-products');
+
+    productos.forEach(producto => {
+        const productCard = document.createElement('div');
+        productCard.classList.add('product-card');
+
+        const img = document.createElement('img');
+        img.src = producto.imagen;
+        img.alt = producto.nombre;
+        productCard.appendChild(img);
+
+        const h3 = document.createElement('h3');
+        h3.textContent = producto.nombre;
+        productCard.appendChild(h3);
+
+        const precio = document.createElement('p');
+        precio.textContent = producto.precio;
+        productCard.appendChild(precio);
+
+        const ubicacion = document.createElement('p');
+        ubicacion.textContent = producto.ubicacion;
+        productCard.appendChild(ubicacion);
+
+        container.appendChild(productCard);
+    });
+} 
+
 //Ir a la página de búsqueda
 function IrABuquedaProducto(){
     window.location.href = "ResultadoBusqueda.html"

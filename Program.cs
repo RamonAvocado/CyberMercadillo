@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Postgrest.Models;
 using Supabase;
-using Supabase.Interfaces;
 using Newtonsoft.Json;
 using CyberMercadillo.BusinessLogic;
 using CyberMercadillo.Entities;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -54,8 +54,10 @@ app.UseCors("AllowSpecificOrigin");
 
 
 /*
-*   Estos métodos no se utilizan en ningun momento en el frontEnd, son comprobaciones de que el swagger, la conexión
-*   con la base de datos funciona, no eliminarlos ya que realmente da igual
+*   Los metodos de SUPABASE, son:
+    And, BaseUrl, Clear, Columns, Count, Delete, Equals, Filter<>, GenerateUrl, Get,
+    GetHashCode, GetHeaders, GetType, Insert, Limit, Match, Match, Not, Not<>, Offset, 
+    OnConflict, Or, Order, Range, Select, Set, Single, TableName, ToString, Update, Upsert, Where
 *
 */
 
@@ -81,6 +83,27 @@ app.MapPost("/buscar",  async (Supabase.Client client) =>
     #nullable restore
     return Results.Ok(respuesta);
 
+});
+
+// Obtinene los 6 primeros productos, ya que no hay productos destacados
+app.MapGet("/ObtenerProductosDestacados", async (HttpContext context, Supabase.Client client) =>
+{
+    try
+    {
+        // Obtener los 6 primeros productos desde la base de datos
+        var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagen").Limit(6).Get();
+
+        // Devolver los productos al frontend
+        var jsonResponse = new { productos };
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+    }
+    catch (Exception ex)
+    {
+        context.Response.StatusCode = 500;
+        context.Response.ContentType = "text/plain";
+        await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+    }
 });
 
 /*Busca un producto desde el forntend
