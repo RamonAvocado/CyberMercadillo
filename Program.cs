@@ -299,6 +299,45 @@ app.MapPost("/AgregarProducto", async (HttpContext context,Supabase.Client clien
 });
 
 
+app.MapPost("/guardar_producto", async (HttpContext context, Supabase.Client client) =>
+{
+    try
+    {
+        // Leer el cuerpo de la solicitud para obtener los datos del producto
+        using (var reader = new StreamReader(context.Request.Body))
+        {
+            var requestBody = await reader.ReadToEndAsync();
+            var productoData = JsonConvert.DeserializeObject<Producto>(requestBody);
+
+            // Utilizar los datos recibidos para crear un nuevo producto
+            var nuevoProducto = new Producto
+            {
+                nombreproducto = productoData.nombreproducto,
+                precio = productoData.precio,
+                categoria = productoData.categoria,
+                descripcion = productoData.descripcion,
+                imagen = productoData.imagen,
+                cantidad = productoData.cantidad
+            };
+
+            // Insertar el nuevo producto en la base de datos
+            await client.From<Producto>().Insert(new List<Producto> { nuevoProducto });
+
+            // Devolver una respuesta al cliente
+            context.Response.StatusCode = 200;
+            context.Response.ContentType = "text/plain";
+            await context.Response.WriteAsync("Producto creado exitosamente");
+        }
+    }
+    catch (Exception ex)
+    {
+        // Manejar cualquier error y devolver una respuesta de error al cliente
+        context.Response.StatusCode = 500;
+        context.Response.ContentType = "text/plain";
+        await context.Response.WriteAsync($"Error al guardar el producto: {ex.Message}");
+    }
+});
+
 app.MapGet("/status", () => Results.Ok("El backend está en funcionamiento correctamente."));
 
 app.Run();

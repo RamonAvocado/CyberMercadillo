@@ -280,6 +280,61 @@ async function agregarProd()
         });
 }
 
+async function agregarProducto()
+{
+        document.getElementById('addProductoForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const nombre = formData.get('nombreProd');
+            console.log(formData.get('nombreProd'));
+            const precio = formData.get('precioProd');
+            const categoria = formData.get('categoriaProd');
+            const descripcion = formData.get('descripcionProd');
+            const img = formData.get('imgProd');
+            const cantidad = parseInt(formData.get('cantProd'));
+
+        
+            try {
+                const response = await fetch('http://localhost:5169/AgregarProducto', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        nombre: nombre,
+                        precio: precio,
+                        categoria: categoria,
+                        descripcion: descripcion,
+                        img: img,
+                        cantidad: cantidad
+                    }),
+                });
+        
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Producto creado correctamente');
+                    mostrarResultado(data.resultado); 
+
+                    // Aquí podrías mostrar un mensaje de éxito o redirigir a otra página
+                    // Borra los campos del formulario
+                    window.location.reload();
+                   /* document.getElementById('nombreProd').value = '';
+                    document.getElementById('precioProd').value = '';
+                    document.getElementById('categoriaProd').value = '';
+                    document.getElementById('descripcionProd').value = '';
+                    document.getElementById('imgProd').value = '';
+                    document.getElementById('cantProd').value = '';
+                    */
+                } else {
+                    console.error('Error al crear el producto:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error inesperado:', error);
+            }
+        });
+}
+
 function mostrarResultado(resultado) {
     var resultadosDiv = document.getElementById('resultados');
     //Esto es la respuesta que a accedido al Controlador Program y lo muestra por pantalla en la Pagina Principal
@@ -477,4 +532,45 @@ function cambiarImagen() {
 // Llama a la función agregarProd() cuando el DOM esté completamente cargado
 document.addEventListener('DOMContentLoaded', function() {
     mostrarProd();
+});
+
+document.getElementById('agregarProductoForm2').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    
+    const formData = new FormData(event.target);
+    const nombre = formData.get('nombreProd');
+    const precio = parseFloat(formData.get('precioProd'));
+    const categoria = formData.get('categoriaProd');
+    const descripcion = formData.get('descripcionProd');
+    const imagen = formData.get('imgProd');
+    const cantidad = parseInt(formData.get('cantProd'));
+
+    try {
+        const response = await fetch('/http://localhost:5169/AgregarProducto', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                nombre: nombre,
+                precio: precio,
+                categoria: categoria,
+                descripcion: descripcion,
+                imagen: imagen,
+                cantidad: cantidad
+            }),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log('Producto creado correctamente:', data);
+            // Aquí podrías mostrar un mensaje de éxito o redirigir a otra página
+            // Por ejemplo, redirigir al usuario a una página de confirmación
+            window.location.href = '/confirmacion.html';
+        } else {
+            console.error('Error al crear el producto:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
 });
