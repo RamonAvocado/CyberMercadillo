@@ -83,8 +83,8 @@ function mostrarProductosDestacados(respuesta) {
 
         // Agrega la imagen, nombre y precio del producto dentro de un enlace
         productCard.innerHTML = `
+        <button class="favorite-btn"></button> <!-- Botón de favoritos fuera del enlace -->
             <a href="/Interfaces/InfoProducto.html?id=${producto.idproducto}">
-                <button class="favorite-btn"></button>
                 <img src="${producto.imagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
                 <h3>${producto.nombreproducto}</h3>
                 <p>${producto.precio} €</p>
@@ -128,14 +128,13 @@ function mostrarProductosRecomendados(respuesta) {
 
         // Agrega la imagen, nombre y precio del producto dentro de un enlace
         productCard.innerHTML = `
+        <button class="favorite-btn"></button> <!-- Botón de favoritos fuera del enlace -->
             <a href="/Interfaces/InfoProducto.html?id=${producto.idproducto}">
                 <img src="${producto.imagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
                 <h3>${producto.nombreproducto}</h3>
                 <p>${producto.precio} €</p>
                 <p>${producto.descripcion}</p>
             </a>
-            <button class="favorite-btn"></button> <!-- Botón de favoritos fuera del enlace -->
-
         `;
 
         container.appendChild(productCard);

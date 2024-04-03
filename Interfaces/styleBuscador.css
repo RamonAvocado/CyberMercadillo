@@ -197,12 +197,22 @@ header h1 {
     background-image: url("Imagenes/estrella.png"); /* Fondo de la imagen de la estrella */
     background-size: contain; /* Ajustar el tamaño de la imagen */
     background-repeat: no-repeat; /* Evitar que la imagen se repita */
-    width: 28px; /* Ancho del botón */
-    height: 28px; /* Altura del botón */
+    width: 38px; /* Ancho del botón */
+    height: 38px; /* Altura del botón */
     margin-top: -15px; /* Ajustar el margen superior para alinear con el borde superior */
     margin-left: -15px; /* Ajustar el margen izquierdo para alinear con el borde izquierdo */
     z-index: 1; /* Asegurar que esté por encima del contenido */
     cursor: pointer; /* Cambiar el cursor al pasar por encima */
+    border-radius: 50px;
+}
+
+.product-card .favorite-btn:focus {
+    border-color: #ff0000; /* Cambiar color del borde al ser clickeado */
+    border-radius: 50px;
+}
+
+.product-card .favorite-btn:hover {
+    opacity: 0.5; /* Reducir opacidad al pasar el mouse */
 }
 
 
