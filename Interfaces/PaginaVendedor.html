@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Mercadillo</title>
+    <link rel="stylesheet" href="styleBuscador.css">
+</head>
+<body>
+    <header>
+        <div  class="parte-superior">
+            <div class="img-logo">   
+                <img src="Imagenes/Logo.png"  alt="Logo Cyber Mercadillo">
+            </div>
+            <h1>
+                <span>Cyber </span><br>
+                <span>Mercadillo</span>
+            </h1>
+            <div class="search-bar">
+                <input type="text" id = "searchInput" placeholder="Ingrese su búsqueda ...">
+                <select id="categorySelect">
+                    <option value="all">Todas las categorías</option>
+                    <option value="electronics">Electrónica</option>
+                    <option value="clothing">Ropa</option>
+                    <option value="clothing">Hogar</option>
+                    <option value="clothing">CategoriaPrueba</option>
+                    <!-- Agrega más opciones de categorías según tus necesidades -->
+                </select>
+                <button onclick = "buscar()">Buscar</button>
+            </div>
+        </div>
+        <style>
+            .botones-vendedor {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px;
+                background-color: #f0f0f0;
+            }
+    
+            .izquierda {
+                display: flex; /* Permite que los botones se coloquen uno al lado del otro */
+                margin-right: 10px;
+                margin-left: 10px;
+                gap: 10px;
+            }
+    
+            .derecha {
+                display: flex; /* Permite que los botones se coloquen uno al lado del otro */
+                margin-right: 10px;
+                margin-left: 10px;
+                gap: 10px;
+            }
+    
+            .boton {
+                margin-right: 10px;
+                margin-left: 10px;  /* Espacio entre los botones */
+                gap: 10px;
+            }
+        </style>
+    </header>
+    <div class = "grupo-nav-list">
+        <nav>
+            <ul class="nav-list">
+                <li>
+                    <div class="back-button">
+                        <a href="#" onclick="volverPaginaAnterior()">Volver atrás</a>
+                    </div>
+                </li>
+                <li><a href="#">Principal</a></li>
+                <li><a href="#">Lista Deseados</a></li>
+                <li><a href="#">Productos</a></li>
+                <li>
+                    <div class="user-icons">
+                        <!-- Iconos de usuario (por ejemplo, inicio de sesión, carrito de compras) -->
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class = "texto-titulo">
+        <h2>Tus Productos</h2>
+    </div>
+    <div class="featured-products-container">
+        <div class="seller-products">
+        </div>
+        <div class = "num-pagina">
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+        </div>
+    </div>
+    <div class="botones-vendedor">
+        <div class="izquierda">
+            <button onclick = "irANuevoProducto()" class="search-history-btn">Nuevo Producto</button>
+            <button onclick = "volverPaginaAnterior()" class="search-history-btn">Volver</button>
+        </div>
+        <div class="derecha">
+            <button onclick = "irAEditarProducto()" class="search-history-btn">Editar Producto</button>
+            <button onclick = "irHistorialDeBúsqueda()" class="search-history-btn">Eliminar Producto</button>
+            
+        </div>
+    </div>     
+    <footer>
+        <div class="separador">
+        </div>
+    </footer>
+    <script src="Metodos.js"></script>
+    <script>
+        // Llama a la función buscar cuando la página se cargue
+        window.addEventListener('load', CargarProductosVendedor);
+    </script>
+</body>
+</html>

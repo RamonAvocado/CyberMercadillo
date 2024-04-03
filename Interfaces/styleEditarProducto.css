@@ -254,3 +254,155 @@ footer a {
     border: none;
     cursor: pointer;
 }
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif; /* Fuente del texto */
+    margin: 0; /* Eliminar márgenes predeterminados */
+    padding: 0; /* Eliminar relleno predeterminado */
+}
+
+.container {
+    max-width: 800px; /* Ancho máximo del contenedor */
+    margin: 0 auto; /* Centrar el contenedor horizontalmente */
+    padding: 20px; /* Espacio interno */
+}
+
+h2 {
+    margin-top: 0; /* Eliminar el margen superior de los encabezados */
+}
+
+body {
+    font-family: Arial, sans-serif; /* Fuente del texto */
+    margin: 0; /* Eliminar márgenes predeterminados */
+    padding: 0; /* Eliminar relleno predeterminado */
+    background-color: #f4f4f4; /* Color de fondo */
+}
+
+.container {
+    max-width: 400px; /* Ancho máximo del contenedor */
+    margin: 50px auto; /* Centrar el contenedor horizontal y verticalmente */
+    background-color: #fff; /* Color de fondo del contenedor */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra */
+    padding: 30px; /* Espacio interno */
+}
+
+h2 {
+    margin-top: 0; /* Eliminar el margen superior de los encabezados */
+    color: #333; /* Color del texto */
+}
+
+/* Estilos para los campos de formulario */
+.form-group {
+    margin-bottom: 20px; /* Espacio inferior entre los grupos de formulario */
+}
+
+.form-group label {
+    display: block; /* Mostrar las etiquetas como bloques */
+    margin-bottom: 6px; /* Espacio inferior entre las etiquetas y los campos de entrada */
+    color: #555; /* Color del texto de la etiqueta */
+    font-size: 14px; /* Tamaño de la fuente de la etiqueta */
+}
+
+/* Estilos para los campos de entrada de texto, número, selección y área de texto */
+input[type="text"],
+input[type="number"],
+select,
+textarea,
+input[type="url"] {
+    width: 100%; /* Ancho completo */
+    padding: 10px; /* Espaciado interior */
+    border: 1px solid #ccc; /* Borde */
+    border-radius: 4px; /* Bordes redondeados */
+    box-sizing: border-box; /* Incluir el relleno y el borde en el ancho */
+    font-size: 14px; /* Tamaño de la fuente */
+}
+
+/* Estilos para el botón de envío */
+button[type="submit"] {
+    background-color: #4CAF50; /* Color de fondo */
+    color: #fff; /* Color de texto */
+    padding: 12px 20px; /* Espaciado interior */
+    border: none; /* Sin borde */
+    border-radius: 4px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor al pasar */
+    font-size: 16px; /* Tamaño de la fuente */
+    transition: background-color 0.3s ease; /* Transición suave */
+}
+
+/* Estilos adicionales para el botón de envío al pasar el ratón */
+button[type="submit"]:hover {
+    background-color: #45a049; /* Cambiar el color de fondo al pasar el ratón */
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-group {
+    width: calc(50% - 20px);
+    margin-right: 20px;
+}
+
+.input-group {
+    margin-bottom: 10px; /* Reducimos el espacio entre cada grupo */
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px; /* Reducimos el espacio entre la etiqueta y el campo de entrada */
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    margin-top: 5px;
+    margin-bottom: 5px; /* Reducimos el espacio entre el campo de entrada y el siguiente grupo */
+}
+
+.image-group {
+    width: calc(50% - 20px);
+    margin-left: 20px;
+}
+
+.image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.image-container img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    margin-bottom: 5px; /* Reducimos el espacio entre la imagen y el campo de entrada */
+}
+
+#nuevo-url-imagen {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    margin-bottom: 5px; /* Reducimos el espacio entre el campo de entrada y el botón */
+}
+
+#cambiar-imagen-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+#cambiar-imagen-btn:hover {
+    background-color: #0056b3;
+}

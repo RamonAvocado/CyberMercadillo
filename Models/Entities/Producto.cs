@@ -32,6 +32,9 @@ namespace CyberMercadillo.Entities
         
         [Column("cantidad")]
         public int? cantidad { get; set; }
+
+        [Column("idvendedor")]
+        public int? idvendedor { get; set; }
     }
 
 }

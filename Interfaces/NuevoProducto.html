@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Mercadillo</title>
+    <link rel="stylesheet" href="styleNuevoProducto.css">
+    <style>
+        /* Alinea los textos de las etiquetas a la izquierda */
+        label {
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div  class="parte-superior">
+            <div class="img-logo">   
+                <img src="Imagenes/Logo.png"  alt="Logo Cyber Mercadillo">
+            </div>
+            <h1>
+                <span>Cyber </span><br>
+                <span>Mercadillo</span>
+            </h1>
+        </div>
+        <style>
+            .botones-vendedor {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px;
+                background-color: #f0f0f0;
+            }
+    
+            .izquierda {
+                display: flex; /* Permite que los botones se coloquen uno al lado del otro */
+                margin-right: 10px;
+                margin-left: 10px;
+                gap: 10px;
+            }
+    
+            .derecha {
+                display: flex; /* Permite que los botones se coloquen uno al lado del otro */
+                margin-right: 10px;
+                margin-left: 10px;
+                gap: 10px;
+            }
+    
+            .boton {
+                margin-right: 10px;
+                margin-left: 10px;  /* Espacio entre los botones */
+                gap: 10px;
+            }
+        </style>
+    </header>
+    <div class = "grupo-nav-list">
+        <nav>
+            <ul class="nav-list">
+                <li>
+                    <div class="back-button">
+                        <a href="#" onclick="volverPaginaAnterior()">Volver atrás</a>
+                    </div>
+                </li>
+                <li><a href="#">Principal</a></li>
+                <li><a href="#">Lista Deseados</a></li>
+                <li><a href="#">Productos</a></li>
+                <li>
+                    <div class="user-icons">
+                        <!-- Iconos de usuario (por ejemplo, inicio de sesión, carrito de compras) -->
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class = "texto-titulo">
+    </div>
+    <div class="featured-products-container">
+            <div class="container">
+                <h2>Registrar Nuevo Producto</h2>
+                <form action="/guardar_producto" method="POST">
+                    <div class="form-group">
+                        <label for="nombreP">Nombre:</label>
+                        <input type="text" id="nombreP" name="nombre" required>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="precioP">Precio:</label>
+                        <input type="number" id="precio" name="precio" min="0" step="0.01" required>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="categoria">Categoría:</label>
+                        <select id="categoriaP" name="categoria" required>
+                            <option value="">Seleccionar categoría...</option>
+                            <option value="Electrónica">Electrónica</option>
+                            <option value="Ropa">Ropa</option>
+                            <option value="Hogar">Hogar</option>
+                            <!-- Agrega más opciones según tus necesidades -->
+                        </select>
+                    </div>           
+        
+                    <div class="form-group">
+                        <label for="url_imagenP">URL de Imagen:</label>
+                        <input type="url" id="url_imagen" name="url_imagen" required>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="cantidadP">Cantidad de Producto:</label>
+                        <input type="number" id="cantidad" name="cantidad" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descripcionP">Descripción:</label>
+                        <textarea id="descripcion" name="descripcion" rows="4" cols="50" required></textarea>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+    </div>
+    <div class="botones-vendedor">
+        <div class="izquierda">
+            <button onclick = "volverPaginaAnterior()" class="search-history-btn">Volver</button>
+        </div>
+        <div class="derecha">
+            <button onclick = "irHistorialDeBúsqueda()" class="search-history-btn">Confirmar</button>
+            
+        </div>
+    </div>     
+    <footer>
+        <div class="separador">
+        </div>
+    </footer>
+    <script src="Metodos.js"></script>
+    <script>
+        // Llama a la función buscar cuando la página se cargue
+        window.addEventListener('load', CargarProductosVendedor);
+    </script>
+</body>
+</html>

@@ -254,3 +254,84 @@ footer a {
     border: none;
     cursor: pointer;
 }
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif; /* Fuente del texto */
+    margin: 0; /* Eliminar márgenes predeterminados */
+    padding: 0; /* Eliminar relleno predeterminado */
+}
+
+.container {
+    max-width: 800px; /* Ancho máximo del contenedor */
+    margin: 0 auto; /* Centrar el contenedor horizontalmente */
+    padding: 20px; /* Espacio interno */
+}
+
+h2 {
+    margin-top: 0; /* Eliminar el margen superior de los encabezados */
+}
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif; /* Fuente del texto */
+    margin: 0; /* Eliminar márgenes predeterminados */
+    padding: 0; /* Eliminar relleno predeterminado */
+    background-color: #f4f4f4; /* Color de fondo */
+}
+
+.container {
+    max-width: 400px; /* Ancho máximo del contenedor */
+    margin: 50px auto; /* Centrar el contenedor horizontal y verticalmente */
+    background-color: #fff; /* Color de fondo del contenedor */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra */
+    padding: 30px; /* Espacio interno */
+}
+
+h2 {
+    margin-top: 0; /* Eliminar el margen superior de los encabezados */
+    color: #333; /* Color del texto */
+}
+
+/* Estilos para los campos de formulario */
+.form-group {
+    margin-bottom: 20px; /* Espacio inferior entre los grupos de formulario */
+}
+
+.form-group label {
+    display: block; /* Mostrar las etiquetas como bloques */
+    margin-bottom: 6px; /* Espacio inferior entre las etiquetas y los campos de entrada */
+    color: #555; /* Color del texto de la etiqueta */
+    font-size: 14px; /* Tamaño de la fuente de la etiqueta */
+}
+
+/* Estilos para los campos de entrada de texto, número, selección y área de texto */
+input[type="text"],
+input[type="number"],
+select,
+textarea,
+input[type="url"] {
+    width: 100%; /* Ancho completo */
+    padding: 10px; /* Espaciado interior */
+    border: 1px solid #ccc; /* Borde */
+    border-radius: 4px; /* Bordes redondeados */
+    box-sizing: border-box; /* Incluir el relleno y el borde en el ancho */
+    font-size: 14px; /* Tamaño de la fuente */
+}
+
+/* Estilos para el botón de envío */
+button[type="submit"] {
+    background-color: #4CAF50; /* Color de fondo */
+    color: #fff; /* Color de texto */
+    padding: 12px 20px; /* Espaciado interior */
+    border: none; /* Sin borde */
+    border-radius: 4px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor al pasar */
+    font-size: 16px; /* Tamaño de la fuente */
+    transition: background-color 0.3s ease; /* Transición suave */
+}
+
+/* Estilos adicionales para el botón de envío al pasar el ratón */
+button[type="submit"]:hover {
+    background-color: #45a049; /* Cambiar el color de fondo al pasar el ratón */
+}

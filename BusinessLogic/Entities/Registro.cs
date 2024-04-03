@@ -11,5 +11,6 @@ namespace CyberMercadillo.Entities
 {       
     public partial class Registro{
         public Registro(){}
+      
     }
 }
