@@ -53,14 +53,17 @@ async function buscarProducto() {
     }
 }
 
-//carga los 6 primero productos de la base de datos
-async function CargarProductos() {
+//  INICIO PRODUCTOS DESTACADOS
+
+//carga los 6 primeros productos de la base de datos, deberían de ser los productos Recomendados por búsquedas
+//pero todavía no tenemos Recomendaciones
+async function CargarProductosDestacados() {
     try {
         // Realizar una solicitud GET al backend para obtener los 6 primeros productos
         const response = await fetch('http://localhost:5169/ObtenerProductosDestacados');
         if (response.ok) {
             const data = await response.json();
-            mostrarProductos(data);// Llama a una función para mostrar los productos en la página
+            mostrarProductosDestacados(data);// Llama a una función para mostrar los productos en la página
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
         }
@@ -68,6 +71,78 @@ async function CargarProductos() {
         console.error('Error inesperado:', error);
     }
 }
+
+function mostrarProductosDestacados(respuesta) {
+    const productos = respuesta.productos.Models;
+    const container = document.querySelector('.featured-products');
+
+    // Itera sobre los productos y crea elementos para mostrarlos
+    productos.forEach((producto) => {
+        const productCard = document.createElement('div');
+        productCard.classList.add('product-card');
+
+        // Agrega la imagen, nombre y precio del producto dentro de un enlace
+        productCard.innerHTML = `
+            <a href="/Interfaces/InfoProducto.html?id=${producto.idproducto}">
+                <button class="favorite-btn"></button>
+                <img src="${producto.imagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
+                <h3>${producto.nombreproducto}</h3>
+                <p>${producto.precio} €</p>
+                <p>${producto.descripcion}</p>
+            </a>
+        `;
+
+        container.appendChild(productCard);
+    });
+}
+//  FIN PRODUCTOS DESTACADOS
+
+
+//  INICIO PRODUCTOS RECOMENDADOS
+
+//carga los 6 primeros productos de la base de datos, deberían de ser los productos Recomendados por búsquedas
+//pero todavía no tenemos Recomendaciones
+async function CargarProductosRecomendados(){
+    try {
+        // Realizar una solicitud GET al backend para obtener los 6 primeros productos
+        const response = await fetch('http://localhost:5169/ObtenerProductosRecomendados');
+        if (response.ok) {
+            const data = await response.json();
+            mostrarProductosRecomendados(data);// Llama a una función para mostrar los productos en la página
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+function mostrarProductosRecomendados(respuesta) {
+    const productos = respuesta.productos.Models;
+    const container = document.querySelector('.recommended-products');
+
+    // Itera sobre los productos y crea elementos para mostrarlos
+    productos.forEach((producto) => {
+        const productCard = document.createElement('div');
+        productCard.classList.add('product-card');
+
+        // Agrega la imagen, nombre y precio del producto dentro de un enlace
+        productCard.innerHTML = `
+            <a href="/Interfaces/InfoProducto.html?id=${producto.idproducto}">
+                <img src="${producto.imagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
+                <h3>${producto.nombreproducto}</h3>
+                <p>${producto.precio} €</p>
+                <p>${producto.descripcion}</p>
+            </a>
+            <button class="favorite-btn"></button> <!-- Botón de favoritos fuera del enlace -->
+
+        `;
+
+        container.appendChild(productCard);
+    });
+}
+//  FIN PRODUCTOS RECOMENDADOS
+
 
 async function CargarProductosVendedor() {
     try {
@@ -82,28 +157,6 @@ async function CargarProductosVendedor() {
     } catch (error) {
         console.error('Error inesperado:', error);
     }
-}
-
-function mostrarProductos(respuesta) {
-    const productos = respuesta.productos.Models;
-    const container = document.querySelector('.featured-products');
-
-    // Itera sobre los productos y crea elementos para mostrarlos
-    productos.forEach((producto) => {
-        const productCard = document.createElement('div');
-        productCard.classList.add('product-card');
-
-        // Agrega la imagen, nombre y precio del producto
-        productCard.innerHTML = `
-            <button class="favorite-btn"></button>
-            <img src="${producto.imagen}" alt="${producto.nombreproducto}">
-            <h3>${producto.nombreproducto}</h3>
-            <p>${producto.precio} €</p>
-            <p>${producto.descripcion}</p>
-        `;
-
-        container.appendChild(productCard);
-    });
 }
 
 function mostrarProductosVendedor(respuesta) {
@@ -123,36 +176,6 @@ function mostrarProductosVendedor(respuesta) {
             <p>${producto.precio} €</p>
             <p>${producto.descripcion}</p>
         `;
-
-        container.appendChild(productCard);
-    });
-}
-
-//OTRA FORMA DE HACER MOSTRAR PRODUCTOS DETACADOS
-
-function mostrarProductosDestacados(productos) {
-    const container = document.getElementById('featured-products');
-
-    productos.forEach(producto => {
-        const productCard = document.createElement('div');
-        productCard.classList.add('product-card');
-
-        const img = document.createElement('img');
-        img.src = producto.imagen;
-        img.alt = producto.nombre;
-        productCard.appendChild(img);
-
-        const h3 = document.createElement('h3');
-        h3.textContent = producto.nombre;
-        productCard.appendChild(h3);
-
-        const precio = document.createElement('p');
-        precio.textContent = producto.precio;
-        productCard.appendChild(precio);
-
-        const ubicacion = document.createElement('p');
-        ubicacion.textContent = producto.ubicacion;
-        productCard.appendChild(ubicacion);
 
         container.appendChild(productCard);
     });

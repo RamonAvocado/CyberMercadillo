@@ -131,7 +131,7 @@ header h1 {
     text-align: center; /* Centrar los productos */
 }
 /* Sección de recomendaciones */
-.recommended-products {
+.recommended-products-container {
     padding: 10px;
     border: 1px solid #1f0404;
     border-radius: 20px;
@@ -181,6 +181,30 @@ header h1 {
     font-size: 14px;
     color: #888888;
 }
+
+/* Estilo del enlace*/
+.product-card a {
+    text-decoration: none; /* Eliminar subrayado */
+    color: #333; /* Cambiar el color del texto */
+}
+
+
+
+/* Estilo del botón de favoritos */
+.product-card .favorite-btn {
+    position: relative; /* Establecer posición relativa */
+    float: left; /* Alinear a la izquierda */
+    background-image: url("Imagenes/estrella.png"); /* Fondo de la imagen de la estrella */
+    background-size: contain; /* Ajustar el tamaño de la imagen */
+    background-repeat: no-repeat; /* Evitar que la imagen se repita */
+    width: 28px; /* Ancho del botón */
+    height: 28px; /* Altura del botón */
+    margin-top: -15px; /* Ajustar el margen superior para alinear con el borde superior */
+    margin-left: -15px; /* Ajustar el margen izquierdo para alinear con el borde izquierdo */
+    z-index: 1; /* Asegurar que esté por encima del contenido */
+    cursor: pointer; /* Cambiar el cursor al pasar por encima */
+}
+
 
 /* Pie de página */
 footer {
@@ -235,11 +259,6 @@ footer a {
     align-items: center; /* Centra verticalmente el contenido */
 }
 
-.favorite-btn {
-    background-image: url("Imagenes/estrella.png"); /* Cambia por la imagen de la estrella */
-    width: 28px;
-    height: 28px;
-}
 
 .cart-btn{
     margin: 20px; /* Ajusta el valor según sea necesario */

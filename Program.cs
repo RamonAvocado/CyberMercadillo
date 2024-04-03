@@ -109,6 +109,28 @@ app.MapGet("/ObtenerProductosDestacados", async (HttpContext context, Supabase.C
     }
 });
 
+
+// Obtinene los 6 primeros productos, ya que no hay productos Recomendados
+app.MapGet("/ObtenerProductosRecomendados", async (HttpContext context, Supabase.Client client) =>
+{
+    try
+    {
+        // Obtener los 6 primeros productos desde la base de datos
+        var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagen").Limit(6).Get();
+
+        // Devolver los productos al frontend
+        var jsonResponse = new { productos };
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+    }
+    catch (Exception ex)
+    {
+        context.Response.StatusCode = 500;
+        context.Response.ContentType = "text/plain";
+        await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+    }
+});
+
 app.MapGet("/ObtenerProductosVendedor", async (HttpContext context, Supabase.Client client) =>
 {
     try
