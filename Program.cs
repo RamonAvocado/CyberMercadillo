@@ -131,6 +131,56 @@ app.MapGet("/ObtenerProductosRecomendados", async (HttpContext context, Supabase
     }
 });
 
+//obtener los productos por página
+app.MapGet("/ObtenerProductosPorPagina", async (HttpContext context, Supabase.Client client) =>
+{
+    try
+    {
+        // Obtener el número de página desde los parámetros de la solicitud
+        var numeroPagina = Convert.ToInt32(context.Request.Query["pagina"]);
+
+        // Calcular el índice de inicio y fin de los productos basado en el número de página
+        var cantidadPorPagina = 6; // Cantidad de productos por página
+        var indiceInicio = (numeroPagina - 1) * cantidadPorPagina;
+        var indiceFin = indiceInicio + cantidadPorPagina;
+
+        // Obtener los productos de la base de datos dentro del rango calculado
+        var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagen").Range(indiceInicio, indiceFin).Get();
+
+        // Devolver los productos al frontend
+        var jsonResponse = new { productos };
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+    }
+    catch (Exception ex)
+    {
+        context.Response.StatusCode = 500;
+        context.Response.ContentType = "text/plain";
+        await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+    }
+});
+
+//obtener Todos los productos de la BD, solo voy a mostrar 20, sobra...
+app.MapGet("/ObtenerTodosProductos", async (HttpContext context, Supabase.Client client) =>
+{
+    try
+    {
+        // Obtener los 6 primeros productos desde la base de datos
+        var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagen").Limit(20).Get();
+
+        // Devolver los productos al frontend
+        var jsonResponse = new { productos };
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+    }
+    catch (Exception ex)
+    {
+        context.Response.StatusCode = 500;
+        context.Response.ContentType = "text/plain";
+        await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+    }
+});
+
 app.MapGet("/ObtenerProductosVendedor", async (HttpContext context, Supabase.Client client) =>
 {
     try

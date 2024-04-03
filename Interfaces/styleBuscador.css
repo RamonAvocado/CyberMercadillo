@@ -142,7 +142,7 @@ header h1 {
     background-color: #D9D9D9;
     text-align: center; /* Centrar los productos */
 }
-.productos-resultado-busqueda{
+.resultado-busqueda-container{
     padding: 10px;
     border: 1px solid #1f0404;
     border-radius: 20px;
@@ -189,9 +189,10 @@ header h1 {
 }
 
 
-
 /* Estilo del botón de favoritos */
 .product-card .favorite-btn {
+    border: 3px solid #333; /* Borde del círculo */
+    background-color: transparent; /* Fondo transparente */
     position: relative; /* Establecer posición relativa */
     float: left; /* Alinear a la izquierda */
     background-image: url("Imagenes/estrella.png"); /* Fondo de la imagen de la estrella */
@@ -207,7 +208,7 @@ header h1 {
 }
 
 .product-card .favorite-btn:focus {
-    border-color: #ff0000; /* Cambiar color del borde al ser clickeado */
+    background-color: #ff0000; /* Cambiar color de fondo al ser clickeado */
     border-radius: 50px;
 }
 

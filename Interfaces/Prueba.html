@@ -16,8 +16,17 @@
                 <span>Cyber </span><br>
                 <span>Mercadillo</span>
             </h1>
-            <div class="barra-busqueda">
-                <button id="searchButton" onclick="IrABuquedaProducto()">Buscar Producto ...</button>
+            <div class="search-bar">
+                <input type="text" id = "searchInput" placeholder="Ingrese su búsqueda ...">
+                <select id="categorySelect">
+                    <option value="all">Todas las categorías</option>
+                    <option value="electronics">Electrónica</option>
+                    <option value="clothing">Ropa</option>
+                    <option value="clothing">Hogar</option>
+                    <option value="clothing">CategoriaPrueba</option>
+                    <!-- Agrega más opciones de categorías según tus necesidades -->
+                </select>
+                <button onclick = "buscar()">Buscar</button>
             </div>
         </div>
         <div id = "resultados"></div>
@@ -30,8 +39,8 @@
                         <a href="#" onclick="volverPaginaAnterior()">Volver atrás</a>
                     </div>
                 </li>
-                <li><a href="#">Principal</a></li>
-                <li><a href="#">Lista Deseados</a></li>
+                <li><a href="/Interfaces/PaginaPrincipal.html">Principal</a></li>
+                <li><a href="/Interfaces/ListaDeseados.html">Lista Deseados</a></li>
                 <li><a href="#">Productos</a></li>
                 <li>
                     <div class="user-icons">
@@ -41,72 +50,21 @@
             </ul>
         </nav>
     </div>
-    <div class = "texto-titulo">
-        <h2>Productos destacados</h2>
+    <div class="boton-historial">
+        <button onclick = "irHistorialDeBúsqueda()" class="search-history-btn">Historial de Búsqueda</button>
     </div>
-    <div class="featured-products-container">
-        <!-- Productos destacados -->
-        <div class="featured-products" id="featured-products">
-            <div class="product-card">
-                <button class="favorite-btn"></button>
-                <img src="ruta-de-la-imagen.jpg" alt="Producto 1">
-                <h3>Producto 1</h3>
-                <p>$59.99 / lb</p>
-                <p>Mostrado en San Juan Capistrano, CA</p>
-            </div>
-            <div class="product-card">
-                <button class="favorite-btn"></button>
-                <img src="ruta-de-la-imagen.jpg" alt="Producto 2">
-                <h3>Producto 2</h3>
-                <p>$59.99 / lb</p>
-                <p>Mostrado en San Juan Capistrano, CA</p>
-            </div>
-            <div class="product-card">
-                <button class="favorite-btn"></button>
-                <img src="ruta-de-la-imagen.jpg" alt="Producto 3">
-                <h3>Producto 3</h3>
-                <p>$59.99 / lb</p>
-                <p>Mostrado en San Juan Capistrano, CA</p>
-            </div>
-            <div class="product-card">
-                <button class="favorite-btn"></button>
-                <img src="ruta-de-la-imagen.jpg" alt="Producto 4">
-                <h3>Producto 4</h3>
-                <p>$59.99 / lb</p>
-                <p>Mostrado en San Juan Capistrano, CA</p>
-            </div>
-            <div class="product-card">
-                <button class="favorite-btn"></button>
-                <img src="ruta-de-la-imagen.jpg" alt="Producto 5">
-                <h3>Producto 5</h3>
-                <p>$59.99 / lb</p>
-                <p>Mostrado en San Juan Capistrano, CA</p>
-            </div>
-            <div class="product-card">
-                <button class="favorite-btn"></button>
-                <img src="ruta-de-la-imagen.jpg" alt="Producto 6">
-                <h3>Producto 6</h3>
-                <p>$59.99 / lb</p>
-                <p>Mostrado en San Juan Capistrano, CA</p>
-            </div>
+    <div class="resultado-busqueda-container">
+        <div>
+            <button class="cart-btn">Añadir al Carrito de Compra</button>
         </div>
-    </div>
-        <div class = "num-pagina">
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
+        <!-- Productos destacados (similar a la imagen) -->
+        <div class="resultado-busqueda">
+        
         </div>
-    </div>
-    
-    <div class = "texto-titulo">
-        <h2>Recomendaciones</h2>
-    </div>
-    <div class="recommended-products">
-        <!-- Recomendaciones (similar a la imagen) -->
-        <div class = "num-pagina">
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
+        <div class="num-pagina">
+            <li><a href="#" id="pagina1_rec">1</a></li>
+            <li><a href="#" id="pagina2_rec">2</a></li>
+            <li><a href="#" id="pagina3_rec">3</a></li>
         </div>
     </div>
     <footer>
@@ -125,9 +83,5 @@
         </div>
     </footer>
     <script src="Metodos.js"></script>
-    <script>
-        // Llama a la función buscar cuando la página se cargue
-        window.addEventListener('load', CargarProductos);
-    </script>
 </body>
 </html>

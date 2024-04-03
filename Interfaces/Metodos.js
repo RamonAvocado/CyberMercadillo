@@ -53,10 +53,121 @@ async function buscarProducto() {
     }
 }
 
+// INICIO BOTON FAVORITO PARA SELECCIONAR VARIOS Y PODER DESELECCIONAR
+
+/*  NO FUNCIONA
+
+Función para alternar el estado seleccionado/deseleccionado del botón de favoritos
+document.addEventListener('DOMContentLoaded', function() {
+    const favoriteButtons = document.querySelectorAll('.favorite-btn');
+
+    favoriteButtons.forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            event.stopPropagation(); // Evitar que el clic se propague al hacer clic fuera del botón
+            this.classList.toggle('selected');
+        });
+    });
+
+    // Evitar que los clics en otras partes de la página deseleccionen los botones
+    document.addEventListener('click', function(event) {
+        // Verificar si el clic se realizó en un botón favorito
+        const isFavoriteButton = event.target.classList.contains('favorite-btn');
+        
+        if (!isFavoriteButton) {
+            favoriteButtons.forEach(function(button) {
+                // Verificar si el botón está seleccionado y el clic no fue en el botón mismo
+                if (!button.contains(event.target) && button.classList.contains('selected')) {
+                    button.classList.remove('selected');
+                }
+            });
+        }
+    });
+});
+*/
+// FIN BOTON FAVORITO
+
+
+
+// botones para cambio de página para cargar más productos
+// CARGA LOS PRODUCTOS DIRECTAMENTE
+document.addEventListener('DOMContentLoaded', function() {
+    // Agrega un evento click a cada número de página para los productos destacados
+    document.getElementById('pagina1').addEventListener('click', function(event) {
+        event.preventDefault();
+        cargarProductosPorPagina(1, 'destacados'); // Cargar productos de la página 1 para productos destacados
+    });
+
+    // Agrega un evento click a cada número de página para los productos recomendados
+    document.getElementById('pagina1_rec').addEventListener('click', function(event) {
+        event.preventDefault();
+        cargarProductosPorPagina(1, 'recomendados'); // Cargar productos de la página 1 para productos recomendados
+    });
+    //PAGINAS 2
+    document.getElementById('pagina2').addEventListener('click', function(event) {
+        event.preventDefault();
+        cargarProductosPorPagina(2, 'destacados'); // Cargar productos de la página 1 para productos destacados
+    });
+
+    // Agrega un evento click a cada número de página para los productos recomendados
+    document.getElementById('pagina2_rec').addEventListener('click', function(event) {
+        event.preventDefault();
+        cargarProductosPorPagina(2, 'recomendados'); // Cargar productos de la página 1 para productos recomendados
+    });
+    //PAGINAS 3
+    document.getElementById('pagina3').addEventListener('click', function(event) {
+        event.preventDefault();
+        cargarProductosPorPagina(3, 'destacados'); // Cargar productos de la página 1 para productos destacados
+    });
+
+    // Agrega un evento click a cada número de página para los productos recomendados
+    document.getElementById('pagina3_rec').addEventListener('click', function(event) {
+        event.preventDefault();
+        cargarProductosPorPagina(3, 'recomendados'); // Cargar productos de la página 1 para productos recomendados
+    });
+});
+
+
+// Función para cargar productos de una página específica
+async function cargarProductosPorPagina(numeroPagina, tipoProductos) {
+    try {
+        let url;
+        // Determina la URL correspondiente según el tipo de productos
+        if (tipoProductos === 'destacados') {
+            url = `http://localhost:5169/ObtenerProductosPorPagina?pagina=${numeroPagina}`;
+        } else if (tipoProductos === 'recomendados') {
+            //url = `http://localhost:5169/ObtenerProductosRecomendados?pagina=${numeroPagina}`;
+            url = `http://localhost:5169/ObtenerProductosPorPagina?pagina=${numeroPagina}`;
+        } else {
+            console.error('Tipo de productos no válido');
+            return;
+        }
+
+        // Realiza una solicitud GET al backend para obtener los productos de la página especificada
+        const response = await fetch(url);
+        if (response.ok) {
+            const data = await response.json();
+            // Llama a la función correspondiente para mostrar los productos en la página
+            if (tipoProductos === 'destacados') {
+                mostrarProductosDestacados(data);
+            } else if (tipoProductos === 'recomendados') {
+                mostrarProductosRecomendados(data);
+            }
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+//fin botones cambio página
+
+
 //  INICIO PRODUCTOS DESTACADOS
 
 //carga los 6 primeros productos de la base de datos, deberían de ser los productos Recomendados por búsquedas
 //pero todavía no tenemos Recomendaciones
+let productosCargadosDes = [];
 async function CargarProductosDestacados() {
     try {
         // Realizar una solicitud GET al backend para obtener los 6 primeros productos
@@ -73,11 +184,11 @@ async function CargarProductosDestacados() {
 }
 
 function mostrarProductosDestacados(respuesta) {
-    const productos = respuesta.productos.Models;
+    const nuevosProductos = respuesta.productos.Models.filter(producto => !productosCargadosDes.includes(producto.idproducto));
     const container = document.querySelector('.featured-products');
 
     // Itera sobre los productos y crea elementos para mostrarlos
-    productos.forEach((producto) => {
+    nuevosProductos.forEach((producto) => {
         const productCard = document.createElement('div');
         productCard.classList.add('product-card');
 
@@ -93,8 +204,10 @@ function mostrarProductosDestacados(respuesta) {
         `;
 
         container.appendChild(productCard);
+        productosCargadosDes.push(producto.idproducto);
     });
 }
+
 //  FIN PRODUCTOS DESTACADOS
 
 
@@ -102,6 +215,7 @@ function mostrarProductosDestacados(respuesta) {
 
 //carga los 6 primeros productos de la base de datos, deberían de ser los productos Recomendados por búsquedas
 //pero todavía no tenemos Recomendaciones
+let productosCargadosRec= [];
 async function CargarProductosRecomendados(){
     try {
         // Realizar una solicitud GET al backend para obtener los 6 primeros productos
@@ -118,8 +232,51 @@ async function CargarProductosRecomendados(){
 }
 
 function mostrarProductosRecomendados(respuesta) {
-    const productos = respuesta.productos.Models;
+    const nuevosProductos = respuesta.productos.Models.filter(producto => !productosCargadosRec.includes(producto.idproducto));
     const container = document.querySelector('.recommended-products');
+
+    // Itera sobre los productos y crea elementos para mostrarlos
+    nuevosProductos.forEach((producto) => {
+        const productCard = document.createElement('div');
+        productCard.classList.add('product-card');
+
+        // Agrega la imagen, nombre y precio del producto dentro de un enlace
+        productCard.innerHTML = `
+        <button class="favorite-btn"></button> <!-- Botón de favoritos fuera del enlace -->
+            <a href="/Interfaces/InfoProducto.html?id=${producto.idproducto}">
+                <img src="${producto.imagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
+                <h3>${producto.nombreproducto}</h3>
+                <p>${producto.precio} €</p>
+                <p>${producto.descripcion}</p>
+            </a>
+        `;
+
+        container.appendChild(productCard);
+        productosCargadosRec.push(producto.idproducto);
+    });
+}
+
+//  FIN PRODUCTOS RECOMENDADOS
+
+// MOSTRAR TODOS LOS PRODUCTOS A LA HORA DE BUSCAR CUALQUIERO COSA
+async function CargaTodosProductos(){
+    try {
+        // Realizar una solicitud GET al backend para obtener los 6 primeros productos
+        const response = await fetch('http://localhost:5169/ObtenerTodosProductos');
+        if (response.ok) {
+            const data = await response.json();
+            mostrarTodosProductos(data);// Llama a una función para mostrar los productos en la página
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+function mostrarTodosProductos(respuesta) {
+    const productos = respuesta.productos.Models;
+    const container = document.querySelector('.resultado-busqueda');
 
     // Itera sobre los productos y crea elementos para mostrarlos
     productos.forEach((producto) => {
@@ -140,7 +297,9 @@ function mostrarProductosRecomendados(respuesta) {
         container.appendChild(productCard);
     });
 }
-//  FIN PRODUCTOS RECOMENDADOS
+
+// FIN MOSTRAR TODOS PRODUCTOS
+
 
 
 async function CargarProductosVendedor() {

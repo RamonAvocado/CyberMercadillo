@@ -39,8 +39,8 @@
                         <a href="#" onclick="volverPaginaAnterior()">Volver atrás</a>
                     </div>
                 </li>
-                <li><a href="#">Principal</a></li>
-                <li><a href="#">Lista Deseados</a></li>
+                <li><a href="/Interfaces/PaginaPrincipal.html">Principal</a></li>
+                <li><a href="/Interfaces/ListaDeseados.html">Lista Deseados</a></li>
                 <li><a href="#">Productos</a></li>
                 <li>
                     <div class="user-icons">
@@ -53,94 +53,13 @@
     <div class="boton-historial">
         <button onclick = "irHistorialDeBúsqueda()" class="search-history-btn">Historial de Búsqueda</button>
     </div>
-    <div class="productos-resultado-busqueda">
+    <div class="resultado-busqueda-container">
         <div>
             <button class="cart-btn">Añadir al Carrito de Compra</button>
         </div>
-        <!-- Recomendaciones (similar a la imagen) -->
-        <div class="product-card">
-            <button class="favorite-btn"></button>
-            <img src="ruta-de-la-imagen.jpg" alt="Producto 1">
-            <h3>Producto 1</h3>
-            <p>$59.99 / lb</p>
-            <p>Mostrado en San Juan Capistrano, CA</p>
-        </div>
-        <div class="product-card">
-            <button class="favorite-btn"></button>
-            <img src="ruta-de-la-imagen.jpg" alt="Producto 2">
-            <h3>Producto 2</h3>
-            <p>$59.99 / lb</p>
-            <p>Mostrado en San Juan Capistrano, CA</p>
-        </div>
-        <div class="product-card">
-            <button class="favorite-btn"></button>
-            <img src="ruta-de-la-imagen.jpg" alt="Producto 3">
-            <h3>Producto 3</h3>
-            <p>$59.99 / lb</p>
-            <p>Mostrado en San Juan Capistrano, CA</p>
-        </div>
-        <div class="product-card">
-            <button class="favorite-btn"></button>
-            <img src="ruta-de-la-imagen.jpg" alt="Producto 4">
-            <h3>Producto 4</h3>
-            <p>$59.99 / lb</p>
-            <p>Mostrado en San Juan Capistrano, CA</p>
-        </div>
-        <div class="product-card">
-            <button class="favorite-btn"></button>
-            <img src="ruta-de-la-imagen.jpg" alt="Producto 5">
-            <h3>Producto 5</h3>
-            <p>$59.99 / lb</p>
-            <p>Mostrado en San Juan Capistrano, CA</p>
-        </div>
-        <div class="product-card">
-            <button class="favorite-btn"></button>
-            <img src="ruta-de-la-imagen.jpg" alt="Producto 6">
-            <h3>Producto 6</h3>
-            <p>$59.99 / lb</p>
-            <p>Mostrado en San Juan Capistrano, CA</p>
-        </div>
-        <div class="product-card">
-            <button class="favorite-btn"></button>
-            <img src="ruta-de-la-imagen.jpg" alt="Producto 7">
-            <h3>Producto 7</h3>
-            <p>$59.99 / lb</p>
-            <p>Mostrado en San Juan Capistrano, CA</p>
-        </div>
-        <div class="product-card">
-            <button class="favorite-btn"></button>
-            <img src="ruta-de-la-imagen.jpg" alt="Producto 8">
-            <h3>Producto 8</h3>
-            <p>$59.99 / lb</p>
-            <p>Mostrado en San Juan Capistrano, CA</p>
-        </div>
-        <div class="product-card">
-            <button class="favorite-btn"></button>
-            <img src="ruta-de-la-imagen.jpg" alt="Producto 9">
-            <h3>Producto 9</h3>
-            <p>$59.99 / lb</p>
-            <p>Mostrado en San Juan Capistrano, CA</p>
-        </div>
-        <div class="product-card">
-            <button class="favorite-btn"></button>
-            <img src="ruta-de-la-imagen.jpg" alt="Producto 10">
-            <h3>Producto 10</h3>
-            <p>$59.99 / lb</p>
-            <p>Mostrado en San Juan Capistrano, CA</p>
-        </div>
-        <div class="product-card">
-            <button class="favorite-btn"></button>
-            <img src="ruta-de-la-imagen.jpg" alt="Producto 11">
-            <h3>Producto 11</h3>
-            <p>$59.99 / lb</p>
-            <p>Mostrado en San Juan Capistrano, CA</p>
-        </div>
-        <div class="product-card">
-            <button class="favorite-btn"></button>
-            <img src="ruta-de-la-imagen.jpg" alt="Producto 12">
-            <h3>Producto 12</h3>
-            <p>$59.99 / lb</p>
-            <p>Mostrado en San Juan Capistrano, CA</p>
+        <!-- Productos destacados (similar a la imagen) -->
+        <div class="resultado-busqueda">
+        
         </div>
     </div>
     <footer>
@@ -159,5 +78,8 @@
         </div>
     </footer>
     <script src="Metodos.js"></script>
+    <script>
+        window.addEventListener('load', CargaTodosProductos);
+    </script>
 </body>
 </html>
