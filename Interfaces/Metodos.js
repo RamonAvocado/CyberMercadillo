@@ -247,11 +247,11 @@ async function agregarProd()
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        nombre: nombre,
+                        nombreproducto: nombre,
                         precio: precio,
                         categoria: categoria,
                         descripcion: descripcion,
-                        img: img,
+                        imagen: img,
                         cantidad: cantidad
                     }),
                 });
@@ -282,9 +282,9 @@ async function agregarProd()
 
 async function agregarProducto()
 {
-        document.getElementById('addProductoForm').addEventListener('submit', async (event) => {
+        document.getElementById('agregarProductoForm2').addEventListener('submit', async (event) => {
             event.preventDefault();
-            
+
             const formData = new FormData(event.target);
             const nombre = formData.get('nombreProd');
             console.log(formData.get('nombreProd'));
@@ -294,7 +294,10 @@ async function agregarProducto()
             const img = formData.get('imgProd');
             const cantidad = parseInt(formData.get('cantProd'));
 
-        
+            const objeto = {
+                
+            }
+            console.log(objeto);
             try {
                 const response = await fetch('http://localhost:5169/AgregarProducto', {
                     method: 'POST',
@@ -302,12 +305,13 @@ async function agregarProducto()
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        nombre: nombre,
+                        nombreproducto: nombre,
                         precio: precio,
                         categoria: categoria,
                         descripcion: descripcion,
-                        img: img,
-                        cantidad: cantidad
+                        imagen: img,
+                        cantidad: cantidad,
+                        idvendedor: 5,
                     }),
                 });
         
@@ -332,6 +336,8 @@ async function agregarProducto()
             } catch (error) {
                 console.error('Error inesperado:', error);
             }
+            alert("Producto creado correctamente")
+            window.location.reload();
         });
 }
 
@@ -533,7 +539,7 @@ function cambiarImagen() {
 document.addEventListener('DOMContentLoaded', function() {
     mostrarProd();
 });
-
+/*
 document.getElementById('agregarProductoForm2').addEventListener('submit', async (event) => {
     event.preventDefault();
     
@@ -573,4 +579,4 @@ document.getElementById('agregarProductoForm2').addEventListener('submit', async
     } catch (error) {
         console.error('Error inesperado:', error);
     }
-});
+});*/
