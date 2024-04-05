@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Cyber Mercadillo</title>
+    <link rel="stylesheet" href="styleLogin.css">
+</head>
+<body>
+    <header>
+        <div class="parte-superior">
+            <div class="img-logo">   
+                <img src="Imagenes/Logo.png" alt="Logo Cyber Mercadillo">
+            </div>
+            <h1>
+                <span>Cyber </span><br>
+                <span>Mercadillo</span>
+            </h1>
+        </div>
+    </header>
+    <div class="container">
+        <h2>Iniciar Sesión</h2>
+        <p class="join-text">Únete a nosotros para poder disfrutar de nuestros servicios</p>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="correoUser">Email:</label>
+                <input type="text" id="correoUser" name="correoUser" required>
+            </div>
+            <div class="form-group">
+                <label for="contraUser">Contraseña:</label>
+                <input type="contraUser" id="contraUser" name="contraUser" required>
+            </div>
+            <button type="submit">Iniciar Sesión</button>
+        </form>
+        <div class="register-section">
+            <p>¿No tienes cuenta? <a href="registro.html" class="register-btn">Registrarse</a></p>
+        </div>
+    </div>
+    <div class="back-button">
+        
+        <button onclick="window.history.back()" class="search-history-btn">Volver a la página anterior</button>
+        
+    </div>
+</body>
+</html>
