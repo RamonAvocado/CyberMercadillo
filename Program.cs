@@ -240,7 +240,7 @@ app.MapGet("/buscarProductoX", async (HttpContext context, Supabase.Client clien
     {      
         //string nombreBuscado = "Smartphone X";
         var result = await client.From<Producto>()
-                                .Where(p => p.idproducto== 3)
+                                .Where(p => p.idproducto== 237)
                                 .Select("precio, cantidad, categoria, descripcion, imagen, nombreproducto")
                                 .Get();
 
@@ -298,6 +298,70 @@ app.MapPost("/AgregarProducto", async (HttpContext context,Supabase.Client clien
     return Results.Ok("Producto created successfully"); 
 });
 
+app.MapPost("/ActualizarProducto", async (HttpContext context,Supabase.Client client) =>
+{
+    // Leer el cuerpo de la solicitud para obtener la información de búsqueda
+    using (var reader = new StreamReader(context.Request.Body)){
+    
+        try{
+            var requestBody = await reader.ReadToEndAsync();
+            var productoData = JsonConvert.DeserializeObject<Producto>(requestBody);
+
+            // Utiliza los datos recibidos para crear un nuevo producto
+            //var fabrica = new FabricaDeProductos();
+
+#pragma warning disable CS8602 // Esto es para quitar un warning raro
+/*
+            var nuevoProducto = fabrica.CrearProducto(
+                productoData.nombreproducto ?? "Producto de Serie Creación", //Este tmb
+                productoData.precio ?? "-1", 
+                productoData.categoria ?? "CatPrueba", 
+                productoData.descripcion ?? "Este articulo es el predeterminado por si llega un null a esta funcion", 
+                productoData.imagen ?? "/rutaPrueba",  //Este lo pone siempre
+                productoData.cantidad ?? -1,//predeterminado que si llega un nulo, sea -1 
+                productoData.idvendedor ?? -1);
+*/
+#pragma warning restore CS8602 // Y aqui para volver a instaurarlo
+
+            // Inserta el nuevo producto en la base de datos
+            //await client.From<Producto>().Insert(new List<Producto> { nuevoProducto });
+           /* await client.From<Producto>()
+                    .Where(p => p.idproducto== 237)
+                    .Update(nuevoProducto);
+
+                */    
+    //string nombreBuscado = "Smartphone X";
+            /*var result2 = await client.From<Producto>()
+                    .Where(p => p.idproducto== 237)  // Use supabase.eq for comparison
+                    .Set(p => p.cantidad, 5)                       // Set the value directly (number)
+                    .Update();
+*/          var result2 = await client.From<Producto>()
+                    .Where(p => p.idproducto == 237)
+                    .Single();
+                      // Use supabase.eq for comparison
+            result2.nombreproducto = productoData.nombreproducto ?? "Producto de Serie Creación";          
+            result2.cantidad = productoData.cantidad ?? -1;
+            result2.precio = productoData.precio ?? "-1";
+            result2.categoria = productoData.categoria ?? "CatPrueba";
+            result2.descripcion = productoData.descripcion ?? "Este articulo es el predeterminado por si llega un null a esta funcion";
+            result2.imagen = productoData.imagen ?? "/rutaPrueba";
+            
+            await result2.Update<Producto>();
+
+            Console.WriteLine("pedido");
+
+            // Devuelve una respuesta al frontend (opcional)
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync("Producto creado exitosamente");
+        } catch (Exception ex)
+        {
+            context.Response.StatusCode = 500;
+            context.Response.ContentType = "text/plain";  // Establecer el tipo de contenido si no es JSON
+            await context.Response.WriteAsync($"Error al crear el producto: {ex.Message}");
+        }
+    }
+    return Results.Ok("Producto created successfully"); 
+});
 
 app.MapPost("/guardar_producto", async (HttpContext context, Supabase.Client client) =>
 {

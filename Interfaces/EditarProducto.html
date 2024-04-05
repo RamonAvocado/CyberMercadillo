@@ -76,61 +76,60 @@
     <div class = "texto-titulo">
     </div>
     <div class="featured-products-container">
+        <form id="agregarProductoForm7" >
         <div class="container">
-            <div class="form-group">
-                <h2>Editar Producto</h2>
-                <form action="/guardar_producto" method="POST">
-                    <div class="input-group">
-                        <label for="nombre">Nombre:</label>
-                        <input type="text" id="nombre" name="nombre" required>
-                    </div>
-    
-                    <div class="input-group">
-                        <label for="precio">Precio:</label>
-                        <input type="number" id="precio" name="precio" min="0" step="0.01" required>
-                    </div>
-    
-                    <div class="input-group">
-                        <label for="categoria">Categoría:</label>
-                        <select id="categoria" name="categoria" required>
-                            <option value="">Seleccionar categoría...</option>
-                            <option value="Electrónica">Electrónica</option>
-                            <option value="Ropa">Ropa</option>
-                            <option value="Hogar">Hogar</option>
-                            <!-- Agrega más opciones según tus necesidades -->
-                        </select>
-                    </div>                   
-    
-                    <div class="input-group">
-                        <label for="cantidad">Cantidad de Producto:</label>
-                        <input type="number" id="cantidad" name="cantidad" min="0" required>
-                    </div>
+            
+                <div class="form-group">
+                    <h2>Editar Producto</h2>
+                        <div class="input-group">
+                            <label for="nombre">Nombre:</label>
+                            <input type="text" id="nombre" name="nombre" required>
+                        </div>
+        
+                        <div class="input-group">
+                            <label for="precio">Precio:</label>
+                            <input type="number" id="precio" name="precio" min="0" step="0.01" required>
+                        </div>
+        
+                        <div class="input-group">
+                            <label for="categoria">Categoría:</label>
+                            <select id="categoria" name="categoria" required>
+                                <option value="">Seleccionar categoría...</option>
+                                <option value="Electrónica">Electrónica</option>
+                                <option value="Ropa">Ropa</option>
+                                <option value="Hogar">Hogar</option>
+                                <option value="Juguetes">Juguetes</option>
+                                <!-- Agrega más opciones según tus necesidades -->
+                            </select>
+                        </div>                   
+        
+                        <div class="input-group">
+                            <label for="cantidad">Cantidad de Producto:</label>
+                            <input type="number" id="cantidad" name="cantidad" min="0" required>
+                        </div>
 
-                    <div class="input-group">
-                        <label for="descripcion">Descripción:</label>
-                        <textarea id="descripcion" name="descripcion" rows="4" cols="50" required></textarea>
-                    </div>
-                </form>
-            </div>
-
-            <div class="image-group">
-                <div class="image-container">
-                    <img id="imagenProducto" src="placeholder.jpg" alt="Imagen del producto" id="imagen-producto">
-                    <input type="text" id="nuevo-url-imagen" placeholder="Nuevo URL de Imagen">
-                    <button onclick="cambiarImagen()">Cambiar Imagen</button>
+                        <div class="input-group">
+                            <label for="descripcion">Descripción:</label>
+                            <textarea id="descripcion" name="descripcion" rows="4" cols="50" required></textarea>
+                        </div>               
                 </div>
-            </div>
+
+                <div class="image-group">
+                    <div class="image-container">
+                        <img id="imagenProducto" alt="Imagen del producto" id="imagen-producto">
+                        <input type="text" id="nuevo-url-imagen" name="nuevo-url-imagen" placeholder="Nuevo URL de Imagen"><br><br><br><br><br><br><br><br>                  
+                        <!--<button onclick="cambiarImagen()">Cambiar Imagen</button><br><br><br><br><br><br><br><br>-->
+                    </div>
+                    <button onclick = "ActualizarProducto()" class="search-history-btn">Confirmar</button>
+                </div>
         </div>
+    </form>
         </div>
     </body>
     </div>
     <div class="botones-vendedor">
         <div class="izquierda">
             <button onclick = "volverPaginaAnterior()" class="search-history-btn">Volver</button>
-        </div>
-        <div class="derecha">
-            <button onclick = "irHistorialDeBúsqueda()" class="search-history-btn">Confirmar</button>
-            
         </div>
     </div>     
     <footer>

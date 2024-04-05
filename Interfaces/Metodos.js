@@ -347,174 +347,99 @@ function mostrarResultado(resultado) {
     resultadosDiv.innerHTML = `<p>Resultado: ${resultado}</p>`;
 }
 
-function mostrarProducto(producto) {
-    // Obtén referencias a los elementos del formulario
-    /*const nombreInput = document.getElementById('nombre');
-    const precioInput = document.getElementById('precio');
-    const categoriaInput = document.getElementById('categoria');
-    const descripcionInput = document.getElementById('descripcion');
-    const imagenElement = document.getElementById('imagenProducto');
-    const cantidadInput = document.getElementById('cantidad');
-
-    // Define los valores para cada campo
-    const nombreProducto = 'Producto de ejemplo';
-    const precioProducto = 10.99;
-    const categoriaProducto = 'Electrónica';
-    const descripcionProducto = 'Esta es la descripción del producto';
-    const urlImagenProducto = 'https://m.media-amazon.com/images/I/71nYTvuXGtL._AC_UF894,1000_QL80_.jpg';
-    const cantidadProducto = 5;
-    // Asigna los valores a los campos del formulario
-    nombreInput.value = nombreProducto;
-    precioInput.value = precioProducto;
-    categoriaInput.value = categoriaProducto;
-    descripcionInput.value = descripcionProducto;
-    //urlImagenInput.value = urlImagenProducto;
-    imagenElement.src = urlImagenProducto;
-    cantidadInput.value = cantidadProducto;
-*/
-    document.getElementById('nombre').value = producto.nombreproducto;
-    document.getElementById('precio').value = producto.precio;
-    document.getElementById('categoria').value = producto.categoria;
-    document.getElementById('descripcion').value = producto.descripcion;
-    document.getElementById('imagenProducto').src = producto.url_imagen;
-    document.getElementById('cantidad').src = producto.cantidad;
-
-}/*
-function mostrarProductosVendedor(respuesta) {
-    const productos = respuesta.productos.Models;
-    const container = document.querySelector('.seller-products');
-
-    // Itera sobre los productos y crea elementos para mostrarlos
-    productos.forEach((producto) => {
-        const productCard = document.createElement('div');
-        productCard.classList.add('product-card');
-
-        // Agrega la imagen, nombre y precio del producto
-        productCard.innerHTML = `
-            <button class="favorite-btn"></button>
-            <img src="${producto.imagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
-            <h3>${producto.nombreproducto}</h3>
-            <p>${producto.precio} €</p>
-            <p>${producto.descripcion}</p>
-        `;
-
-        container.appendChild(productCard);
-    });
-}*/
-
-
-/*
-async function CargarProductosVendedor() {
-    try {
-        // Realizar una solicitud GET al backend para obtener los 6 primeros productos
-        const response = await fetch('http://localhost:5169/ObtenerProductosVendedor');
-        if (response.ok) {
-            const data = await response.json();
-            mostrarProductosVendedor(data); (data);// Llama a una función para mostrar los productos en la página
-        } else {
-            console.error('Error en la solicitud al backend:', response.statusText);
-        }
-    } catch (error) {
-        console.error('Error inesperado:', error);
-    }
-}
-
-function mostrarProductosVendedor(respuesta) {
-    const productos = respuesta.productos.Models;
-    const container = document.querySelector('.seller-products');
-
-    // Itera sobre los productos y crea elementos para mostrarlos
-    productos.forEach((producto) => {
-        const productCard = document.createElement('div');
-        productCard.classList.add('product-card');
-
-        // Agrega la imagen, nombre y precio del producto
-        productCard.innerHTML = `
-            <button class="favorite-btn"></button>
-            <img src="${producto.imagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
-            <h3>${producto.nombreproducto}</h3>
-            <p>${producto.precio} €</p>
-            <p>${producto.descripcion}</p>
-        `;
-
-        container.appendChild(productCard);
-    });
-}
-*/
-
-
 async function mostrarProd() {
     try {
-        // Realizar una solicitud al servidor para obtener los detalles del producto
         const response = await fetch('http://localhost:5169/buscarProductoX');
         const nombreInput = document.getElementById('nombre');
-        const nombreProducto = 'Producto de ejemplo';
+        const nombreProducto = 'Producto de ejemplo22';
         nombreInput.value = nombreProducto;
+        
         if (response.ok) {
             const data = await response.json();
-            //const productosP = data.productos.Models;
-            //const primerProducto = productosP.result[0]; // Suponiendo que solo obtienes un producto
-            const productos = data.productos.Models;
-            // Llenar los campos del formulario con los detalles del producto
-            const nombreInput2 = document.getElementById('nombre');
-            const nombreProducto2 = 'Producto de ejemplo2';
-            nombreInput2.value = nombreProducto2;
-            productos.forEach((producto) => {
-                const nombreInput = document.getElementById('nombre');
-                const nombreProducto = 'Producto de ejemplo3';
-                nombreInput.value = nombreProducto;
-                document.getElementById('nombre').value = 'Producto de ejemplo1';
-                document.getElementById('precio').value = producto.precio;
-                document.getElementById('categoria').value = producto.categoria;
-                document.getElementById('descripcion').value = producto.descripcion;
-                document.getElementById('imagenProducto').src = producto.imagen;
-                document.getElementById('cantidad').value = producto.cantidad;
+            console.log(data);
 
-            });
-            
             const nombreInput = document.getElementById('nombre');
-            const nombreProducto = 'Producto de ejemplo3';
-            nombreInput.value = nombreProducto; 
+            const nombreProducto = 'Producto de ejemplo24';
+            nombreInput.value = nombreProducto;
 
-        } else {
-            console.error('Error al obtener los detalles del producto:', response.statusText);
-            const nombreInput = document.getElementById('nombre');
-        const nombreProducto = 'Producto de ejemplo2';
-        nombreInput.value = nombreProducto;
-        }
-    } catch (error) {
-        console.error('Error inesperado:', error);
-    }
-}
-
-async function mostrarProd1() {
-    try {
-        // Realizar una solicitud al servidor para obtener los detalles del producto
-        const response = await fetch('http://localhost:5169/buscarProductoX'); // Realiza la solicitud GET
-        if (response.ok) {
-            const producto = await response.json();
-            const productos = producto.result; // Suponiendo que el servidor devuelve un array de productos
-
-            // Verificar si hay productos disponibles
+            const productos = data.result.Models;
+            console.log(productos);
             if (productos.length > 0) {
-                const primerProducto = productos[0]; // Tomar el primer producto de la lista
-
-                // Llenar los campos del formulario con los detalles del producto
+                const primerProducto = productos[0]; // Obtener el primer producto (suponiendo que hay al menos uno)
                 document.getElementById('nombre').value = primerProducto.nombreproducto;
                 document.getElementById('precio').value = primerProducto.precio;
                 document.getElementById('categoria').value = primerProducto.categoria;
                 document.getElementById('descripcion').value = primerProducto.descripcion;
                 document.getElementById('imagenProducto').src = primerProducto.imagen;
                 document.getElementById('cantidad').value = primerProducto.cantidad;
-            } else {
-                console.error('No se encontraron productos.');
+                document.getElementById('nuevo-url-imagen').value = primerProducto.imagen;             
             }
         } else {
             console.error('Error al obtener los detalles del producto:', response.statusText);
+            const nombreInput = document.getElementById('nombre');
+            const nombreProducto = 'Producto de ejemplo233';
+            nombreInput.value = nombreProducto;
         }
     } catch (error) {
         console.error('Error inesperado:', error);
     }
+}
+
+async function ActualizarProducto()
+{
+        document.getElementById('agregarProductoForm7').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+            const nombre = formData.get('nombre');
+            console.log(formData.get('nombre'));
+            const precio = formData.get('precio');
+            const categoria = formData.get('categoria');
+            const descripcion = formData.get('descripcion');
+            const img = formData.get('nuevo-url-imagen') ?? formData.get('imagenProducto');
+            const cantidad = parseInt(formData.get('cantidad'));
+
+            try {
+                const response = await fetch('http://localhost:5169/ActualizarProducto', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        nombreproducto: nombre,
+                        precio: precio,
+                        categoria: categoria,
+                        descripcion: descripcion,
+                        imagen: img,
+                        cantidad: cantidad,
+                        idvendedor: 5,
+                    }),
+                });
+        
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Producto creado correctamente');
+                    mostrarResultado(data.resultado); 
+
+                    // Aquí podrías mostrar un mensaje de éxito o redirigir a otra página
+                    // Borra los campos del formulario
+                    window.location.reload();
+                   /* document.getElementById('nombreProd').value = '';
+                    document.getElementById('precioProd').value = '';
+                    document.getElementById('categoriaProd').value = '';
+                    document.getElementById('descripcionProd').value = '';
+                    document.getElementById('imgProd').value = '';
+                    document.getElementById('cantProd').value = '';
+                    */
+                } else {
+                    console.error('Error al actualizar el producto:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error inesperado:', error);
+            }
+            alert("Producto creado correctamente")
+            window.location.reload();
+        });
 }
 
 function cambiarImagen() {
@@ -536,9 +461,9 @@ function cambiarImagen() {
     }
 }
 // Llama a la función agregarProd() cuando el DOM esté completamente cargado
-document.addEventListener('DOMContentLoaded', function() {
+/*document.addEventListener('DOMContentLoaded', function() {
     mostrarProd();
-});
+});*/
 /*
 document.getElementById('agregarProductoForm2').addEventListener('submit', async (event) => {
     event.preventDefault();
