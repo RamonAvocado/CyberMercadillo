@@ -215,6 +215,10 @@ function irAEditarProducto(){
     window.location.href = "EditarProducto.html"
 }
 
+function irALogin(){
+    window.location.href = "Login.html"
+}
+
 
 // Función para mostrar el resultado en la página
 function mostrarResultado(resultado) {
@@ -580,3 +584,35 @@ document.getElementById('agregarProductoForm2').addEventListener('submit', async
         console.error('Error inesperado:', error);
     }
 });*/
+
+
+// Método para iniciar sesión
+async function iniciarSesion() {
+    document.getElementById('loginForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+        const correo = formData.get('correoUser');
+        const contraseña = formData.get('contraUser');
+
+        try {
+            const response = await fetch('http://localhost:5169/IniciarSesion', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ correo: correo, contraseña: contraseña }),
+            });
+
+            if (response.ok) {
+                window.location.href = "PaginaPrincipal.html";
+            
+            } else {
+                // No existe user
+                document.getElementById('mensajeError').style.display = 'block';
+            }
+        } catch (error) {
+            console.error('Error inesperado:', error);
+        }
+    });
+}

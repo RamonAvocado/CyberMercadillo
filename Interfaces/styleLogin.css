@@ -91,10 +91,11 @@ button[type="submit"]:hover {
     text-decoration: none;
 }
 
-.botones-vendedor {
-    margin-top: 20px;
+.back-button {
+    margin-top: auto;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 50px;
     text-align: center;
 }
 
