@@ -233,7 +233,7 @@ app.MapGet("/ObtenerProductoPorID", async (HttpContext context, Supabase.Client 
     }
 });
 
-
+/*
 app.MapGet("/buscarProductoX", async (HttpContext context, Supabase.Client client) =>
 {
     try
@@ -254,6 +254,34 @@ app.MapGet("/buscarProductoX", async (HttpContext context, Supabase.Client clien
         context.Response.StatusCode = 500;
         context.Response.ContentType = "text/plain";
         await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+    }
+});*/
+
+app.MapPost("/buscarProductoX", async (HttpContext context, Supabase.Client client) =>
+{
+    using (var reader = new StreamReader(context.Request.Body))
+    {
+        try{
+            var requestBody = await reader.ReadToEndAsync();
+            var productoData = JsonConvert.DeserializeObject<Producto>(requestBody);
+
+            //string nombreBuscado = "Smartphone X";
+            var result = await client.From<Producto>()
+                                    .Where(p => p.idproducto == productoData.idproducto)
+                                    .Select("precio, cantidad, categoria, descripcion, imagen, nombreproducto")
+                                    .Get();
+
+            // Devolver los productos al frontend
+            var jsonResponse = new { result };
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+        }
+        catch (Exception ex)
+        {
+            context.Response.StatusCode = 500;
+            context.Response.ContentType = "text/plain";
+            await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+        }
     }
 });
 //Metodo para agreagar producto desde el frontend
@@ -336,7 +364,7 @@ app.MapPost("/ActualizarProducto", async (HttpContext context,Supabase.Client cl
                     .Set(p => p.cantidad, 5)                       // Set the value directly (number)
                     .Update();
 */          var result2 = await client.From<Producto>()
-                    .Where(p => p.idproducto == 237)
+                    .Where(p => p.idproducto == productoData.idproducto)
                     .Single();
                       // Use supabase.eq for comparison
             result2.nombreproducto = productoData.nombreproducto ?? "Producto de Serie Creación";          

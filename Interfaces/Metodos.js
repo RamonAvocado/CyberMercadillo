@@ -1,3 +1,4 @@
+var idProductoSeleccionado;
 
 async function buscar() {
     //window.location.href = "ResultadoBusqueda.html"
@@ -109,7 +110,7 @@ function mostrarProductos(respuesta) {
 function mostrarProductosVendedor(respuesta) {
     const productos = respuesta.productos.Models;
     const container = document.querySelector('.seller-products');
-
+    
     // Itera sobre los productos y crea elementos para mostrarlos
     productos.forEach((producto) => {
         const productCard = document.createElement('div');
@@ -124,6 +125,35 @@ function mostrarProductosVendedor(respuesta) {
             <p>${producto.descripcion}</p>
         `;
 
+        productCard.addEventListener('click', (event) => {
+            // Aquí puedes acceder al ID del producto seleccionado (producto.idproducto)
+            // Puedes hacer lo que quieras con el ID del producto seleccionado aquí
+            idProductoSeleccionado = producto.idproducto;
+            console.log('ID del producto seleccionado:', idProductoSeleccionado);
+            
+            const editarBtn = document.getElementById('editarBtn');
+            editarBtn.disabled = false;
+            editarBtn.classList.add('enabled');
+
+            const allProductCards = document.querySelectorAll('.product-card');
+            allProductCards.forEach(card => card.classList.remove('selected'));
+
+            // Agrega la clase 'selected' al elemento seleccionado
+            productCard.classList.add('selected');
+            event.stopPropagation();
+
+            document.getElementById('editarBtn').addEventListener('click', () => {
+                const editarBtn = document.getElementById('editarBtn');
+                if (editarBtn.disabled) {
+                    editarBtn.classList.remove('enabled'); // Quita la clase 'enabled' para desactivar el nuevo estilo
+                }
+                console.log('ID del producto seleccionado al clicar:', idProductoSeleccionado);
+                localStorage.setItem('itemID', idProductoSeleccionado);
+                mostrarProd(idProductoSeleccionado);
+            });
+        });
+
+        
         container.appendChild(productCard);
     });
 }
@@ -298,10 +328,6 @@ async function agregarProducto()
             const img = formData.get('imgProd');
             const cantidad = parseInt(formData.get('cantProd'));
 
-            const objeto = {
-                
-            }
-            console.log(objeto);
             try {
                 const response = await fetch('http://localhost:5169/AgregarProducto', {
                     method: 'POST',
@@ -351,13 +377,70 @@ function mostrarResultado(resultado) {
     resultadosDiv.innerHTML = `<p>Resultado: ${resultado}</p>`;
 }
 
-async function mostrarProd() {
+/*
+async function mostrarProd(idProductoSeleccionado) {
     try {
+        console.log('ID del producto seleccionado:', idProductoSeleccionado);
         const response = await fetch('http://localhost:5169/buscarProductoX');
-        const nombreInput = document.getElementById('nombre');
-        const nombreProducto = 'Producto de ejemplo22';
-        nombreInput.value = nombreProducto;
-        
+        /*
+        const response = await fetch('http://localhost:5169/buscarProductoX',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                idProductoSeleccionado: idProductoSeleccionado
+            }),
+        });*/
+/*
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+
+            const nombreInput = document.getElementById('nombre');
+            const nombreProducto = 'Producto de ejemplo24';
+            nombreInput.value = nombreProducto;
+
+            const productos = data.result.Models;
+            console.log(productos);
+            if (productos.length > 0) {
+                const primerProducto = productos[0]; // Obtener el primer producto (suponiendo que hay al menos uno)
+                document.getElementById('nombre').value = primerProducto.nombreproducto;
+                document.getElementById('precio').value = primerProducto.precio;
+                document.getElementById('categoria').value = primerProducto.categoria;
+                document.getElementById('descripcion').value = primerProducto.descripcion;
+                document.getElementById('imagenProducto').src = primerProducto.imagen;
+                document.getElementById('cantidad').value = primerProducto.cantidad;
+                document.getElementById('nuevo-url-imagen').value = primerProducto.imagen;             
+            }
+        } else {
+            console.error('Error al obtener los detalles del producto:', response.statusText);
+            const nombreInput = document.getElementById('nombre');
+            const nombreProducto = 'Producto de ejemplo233';
+            nombreInput.value = nombreProducto;
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}*/
+
+
+async function mostrarProd(idProductoSeleccionado) {
+    try {
+        console.log('ID del producto seleccionado:', idProductoSeleccionado);
+        //const response = await fetch('http://localhost:5169/buscarProductoX');
+
+        //const response = await fetch(`http://localhost:5169/buscarProductoX?idProductoSeleccionado=${idProductoSeleccionado}`);
+        const response = await fetch('http://localhost:5169/buscarProductoX',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                idproducto: idProductoSeleccionado
+            }),
+        });
+
         if (response.ok) {
             const data = await response.json();
             console.log(data);
@@ -389,7 +472,7 @@ async function mostrarProd() {
     }
 }
 
-async function ActualizarProducto()
+async function ActualizarProducto(idProductoSeleccionado)
 {
         document.getElementById('agregarProductoForm7').addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -417,6 +500,7 @@ async function ActualizarProducto()
                         imagen: img,
                         cantidad: cantidad,
                         idvendedor: 5,
+                        idproducto:idProductoSeleccionado,
                     }),
                 });
         

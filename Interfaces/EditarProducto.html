@@ -120,7 +120,7 @@
                         <input type="text" id="nuevo-url-imagen" name="nuevo-url-imagen" placeholder="Nuevo URL de Imagen"><br><br><br><br><br><br><br><br>                  
                         <!--<button onclick="cambiarImagen()">Cambiar Imagen</button><br><br><br><br><br><br><br><br>-->
                     </div>
-                    <button onclick = "ActualizarProducto()" class="search-history-btn">Confirmar</button>
+                    <button onclick = "ActualizarProducto(localStorage.getItem('itemID'))" class="search-history-btn">Confirmar</button>
                 </div>
         </div>
     </form>
@@ -139,11 +139,11 @@
     <script src="Metodos.js"></script>
     <script>
         // Llama a la función buscar cuando la página se cargue
-        window.addEventListener('load', mostrarProd);
+        //window.addEventListener('load', mostrarProd);
     </script>
     <script>
         // Llama a la función agregarProd() para que se ejecute tu código JavaScript
-        mostrarProd();
+        mostrarProd(localStorage.getItem('itemID'));
     </script>
 </body>
 </html>
