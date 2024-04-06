@@ -20,7 +20,7 @@
     </header>
     <div class="container">
         <h2>Iniciar Sesión</h2>
-        <p class="join-text">Únete a nosotros para poder disfrutar de nuestros servicios</p>
+        <p class="iniciarbtt-text">Únete a nosotros para poder disfrutar de nuestros servicios</p>
         <form id="loginForm">
             <div class="form-group">
                 <label for="correoUser">Email:</label>
@@ -28,18 +28,20 @@
             </div>
             <div class="form-group">
                 <label for="contraUser">Contraseña:</label>
-                <input type="contraUser" id="contraUser" name="contraUser" required>
+                <input type="password" id="contraUser" name="contraUser" required>
             </div>
-            <button type="submit">Iniciar Sesión</button>
+            <button type="iniciar-btt">Iniciar Sesión</button>
         </form>
         <div class="register-section">
             <p>¿No tienes cuenta? <a href="registro.html" class="register-btn">Registrarse</a></p>
         </div>
+        <div id="mensajeError" class="error-message" style="display: none;">Correo o contraseña incorrectos</div>
     </div>
     <div class="back-button">
         
-        <button onclick="window.history.back()" class="search-history-btn">Volver a la página anterior</button>
-        
+        <button onclick="volverPaginaAnterior()">Volver atrás</button>
     </div>
+
+    <script src="Metodos.js"></script>
 </body>
 </html>

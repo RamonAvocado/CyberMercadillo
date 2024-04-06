@@ -597,7 +597,7 @@ document.getElementById('agregarProductoForm2').addEventListener('submit', async
 
 // Método para iniciar sesión
 async function iniciarSesion() {
-    document.getElementById('loginForm').addEventListener('submit', async (event) => {
+    document.getElementById('loginForm').addEventListener('iniciar-btt', async (event) => {
         event.preventDefault();
 
         const formData = new FormData(event.target);
