@@ -246,39 +246,22 @@ function mostrarProductosDestacados(productos) {
 
         // Agrega la imagen, nombre y precio del producto dentro de un enlace
         productCard.innerHTML = `
-        <button class="favorite-btn"></button> <!-- Botón de favoritos fuera del enlace -->
-            <a href="/Interfaces/InfoProducto.html?id=${producto.idproducto}">
-                <img src="${producto.imagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
-                <h3>${producto.nombreproducto}</h3>
-                <p>${producto.precio} €</p>
-                <p>${producto.descripcion}</p>
-            </a>`
+            <button class="favorite-btn"></button> <!-- Botón de favoritos -->
+            <img src="${producto.imagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
+            <h3>${producto.nombreproducto}</h3>
+            <p>${producto.precio} €</p>
+            <p>${producto.descripcion}</p>
+        `;
 
-            productCard.addEventListener('click', (event) => {
-                // Aquí puedes acceder al ID del producto seleccionado (producto.idproducto)
-                // Puedes hacer lo que quieras con el ID del producto seleccionado aquí
-                idProductoSeleccionado = producto.idproducto;
-                console.log('ID del producto seleccionado:', idProductoSeleccionado);
+        // Agregar evento de clic para seleccionar el producto
+        productCard.addEventListener('click', (event) => {
+            seleccionarProducto(event.currentTarget);
+        });
 
-    
-                const allProductCards = document.querySelectorAll('.product-card');
-                allProductCards.forEach(card => card.classList.remove('selected'));
-    
-                // Agrega la clase 'selected' al elemento seleccionado
-                productCard.classList.add('selected');
-                event.stopPropagation();
-    
-                /*
-                document.getElementById('editarBtn').addEventListener('click', () => {
-                    const editarBtn = document.getElementById('editarBtn');
-                    if (editarBtn.disabled) {
-                        editarBtn.classList.remove('enabled'); // Quita la clase 'enabled' para desactivar el nuevo estilo
-                    }
-                    console.log('ID del producto seleccionado al clicar:', idProductoSeleccionado);
-                    localStorage.setItem('itemID', idProductoSeleccionado);
-                    mostrarProd(idProductoSeleccionado);
-                });*/
-            });
+        // Agregar evento de doble clic para ir a la página de información del producto
+        productCard.addEventListener('dblclick', (event) => {
+            irAInfoProducto(event.currentTarget);
+        });
         container.appendChild(productCard);
     });
 }
@@ -369,40 +352,22 @@ function mostrarProductosRecomendados(productos) {
         productCard.classList.add('product-card');
 
         // Agrega la imagen, nombre y precio del producto dentro de un enlace       
-       productCard.innerHTML = `
-        <button class="favorite-btn"></button> <!-- Botón de favoritos fuera del enlace -->
-            <a href="/Interfaces/InfoProducto.html?id=${producto.idproducto}">
-                <img src="${producto.imagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
-                <h3>${producto.nombreproducto}</h3>
-                <p>${producto.precio} €</p>
-                <p>${producto.descripcion}</p>
-            </a>
+        productCard.innerHTML = `
+            <button class="favorite-btn"></button> <!-- Botón de favoritos -->
+            <img src="${producto.imagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
+            <h3>${producto.nombreproducto}</h3>
+            <p>${producto.precio} €</p>
+            <p>${producto.descripcion}</p>
         `;
 
+        // Agregar evento de clic para seleccionar el producto
         productCard.addEventListener('click', (event) => {
-            // Aquí puedes acceder al ID del producto seleccionado (producto.idproducto)
-            // Puedes hacer lo que quieras con el ID del producto seleccionado aquí
-            idProductoSeleccionado = producto.idproducto;
-            console.log('ID del producto seleccionado:', idProductoSeleccionado);
+            seleccionarProducto(event.currentTarget);
+        });
 
-
-            const allProductCards = document.querySelectorAll('.product-card');
-            allProductCards.forEach(card => card.classList.remove('selected'));
-
-            // Agrega la clase 'selected' al elemento seleccionado
-            productCard.classList.add('selected');
-            event.stopPropagation();
-
-            /*
-            document.getElementById('editarBtn').addEventListener('click', () => {
-                const editarBtn = document.getElementById('editarBtn');
-                if (editarBtn.disabled) {
-                    editarBtn.classList.remove('enabled'); // Quita la clase 'enabled' para desactivar el nuevo estilo
-                }
-                console.log('ID del producto seleccionado al clicar:', idProductoSeleccionado);
-                localStorage.setItem('itemID', idProductoSeleccionado);
-                mostrarProd(idProductoSeleccionado);
-            });*/
+        // Agregar evento de doble clic para ir a la página de información del producto
+        productCard.addEventListener('dblclick', (event) => {
+            irAInfoProducto(event.currentTarget);
         });
 
         container.appendChild(productCard);
@@ -410,6 +375,7 @@ function mostrarProductosRecomendados(productos) {
 }
 
 //  FIN PRODUCTOS RECOMENDADOS
+
 
 // MOSTRAR TODOS LOS PRODUCTOS A LA HORA DE BUSCAR CUALQUIERO COSA
 async function CargaTodosProductos(){
@@ -431,38 +397,107 @@ function mostrarTodosProductos(respuesta) {
     const productos = respuesta.productos.Models;
     const container = document.querySelector('.resultado-busqueda');
 
+    // Limpia el contenedor antes de agregar nuevos productos
+    container.innerHTML = '';
+
     // Itera sobre los productos y crea elementos para mostrarlos
     productos.forEach((producto) => {
         const productCard = document.createElement('div');
         productCard.classList.add('product-card');
 
-        // Agrega la imagen, nombre y precio del producto dentro de un enlace
+        // Agrega la imagen, nombre y precio del producto dentro de la tarjeta
         productCard.innerHTML = `
-            <button class="favorite-btn"></button>
+            <button class="favorite-btn"></button> <!-- Botón de favoritos -->
             <img src="${producto.imagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
             <h3>${producto.nombreproducto}</h3>
             <p>${producto.precio} €</p>
             <p>${producto.descripcion}</p>
-            `;
+        `;
 
-       /* PRODUCTO CON ENLACE
-       
-       productCard.innerHTML = `
-        <button class="favorite-btn"></button> <!-- Botón de favoritos fuera del enlace -->
-            <a href="/Interfaces/InfoProducto.html?id=${producto.idproducto}">
-                <img src="${producto.imagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
-                <h3>${producto.nombreproducto}</h3>
-                <p>${producto.precio} €</p>
-                <p>${producto.descripcion}</p>
-            </a>
-        `;*/
+        // Agregar evento de clic para seleccionar el producto
+        productCard.addEventListener('click', (event) => {
+            seleccionarProducto(event.currentTarget);
+        });
+
+        // Agregar evento de doble clic para ir a la página de información del producto
+        productCard.addEventListener('dblclick', (event) => {
+            irAInfoProducto(event.currentTarget);
+        });
 
         container.appendChild(productCard);
     });
 }
 
+function seleccionarProducto(productoSeleccionado) {
+    // Desmarcar todos los productos seleccionados
+    const selectedProducts = document.querySelectorAll('.product-card.selected');
+    selectedProducts.forEach(product => product.classList.remove('selected'));
+
+    // Marcar el producto actualmente seleccionado
+    productoSeleccionado.classList.add('selected');
+}
+
+function irAInfoProducto(productoParaInfo) {
+    // Obtener el ID del producto de los atributos de la tarjeta de producto
+    const productId = productoParaInfo.getAttribute('data-product-id');
+
+    // Redirigir a la página de información del producto
+    window.location.href = `/Interfaces/InfoProducto.html?id=${productId}`;
+}
+
 // FIN MOSTRAR TODOS PRODUCTOS
 
+// inicio mostrar categorias
+
+async function CargaCategorias() {
+    try {
+        const response = await fetch('http://localhost:5169/CargarCategorias');
+        if (response.ok) {
+            const data = await response.json();
+            mostrarCategorias(data);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+function mostrarCategorias(data) {
+    const selectElement = document.getElementById('categorySelect');
+    const categoriasUnicas = [...new Set(data.map(item => item.categoria))];
+
+    // Limpiar opciones existentes, excepto la primera (Todas las categorías)
+    selectElement.options.length = 1;
+
+    // Agregar nuevas opciones de categorías
+    categoriasUnicas.forEach(categoria => {
+        const option = document.createElement('option');
+        option.value = categoria;
+        option.textContent = categoria;
+        selectElement.appendChild(option);
+    });
+}
+
+
+async function buscarPorCategoria() {
+    const categoriaSeleccionada = document.getElementById('categorySelect').value;
+    // Realizar una consulta con la categoría seleccionada
+    try {
+        const response = await fetch(`http://localhost:5169/BuscarPorCategoria?categoria=${categoriaSeleccionada}`);
+        if (response.ok) {
+            const data = await response.json();
+            // Lógica para mostrar los resultados de la consulta en el HTML
+            console.log(data); // Aquí puedes procesar los datos y mostrarlos en el HTML
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+// fin mostrar categorias
 
 // AQUI HICE EL MERGE MANUAL YA QUE ERA IMPOSIBLE HACERLO AUTOMÁTICO
 
@@ -546,23 +581,6 @@ async function cargarProductosPorPagina(numeroPagina) {
     }
 }
 
-/*async function CargarProductosVendedor() {
-    try {
-        // Realizar una solicitud GET al backend para obtener los 6 primeros productos
-        const response = await fetch('http://localhost:5169/ObtenerProductosVendedor');
-        if (response.ok) {
-            const data = await response.json();
-            const productos = data.productos.Models;
-            
-            mostrarProductosVendedor(productos); // Llama a una función para mostrar los productos en la página
-        } else {
-            console.error('Error en la solicitud al backend:', response.statusText);
-        }
-    } catch (error) {
-        console.error('Error inesperado:', error);
-    }
-} */
-
 function mostrarProductos(respuesta) {
     const productos = respuesta.productos.Models;
     const container = document.querySelector('.featured-products');
@@ -606,89 +624,6 @@ function generarEnlacesPaginacion(totalPaginas) {
         });
     }
 }
-
-/*function generarEnlacesPaginacion(totalPaginas) {
-    const paginasContainer = document.getElementById('paginas');
-    paginasContainer.innerHTML = ''; // Limpiar los enlaces de paginación antes de generarlos nuevamente
-
-    for (let i = 1; i <= totalPaginas; i++) {
-        const pagina = document.createElement('li');
-        const enlace = document.createElement('a');
-        enlace.href = `#pagina-${i}`;
-        enlace.textContent = i;
-        pagina.appendChild(enlace);
-        paginasContainer.appendChild(pagina);
-    }
-}*/
-/*
-async function mostrarProductosVendedor(respuesta, paginaActual, productosPorPagina) {
-    const container = document.querySelector('.seller-products');
-    container.innerHTML = '';
-    
-    // Calcular el índice de inicio y fin de los productos para la página actual
-    const inicio = (paginaActual - 1) * productosPorPagina;
-    const fin = paginaActual * productosPorPagina;
-
-    // Limpiar el contenedor antes de agregar los nuevos productos
-    container.innerHTML = '';
-
-    // Iterar sobre los productos y crear elementos para mostrarlos
-    productos.forEach(producto => {
-        const productCard = document.createElement('div');
-        productCard.classList.add('product-card');
-        // Agrega la imagen, nombre y precio del producto
-        productCard.innerHTML = `
-            <button class="favorite-btn"></button>
-            <img src="${producto.imagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
-            <h3>${producto.nombreproducto}</h3>
-            <p>${producto.precio} €</p>
-            <p>${producto.descripcion}</p>
-        `;
-
-        productCard.addEventListener('click', (event) => {
-            // Aquí puedes acceder al ID del producto seleccionado (producto.idproducto)
-            // Puedes hacer lo que quieras con el ID del producto seleccionado aquí
-            idProductoSeleccionado = producto.idproducto;
-            console.log('ID del producto seleccionado:', idProductoSeleccionado);
-            
-            const editarBtn = document.getElementById('editarBtn');
-            editarBtn.disabled = false;
-            editarBtn.classList.add('enabled');
-
-            const eliminarBtn = document.getElementById('eliminarBtn');
-            eliminarBtn.disabled = false;
-            eliminarBtn.classList.add('enabled');
-
-            const allProductCards = document.querySelectorAll('.product-card');
-            allProductCards.forEach(card => card.classList.remove('selected'));
-
-            // Agrega la clase 'selected' al elemento seleccionado
-            productCard.classList.add('selected');
-            event.stopPropagation();
-
-            document.getElementById('editarBtn').addEventListener('click', () => {
-                const editarBtn = document.getElementById('editarBtn');
-                if (editarBtn.disabled) {
-                    editarBtn.classList.remove('enabled'); // Quita la clase 'enabled' para desactivar el nuevo estilo
-                }
-                console.log('ID del producto seleccionado al clicar:', idProductoSeleccionado);
-                localStorage.setItem('itemID', idProductoSeleccionado);
-                mostrarProd(idProductoSeleccionado);
-            });
-
-            document.getElementById('eliminarBtn').addEventListener('click', () => {
-                const eliminarBtn = document.getElementById('eliminarBtn');
-                if (eliminarBtn.disabled) {
-                    eliminarBtn.classList.remove('enabled'); // Quita la clase 'enabled' para desactivar el nuevo estilo
-                }
-            });
-        });
-
-        
-        container.appendChild(productCard);
-    });
-}
-*/
 
 function mostrarProductosVendedor(productos) {
     //const productos = respuesta.productos.Models;

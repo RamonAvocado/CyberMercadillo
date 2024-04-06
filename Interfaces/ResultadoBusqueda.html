@@ -20,12 +20,8 @@
                 <input type="text" id = "searchInput" placeholder="Ingrese su búsqueda ...">
                 <select id="categorySelect">
                     <option value="all">Todas las categorías</option>
-                    <option value="electronics">Electrónica</option>
-                    <option value="clothing">Ropa</option>
-                    <option value="clothing">Hogar</option>
-                    <option value="clothing">CategoriaPrueba</option>
-                    <!-- Agrega más opciones de categorías según tus necesidades -->
                 </select>
+                <button onclick="buscarPorCategoria()">Buscar por categoría</button>
                 <button onclick = "buscar()">Buscar</button>
             </div>
         </div>
@@ -57,8 +53,6 @@
         <div>
             <button class="cart-btn">Añadir al Carrito de Compra</button>
         </div>
-
-        <!-- Productos destacados (similar a la imagen) -->
         <div class="resultado-busqueda">
         
         </div>
@@ -84,6 +78,9 @@
     <script src="Metodos.js"></script>
     <script>
         window.addEventListener('load', CargaTodosProductos);
+    </script>
+    <script>
+        window.addEventListener('load', CargaCategorias);
     </script>
 </body>
 </html>

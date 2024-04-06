@@ -184,6 +184,25 @@ app.MapGet("/ObtenerTodosProductos", async (HttpContext context, Supabase.Client
 });
 
 
+app.MapGet("/CargarCategorias", async (HttpContext context, Supabase.Client client) =>
+{
+    try
+    {      
+        var CategoriasProductos = await client.From<Producto>().Select("categoria").Get();
+
+        var jsonResponse = new { CategoriasProductos };
+
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+    }
+    catch (Exception ex)
+    {
+        context.Response.StatusCode = 500;
+        context.Response.ContentType = "text/plain";
+        await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+    }
+});
+
 app.MapGet("/ObtenerProductosVendedor", async (HttpContext context, Supabase.Client client) =>
 {
     try

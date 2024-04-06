@@ -179,6 +179,7 @@ header h1 {
 
 .product-card h3 {
     font-size: 16px;
+    color: #000000;
     margin: 10px 0;
 }
 
@@ -192,14 +193,11 @@ header h1 {
     text-decoration: none; /* Eliminar subrayado */
     color: #333; /* Cambiar el color del texto */
 }
-/*
-.boton-volver {
-    display: flex; /* Permite que los botones se coloquen uno al lado del otro 
-    margin-right: 10px;
-    margin-left: 10px;
-    gap: 10px;
+
+.product-card.selected {
+    border: 2px solid blue; /* Cambia el borde a azul para indicar selección */
+    box-shadow: 0 0 5px blue; /* Añade una sombra azul para resaltar */
 }
-*/
 
 /* Estilo del botón de favoritos */
 .product-card .favorite-btn {
