@@ -89,6 +89,11 @@
                 border: none;
                 cursor: pointer; /* Color del texto del botón cuando está habilitado */
             }
+
+            .pagina-item {
+                display: inline-block;
+                margin-right: 20px; /* Espacio entre los números de página */
+            }
         </style>
     </header>
     <div class = "grupo-nav-list">
@@ -116,10 +121,14 @@
     <div class="featured-products-container">
         <div class="seller-products">
         </div>
+        <!--
         <div class = "num-pagina">
             <li><a href="#">1</a></li>
             <li><a href="#">2</a></li>
             <li><a href="#">3</a></li>
+        </div>-->
+        <div class="num-pagina">
+            <ul id="paginas"></ul>
         </div>
     </div>
     <div class="botones-vendedor">

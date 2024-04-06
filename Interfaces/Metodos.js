@@ -309,16 +309,28 @@ function mostrarTodosProductos(respuesta) {
 
 
 
-
-
-
-async function CargarProductosVendedor() {
+async function cargarYMostrarProductosPorPaginas() {
     try {
-        // Realizar una solicitud GET al backend para obtener los 6 primeros productos
+        // Llamar a la función para cargar todos los productos del vendedor
         const response = await fetch('http://localhost:5169/ObtenerProductosVendedor');
+        
         if (response.ok) {
             const data = await response.json();
-            mostrarProductosVendedor(data); // Llama a una función para mostrar los productos en la página
+            const productos = data.productos.Models;
+
+            // Dividir los productos en páginas de 6 productos cada una
+            const productosPorPagina = 6;
+            const totalPaginas = Math.ceil(productos.length / productosPorPagina);
+
+            for (let pagina = 1; pagina <= totalPaginas; pagina++) {
+                const inicio = (pagina - 1) * productosPorPagina;
+                const fin = pagina * productosPorPagina;
+                const productosPagina = productos.slice(inicio, fin);
+
+                // Mostrar los productos de esta página en la interfaz de usuario
+                mostrarProductosEnPagina(productosPagina);
+            }
+            generarEnlacesPaginacion(totalPaginas);
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
         }
@@ -326,6 +338,71 @@ async function CargarProductosVendedor() {
         console.error('Error inesperado:', error);
     }
 }
+
+
+async function CargarProductosVendedor() {
+    try {
+        // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
+        const response = await fetch('http://localhost:5169/ObtenerProductosVendedor');
+        
+        if (response.ok) {
+            const data = await response.json();
+            const productos = data.productos.Models;
+            
+            const productosPorPagina = 6;
+            const totalPaginas = Math.ceil(productos.length / productosPorPagina);
+
+            // Mostrar los productos de la primera página en la interfaz de usuario
+            mostrarProductosVendedor(productos.slice(0, productosPorPagina));
+
+            // Generar enlaces de paginación
+            generarEnlacesPaginacion(totalPaginas);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+async function cargarProductosPorPagina(numeroPagina) {
+    const productosPorPagina = 6;
+
+    try {
+        const response = await fetch('http://localhost:5169/ObtenerProductosVendedor');
+        if (response.ok) {
+            const data = await response.json();
+            const productos = data.productos.Models;
+
+            const inicio = (numeroPagina - 1) * productosPorPagina;
+            const fin = numeroPagina * productosPorPagina;
+            const productosPagina = productos.slice(inicio, fin);
+
+            mostrarProductosVendedor(productosPagina);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+/*async function CargarProductosVendedor() {
+    try {
+        // Realizar una solicitud GET al backend para obtener los 6 primeros productos
+        const response = await fetch('http://localhost:5169/ObtenerProductosVendedor');
+        if (response.ok) {
+            const data = await response.json();
+            const productos = data.productos.Models;
+            
+            mostrarProductosVendedor(productos); // Llama a una función para mostrar los productos en la página
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+} */
 
 function mostrarProductos(respuesta) {
     const productos = respuesta.productos.Models;
@@ -349,12 +426,118 @@ function mostrarProductos(respuesta) {
     });
 }
 
-function mostrarProductosVendedor(respuesta) {
-    const productos = respuesta.productos.Models;
+
+function generarEnlacesPaginacion(totalPaginas) {
+    const paginasContainer = document.getElementById('paginas');
+    paginasContainer.innerHTML = ''; // Limpiar los enlaces de paginación antes de generarlos nuevamente
+
+    for (let i = 1; i <= totalPaginas; i++) {
+        const pagina = document.createElement('li');
+        pagina.classList.add('pagina-item');
+        const enlace = document.createElement('a');
+        enlace.href = `#pagina-${i}`;
+        enlace.textContent = i;
+        pagina.appendChild(enlace);
+        paginasContainer.appendChild(pagina);
+
+        // Agregar event listener para cargar los productos de la página seleccionada
+        enlace.addEventListener('click', async function(event) {
+            event.preventDefault();
+            await cargarProductosPorPagina(i);
+        });
+    }
+}
+
+/*function generarEnlacesPaginacion(totalPaginas) {
+    const paginasContainer = document.getElementById('paginas');
+    paginasContainer.innerHTML = ''; // Limpiar los enlaces de paginación antes de generarlos nuevamente
+
+    for (let i = 1; i <= totalPaginas; i++) {
+        const pagina = document.createElement('li');
+        const enlace = document.createElement('a');
+        enlace.href = `#pagina-${i}`;
+        enlace.textContent = i;
+        pagina.appendChild(enlace);
+        paginasContainer.appendChild(pagina);
+    }
+}*/
+/*
+async function mostrarProductosVendedor(respuesta, paginaActual, productosPorPagina) {
     const container = document.querySelector('.seller-products');
+    container.innerHTML = '';
     
+    // Calcular el índice de inicio y fin de los productos para la página actual
+    const inicio = (paginaActual - 1) * productosPorPagina;
+    const fin = paginaActual * productosPorPagina;
+
+    // Limpiar el contenedor antes de agregar los nuevos productos
+    container.innerHTML = '';
+
+    // Iterar sobre los productos y crear elementos para mostrarlos
+    productos.forEach(producto => {
+        const productCard = document.createElement('div');
+        productCard.classList.add('product-card');
+        // Agrega la imagen, nombre y precio del producto
+        productCard.innerHTML = `
+            <button class="favorite-btn"></button>
+            <img src="${producto.imagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
+            <h3>${producto.nombreproducto}</h3>
+            <p>${producto.precio} €</p>
+            <p>${producto.descripcion}</p>
+        `;
+
+        productCard.addEventListener('click', (event) => {
+            // Aquí puedes acceder al ID del producto seleccionado (producto.idproducto)
+            // Puedes hacer lo que quieras con el ID del producto seleccionado aquí
+            idProductoSeleccionado = producto.idproducto;
+            console.log('ID del producto seleccionado:', idProductoSeleccionado);
+            
+            const editarBtn = document.getElementById('editarBtn');
+            editarBtn.disabled = false;
+            editarBtn.classList.add('enabled');
+
+            const eliminarBtn = document.getElementById('eliminarBtn');
+            eliminarBtn.disabled = false;
+            eliminarBtn.classList.add('enabled');
+
+            const allProductCards = document.querySelectorAll('.product-card');
+            allProductCards.forEach(card => card.classList.remove('selected'));
+
+            // Agrega la clase 'selected' al elemento seleccionado
+            productCard.classList.add('selected');
+            event.stopPropagation();
+
+            document.getElementById('editarBtn').addEventListener('click', () => {
+                const editarBtn = document.getElementById('editarBtn');
+                if (editarBtn.disabled) {
+                    editarBtn.classList.remove('enabled'); // Quita la clase 'enabled' para desactivar el nuevo estilo
+                }
+                console.log('ID del producto seleccionado al clicar:', idProductoSeleccionado);
+                localStorage.setItem('itemID', idProductoSeleccionado);
+                mostrarProd(idProductoSeleccionado);
+            });
+
+            document.getElementById('eliminarBtn').addEventListener('click', () => {
+                const eliminarBtn = document.getElementById('eliminarBtn');
+                if (eliminarBtn.disabled) {
+                    eliminarBtn.classList.remove('enabled'); // Quita la clase 'enabled' para desactivar el nuevo estilo
+                }
+            });
+        });
+
+        
+        container.appendChild(productCard);
+    });
+}
+*/
+
+function mostrarProductosVendedor(productos) {
+    //const productos = respuesta.productos.Models;
+    const container = document.querySelector('.seller-products');
+    container.innerHTML = '';
     // Itera sobre los productos y crea elementos para mostrarlos
     productos.forEach((producto) => {
+        console.log(producto);
         const productCard = document.createElement('div');
         productCard.classList.add('product-card');
 
