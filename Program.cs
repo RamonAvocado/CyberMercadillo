@@ -329,6 +329,34 @@ app.MapPost("/buscarProductoX", async (HttpContext context, Supabase.Client clie
         }
     }
 });
+
+app.MapPost("/eliminarProductoX", async (HttpContext context, Supabase.Client client) =>
+{
+    using (var reader = new StreamReader(context.Request.Body))
+    {
+        try{
+            var requestBody = await reader.ReadToEndAsync();
+            var productoData = JsonConvert.DeserializeObject<Producto>(requestBody);
+
+            //string nombreBuscado = "Smartphone X";
+            await client.From<Producto>()
+                                    .Where(p => p.idproducto == productoData.idproducto)
+                                    .Delete();
+
+
+            // Devolver los productos al frontend
+           /* var jsonResponse = new { result };
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));*/
+        }
+        catch (Exception ex)
+        {
+            context.Response.StatusCode = 500;
+            context.Response.ContentType = "text/plain";
+            await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+        }
+    }
+});
 //Metodo para agreagar producto desde el frontend
 app.MapPost("/AgregarProducto", async (HttpContext context,Supabase.Client client) =>
 {

@@ -67,8 +67,20 @@
                 background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
                 color: white; /* Color del texto del botón cuando está deshabilitado */
             }
-
+            #eliminarBtn {
+                background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
+                color: white; /* Color del texto del botón cuando está deshabilitado */
+            }
             #editarBtn:enabled {
+                background-color: #f39c12;
+                color: rgb(0, 0, 0);
+                padding: 10px 56px;
+                border-radius: 20px;
+                font-size: 24px;
+                border: none;
+                cursor: pointer; /* Color del texto del botón cuando está habilitado */
+            }
+            #eliminarBtn:enabled {
                 background-color: #f39c12;
                 color: rgb(0, 0, 0);
                 padding: 10px 56px;
@@ -118,7 +130,7 @@
         <div class="derecha">
             <button onclick = "irAEditarProducto()" class="search-history-btn" id="editarBtn" disabled>Editar Producto</button>
 
-            <button onclick = "irHistorialDeBúsqueda()" class="search-history-btn">Eliminar Producto</button>
+            <button onclick = "eliminarProd()" class="search-history-btn" id="eliminarBtn" disabled>Eliminar Producto</button>
             
         </div>
     </div>     

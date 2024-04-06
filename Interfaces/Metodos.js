@@ -377,6 +377,10 @@ function mostrarProductosVendedor(respuesta) {
             editarBtn.disabled = false;
             editarBtn.classList.add('enabled');
 
+            const eliminarBtn = document.getElementById('eliminarBtn');
+            eliminarBtn.disabled = false;
+            eliminarBtn.classList.add('enabled');
+
             const allProductCards = document.querySelectorAll('.product-card');
             allProductCards.forEach(card => card.classList.remove('selected'));
 
@@ -392,6 +396,13 @@ function mostrarProductosVendedor(respuesta) {
                 console.log('ID del producto seleccionado al clicar:', idProductoSeleccionado);
                 localStorage.setItem('itemID', idProductoSeleccionado);
                 mostrarProd(idProductoSeleccionado);
+            });
+
+            document.getElementById('eliminarBtn').addEventListener('click', () => {
+                const eliminarBtn = document.getElementById('eliminarBtn');
+                if (eliminarBtn.disabled) {
+                    eliminarBtn.classList.remove('enabled'); // Quita la clase 'enabled' para desactivar el nuevo estilo
+                }
             });
         });
 
@@ -673,6 +684,28 @@ async function mostrarProd(idProductoSeleccionado) {
             const nombreProducto = 'Producto de ejemplo233';
             nombreInput.value = nombreProducto;
         }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+async function eliminarProd() {
+    try {
+        console.log('ID del producto seleccionado:', idProductoSeleccionado);
+        //const response = await fetch('http://localhost:5169/buscarProductoX');
+
+        //const response = await fetch(`http://localhost:5169/buscarProductoX?idProductoSeleccionado=${idProductoSeleccionado}`);
+        const response = await fetch('http://localhost:5169/eliminarProductoX',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                idproducto: idProductoSeleccionado
+            }),
+        });
+        location.reload();
+
     } catch (error) {
         console.error('Error inesperado:', error);
     }
