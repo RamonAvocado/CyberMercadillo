@@ -16,19 +16,11 @@
                 <span>Cyber </span><br>
                 <span>Mercadillo</span>
             </h1>
-            <div class="search-bar">
-                <input type="text" id = "searchInput" placeholder="Ingrese su búsqueda ...">
-                <select id="categorySelect">
-                    <option value="all">Todas las categorías</option>
-                    <option value="electronics">Electrónica</option>
-                    <option value="clothing">Ropa</option>
-                    <option value="clothing">Hogar</option>
-                    <option value="clothing">CategoriaPrueba</option>
-                    <!-- Agrega más opciones de categorías según tus necesidades -->
-                </select>
-                <button onclick = "buscar()">Buscar</button>
+            <div class="barra-busqueda">
+                <button id="searchButton" onclick="IrABuquedaProducto()">Buscar Producto ...</button>
             </div>
         </div>
+        <div id = "resultados"></div>
     </header>
     <div class = "grupo-nav-list">
         <nav>
@@ -38,8 +30,8 @@
                         <a href="#" onclick="volverPaginaAnterior()">Volver atrás</a>
                     </div>
                 </li>
-                <li><a href="#">Principal</a></li>
-                <li><a href="#">Lista Deseados</a></li>
+                <li><a href="/Interfaces/NewPaginaPrincipal.html">Principal</a></li>
+                <li><a href="/Interfaces/ListaDeseados.html">Lista Deseados</a></li>
                 <li><a href="#">Productos</a></li>
                 <li>
                     <div class="user-icons">

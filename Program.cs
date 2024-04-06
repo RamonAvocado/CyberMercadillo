@@ -109,6 +109,79 @@ app.MapGet("/ObtenerProductosDestacados", async (HttpContext context, Supabase.C
     }
 });
 
+// Obtinene los 6 primeros productos, ya que no hay productos Recomendados
+app.MapGet("/ObtenerProductosRecomendados", async (HttpContext context, Supabase.Client client) =>
+{
+    try
+    {
+        // Obtener los 6 primeros productos desde la base de datos
+        var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagen").Limit(6).Get();
+
+        // Devolver los productos al frontend
+        var jsonResponse = new { productos };
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+    }
+    catch (Exception ex)
+    {
+        context.Response.StatusCode = 500;
+        context.Response.ContentType = "text/plain";
+        await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+    }
+});
+
+//obtener los productos por página
+app.MapGet("/ObtenerProductosPorPagina", async (HttpContext context, Supabase.Client client) =>
+{
+    try
+    {
+        // Obtener el número de página desde los parámetros de la solicitud
+        var numeroPagina = Convert.ToInt32(context.Request.Query["pagina"]);
+
+        // Calcular el índice de inicio y fin de los productos basado en el número de página
+        var cantidadPorPagina = 6; // Cantidad de productos por página
+        var indiceInicio = (numeroPagina - 1) * cantidadPorPagina;
+        var indiceFin = indiceInicio + cantidadPorPagina;
+
+        // Obtener los productos de la base de datos dentro del rango calculado
+        var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagen").Range(indiceInicio, indiceFin).Get();
+
+        // Devolver los productos al frontend
+        var jsonResponse = new { productos };
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+    }
+    catch (Exception ex)
+    {
+        context.Response.StatusCode = 500;
+        context.Response.ContentType = "text/plain";
+        await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+    }
+});
+
+
+//obtener Todos los productos de la BD, solo voy a mostrar 20, sobra...
+app.MapGet("/ObtenerTodosProductos", async (HttpContext context, Supabase.Client client) =>
+{
+    try
+    {
+        // Obtener los 6 primeros productos desde la base de datos
+        var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagen").Limit(20).Get();
+
+        // Devolver los productos al frontend
+        var jsonResponse = new { productos };
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+    }
+    catch (Exception ex)
+    {
+        context.Response.StatusCode = 500;
+        context.Response.ContentType = "text/plain";
+        await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+    }
+});
+
+
 app.MapGet("/ObtenerProductosVendedor", async (HttpContext context, Supabase.Client client) =>
 {
     try
@@ -133,34 +206,6 @@ app.MapGet("/ObtenerProductosVendedor", async (HttpContext context, Supabase.Cli
         await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
     }
 });
-
-/*Busca un producto desde el forntend
-app.MapPost("/BuscarProducto", async (HttpContext context,Supabase.Client client) =>
-{
-    // Leer el cuerpo de la solicitud para obtener la información de búsqueda
-    using (var reader = new StreamReader(context.Request.Body))
-    {
-        try{
-            var requestBody = await reader.ReadToEndAsync();
-            var searchData = JsonConvert.DeserializeObject<SearchData>(requestBody);
-
-            // Utilizar searchData.searchTerm en la lógica de búsqueda
-            var nombreBuscado = searchData!.searchTerm ?? "Producto de Serie Busqueda";
-            var result = await client.From<Producto>().Filter("nombreproducto", Postgrest.Constants.Operator.Equals, nombreBuscado).Single();
-
-            // Devolver la respuesta al frontend
-            var jsonResponse = new { resultado = result?.idproducto.ToString() ?? "No existe ese producto" };
-            context.Response.ContentType = "application/json";
-            await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-        } catch (Exception ex)
-        {
-            context.Response.StatusCode = 500;
-            context.Response.ContentType = "text/plain";  // Establecer el tipo de contenido si no es JSON
-            await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
-        }
-        
-    }
-});*/
 
 
 //Busca un producto desde el forntend
