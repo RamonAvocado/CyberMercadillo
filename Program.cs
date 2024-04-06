@@ -94,7 +94,7 @@ app.MapGet("/ObtenerProductosDestacados", async (HttpContext context, Supabase.C
     try
     {
         // Obtener los 6 primeros productos desde la base de datos
-        var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagen").Limit(6).Get();
+        var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagen").Limit(12).Get();
 
         // Devolver los productos al frontend
         var jsonResponse = new { productos };
@@ -115,7 +115,7 @@ app.MapGet("/ObtenerProductosRecomendados", async (HttpContext context, Supabase
     try
     {
         // Obtener los 6 primeros productos desde la base de datos
-        var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagen").Limit(6).Get();
+        var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagen").Limit(12).Get();
 
         // Devolver los productos al frontend
         var jsonResponse = new { productos };
@@ -130,6 +130,7 @@ app.MapGet("/ObtenerProductosRecomendados", async (HttpContext context, Supabase
     }
 });
 
+/*
 //obtener los productos por página
 app.MapGet("/ObtenerProductosPorPagina", async (HttpContext context, Supabase.Client client) =>
 {
@@ -159,6 +160,7 @@ app.MapGet("/ObtenerProductosPorPagina", async (HttpContext context, Supabase.Cl
     }
 });
 
+*/
 
 //obtener Todos los productos de la BD, solo voy a mostrar 20, sobra...
 app.MapGet("/ObtenerTodosProductos", async (HttpContext context, Supabase.Client client) =>
@@ -166,7 +168,7 @@ app.MapGet("/ObtenerTodosProductos", async (HttpContext context, Supabase.Client
     try
     {
         // Obtener los 6 primeros productos desde la base de datos
-        var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagen").Limit(20).Get();
+        var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagen").Limit(12).Get();
 
         // Devolver los productos al frontend
         var jsonResponse = new { productos };

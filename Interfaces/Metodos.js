@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // FIN BOTON FAVORITO
 
 
-
+/*
 // botones para cambio de página para cargar más productos
 // CARGA LOS PRODUCTOS DIRECTAMENTE
 document.addEventListener('DOMContentLoaded', function() {
@@ -162,20 +162,28 @@ async function cargarProductosPorPagina(numeroPagina, tipoProductos) {
 }
 
 //fin botones cambio página
-
+*/
 
 //  INICIO PRODUCTOS DESTACADOS
 
 //carga los 6 primeros productos de la base de datos, deberían de ser los productos Recomendados por búsquedas
 //pero todavía no tenemos Recomendaciones
-let productosCargadosDes = [];
 async function CargarProductosDestacados() {
     try {
         // Realizar una solicitud GET al backend para obtener los 6 primeros productos
         const response = await fetch('http://localhost:5169/ObtenerProductosDestacados');
         if (response.ok) {
             const data = await response.json();
-            mostrarProductosDestacados(data);// Llama a una función para mostrar los productos en la página
+            const productos = data.productos.Models;
+            
+            const productosPorPagina = 6;
+            const totalPaginas = Math.ceil(productos.length / productosPorPagina);
+
+            // Mostrar los productos de la primera página en la interfaz de usuario
+            mostrarProductosDestacados(productos.slice(0, productosPorPagina));
+
+            // Generar enlaces de paginación
+            generarEnlacesPaginacionDest(totalPaginas);
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
         }
@@ -184,12 +192,55 @@ async function CargarProductosDestacados() {
     }
 }
 
-function mostrarProductosDestacados(respuesta) {
-    const nuevosProductos = respuesta.productos.Models.filter(producto => !productosCargadosDes.includes(producto.idproducto));
+function generarEnlacesPaginacionDest(totalPaginas) {
+    const paginasContainer = document.getElementById('paginasDest');
+    paginasContainer.innerHTML = ''; // Limpiar los enlaces de paginación antes de generarlos nuevamente
+
+    for (let i = 1; i <= totalPaginas; i++) {
+        const pagina = document.createElement('li');
+        pagina.classList.add('pagina-item');
+        const enlace = document.createElement('a');
+        enlace.href = `#pagina-${i}`;
+        enlace.textContent = i;
+        pagina.appendChild(enlace);
+        paginasContainer.appendChild(pagina);
+
+        // Agregar event listener para cargar los productos de la página seleccionada
+        enlace.addEventListener('click', async function(event) {
+            event.preventDefault();
+            await cargarProductosPorPaginaDest(i);
+        });
+    }
+}
+
+async function cargarProductosPorPaginaDest(numeroPagina) {
+    const productosPorPagina = 6;
+
+    try {
+        const response = await fetch('http://localhost:5169/ObtenerProductosDestacados');
+        if (response.ok) {
+            const data = await response.json();
+            const productos = data.productos.Models;
+
+            const inicio = (numeroPagina - 1) * productosPorPagina;
+            const fin = numeroPagina * productosPorPagina;
+            const productosPagina = productos.slice(inicio, fin);
+
+            mostrarProductosDestacados(productosPagina);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+function mostrarProductosDestacados(productos) {
     const container = document.querySelector('.featured-products');
+    container.innerHTML = '';
 
     // Itera sobre los productos y crea elementos para mostrarlos
-    nuevosProductos.forEach((producto) => {
+    productos.forEach((producto) => {
         const productCard = document.createElement('div');
         productCard.classList.add('product-card');
 
@@ -201,32 +252,60 @@ function mostrarProductosDestacados(respuesta) {
                 <h3>${producto.nombreproducto}</h3>
                 <p>${producto.precio} €</p>
                 <p>${producto.descripcion}</p>
-            </a>
-        `;
+            </a>`
 
+            productCard.addEventListener('click', (event) => {
+                // Aquí puedes acceder al ID del producto seleccionado (producto.idproducto)
+                // Puedes hacer lo que quieras con el ID del producto seleccionado aquí
+                idProductoSeleccionado = producto.idproducto;
+                console.log('ID del producto seleccionado:', idProductoSeleccionado);
+
+    
+                const allProductCards = document.querySelectorAll('.product-card');
+                allProductCards.forEach(card => card.classList.remove('selected'));
+    
+                // Agrega la clase 'selected' al elemento seleccionado
+                productCard.classList.add('selected');
+                event.stopPropagation();
+    
+                /*
+                document.getElementById('editarBtn').addEventListener('click', () => {
+                    const editarBtn = document.getElementById('editarBtn');
+                    if (editarBtn.disabled) {
+                        editarBtn.classList.remove('enabled'); // Quita la clase 'enabled' para desactivar el nuevo estilo
+                    }
+                    console.log('ID del producto seleccionado al clicar:', idProductoSeleccionado);
+                    localStorage.setItem('itemID', idProductoSeleccionado);
+                    mostrarProd(idProductoSeleccionado);
+                });*/
+            });
         container.appendChild(productCard);
-        productosCargadosDes.push(producto.idproducto);
     });
 }
 
 //  FIN PRODUCTOS DESTACADOS
 
 
-//prueba
-
-
 //  INICIO PRODUCTOS RECOMENDADOS
 
-//carga los 6 primeros productos de la base de datos, deberían de ser los productos Recomendados por búsquedas
+//carga los productos de la base de datos, deberían de ser los productos Recomendados por búsquedas
 //pero todavía no tenemos Recomendaciones
-let productosCargadosRec= [];
 async function CargarProductosRecomendados(){
     try {
         // Realizar una solicitud GET al backend para obtener los 6 primeros productos
         const response = await fetch('http://localhost:5169/ObtenerProductosRecomendados');
         if (response.ok) {
             const data = await response.json();
-            mostrarProductosRecomendados(data);// Llama a una función para mostrar los productos en la página
+            const productos = data.productos.Models;
+
+            const productosPorPagina = 6;
+            const totalPaginas = Math.ceil(productos.length / productosPorPagina);
+
+            // Mostrar los productos de la primera página en la interfaz de usuario
+            mostrarProductosDestacados(productos.slice(0, productosPorPagina));
+
+            // Generar enlaces de paginación
+            generarEnlacesPaginacionRec(totalPaginas);
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
         }
@@ -235,17 +314,62 @@ async function CargarProductosRecomendados(){
     }
 }
 
-function mostrarProductosRecomendados(respuesta) {
-    const nuevosProductos = respuesta.productos.Models.filter(producto => !productosCargadosRec.includes(producto.idproducto));
+
+function generarEnlacesPaginacionRec(totalPaginas) {
+    const paginasContainer = document.getElementById('paginasRec');
+    paginasContainer.innerHTML = ''; // Limpiar los enlaces de paginación antes de generarlos nuevamente
+
+    for (let i = 1; i <= totalPaginas; i++) {
+        const pagina = document.createElement('li');
+        pagina.classList.add('pagina-item');
+        const enlace = document.createElement('a');
+        enlace.href = `#pagina-${i}`;
+        enlace.textContent = i;
+        pagina.appendChild(enlace);
+        paginasContainer.appendChild(pagina);
+
+        // Agregar event listener para cargar los productos de la página seleccionada
+        enlace.addEventListener('click', async function(event) {
+            event.preventDefault();
+            await cargarProductosPorPaginaRec(i);
+        });
+    }
+}
+
+async function cargarProductosPorPaginaRec(numeroPagina) {
+    const productosPorPagina = 6;
+
+    try {
+        const response = await fetch('http://localhost:5169/ObtenerProductosRecomendados');
+        if (response.ok) {
+            const data = await response.json();
+            const productos = data.productos.Models;
+
+            const inicio = (numeroPagina - 1) * productosPorPagina;
+            const fin = numeroPagina * productosPorPagina;
+            const productosPagina = productos.slice(inicio, fin);
+
+            mostrarProductosRecomendados(productosPagina);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+
+function mostrarProductosRecomendados(productos) {
     const container = document.querySelector('.recommended-products');
+    container.innerHTML = '';
 
     // Itera sobre los productos y crea elementos para mostrarlos
-    nuevosProductos.forEach((producto) => {
+    productos.forEach((producto) => {
         const productCard = document.createElement('div');
         productCard.classList.add('product-card');
 
-        // Agrega la imagen, nombre y precio del producto dentro de un enlace
-        productCard.innerHTML = `
+        // Agrega la imagen, nombre y precio del producto dentro de un enlace       
+       productCard.innerHTML = `
         <button class="favorite-btn"></button> <!-- Botón de favoritos fuera del enlace -->
             <a href="/Interfaces/InfoProducto.html?id=${producto.idproducto}">
                 <img src="${producto.imagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
@@ -255,8 +379,33 @@ function mostrarProductosRecomendados(respuesta) {
             </a>
         `;
 
+        productCard.addEventListener('click', (event) => {
+            // Aquí puedes acceder al ID del producto seleccionado (producto.idproducto)
+            // Puedes hacer lo que quieras con el ID del producto seleccionado aquí
+            idProductoSeleccionado = producto.idproducto;
+            console.log('ID del producto seleccionado:', idProductoSeleccionado);
+
+
+            const allProductCards = document.querySelectorAll('.product-card');
+            allProductCards.forEach(card => card.classList.remove('selected'));
+
+            // Agrega la clase 'selected' al elemento seleccionado
+            productCard.classList.add('selected');
+            event.stopPropagation();
+
+            /*
+            document.getElementById('editarBtn').addEventListener('click', () => {
+                const editarBtn = document.getElementById('editarBtn');
+                if (editarBtn.disabled) {
+                    editarBtn.classList.remove('enabled'); // Quita la clase 'enabled' para desactivar el nuevo estilo
+                }
+                console.log('ID del producto seleccionado al clicar:', idProductoSeleccionado);
+                localStorage.setItem('itemID', idProductoSeleccionado);
+                mostrarProd(idProductoSeleccionado);
+            });*/
+        });
+
         container.appendChild(productCard);
-        productosCargadosRec.push(producto.idproducto);
     });
 }
 
@@ -289,6 +438,16 @@ function mostrarTodosProductos(respuesta) {
 
         // Agrega la imagen, nombre y precio del producto dentro de un enlace
         productCard.innerHTML = `
+            <button class="favorite-btn"></button>
+            <img src="${producto.imagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
+            <h3>${producto.nombreproducto}</h3>
+            <p>${producto.precio} €</p>
+            <p>${producto.descripcion}</p>
+            `;
+
+       /* PRODUCTO CON ENLACE
+       
+       productCard.innerHTML = `
         <button class="favorite-btn"></button> <!-- Botón de favoritos fuera del enlace -->
             <a href="/Interfaces/InfoProducto.html?id=${producto.idproducto}">
                 <img src="${producto.imagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
@@ -296,7 +455,7 @@ function mostrarTodosProductos(respuesta) {
                 <p>${producto.precio} €</p>
                 <p>${producto.descripcion}</p>
             </a>
-        `;
+        `;*/
 
         container.appendChild(productCard);
     });

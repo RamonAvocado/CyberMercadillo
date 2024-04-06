@@ -154,6 +154,11 @@ header h1 {
     text-align: center; /* Centrar los productos */
 }
 
+.pagina-item {
+    display: inline-block;
+    margin-right: 20px; /* Espacio entre los números de página */
+}
+
 /*Productos*/
 .product-card {
     background-color: #ffffff;
@@ -168,8 +173,8 @@ header h1 {
 }
 
 .product-card img {
-    max-width: 100%;
-    height: auto;
+    width: 100%; /* La imagen se ajusta automáticamente al ancho del contenedor */
+    height: auto; /* Altura ajustada automáticamente según la proporción de la imagen */
 }
 
 .product-card h3 {
@@ -187,8 +192,14 @@ header h1 {
     text-decoration: none; /* Eliminar subrayado */
     color: #333; /* Cambiar el color del texto */
 }
-
-
+/*
+.boton-volver {
+    display: flex; /* Permite que los botones se coloquen uno al lado del otro 
+    margin-right: 10px;
+    margin-left: 10px;
+    gap: 10px;
+}
+*/
 
 /* Estilo del botón de favoritos */
 .product-card .favorite-btn {
@@ -242,7 +253,7 @@ footer a {
     margin: 0 10px;
 }
 
-.num-pagina {
+.num-paginaDest {
     background-color: #d9d9d9;
     padding: 1px;
     text-align: center;
@@ -262,6 +273,14 @@ footer a {
     align-items: center; /* Centra verticalmente el contenido */
 }
 
+.boton-Volver {
+    margin: 20px; /* Ajusta el valor según sea necesario */
+    margin-left: 50px; /* Agrega una sangría de 50px a la izquierda */
+    display: flex; /* Para que el elemento ocupe el ancho disponible */
+    justify-content: flex-start; /* Alinea el contenido al principio del contenedor */
+    align-items: center; /* Centra verticalmente el contenido */
+}
+
 .botones-vendedor{
     margin: 20px; /* Ajusta el valor según sea necesario */
     margin-right: 50px; /* Agrega una sangría de 50px a la derecha */
@@ -276,7 +295,8 @@ footer a {
     margin: 20px; /* Ajusta el valor según sea necesario */
 }
 .cart-btn,
-.search-history-btn {
+.search-history-btn,
+.volver-btn {
     background-color: #f39c12;
     color: rgb(0, 0, 0);
     padding: 10px 56px;
