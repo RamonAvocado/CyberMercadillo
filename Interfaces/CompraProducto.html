@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styleCompra.css">
+    <title>Checkout</title>
+</head>
+<body>
+    <header class="header">
+        <div calss ="nombre-producto">
+            <h1>COMPRAR AHORA : XXXXXXXXXXXX</h1>
+        </div>
+    </header>
+    <div class="product-container-compra">
+        <img src="ropa.jpg">
+        <p>Llegada el: 15 de marzo</p>
+        <div class="shipping-info">
+            <h2>Enviar a:</h2>
+            <p>Campus de la vera XXXXXXXXXXXXXXXX</p>
+        </div>
+        <div class="payment-info">
+            <h2>Pago:</h2>
+            <input type="text" placeholder="Número de tarjeta">
+            <input type="text" placeholder="Fecha de caducidad">
+            <input type="text" placeholder="CVV">
+        </div>
+        <p class="total-cost">Total 20 euros</p>
+        <div class="buttons">
+            <button onclick = "volverPaginaAnterior()" class="volver-btn">Volver</button>
+            <button class="checkout-button">Finalizar Pedido</button>
+        </div>
+    </div>
+    <script src="Metodos.js"></script>
+    <script>
+        window.addEventListener('load', CargaUnProductoCompra);
+    </script>
+</body>
+</html>

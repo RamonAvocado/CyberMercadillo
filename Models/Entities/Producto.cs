@@ -27,8 +27,8 @@ namespace CyberMercadillo.Entities
         [Column("descripcion")]
         public string? descripcion { get; set; }
 
-        [Column("imagen")]
-        public string? imagen { get; set; }
+        [Column("imagenes")]
+        public string? imagenes { get; set; }
         
         [Column("cantidad")]
         public int? cantidad { get; set; }

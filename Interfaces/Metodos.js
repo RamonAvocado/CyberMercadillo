@@ -239,15 +239,19 @@ function mostrarProductosDestacados(productos) {
     const container = document.querySelector('.featured-products');
     container.innerHTML = '';
 
+
     // Itera sobre los productos y crea elementos para mostrarlos
     productos.forEach((producto) => {
         const productCard = document.createElement('div');
         productCard.classList.add('product-card');
+        //imagenes de cada producto
+        const imagenes = producto.imagenes.split(',');
+        const primeraImagen = imagenes[0];
 
         // Agrega la imagen, nombre y precio del producto dentro de un enlace
         productCard.innerHTML = `
             <button class="favorite-btn"></button> <!-- Botón de favoritos -->
-            <img src="${producto.imagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
+            <img src="${primeraImagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
             <h3>${producto.nombreproducto}</h3>
             <p>${producto.precio} €</p>
             <p>${producto.descripcion}</p>
@@ -285,7 +289,7 @@ async function CargarProductosRecomendados(){
             const totalPaginas = Math.ceil(productos.length / productosPorPagina);
 
             // Mostrar los productos de la primera página en la interfaz de usuario
-            mostrarProductosDestacados(productos.slice(0, productosPorPagina));
+            mostrarProductosRecomendados(productos.slice(0, productosPorPagina));
 
             // Generar enlaces de paginación
             generarEnlacesPaginacionRec(totalPaginas);
@@ -350,11 +354,14 @@ function mostrarProductosRecomendados(productos) {
     productos.forEach((producto) => {
         const productCard = document.createElement('div');
         productCard.classList.add('product-card');
+        //imagenes de cada producto
+        const imagenes = producto.imagenes.split(',');
+        const primeraImagen = imagenes[0];
 
         // Agrega la imagen, nombre y precio del producto dentro de un enlace       
         productCard.innerHTML = `
             <button class="favorite-btn"></button> <!-- Botón de favoritos -->
-            <img src="${producto.imagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
+            <img src="${primeraImagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
             <h3>${producto.nombreproducto}</h3>
             <p>${producto.precio} €</p>
             <p>${producto.descripcion}</p>
@@ -404,14 +411,20 @@ function mostrarTodosProductos(respuesta) {
     productos.forEach((producto) => {
         const productCard = document.createElement('div');
         productCard.classList.add('product-card');
-
+        //imagenes de cada producto
+        const imagenes = producto.imagenes.split(',');
+        const primeraImagen = imagenes[0];
         // Agrega la imagen, nombre y precio del producto dentro de la tarjeta
         productCard.innerHTML = `
             <button class="favorite-btn"></button> <!-- Botón de favoritos -->
-            <img src="${producto.imagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
+            <img src="${primeraImagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
             <h3>${producto.nombreproducto}</h3>
             <p>${producto.precio} €</p>
             <p>${producto.descripcion}</p>
+            <div hidden>
+                <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
+                <div id="idProducto" data-info="${producto.idproducto}"> </div>
+            </div>
         `;
 
         // Agregar evento de clic para seleccionar el producto
@@ -428,6 +441,8 @@ function mostrarTodosProductos(respuesta) {
     });
 }
 
+
+//FUNCIONES CLICKS
 function seleccionarProducto(productoSeleccionado) {
     // Desmarcar todos los productos seleccionados
     const selectedProducts = document.querySelectorAll('.product-card.selected');
@@ -438,14 +453,246 @@ function seleccionarProducto(productoSeleccionado) {
 }
 
 function irAInfoProducto(productoParaInfo) {
-    // Obtener el ID del producto de los atributos de la tarjeta de producto
-    const productId = productoParaInfo.getAttribute('data-product-id');
+    // Obtener el ID del producto y la categoría de los atributos de datos (data-*) de la tarjeta de producto
+    const productId = productoParaInfo.querySelector('#idProducto').dataset.info;
+    const categoryProd = productoParaInfo.querySelector('#CategoriaSelec').dataset.info;
 
     // Redirigir a la página de información del producto
     window.location.href = `/Interfaces/InfoProducto.html?id=${productId}`;
 }
 
+
 // FIN MOSTRAR TODOS PRODUCTOS
+
+//inicio información una unidad de producto
+async function CargaUnProducto(){
+    try{
+        //pillar el id
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+
+        const response = await fetch(`http://localhost:5169/ObtenerProductoPorID?idproducto=${productId}`);
+
+        if(response.ok){
+            const data = await response.json();
+            mostrarUnProducto(data);
+        } else{
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+function mostrarUnProducto(respuesta) {
+    const producto = respuesta.producto;
+    const container = document.querySelector('.product-container');
+    container.innerHTML = '';
+
+    // Separar las URL de las imágenes
+    const imagenes = producto.imagenes.split(',');
+    const primeraImagen = imagenes[0];
+
+    // Crear elementos para mostrar el producto
+    const productCard = document.createElement('div');
+    productCard.classList.add('product-element');
+
+    // Agregar la imagen principal del producto
+    const imagenPrincipal = document.createElement('img');
+    imagenPrincipal.src = primeraImagen;
+    imagenPrincipal.alt = producto.nombreproducto;
+    imagenPrincipal.style.width = '500px';
+    imagenPrincipal.style.height = '540px';
+    productCard.appendChild(imagenPrincipal);
+
+    // Contenedor para la flecha semi visible
+    const contenedorFlecha = document.createElement('div');
+    contenedorFlecha.classList.add('contenedor-flecha');
+
+    // Verificar si hay más de una imagen para mostrar la flecha
+    if (imagenes.length > 1) {
+        // Agrega la imagen semi visible de la flecha al contenedor
+        const flechaSemiVisible = document.createElement('img');
+        flechaSemiVisible.src = 'Imagenes/flecha.png'; // Ruta a la imagen de la fecha
+        flechaSemiVisible.alt = 'Flecha';
+        flechaSemiVisible.classList.add('flecha-semi-visible');
+        contenedorFlecha.appendChild(flechaSemiVisible);
+    }
+
+    // Agregar el contenedor de fecha al producto
+    productCard.appendChild(contenedorFlecha);
+
+    // Agrega el nombre, precio y descripción del producto dentro de la tarjeta
+    const productInfo = document.createElement('div');
+    productInfo.id = 'productInfo'; // Puedes utilizar un ID único si lo deseas
+    productInfo.innerHTML = `
+        <h3>${producto.nombreproducto}</h3>
+        <p>${producto.precio} €</p>
+        <p> Descripción del producto: </p style="font-size: 18px;">
+        <p>${producto.descripcion}</p>
+    `;
+    productCard.appendChild(productInfo);
+
+    // Crear el contenedor de botones
+    const productButtons = document.createElement('div');
+    productButtons.classList.add('product-buttons');
+
+    // Agregar botones y select al contenedor de botones
+    const comprarButton = document.createElement('button');
+    comprarButton.classList.add('comprarButton');
+    comprarButton.textContent = 'Comprar';
+    productButtons.appendChild(comprarButton);
+
+    const carritoButton = document.createElement('button');
+    carritoButton.classList.add('carritoButton');
+    carritoButton.textContent = 'Carrito de Compra';
+    productButtons.appendChild(carritoButton);
+
+    const cantidadLabel = document.createElement('label');
+    cantidadLabel.htmlFor = 'cantidad';
+    cantidadLabel.textContent = 'Cantidad:';
+    productButtons.appendChild(cantidadLabel);
+    
+    const selectCantidad = document.createElement('select');
+    selectCantidad.id = 'cantidad';
+    selectCantidad.name = 'cantidad';
+    for (let i = 1; i <= producto.cantidad; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = i;
+        selectCantidad.appendChild(option);
+    }
+    productButtons.appendChild(selectCantidad);
+    
+    const deseosButton = document.createElement('button');
+    deseosButton.classList.add('deseosButton');
+    deseosButton.textContent = 'Añadir lista de deseos';
+    productButtons.appendChild(deseosButton);
+
+    // Agregar el contenedor de botones al producto
+    productCard.appendChild(productButtons);
+
+    // Agregar el producto al contenedor principal
+    container.appendChild(productCard);
+
+    // Evento de clic en el contenedor de flecha semi visible para cambiar la imagen principal
+    if (imagenes.length > 1) {
+        contenedorFlecha.addEventListener('click', function() {
+            const index = imagenes.indexOf(imagenPrincipal.src);
+            const siguienteIndex = (index + 1) % imagenes.length;
+            imagenPrincipal.src = imagenes[siguienteIndex];
+        });
+    }
+
+    productCard.dataset.productId = producto.idproducto;
+
+    // Agregar evento de clic al botón de comprar
+    comprarButton.addEventListener('click', function() {
+        // Obtener el ID del producto desde el atributo de datos del contenedor del producto
+        const productId = productCard.dataset.productId;
+        // Redirigir a la página de compra del producto con el ID del producto en la URI
+        window.location.href = `/Interfaces/CompraProducto.html?id=${productId}`;
+    });
+
+}
+
+
+async function CargaUnProductoCompra(){
+    try{
+        // Pillar el ID del producto de la URI
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+
+        // Obtener el producto por ID desde el backend
+        const response = await fetch(`http://localhost:5169/ObtenerProductoPorID?idproducto=${productId}`);
+
+        if(response.ok){
+            const data = await response.json();
+            // Mostrar la información del producto
+            mostrarUnProductoCompra(data);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+function mostrarUnProductoCompra(respuesta) {
+    const producto = respuesta.producto;
+    // Separar las URL de las imágenes
+    const imagenes = producto.imagenes.split(',');
+    const primeraImagen = imagenes[0];
+
+    const productImg = document.querySelector('.product-container-compra img');
+    const productName = document.querySelector('.header h1');
+
+    //const arrivalDate = document.querySelector('.product-container-compra p');
+    //const shippingInfo = document.querySelector('.shipping-info p');
+    const paymentInputs = document.querySelectorAll('.payment-info input');
+    const totalCost = document.querySelector('.total-cost');
+
+    // Llenar la información del producto con los datos obtenidos del servidor
+    productImg.src = primeraImagen; // Suponiendo que el servidor envía la URL de la imagen
+    productName.textContent =  `Compra ahora: ${producto.nombreproducto} `;
+    //arrivalDate.textContent = `Llegada el: ${respuesta.fecha_llegada}`;
+    //shippingInfo.textContent = `Enviar a: ${respuesta.direccion_envio}`;
+    totalCost.textContent = `Total: ${producto.precio} €`; // Suponiendo que el servidor envía el precio
+
+    // Si el servidor envía más información sobre el pago, puedes llenarla aquí
+    if (respuesta.metodo_pago) {
+        const paymentData = respuesta.metodo_pago;
+        paymentInputs[0].value = paymentData.numero_tarjeta;
+        paymentInputs[1].value = paymentData.fecha_caducidad;
+        paymentInputs[2].value = paymentData.cvv;
+    }
+}
+/*
+sucio
+
+function mostrarUnProductoCompra(respuesta) {
+    const producto = respuesta.producto;
+    const container = document.querySelector('.product-container-compra');
+    container.innerHTML = '';
+
+    // Separar las URL de las imágenes
+    const imagenes = producto.imagenes.split(',');
+    const primeraImagen = imagenes[0];
+
+    // Agrega la imagen, nombre y precio del producto dentro de la tarjeta
+    productCard.innerHTML = `
+        <button class="favorite-btn"></button> <!-- Botón de favoritos -->
+        <img src="${primeraImagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
+        <h3>${producto.nombreproducto}</h3>
+        <p>${producto.precio} €</p>
+        <p>${producto.descripcion}</p>
+        <div hidden>
+            <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
+            <div id="idProducto" data-info="${producto.idproducto}"> </div>
+        </div>
+    `;
+
+    const productImg = document.querySelector('.product-container-compra img');
+    const arrivalDate = document.querySelector('.product-container-compra p');
+    const shippingInfo = document.querySelector('.shipping-info p');
+    const paymentInputs = document.querySelectorAll('.payment-info input');
+    const totalCost = document.querySelector('.total-cost');
+
+    // Llenar la información del producto con los datos obtenidos del servidor
+    productImg.src = primeraImagen; // Suponiendo que el servidor envía la URL de la imagen
+    arrivalDate.textContent = `Llegada el: ${respuesta.fecha_llegada}`;
+    shippingInfo.textContent = `Enviar a: ${respuesta.direccion_envio}`;
+    totalCost.textContent = `${producto.precio} euros`; // Suponiendo que el servidor envía el precio
+
+    // Si el servidor envía más información sobre el pago, puedes llenarla aquí
+    if (respuesta.metodo_pago) {
+        const paymentData = respuesta.metodo_pago;
+        paymentInputs[0].value = paymentData.numero_tarjeta;
+        paymentInputs[1].value = paymentData.fecha_caducidad;
+        paymentInputs[2].value = paymentData.cvv;
+    }
+}
+*/
 
 // inicio mostrar categorias
 

@@ -94,7 +94,7 @@ app.MapGet("/ObtenerProductosDestacados", async (HttpContext context, Supabase.C
     try
     {
         // Obtener los 6 primeros productos desde la base de datos
-        var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagen").Limit(12).Get();
+        var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagenes").Limit(12).Get();
 
         // Devolver los productos al frontend
         var jsonResponse = new { productos };
@@ -115,7 +115,7 @@ app.MapGet("/ObtenerProductosRecomendados", async (HttpContext context, Supabase
     try
     {
         // Obtener los 6 primeros productos desde la base de datos
-        var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagen").Limit(12).Get();
+        var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagenes").Limit(12).Get();
 
         // Devolver los productos al frontend
         var jsonResponse = new { productos };
@@ -168,7 +168,7 @@ app.MapGet("/ObtenerTodosProductos", async (HttpContext context, Supabase.Client
     try
     {
         // Obtener los 6 primeros productos desde la base de datos
-        var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagen").Limit(12).Get();
+        var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, categoria, imagenes").Limit(12).Get();
 
         // Devolver los productos al frontend
         var jsonResponse = new { productos };
@@ -203,13 +203,35 @@ app.MapGet("/CargarCategorias", async (HttpContext context, Supabase.Client clie
     }
 });
 
+app.MapGet("/ObtenerProductoPorID", async (HttpContext context, Supabase.Client client) =>
+{
+    try
+    {
+        // Obtener el ID del producto de la consulta
+        var idBuscado = context.Request.Query["idproducto"].ToString();
+
+        // Realizar la consulta para obtener el producto por su ID
+        var producto = await client.From<Producto>().Filter("idproducto", Postgrest.Constants.Operator.Equals, idBuscado).Single();
+
+        var jsonResponse = new { producto };
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+    }
+    catch (Exception ex)
+    {
+        context.Response.StatusCode = 500;
+        context.Response.ContentType = "text/plain";
+        await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+    }
+});
+
 app.MapGet("/ObtenerProductosVendedor", async (HttpContext context, Supabase.Client client) =>
 {
     try
     {      
         var productos = await client.From<Producto>()
         .Where(p => p.idvendedor == 5)
-        .Select("idproducto, nombreproducto, precio, descripcion, imagen")
+        .Select("idproducto, nombreproducto, precio, descripcion, imagenes")
         .Get();
 
         var jsonResponse = new { productos };
@@ -271,34 +293,6 @@ app.MapPost("/BuscarProducto", async (HttpContext context,Supabase.Client client
     }
 });
 
-app.MapGet("/ObtenerProductoPorID", async (HttpContext context, Supabase.Client client) =>
-{
-    using (var reader = new StreamReader(context.Request.Body))
-    {
-        try{      
-            var requestBody = await reader.ReadToEndAsync();
-                var searchData = JsonConvert.DeserializeObject<SearchData>(requestBody);
-
-                // Utilizar searchData.searchTerm en la lógica de búsqueda
-                var idBuscado = searchData!.searchTerm ?? "3";
-                var query = client.From<Producto>().Filter("idProducto", Postgrest.Constants.Operator.Equals, idBuscado);
-                var producto = await query.Single();
-
-
-                // Devolver la respuesta al frontend
-                var jsonResponse = new { resultado = producto?.idproducto.ToString() ?? "No existe ese producto" };
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-        }
-        catch (Exception ex)
-        {
-            context.Response.StatusCode = 500;
-            context.Response.ContentType = "text/plain";
-            await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
-        }
-    }
-});
-
 /*
 app.MapGet("/buscarProductoX", async (HttpContext context, Supabase.Client client) =>
 {
@@ -334,7 +328,7 @@ app.MapPost("/buscarProductoX", async (HttpContext context, Supabase.Client clie
             //string nombreBuscado = "Smartphone X";
             var result = await client.From<Producto>()
                                     .Where(p => p.idproducto == productoData.idproducto)
-                                    .Select("precio, cantidad, categoria, descripcion, imagen, nombreproducto")
+                                    .Select("precio, cantidad, categoria, descripcion, imagenes, nombreproducto")
                                     .Get();
 
             // Devolver los productos al frontend
@@ -398,7 +392,7 @@ app.MapPost("/AgregarProducto", async (HttpContext context,Supabase.Client clien
                 productoData.precio ?? "-1", 
                 productoData.categoria ?? "CatPrueba", 
                 productoData.descripcion ?? "Este articulo es el predeterminado por si llega un null a esta funcion", 
-                productoData.imagen ?? "/rutaPrueba",  //Este lo pone siempre
+                productoData.imagenes ?? "/rutaPrueba",  //Este lo pone siempre
                 productoData.cantidad ?? -1,//predeterminado que si llega un nulo, sea -1 
                 productoData.idvendedor ?? -1);
 
@@ -466,7 +460,7 @@ app.MapPost("/ActualizarProducto", async (HttpContext context,Supabase.Client cl
             result2.precio = productoData.precio ?? "-1";
             result2.categoria = productoData.categoria ?? "CatPrueba";
             result2.descripcion = productoData.descripcion ?? "Este articulo es el predeterminado por si llega un null a esta funcion";
-            result2.imagen = productoData.imagen ?? "/rutaPrueba";
+            result2.imagenes = productoData.imagenes ?? "/rutaPrueba";
             
             await result2.Update<Producto>();
 
@@ -502,7 +496,7 @@ app.MapPost("/guardar_producto", async (HttpContext context, Supabase.Client cli
                 precio = productoData.precio,
                 categoria = productoData.categoria,
                 descripcion = productoData.descripcion,
-                imagen = productoData.imagen,
+                imagenes = productoData.imagenes,
                 cantidad = productoData.cantidad
             };
 

@@ -21,6 +21,28 @@
             </div>
         </div>
         <div id = "resultados"></div>
+        <style>
+        select {
+            width: 400px; /* Establece un ancho fijo para todos los botones */
+            height: 60px; /* Establece una altura fija para todos los botones */
+            padding: 15px 60px; /* Ajuste el padding para igualar el tamaño de todos los elementos */
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            border-radius: 20px;
+            margin-top: 20px; /* Espacio entre los botones y el label de cantidad */
+        }
+
+        select {
+                appearance: none; /* Elimina el estilo de selección predeterminado */
+                background-color: #fff; /* Establece un fondo blanco para el selector de cantidad */
+        }
+        label{
+            font-size: 24px; /* Establece un ancho fijo para todos los botones */
+            margin-top: 20px;
+            margin-right: 290px;
+        }
+        </style>
     </header>
     <div class = "grupo-nav-list">
         <nav>
@@ -45,23 +67,36 @@
         <button onclick = "irHistorialDeBúsqueda()" class="search-history-btn">Historial de Búsqueda</button>
     </div>
     <div class = "texto-titulo">
-        <h2>Info Producto</h2>
+        <h2>Descripción del Producto</h2>
     </div>
-    <div class="featured-products-container">
-        <!-- Productos destacados (similar a la imagen) -->
-        <div class="featured-products">
-        
-        </div>
+    <div class="product-container">
+
     </div>
 
     <div class = "texto-titulo">
-        <h2>Desripcción Producto</h2>
+        <h2>Comentarios</h2>
     </div>
     <div class="recommended-products-container">
         <!-- Productos destacados (similar a la imagen) -->
         <div class="recommended-products">
-        
+            <p>Detalles del producto:</p>
+            <ul>
+                <li>100% algodón orgánico</li>
+                <li>Hecho en España</li>
+                <li>Lavable en la lavadora</li>
+            </ul>
+            <p>Comentarios:</p>
+            <ul>
+                <li>Poco ★★★★: AAAAAAAAAAAAAAAAAAAAAAA...</li>
+                <li>Poco ★★★★: AAAAAAAAAAAAAAAAAAAAAAA...</li>
+                <li>Poco ★★★★: AAAAAAAAAAAAAAAAAAAAAAA...</li>
+                <li>Poco ★★★★: AAAAAAAAAAAAAAAAAAAAAAA...</li>
+            </ul>
         </div>        
+    </div>
+    </div>
+    <div class="boton-Volver">
+        <button onclick = "volverPaginaAnterior()" class="volver-btn">Volver</button>
     </div>
     <footer>
         <div class="separador">
@@ -79,5 +114,8 @@
         </div>
     </footer>
     <script src="Metodos.js"></script>
+    <script>
+        window.addEventListener('load', CargaUnProducto);
+    </script>
 </body>
 </html>

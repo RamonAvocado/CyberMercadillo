@@ -11,12 +11,12 @@ namespace CyberMercadillo.Entities
 {       
     public partial class Producto{
         public Producto(){}
-        public Producto(string nombreProd, string precioProd, string categoriaProd, string descripcionProd, string imgProd, int cantProd, int idvendedorProd) {
+        public Producto(string nombreProd, string precioProd, string categoriaProd, string descripcionProd, string imgsProd, int cantProd, int idvendedorProd) {
             nombreproducto = nombreProd;
             precio = precioProd;
             categoria = categoriaProd;
             descripcion = descripcionProd;
-            imagen = imgProd;
+            imagenes = imgsProd;
             cantidad = cantProd;
             idvendedor = idvendedorProd;
         }
