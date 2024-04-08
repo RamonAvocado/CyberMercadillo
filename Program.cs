@@ -409,9 +409,8 @@ app.MapPost("/validarProductoX", async (HttpContext context, Supabase.Client cli
         }
         catch (Exception ex)
         {
-            context.Response.StatusCode = 500;
-            context.Response.ContentType = "text/plain";
-            await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+            // Manejar cualquier error y devolver una respuesta de error al cliente
+            errorDefault(context,ex);
         }
     }
 });
@@ -606,8 +605,8 @@ app.MapGet("/getBusquedas", async (HttpContext context, Supabase.Client client) 
     }
     catch (Exception ex)
     {
-        errorDefault(context,ex);
-    }
+        // Manejar cualquier error y devolver una respuesta de error al cliente
+        errorDefault(context,ex);    }
 });
 
 app.Run();
