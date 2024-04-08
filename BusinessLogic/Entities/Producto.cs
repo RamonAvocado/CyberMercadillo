@@ -11,7 +11,7 @@ namespace CyberMercadillo.Entities
 {       
     public partial class Producto{
         public Producto(){}
-        public Producto(string nombreProd, string precioProd, string categoriaProd, string descripcionProd, string imgsProd, int cantProd, int idvendedorProd) {
+        public Producto(string nombreProd, string precioProd, string categoriaProd, string descripcionProd, string imgsProd, int cantProd, int idvendedorProd, bool validadoProd) {
             nombreproducto = nombreProd;
             precio = precioProd;
             categoria = categoriaProd;
@@ -19,6 +19,7 @@ namespace CyberMercadillo.Entities
             imagenes = imgsProd;
             cantidad = cantProd;
             idvendedor = idvendedorProd;
+            validado = validadoProd;
         }
 
     }

@@ -35,6 +35,9 @@ namespace CyberMercadillo.Entities
 
         [Column("idvendedor")]
         public int? idvendedor { get; set; }
+
+        [Column("validado")]
+        public bool? validado { get; set; }
     }
 
 }

@@ -20,8 +20,8 @@ namespace CyberMercadillo.BusinessLogic{
     public class FabricaDeProductos{
 
         public FabricaDeProductos(){}
-        public Producto CrearProducto(string nombreProd, string precioProd, string categoriaProd, string descripcionProd, string imgProd, int cantProd, int idvendedorProd) {
-            return new Producto(nombreProd,precioProd,categoriaProd,descripcionProd, imgProd, cantProd,idvendedorProd);
+        public Producto CrearProducto(string nombreProd, string precioProd, string categoriaProd, string descripcionProd, string imgProd, int cantProd, int idvendedorProd, bool validProd) {
+            return new Producto(nombreProd,precioProd,categoriaProd,descripcionProd, imgProd, cantProd,idvendedorProd,validProd);
         }
     }
 }
