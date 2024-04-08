@@ -245,7 +245,7 @@ function mostrarProductosDestacados(productos) {
         const productCard = document.createElement('div');
         productCard.classList.add('product-card');
         //imagenes de cada producto
-        const imagenes = producto.imagenes.split(',');
+        const imagenes = producto.imagenes.split(' ');
         const primeraImagen = imagenes[0];
 
         // Agrega la imagen, nombre y precio del producto dentro de un enlace
@@ -355,7 +355,7 @@ function mostrarProductosRecomendados(productos) {
         const productCard = document.createElement('div');
         productCard.classList.add('product-card');
         //imagenes de cada producto
-        const imagenes = producto.imagenes.split(',');
+        const imagenes = producto.imagenes.split(' ');
         const primeraImagen = imagenes[0];
 
         // Agrega la imagen, nombre y precio del producto dentro de un enlace       
@@ -412,7 +412,7 @@ function mostrarTodosProductos(respuesta) {
         const productCard = document.createElement('div');
         productCard.classList.add('product-card');
         //imagenes de cada producto
-        const imagenes = producto.imagenes.split(',');
+        const imagenes = producto.imagenes.split(' ');
         const primeraImagen = imagenes[0];
         // Agrega la imagen, nombre y precio del producto dentro de la tarjeta
         productCard.innerHTML = `
@@ -502,7 +502,7 @@ function mostrarUnProducto(respuesta) {
     container.innerHTML = '';
 
     // Separar las URL de las imágenes
-    const imagenes = producto.imagenes.split(',');
+    const imagenes = producto.imagenes.split(' ');
     const primeraImagen = imagenes[0];
 
     // Crear elementos para mostrar el producto
@@ -633,7 +633,7 @@ function mostrarUnProductoBasico(respuesta) {
     container.innerHTML = '';
 
     // Separar las URL de las imágenes
-    const imagenes = producto.imagenes.split(',');
+    const imagenes = producto.imagenes.split(' ');
     const primeraImagen = imagenes[0];
 
     // Crear elementos para mostrar el producto
@@ -728,7 +728,7 @@ async function CargaUnProductoCompra(){
 function mostrarUnProductoCompra(respuesta) {
     const producto = respuesta.producto;
     // Separar las URL de las imágenes
-    const imagenes = producto.imagenes.split(',');
+    const imagenes = producto.imagenes.split(' ');
     const primeraImagen = imagenes[0];
 
     const productImg = document.querySelector('.product-container-compra img');
@@ -1015,7 +1015,7 @@ function mostrarProductosVendedor(productos) {
         productCard.classList.add('product-card');
 
         //imagenes de cada producto
-        const imagenes = producto.imagenes.split(',');
+        const imagenes = producto.imagenes.split(' ');
         const primeraImagen = imagenes[0];
 
         // Agrega la imagen, nombre y precio del producto
@@ -1087,7 +1087,7 @@ function mostrarProductosParaValidar(productos) {
         productCard.classList.add('product-card');
 
         //imagenes de cada producto
-        const imagenes = producto.imagenes.split(',');
+        const imagenes = producto.imagenes.split(' ');
         const primeraImagen = imagenes[0];
 
         // Agrega la imagen, nombre y precio del producto
