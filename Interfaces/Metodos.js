@@ -1587,7 +1587,10 @@ document.getElementById('agregarProductoForm2').addEventListener('submit', async
 });*/
 
 
+
+
 // Método para iniciar sesión
+/*
 async function iniciarSesion() {
     document.getElementById('loginForm').addEventListener('iniciar-btt', async (event) => {
         event.preventDefault();
@@ -1613,9 +1616,42 @@ async function iniciarSesion() {
                 document.getElementById('mensajeError').style.display = 'block';
             }
         } catch (error) {
-            console.error('Error inesperado:', error);
+            console.error('Error ines
+            perado:', error);
         }
     });
+}*/
+async function iniciarSesion() {
+
+    const correo = document.getElementById("correoUser").value;
+    const contraseña = document.getElementById("contraUser").value;
+
+    const data = {
+        correo: correo,//correoUser
+        contraseña: contraseña//contraUser
+    };
+
+    try {
+
+        const response = await fetch('/iniciarSesion', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+
+            window.location.href = "NewPaginaPrincipal.html";
+        } else {
+
+            console.error('Error al iniciar sesión:', response.statusText);
+        }
+    } catch (error) {
+
+        console.error('Error al iniciar sesión:', error.message);
+    }
 }
 /*
 fetch('/getBusquedas')
@@ -1636,6 +1672,7 @@ fetch('/getBusquedas')
     console.error('Error al obtener los datos:', error);
   });
 */
+
 
 async function getBusquedas() {
     try {

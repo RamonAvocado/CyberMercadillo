@@ -610,6 +610,46 @@ app.MapPost("/guardar_producto", async (HttpContext context, Supabase.Client cli
     }
 });
 
+
+app.MapPost("/iniciarSesion", async (HttpContext context, Supabase.Client client) =>
+{
+    using (var reader = new StreamReader(context.Request.Body))
+    {
+        try
+        {
+            var requestBody = await reader.ReadToEndAsync();
+            var userData = JsonConvert.DeserializeObject<Usuario>(requestBody);
+
+            var query = client.From<Usuario>().Filter("correo", Postgrest.Constants.Operator.Equals, userData.correo)
+                                             .Filter("contraseña", Postgrest.Constants.Operator.Equals, userData.contraseña);
+                                            
+
+            // Ejecutar la consulta
+            var usuario = await query.Single();
+
+            if (usuario != null)
+            {
+                context.Response.StatusCode = 200;
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(new { token }));
+            }
+            else
+            {
+                // Si no se encuentra el usuario
+                context.Response.StatusCode = 401; // Unauthorized
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(new { error = "Credenciales inválidas" }));
+            }
+        }
+        catch (Exception ex)
+        {
+            context.Response.StatusCode = 500;
+            context.Response.ContentType = "text/plain";
+            await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+        }
+    }
+});
+
 app.MapGet("/status", () => Results.Ok("El backend está en funcionamiento correctamente."));
 
 
