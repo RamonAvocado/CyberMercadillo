@@ -369,6 +369,55 @@ app.MapPost("/buscarProductoX", async (HttpContext context, Supabase.Client clie
     }
 });
 
+
+app.MapPost("/validarProductoX", async (HttpContext context, Supabase.Client client) =>
+{
+    using (var reader = new StreamReader(context.Request.Body))
+    {
+        try{
+            var requestBody = await reader.ReadToEndAsync();
+            var productoData = JsonConvert.DeserializeObject<Producto>(requestBody);
+
+            //string nombreBuscado = "Smartphone X";
+            var result = await client.From<Producto>()
+                                    .Where(p => p.idproducto == productoData.idproducto && p.validado == true)
+                                    .Select("precio, cantidad, categoria, descripcion, imagenes, nombreproducto")
+                                    .Get();
+            //var jsonResponse = new { result };
+            //context.Response.ContentType = "application/json";
+            //await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+
+            if (result.Model == null) {
+                // Si se encuentra el producto, devolverlo como JSON
+                
+                var result2 = await client.From<Producto>()
+                    .Where(p => p.idproducto == productoData.idproducto)
+                    .Single();
+                      // Use supabase.eq for comparison
+                result2.validado = true;
+                
+                await result2.Update<Producto>();
+
+                var jsonResponse = new { mensaje = "El producto no existe", existe = true };
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+            } else {
+                // Si  encuentra el producto, devolver un mensaje indicando que ya existe
+                var jsonResponse = new { mensaje = "El producto ya existe", existe = true };
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+            }
+
+        }
+        catch (Exception ex)
+        {
+            context.Response.StatusCode = 500;
+            context.Response.ContentType = "text/plain";
+            await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+        }
+    }
+});
+
 app.MapPost("/eliminarProductoX", async (HttpContext context, Supabase.Client client) =>
 {
     using (var reader = new StreamReader(context.Request.Body))

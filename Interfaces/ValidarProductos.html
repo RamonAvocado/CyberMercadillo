@@ -54,7 +54,7 @@
                 box-shadow: 0 0 5px blue; /* Añade una sombra azul para resaltar */
             }
 
-            #editarBtn {
+            #validarBtn {
                 background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
                 color: white; /* Color del texto del botón cuando está deshabilitado */
             }
@@ -62,7 +62,7 @@
                 background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
                 color: white; /* Color del texto del botón cuando está deshabilitado */
             }
-            #editarBtn:enabled {
+            #validarBtn:enabled {
                 background-color: #f39c12;
                 color: rgb(0, 0, 0);
                 padding: 10px 56px;
@@ -124,11 +124,10 @@
     </div>
     <div class="botones-vendedor">
         <div class="izquierda">
-            <button onclick = "irANuevoProducto()" class="search-history-btn">Nuevo Producto</button>
             <button onclick = "volverPaginaAnterior()" class="search-history-btn">Volver</button>
         </div>
         <div class="derecha">
-            <button onclick = "irAEditarProducto()" class="search-history-btn" id="editarBtn" disabled>Editar Producto</button>
+            <button onclick = "validarProd()" class="search-history-btn" id="validarBtn" disabled>Validar Producto</button>
 
             <button onclick = "eliminarProd()" class="search-history-btn" id="eliminarBtn" disabled>Eliminar Producto</button>
             

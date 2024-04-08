@@ -460,7 +460,19 @@ function irAInfoProducto(productoParaInfo) {
     // Redirigir a la página de información del producto
     window.location.href = `/Interfaces/InfoProducto.html?id=${productId}`;
 }
+/*
+function irAInfoProducto2(productoParaInfo) {
+    window.location.href = `InfoProducto.html?id=${productoParaInfo}`;
+}*/
 
+function irAInfoProducto2(productoParaInfo) {
+    // Redirigir a la página de InfoProducto.html con el parámetro del producto
+    window.location.href = `InfoBasicaProducto.html?id=${productoParaInfo}`;
+
+    // Ocultar el botón después de la redirección
+    const historialBtn = document.getElementById('historialBtnInfoProd');
+    historialBtn.style.display = 'none';
+}
 
 // FIN MOSTRAR TODOS PRODUCTOS
 
@@ -596,6 +608,101 @@ function mostrarUnProducto(respuesta) {
 
 }
 
+async function CargaUnProductoBasico(){
+    try{
+        //pillar el id
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+
+        const response = await fetch(`http://localhost:5169/ObtenerProductoPorID?idproducto=${productId}`);
+
+        if(response.ok){
+            const data = await response.json();
+            mostrarUnProductoBasico(data);
+        } else{
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+function mostrarUnProductoBasico(respuesta) {
+    const producto = respuesta.producto;
+    const container = document.querySelector('.product-container');
+    container.innerHTML = '';
+
+    // Separar las URL de las imágenes
+    const imagenes = producto.imagenes.split(',');
+    const primeraImagen = imagenes[0];
+
+    // Crear elementos para mostrar el producto
+    const productCard = document.createElement('div');
+    productCard.classList.add('product-element');
+
+    // Agregar la imagen principal del producto
+    const imagenPrincipal = document.createElement('img');
+    imagenPrincipal.src = primeraImagen;
+    imagenPrincipal.alt = producto.nombreproducto;
+    imagenPrincipal.style.width = '500px';
+    imagenPrincipal.style.height = '540px';
+    productCard.appendChild(imagenPrincipal);
+
+    // Contenedor para la flecha semi visible
+    const contenedorFlecha = document.createElement('div');
+    contenedorFlecha.classList.add('contenedor-flecha');
+
+    // Verificar si hay más de una imagen para mostrar la flecha
+    if (imagenes.length > 1) {
+        // Agrega la imagen semi visible de la flecha al contenedor
+        const flechaSemiVisible = document.createElement('img');
+        flechaSemiVisible.src = 'Imagenes/flecha.png'; // Ruta a la imagen de la fecha
+        flechaSemiVisible.alt = 'Flecha';
+        flechaSemiVisible.classList.add('flecha-semi-visible');
+        contenedorFlecha.appendChild(flechaSemiVisible);
+    }
+
+    // Agregar el contenedor de fecha al producto
+    productCard.appendChild(contenedorFlecha);
+
+    // Agrega el nombre, precio y descripción del producto dentro de la tarjeta
+    const productInfo = document.createElement('div');
+    productInfo.id = 'productInfo'; // Puedes utilizar un ID único si lo deseas
+    productInfo.innerHTML = `
+        <h3>${producto.nombreproducto}</h3>
+        <p>${producto.precio} €</p>
+        <p> Descripción del producto: </p style="font-size: 18px;">
+        <p>${producto.descripcion}</p>
+    `;
+    productCard.appendChild(productInfo);
+
+    // Crear el contenedor de botones
+    const productButtons = document.createElement('div');
+   
+
+    // Agregar el producto al contenedor principal
+    container.appendChild(productCard);
+
+    // Evento de clic en el contenedor de flecha semi visible para cambiar la imagen principal
+    if (imagenes.length > 1) {
+        contenedorFlecha.addEventListener('click', function() {
+            const index = imagenes.indexOf(imagenPrincipal.src);
+            const siguienteIndex = (index + 1) % imagenes.length;
+            imagenPrincipal.src = imagenes[siguienteIndex];
+        });
+    }
+
+    productCard.dataset.productId = producto.idproducto;
+
+    // Agregar evento de clic al botón de comprar
+    comprarButton.addEventListener('click', function() {
+        // Obtener el ID del producto desde el atributo de datos del contenedor del producto
+        const productId = productCard.dataset.productId;
+        // Redirigir a la página de compra del producto con el ID del producto en la URI
+        window.location.href = `/Interfaces/CompraProducto.html?id=${productId}`;
+    });
+
+}
 
 async function CargaUnProductoCompra(){
     try{
@@ -921,6 +1028,10 @@ function mostrarProductosVendedor(productos) {
             <p>${producto.descripcion}</p>
         `;
 
+        productCard.addEventListener('dblclick', (event) => {
+            irAInfoProducto2(producto.idproducto);
+        });
+        
         productCard.addEventListener('click', (event) => {
             // Aquí puedes acceder al ID del producto seleccionado (producto.idproducto)
             // Puedes hacer lo que quieras con el ID del producto seleccionado aquí
@@ -989,15 +1100,19 @@ function mostrarProductosParaValidar(productos) {
             <p>${producto.descripcion}</p>
         `;
 
+        productCard.addEventListener('dblclick', (event) => {
+            irAInfoProducto2(producto.idproducto);
+        });
+
         productCard.addEventListener('click', (event) => {
             // Aquí puedes acceder al ID del producto seleccionado (producto.idproducto)
             // Puedes hacer lo que quieras con el ID del producto seleccionado aquí
             idProductoSeleccionado = producto.idproducto;
             console.log('ID del producto seleccionado:', idProductoSeleccionado);
             
-            const editarBtn = document.getElementById('editarBtn');
-            editarBtn.disabled = false;
-            editarBtn.classList.add('enabled');
+            const validarBtn = document.getElementById('validarBtn');
+            validarBtn.disabled = false;
+            validarBtn.classList.add('enabled');
 
             const eliminarBtn = document.getElementById('eliminarBtn');
             eliminarBtn.disabled = false;
@@ -1010,14 +1125,13 @@ function mostrarProductosParaValidar(productos) {
             productCard.classList.add('selected');
             event.stopPropagation();
 
-            document.getElementById('editarBtn').addEventListener('click', () => {
-                const editarBtn = document.getElementById('editarBtn');
-                if (editarBtn.disabled) {
-                    editarBtn.classList.remove('enabled'); // Quita la clase 'enabled' para desactivar el nuevo estilo
+            document.getElementById('validarBtn').addEventListener('click', () => {
+                const editarBtn = document.getElementById('validarBtn');
+                if (validarBtn.disabled) {
+                    validarBtn.classList.remove('enabled'); // Quita la clase 'enabled' para desactivar el nuevo estilo
                 }
                 console.log('ID del producto seleccionado al clicar:', idProductoSeleccionado);
                 localStorage.setItem('itemID', idProductoSeleccionado);
-                mostrarProd(idProductoSeleccionado);
             });
 
             document.getElementById('eliminarBtn').addEventListener('click', () => {
@@ -1028,7 +1142,6 @@ function mostrarProductosParaValidar(productos) {
             });
         });
 
-        
         container.appendChild(productCard);
     });
 }
@@ -1130,7 +1243,7 @@ async function agregarProd()
                         precio: precio,
                         categoria: categoria,
                         descripcion: descripcion,
-                        imagen: img,
+                        imagenes: img,
                         cantidad: cantidad
                     }),
                 });
@@ -1297,9 +1410,9 @@ async function mostrarProd(idProductoSeleccionado) {
                 document.getElementById('precio').value = primerProducto.precio;
                 document.getElementById('categoria').value = primerProducto.categoria;
                 document.getElementById('descripcion').value = primerProducto.descripcion;
-                document.getElementById('imagenProducto').src = primerProducto.imagen;
+                document.getElementById('imagenProducto').src = primerProducto.imagenes;
                 document.getElementById('cantidad').value = primerProducto.cantidad;
-                document.getElementById('nuevo-url-imagen').value = primerProducto.imagen;             
+                document.getElementById('nuevo-url-imagen').value = primerProducto.imagenes;             
             }
         } else {
             console.error('Error al obtener los detalles del producto:', response.statusText);
@@ -1307,6 +1420,43 @@ async function mostrarProd(idProductoSeleccionado) {
             const nombreProducto = 'Producto de ejemplo233';
             nombreInput.value = nombreProducto;
         }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+async function validarProd() {
+    try {
+        console.log('ID del producto seleccionado:', idProductoSeleccionado);
+        //const response = await fetch('http://localhost:5169/buscarProductoX');
+
+        //const response = await fetch(`http://localhost:5169/buscarProductoX?idProductoSeleccionado=${idProductoSeleccionado}`);
+        const response = await fetch('http://localhost:5169/validarProductoX',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                idproducto: idProductoSeleccionado
+            }),
+        });
+
+        const jsonResponse = await response.json(); // Convertir la respuesta a JSON
+
+        if (response.ok) {
+
+            console.log(jsonResponse);
+
+            console.log('Producto validado exitosamente:', idProductoSeleccionado);
+            console.log(jsonResponse.mensaje);
+            alert("Producto validado correctamente")
+        } else {
+            console.error('Error al validar el producto:', jsonResponse.mensaje);
+            console.log(jsonResponse.mensaje);
+            // Manejar el error según sea necesario aquí
+            // Por ejemplo, puedes mostrar un mensaje de error en tu interfaz de usuario
+        }      
+        window.location.reload();
     } catch (error) {
         console.error('Error inesperado:', error);
     }
@@ -1359,7 +1509,7 @@ async function ActualizarProducto(idProductoSeleccionado)
                         precio: precio,
                         categoria: categoria,
                         descripcion: descripcion,
-                        imagen: img,
+                        imagenes: img,
                         cantidad: cantidad,
                         idvendedor: 5,
                         idproducto:idProductoSeleccionado,
