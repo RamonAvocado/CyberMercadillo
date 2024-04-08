@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Mercadillo</title>
+    <link rel="stylesheet" href="styleBuscador.css">
+</head>
+<body>
+    <header>
+        <div  class="parte-superior">
+            <div class="img-logo">   
+                <img src="Imagenes/Logo.png"  alt="Logo Cyber Mercadillo">
+            </div>
+            <h1>
+                <span>Cyber </span><br>
+                <span>Mercadillo</span>
+            </h1>
+            <div class="barra-busqueda">
+                <button id="searchButton" onclick="IrABuquedaProducto()">Buscar Producto ...</button>
+            </div>
+        </div>
+        <style>
+            .botones-vendedor {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px;
+                background-color: #f0f0f0;
+            }
+    
+            .izquierda {
+                display: flex; /* Permite que los botones se coloquen uno al lado del otro */
+                margin-right: 10px;
+                margin-left: 10px;
+                gap: 10px;
+            }
+    
+            .derecha {
+                display: flex; /* Permite que los botones se coloquen uno al lado del otro */
+                margin-right: 10px;
+                margin-left: 10px;
+                gap: 10px;
+            }
+    
+            .boton {
+                margin-right: 10px;
+                margin-left: 10px;  /* Espacio entre los botones */
+                gap: 10px;
+            }
+
+            .product-card.selected {
+                border: 2px solid blue; /* Cambia el borde a azul para indicar selección */
+                box-shadow: 0 0 5px blue; /* Añade una sombra azul para resaltar */
+            }
+
+            #validarBtn {
+                background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
+                color: white; /* Color del texto del botón cuando está deshabilitado */
+            }
+            #eliminarBtn {
+                background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
+                color: white; /* Color del texto del botón cuando está deshabilitado */
+            }
+            #validarBtn:enabled {
+                background-color: #f39c12;
+                color: rgb(0, 0, 0);
+                padding: 10px 56px;
+                border-radius: 20px;
+                font-size: 24px;
+                border: none;
+                cursor: pointer; /* Color del texto del botón cuando está habilitado */
+            }
+            #eliminarBtn:enabled {
+                background-color: #f39c12;
+                color: rgb(0, 0, 0);
+                padding: 10px 56px;
+                border-radius: 20px;
+                font-size: 24px;
+                border: none;
+                cursor: pointer; /* Color del texto del botón cuando está habilitado */
+            }
+
+            .pagina-item {
+                display: inline-block;
+                margin-right: 20px; /* Espacio entre los números de página */
+            }
+        </style>
+    </header>
+    <div class = "grupo-nav-list">
+        <nav>
+            <ul class="nav-list">
+                <li>
+                    <div class="back-button">
+                        <a href="#" onclick="volverPaginaAnterior()">Volver atrás</a>
+                    </div>
+                </li>
+                <li><a href="/Interfaces/NewPaginaPrincipal.html">Principal</a></li>
+                <li><a href="/Interfaces/ListaDeseados.html">Lista Deseados</a></li>
+                <li><a href="#">Productos</a></li>
+                <li>
+                    <div class="user-icons">
+                        <!-- Iconos de usuario (por ejemplo, inicio de sesión, carrito de compras) -->
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class = "texto-titulo">
+        <h2>Productos para Validar</h2>
+    </div>
+    <div class="featured-products-container">
+        <div class="validation-products">
+        </div>
+        <!--
+        <div class = "num-pagina">
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+        </div>-->
+        <div class="num-pagina">
+            <ul id="paginas"></ul>
+        </div>
+    </div>
+    <div class="botones-vendedor">
+        <div class="izquierda">
+            <button onclick = "volverPaginaAnterior()" class="search-history-btn">Volver</button>
+        </div>
+        <div class="derecha">
+            <button onclick = "validarProd()" class="search-history-btn" id="validarBtn" disabled>Validar Producto</button>
+
+            <button onclick = "eliminarProd()" class="search-history-btn" id="eliminarBtn" disabled>Eliminar Producto</button>
+            
+        </div>
+    </div>     
+    <footer>
+        <div class="separador">
+        </div>
+    </footer>
+    <script src="Metodos.js"></script>
+    <script>
+        // Llama a la función buscar cuando la página se cargue
+        window.addEventListener('load', CargarProductosValidacion);
+    </script>
+</body>
+</html>

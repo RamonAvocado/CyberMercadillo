@@ -68,7 +68,7 @@ app.UseCors("AllowSpecificOrigin");
 app.MapPost("/añadir",  async (Supabase.Client client) => 
 {
     FabricaDeProductos f1 = new FabricaDeProductos();
-    Producto prod = f1.CrearProducto("Smartphone XX","20","CatPrueba","Nuevo Smatphone Pro xx Max","imagen.jpg",5,7);
+    Producto prod = f1.CrearProducto("Smartphone XX","20","CatPrueba","Nuevo Smatphone Pro xx Max","imagen.jpg",5,7,false);
     await client.From<Producto>().Insert(new List<Producto> { prod });
 
     return Results.Ok("Producto created successfully");
@@ -226,7 +226,7 @@ app.MapGet("/ObtenerProductosVendedor", async (HttpContext context, Supabase.Cli
     try
     {      
         var productos = await client.From<Producto>()
-        .Where(p => p.idvendedor == 5)
+        .Where(p => p.idvendedor == 5 && p.validado == true)
         .Select("idproducto, nombreproducto, precio, descripcion, imagenes")
         .Get();
 
@@ -245,6 +245,30 @@ app.MapGet("/ObtenerProductosVendedor", async (HttpContext context, Supabase.Cli
     }
 });
 
+app.MapGet("/ObtenerProductosAValidar", async (HttpContext context, Supabase.Client client) =>
+{
+    try
+    {      
+        var productos = await client.From<Producto>()
+        .Where(p => p.idvendedor == 5 && p.validado == false)
+        .Select("idproducto, nombreproducto, precio, descripcion, imagenes")
+        .Get();
+
+        var jsonResponse = new { productos };
+        //var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagen").Limit(6).Get();
+
+        // Devolver los productos al frontend
+        //var jsonResponse = new { productos };
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+    }
+    catch (Exception ex)
+    {
+        context.Response.StatusCode = 500;
+        context.Response.ContentType = "text/plain";
+        await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+    }
+});
 
 //Busca un producto desde el forntend
 app.MapPost("/BuscarProducto", async (HttpContext context,Supabase.Client client) =>
@@ -343,6 +367,55 @@ app.MapPost("/buscarProductoX", async (HttpContext context, Supabase.Client clie
     }
 });
 
+
+app.MapPost("/validarProductoX", async (HttpContext context, Supabase.Client client) =>
+{
+    using (var reader = new StreamReader(context.Request.Body))
+    {
+        try{
+            var requestBody = await reader.ReadToEndAsync();
+            var productoData = JsonConvert.DeserializeObject<Producto>(requestBody);
+
+            //string nombreBuscado = "Smartphone X";
+            var result = await client.From<Producto>()
+                                    .Where(p => p.idproducto == productoData.idproducto && p.validado == true)
+                                    .Select("precio, cantidad, categoria, descripcion, imagenes, nombreproducto")
+                                    .Get();
+            //var jsonResponse = new { result };
+            //context.Response.ContentType = "application/json";
+            //await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+
+            if (result.Model == null) {
+                // Si se encuentra el producto, devolverlo como JSON
+                
+                var result2 = await client.From<Producto>()
+                    .Where(p => p.idproducto == productoData.idproducto)
+                    .Single();
+                      // Use supabase.eq for comparison
+                result2.validado = true;
+                
+                await result2.Update<Producto>();
+
+                var jsonResponse = new { mensaje = "El producto no existe", existe = true };
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+            } else {
+                // Si  encuentra el producto, devolver un mensaje indicando que ya existe
+                var jsonResponse = new { mensaje = "El producto ya existe", existe = true };
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+            }
+
+        }
+        catch (Exception ex)
+        {
+            context.Response.StatusCode = 500;
+            context.Response.ContentType = "text/plain";
+            await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+        }
+    }
+});
+
 app.MapPost("/eliminarProductoX", async (HttpContext context, Supabase.Client client) =>
 {
     using (var reader = new StreamReader(context.Request.Body))
@@ -391,7 +464,8 @@ app.MapPost("/AgregarProducto", async (HttpContext context,Supabase.Client clien
                 productoData.descripcion ?? "Este articulo es el predeterminado por si llega un null a esta funcion", 
                 productoData.imagenes ?? "/rutaPrueba",  //Este lo pone siempre
                 productoData.cantidad ?? -1,//predeterminado que si llega un nulo, sea -1 
-                productoData.idvendedor ?? -1);
+                productoData.idvendedor ?? -1,
+                productoData.validado ?? false);
 
 #pragma warning restore CS8602 // Y aqui para volver a instaurarlo
 
