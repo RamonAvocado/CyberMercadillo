@@ -6,12 +6,19 @@ body {
 }
 
 .header {
-    background-color: #ccc;
+    background-color: #F3F3F3;
     color: #000;
     padding: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    padding-left: 50px;
+    margin-left: 20px;
+    margin-right: 15px;
+    margin-top: 20px;
+
 }
 
 .close-button {
@@ -19,23 +26,40 @@ body {
 }
 
 .product-container-compra{
-    display: flex;
+    background-color: #D9D9D9;
     flex-direction: column;
     align-items: center;
     padding: 20px;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    margin-left: 20px;
+    margin-right: 15px;
+    margin-bottom: 20px;
+}
+
+.product-compra{
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.product-compra > div:not(:last-child) {
+    border-bottom: 1px solid #000; /* Añade un borde negro en la parte inferior de cada div dentro de .product-compra excepto el último */
+    padding-bottom: 20px; /* Ajusta el espaciado inferior para separar visualmente los elementos */
+} 
+
+.imagen-llegada{
+    display: flex;
+    border-color: #000;
 }
 
 img {
+    border-radius: 40px;
     max-width: 20%;
     height: auto;
     border: 1px solid #ddd;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.shipping-info,
-.payment-info {
-    margin-top: 20px;
-}
 
 input {
     width: 100%;

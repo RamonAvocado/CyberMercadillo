@@ -90,6 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /*
 // botones para cambio de página para cargar más productos
+
 // CARGA LOS PRODUCTOS DIRECTAMENTE
 document.addEventListener('DOMContentLoaded', function() {
     // Agrega un evento click a cada número de página para los productos destacados
@@ -163,6 +164,8 @@ async function cargarProductosPorPagina(numeroPagina, tipoProductos) {
 
 //fin botones cambio página
 */
+
+
 
 //  INICIO PRODUCTOS DESTACADOS
 
@@ -255,6 +258,10 @@ function mostrarProductosDestacados(productos) {
             <h3>${producto.nombreproducto}</h3>
             <p>${producto.precio} €</p>
             <p>${producto.descripcion}</p>
+            <div hidden>
+                <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
+                <div id="idProducto" data-info="${producto.idproducto}"> </div>
+            </div>
         `;
 
         // Agregar evento de clic para seleccionar el producto
@@ -365,6 +372,10 @@ function mostrarProductosRecomendados(productos) {
             <h3>${producto.nombreproducto}</h3>
             <p>${producto.precio} €</p>
             <p>${producto.descripcion}</p>
+            <div hidden>
+                <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
+                <div id="idProducto" data-info="${producto.idproducto}"> </div>
+            </div>
         `;
 
         // Agregar evento de clic para seleccionar el producto
@@ -391,7 +402,8 @@ async function CargaTodosProductos(){
         const response = await fetch('http://localhost:5169/ObtenerTodosProductos');
         if (response.ok) {
             const data = await response.json();
-            mostrarTodosProductos(data);// Llama a una función para mostrar los productos en la página
+            const productos = data.productos.Models;
+            mostrarTodosProductos(productos);// Llama a una función para mostrar los productos en la página
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
         }
@@ -400,8 +412,7 @@ async function CargaTodosProductos(){
     }
 }
 
-function mostrarTodosProductos(respuesta) {
-    const productos = respuesta.productos.Models;
+function mostrarTodosProductos(productos) {
     const container = document.querySelector('.resultado-busqueda');
 
     // Limpia el contenedor antes de agregar nuevos productos
@@ -704,29 +715,43 @@ function mostrarUnProductoBasico(respuesta) {
 
 }
 
+// INICIO FUNCIONES PARA LA COMPRA DE UN PRODUCTO
+
 async function CargaUnProductoCompra(){
     try{
         // Pillar el ID del producto de la URI
         const urlParams = new URLSearchParams(window.location.search);
         const productId = urlParams.get('id');
 
+        //solo falta que aqui le pasemos el id del usuario que ha iniciado sesión
+        idUser = 1;
+        const respuestaDirec = await fetch(`http://localhost:5169/ObtenerDireccionUsuario?idusuario=${idUser}`);
+
+
         // Obtener el producto por ID desde el backend
         const response = await fetch(`http://localhost:5169/ObtenerProductoPorID?idproducto=${productId}`);
 
-        if(response.ok){
+        if(response.ok && respuestaDirec.ok){
             const data = await response.json();
+            const producto = data.producto;
+
+            //muestra la información de la dirección correctamente
+            const dataDirec = await respuestaDirec.json();
+            console.log(dataDirec); // Verifica la respuesta del servidor
+
+            const direc = dataDirec.direcc.direccion;
+            console.log(direc); // Verifica la respuesta del servidor
             // Mostrar la información del producto
-            mostrarUnProductoCompra(data);
+            mostrarUnProductoCompra(producto, direc);
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
         }
     } catch (error) {
-        console.error('Error inesperado:', error);
+        console.error('Error inesperado al cargar un producto compra:', error);
     }
 }
 
-function mostrarUnProductoCompra(respuesta) {
-    const producto = respuesta.producto;
+function mostrarUnProductoCompra(producto, direc) {
     // Separar las URL de las imágenes
     const imagenes = producto.imagenes.split(' ');
     const primeraImagen = imagenes[0];
@@ -735,7 +760,7 @@ function mostrarUnProductoCompra(respuesta) {
     const productName = document.querySelector('.header h1');
 
     //const arrivalDate = document.querySelector('.product-container-compra p');
-    //const shippingInfo = document.querySelector('.shipping-info p');
+    const shippingInfo = document.querySelector('.shipping-info p');
     const paymentInputs = document.querySelectorAll('.payment-info input');
     const totalCost = document.querySelector('.total-cost');
 
@@ -743,7 +768,7 @@ function mostrarUnProductoCompra(respuesta) {
     productImg.src = primeraImagen; // Suponiendo que el servidor envía la URL de la imagen
     productName.textContent =  `Compra ahora: ${producto.nombreproducto} `;
     //arrivalDate.textContent = `Llegada el: ${respuesta.fecha_llegada}`;
-    //shippingInfo.textContent = `Enviar a: ${respuesta.direccion_envio}`;
+    shippingInfo.textContent = `${direc}`;
     totalCost.textContent = `Total: ${producto.precio} €`; // Suponiendo que el servidor envía el precio
 
     // Si el servidor envía más información sobre el pago, puedes llenarla aquí
@@ -754,54 +779,9 @@ function mostrarUnProductoCompra(respuesta) {
         paymentInputs[2].value = paymentData.cvv;
     }
 }
-/*
-sucio
+// FIN FUNCIONES PARA LA COMPRA DE UN PRODUCTO
 
-function mostrarUnProductoCompra(respuesta) {
-    const producto = respuesta.producto;
-    const container = document.querySelector('.product-container-compra');
-    container.innerHTML = '';
-
-    // Separar las URL de las imágenes
-    const imagenes = producto.imagenes.split(',');
-    const primeraImagen = imagenes[0];
-
-    // Agrega la imagen, nombre y precio del producto dentro de la tarjeta
-    productCard.innerHTML = `
-        <button class="favorite-btn"></button> <!-- Botón de favoritos -->
-        <img src="${primeraImagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
-        <h3>${producto.nombreproducto}</h3>
-        <p>${producto.precio} €</p>
-        <p>${producto.descripcion}</p>
-        <div hidden>
-            <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
-            <div id="idProducto" data-info="${producto.idproducto}"> </div>
-        </div>
-    `;
-
-    const productImg = document.querySelector('.product-container-compra img');
-    const arrivalDate = document.querySelector('.product-container-compra p');
-    const shippingInfo = document.querySelector('.shipping-info p');
-    const paymentInputs = document.querySelectorAll('.payment-info input');
-    const totalCost = document.querySelector('.total-cost');
-
-    // Llenar la información del producto con los datos obtenidos del servidor
-    productImg.src = primeraImagen; // Suponiendo que el servidor envía la URL de la imagen
-    arrivalDate.textContent = `Llegada el: ${respuesta.fecha_llegada}`;
-    shippingInfo.textContent = `Enviar a: ${respuesta.direccion_envio}`;
-    totalCost.textContent = `${producto.precio} euros`; // Suponiendo que el servidor envía el precio
-
-    // Si el servidor envía más información sobre el pago, puedes llenarla aquí
-    if (respuesta.metodo_pago) {
-        const paymentData = respuesta.metodo_pago;
-        paymentInputs[0].value = paymentData.numero_tarjeta;
-        paymentInputs[1].value = paymentData.fecha_caducidad;
-        paymentInputs[2].value = paymentData.cvv;
-    }
-}
-*/
-
-// inicio mostrar categorias
+// INCIO mostrar categorias
 
 async function CargaCategorias() {
     try {
@@ -851,7 +831,7 @@ async function buscarPorCategoria() {
     }
 }
 
-// fin mostrar categorias
+// FIN mostrar categorias
 
 // AQUI HICE EL MERGE MANUAL YA QUE ERA IMPOSIBLE HACERLO AUTOMÁTICO
 

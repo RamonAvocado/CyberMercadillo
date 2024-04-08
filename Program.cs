@@ -181,7 +181,7 @@ app.MapGet("/ObtenerTodosProductos", async (HttpContext context, Supabase.Client
     }
 });
 
-
+//carga todas las categorías de todos los productos
 app.MapGet("/CargarCategorias", async (HttpContext context, Supabase.Client client) =>
 {
     try
@@ -190,6 +190,29 @@ app.MapGet("/CargarCategorias", async (HttpContext context, Supabase.Client clie
 
         var jsonResponse = new { CategoriasProductos };
 
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+    }
+    catch (Exception ex)
+    {
+        // Manejar cualquier error y devolver una respuesta de error al cliente
+        errorDefault(context,ex);
+    }
+});
+
+//carga la dirección de un usuario
+app.MapGet("/ObtenerDireccionUsuario", async (HttpContext context, Supabase.Client client) =>
+{
+    try
+    {      
+        // Obtener el ID del producto de la consulta
+        //var idBuscado = context.Request.Query["idusuario"].ToString();
+        var idBuscado = 1;
+        
+        var direcc = await client.From<Usuario>().Filter("idusuario", Postgrest.Constants.Operator.Equals, idBuscado).Select("direccion").Single();
+
+
+        var jsonResponse = new { direcc };
         context.Response.ContentType = "application/json";
         await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
     }
