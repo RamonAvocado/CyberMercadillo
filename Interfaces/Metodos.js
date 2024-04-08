@@ -1388,3 +1388,27 @@ async function iniciarSesion() {
         }
     });
 }
+
+async function getBusquedas() {
+    var searchTerm = document.getElementById('searchInput').value;
+    var category = document.getElementById('categorySelect').value;
+
+    try {
+        const response = await fetch('http://localhost:5169/BuscarProducto', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ searchTerm: searchTerm, category: category }),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            mostrarResultados(data.resultado);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}

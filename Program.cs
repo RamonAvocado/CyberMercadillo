@@ -84,6 +84,7 @@ app.MapPost("/buscar",  async (Supabase.Client client) =>
     #nullable disable
     var respuesta = result.idproducto!.ToString() ?? "No existe ese producto";
     #nullable restore
+
     return Results.Ok(respuesta);
 
 });
@@ -103,9 +104,8 @@ app.MapGet("/ObtenerProductosDestacados", async (HttpContext context, Supabase.C
     }
     catch (Exception ex)
     {
-        context.Response.StatusCode = 500;
-        context.Response.ContentType = "text/plain";
-        await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+        // Manejar cualquier error y devolver una respuesta de error al cliente
+        errorDefault(context,ex);
     }
 });
 
@@ -124,9 +124,8 @@ app.MapGet("/ObtenerProductosRecomendados", async (HttpContext context, Supabase
     }
     catch (Exception ex)
     {
-        context.Response.StatusCode = 500;
-        context.Response.ContentType = "text/plain";
-        await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+        // Manejar cualquier error y devolver una respuesta de error al cliente
+        errorDefault(context,ex);
     }
 });
 
@@ -177,9 +176,8 @@ app.MapGet("/ObtenerTodosProductos", async (HttpContext context, Supabase.Client
     }
     catch (Exception ex)
     {
-        context.Response.StatusCode = 500;
-        context.Response.ContentType = "text/plain";
-        await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+        // Manejar cualquier error y devolver una respuesta de error al cliente
+        errorDefault(context,ex);
     }
 });
 
@@ -197,9 +195,8 @@ app.MapGet("/CargarCategorias", async (HttpContext context, Supabase.Client clie
     }
     catch (Exception ex)
     {
-        context.Response.StatusCode = 500;
-        context.Response.ContentType = "text/plain";
-        await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+        // Manejar cualquier error y devolver una respuesta de error al cliente
+        errorDefault(context,ex);
     }
 });
 
@@ -219,9 +216,8 @@ app.MapGet("/ObtenerProductoPorID", async (HttpContext context, Supabase.Client 
     }
     catch (Exception ex)
     {
-        context.Response.StatusCode = 500;
-        context.Response.ContentType = "text/plain";
-        await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+        // Manejar cualquier error y devolver una respuesta de error al cliente
+        errorDefault(context,ex);
     }
 });
 
@@ -244,9 +240,8 @@ app.MapGet("/ObtenerProductosVendedor", async (HttpContext context, Supabase.Cli
     }
     catch (Exception ex)
     {
-        context.Response.StatusCode = 500;
-        context.Response.ContentType = "text/plain";
-        await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+        // Manejar cualquier error y devolver una respuesta de error al cliente
+        errorDefault(context,ex);
     }
 });
 
@@ -260,6 +255,10 @@ app.MapPost("/BuscarProducto", async (HttpContext context,Supabase.Client client
         try{
             var requestBody = await reader.ReadToEndAsync();
             var searchData = JsonConvert.DeserializeObject<SearchData>(requestBody);
+
+            //Añadir busqueda
+            var b1 = new Busqueda(searchData.searchTerm ?? "SmartPhone X", DateTime.Now, 1);
+            await client.From<Busqueda>().Insert(new List<Busqueda> { b1 });
 
             // Utilizar searchData.searchTerm en la lógica de búsqueda
             var nombreBuscado = searchData!.searchTerm ?? "Auriculares Bluetooth";
@@ -285,9 +284,8 @@ app.MapPost("/BuscarProducto", async (HttpContext context,Supabase.Client client
             await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
         } catch (Exception ex)
         {
-            context.Response.StatusCode = 500;
-            context.Response.ContentType = "text/plain";  // Establecer el tipo de contenido si no es JSON
-            await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+            // Manejar cualquier error y devolver una respuesta de error al cliente
+            errorDefault(context,ex);
         }
         
     }
@@ -323,6 +321,7 @@ app.MapPost("/buscarProductoX", async (HttpContext context, Supabase.Client clie
     {
         try{
             var requestBody = await reader.ReadToEndAsync();
+
             var productoData = JsonConvert.DeserializeObject<Producto>(requestBody);
 
             //string nombreBuscado = "Smartphone X";
@@ -338,9 +337,8 @@ app.MapPost("/buscarProductoX", async (HttpContext context, Supabase.Client clie
         }
         catch (Exception ex)
         {
-            context.Response.StatusCode = 500;
-            context.Response.ContentType = "text/plain";
-            await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+            // Manejar cualquier error y devolver una respuesta de error al cliente
+            errorDefault(context,ex);
         }
     }
 });
@@ -366,9 +364,8 @@ app.MapPost("/eliminarProductoX", async (HttpContext context, Supabase.Client cl
         }
         catch (Exception ex)
         {
-            context.Response.StatusCode = 500;
-            context.Response.ContentType = "text/plain";
-            await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+            // Manejar cualquier error y devolver una respuesta de error al cliente
+            errorDefault(context,ex);
         }
     }
 });
@@ -406,9 +403,8 @@ app.MapPost("/AgregarProducto", async (HttpContext context,Supabase.Client clien
             await context.Response.WriteAsync("Producto creado exitosamente");
         } catch (Exception ex)
         {
-            context.Response.StatusCode = 500;
-            context.Response.ContentType = "text/plain";  // Establecer el tipo de contenido si no es JSON
-            await context.Response.WriteAsync($"Error al crear el producto: {ex.Message}");
+            // Manejar cualquier error y devolver una respuesta de error al cliente
+            errorDefault(context,ex);
         }
     }
     return Results.Ok("Producto created successfully"); 
@@ -471,9 +467,8 @@ app.MapPost("/ActualizarProducto", async (HttpContext context,Supabase.Client cl
             await context.Response.WriteAsync("Producto creado exitosamente");
         } catch (Exception ex)
         {
-            context.Response.StatusCode = 500;
-            context.Response.ContentType = "text/plain";  // Establecer el tipo de contenido si no es JSON
-            await context.Response.WriteAsync($"Error al crear el producto: {ex.Message}");
+            // Manejar cualquier error y devolver una respuesta de error al cliente
+            errorDefault(context,ex);
         }
     }
     return Results.Ok("Producto created successfully"); 
@@ -512,15 +507,43 @@ app.MapPost("/guardar_producto", async (HttpContext context, Supabase.Client cli
     catch (Exception ex)
     {
         // Manejar cualquier error y devolver una respuesta de error al cliente
-        context.Response.StatusCode = 500;
-        context.Response.ContentType = "text/plain";
-        await context.Response.WriteAsync($"Error al guardar el producto: {ex.Message}");
+        errorDefault(context,ex);
     }
 });
 
 app.MapGet("/status", () => Results.Ok("El backend está en funcionamiento correctamente."));
 
+app.MapGet("/getBusquedas", async (HttpContext context, Supabase.Client client) =>
+{
+    try
+    {
+        // Leer el cuerpo de la solicitud para obtener los datos del producto
+        using (var reader = new StreamReader(context.Request.Body))
+        {
+            var result = await client.From<Busqueda>()
+                            .Select("*")
+                            .Get();
+
+            // Devolver los productos al frontend
+            var jsonResponse = new { result };
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+        }
+    }
+    catch (Exception ex)
+    {
+        errorDefault(context,ex);
+    }
+});
+
 app.Run();
+
+
+async static void errorDefault(HttpContext context,Exception ex){
+    context.Response.StatusCode = 500;
+    context.Response.ContentType = "text/plain";
+    await context.Response.WriteAsync($"Error al guardar el producto: {ex.Message}");
+}
 
 
 public class SearchData
