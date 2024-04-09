@@ -109,5 +109,22 @@
     <script>
         window.addEventListener('DOMContentLoaded', CargarProductosRecomendados);  
     </script>
+        <script>
+            function CargarIdUsuario(){
+                var idUser = 7; // Puedes cambiar esto para obtener el ID del usuario
+                const container = document.querySelector('.User-Info');
+                container.innerHTML = '';
+                                                                    
+                    const info = document.createElement('div');
+                    info.innerHTML = `
+                        <div id="idUsuario" data-info="${idUser}"></div>
+                        `;
+                             
+                        container.appendChild(info);
+            }
+
+           // Llama a la función para cargar el ID del usuario cuando la página se cargue
+            window.addEventListener('DOMContentLoaded', CargarIdUsuario);  
+        </script>
 </body>
 </html>
