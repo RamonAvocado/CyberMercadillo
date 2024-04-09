@@ -650,6 +650,79 @@ app.MapPost("/iniciarSesion", async (HttpContext context, Supabase.Client client
     }
 });
 
+//pruebas inicio sesión Hernán
+app.MapPost("/iniciarSesionHernan", async (HttpContext context, Supabase.Client client) =>
+{
+       string rutaArchivo = "C:/Users/2003h/OneDrive/Escritorio/UPV/3º/2º Cuatri/PSW. Proyecto Software/outputs.txt";
+
+
+    try
+    {
+        var correoUsuario = context.Request.Query["correo"].ToString();
+        var contraUsuario = context.Request.Query["contraseña"].ToString();
+        // Crear o abrir el archivo en modo de escritura (se sobrescribirá si ya existe)
+        using (StreamWriter writer = new StreamWriter(rutaArchivo))
+        {
+            // Redirigir la salida estándar de la consola al archivo
+            Console.SetOut(writer);
+
+            // Ahora, todo lo que se imprima con Console.WriteLine() se guardará en el archivo
+
+            // Ejemplo:
+        Console.WriteLine(correoUsuario);
+        Console.WriteLine(contraUsuario);
+
+            // Informar al usuario que se han guardado los outputs
+            Console.WriteLine("Los outputs se han guardado en el archivo: " + rutaArchivo);
+        }
+
+
+        //var correoUsuario = "hernan@example.com";
+        //var contraUsuario = "hernan1234";
+
+        // Buscar el usuario por su correo electrónico
+        var usuario = await client.From<Usuario>().Filter("correo", Postgrest.Constants.Operator.Equals, correoUsuario).Single();
+
+        Console.WriteLine(usuario);
+
+        if (usuario != null)
+        {
+            // Verificar si la contraseña coincide
+            if (usuario.contraseña == contraUsuario)
+            {
+                // Las credenciales son válidas
+                var jsonResponse = new { Id = usuario.idusuario, Nombre = usuario.nombre, Correo = usuario.correo }; // Agrega las propiedades que necesites
+                context.Response.StatusCode = 200;
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+            }
+            else
+            {
+                // La contraseña es incorrecta
+                context.Response.StatusCode = 401; // Unauthorized
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(new { error = "Contraseña incorrecta" }));
+            }
+        }
+        else
+        {
+            // No se encontró ningún usuario con ese correo electrónico
+            context.Response.StatusCode = 401; // Unauthorized
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync(JsonConvert.SerializeObject(new { error = "Usuario no encontrado" }));
+        }
+    }
+    catch (Exception ex)
+    {
+        context.Response.StatusCode = 500;
+        context.Response.ContentType = "text/plain";
+        await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+    }
+});
+
+
+//fin prueba de inicio sesion
+
 app.MapGet("/status", () => Results.Ok("El backend está en funcionamiento correctamente."));
 
 

@@ -1,4 +1,5 @@
 var idProductoSeleccionado;
+var idUsuarioIniciado;//guardo esto aquí para poder acceder en todas las páginas
 
 async function buscar() {
     //window.location.href = "ResultadoBusqueda.html"
@@ -1621,6 +1622,39 @@ async function iniciarSesion() {
         }
     });
 }*/
+//idUsuarioIniciado = respuesta.idusuario;
+async function IniciarSesionHernan(){
+    try {
+        // Pillar los datos del usuario
+        const correo = document.getElementById("correoUser").value;
+        const contraseña = document.getElementById("contraUser").value;
+        console.log("El correo es: " + correo + " y la contraseña: " + contraseña);
+
+        const response = await fetch('http://localhost:5169/iniciarSesionHernan', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `correo=${encodeURIComponent(correo)}&contraseña=${encodeURIComponent(contraseña)}`,
+        });
+
+        if(response.ok){
+            console.log("el usuario ha iniciado sesión");
+            //ahora ir a la página principal
+            window.location.href = "NewPaginaPrincipal.html";
+        } else {
+            console.error('Respuesta NO ok por:', response.statusText);
+            throw new Error('Error en la respuesta del servidor');
+        }
+    } catch (error) {
+        console.error('Error al iniciar sesión:', error);
+    }
+}
+
+
+
+
+
 async function iniciarSesion() {
 
     const correo = document.getElementById("correoUser").value;
