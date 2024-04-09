@@ -631,7 +631,7 @@ app.MapPost("/iniciarSesion", async (HttpContext context, Supabase.Client client
             {
                 context.Response.StatusCode = 200;
                 context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(new { token }));
+                //await context.Response.WriteAsync(JsonConvert.SerializeObject(new { token }));
             }
             else
             {
