@@ -1617,26 +1617,66 @@ async function iniciarSesion() {
         }
     });
 }
+/*
+fetch('/getBusquedas')
+  .then(response => response.json())
+  .then(data => {
+    // Aquí puedes acceder a los datos obtenidos
+    console.log(data.result); // Imprime el objeto result en la consola
+    
+    // Por ejemplo, puedes acceder a la propiedad "Model" o "Models" según tus necesidades
+    const model = data.result.Model;
+    const models = data.result.Models;
+
+    // Haz lo que necesites con los datos obtenidos
+    // Por ejemplo, puedes mostrarlos en tu página HTML
+  })
+  .catch(error => {
+    // Manejar errores en caso de que la solicitud falle
+    console.error('Error al obtener los datos:', error);
+  });
+*/
 
 async function getBusquedas() {
-    var searchTerm = document.getElementById('searchInput').value;
-    var category = document.getElementById('categorySelect').value;
-
     try {
-        const response = await fetch('http://localhost:5169/BuscarProducto', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ searchTerm: searchTerm, category: category }),
-        });
+        const response = await fetch('http://localhost:5169/getBusquedas')
+        .then(response => response.json())
+        .then(data => {
+        
+        const models = data.result.Models;
 
-        if (response.ok) {
-            const data = await response.json();
-            mostrarResultados(data.resultado);
+        // Selecciona el elemento con la clase "historial"
+        const historialDiv = document.querySelector('.historial');
+        if (models.length == 0){
+            const h1 = document.createElement('h1');
+            h1.textContent = "No has buscado nada por ahora";
+            historialDiv.appendChild(h1);
         } else {
-            console.error('Error en la solicitud al backend:', response.statusText);
-        }
+            models.forEach(model => {
+                const busqueda = document.createElement('h1');
+                var fecha_busqueda = document.createElement('p');
+
+                // Asigna el texto al nuevo elemento <p>
+
+                // Agrega la clase "small-text" al nuevo elemento <p>
+
+                // Agrega el nuevo elemento <p> al final del elemento <div> seleccionado
+                // Asigna el texto del objeto 'model' a la etiqueta <h1>
+                busqueda.textContent = model.texto;
+                fecha_busqueda.textContent = model.fecha;
+
+                fecha_busqueda.classList.add('fecha');
+
+                // Agrega el elemento <h1> al elemento con la clase "historial"
+                historialDiv.appendChild(busqueda);
+                busqueda.appendChild(fecha_busqueda);
+
+            });
+        }})
+        .catch(error => {
+            // Manejar errores en caso de que la solicitud falle
+            console.error('Error al obtener los datos:', error);
+        });
     } catch (error) {
         console.error('Error inesperado:', error);
     }

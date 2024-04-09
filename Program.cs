@@ -303,6 +303,9 @@ app.MapPost("/BuscarProducto", async (HttpContext context,Supabase.Client client
             var requestBody = await reader.ReadToEndAsync();
             var searchData = JsonConvert.DeserializeObject<SearchData>(requestBody);
 
+            //Usuario que está haciendo la busqueda
+            var usuario = await client.From<Usuario>().Select("idusuario").Single();
+
             //Añadir busqueda
             var b1 = new Busqueda(searchData.searchTerm ?? "SmartPhone X", DateTime.Now, 1);
             await client.From<Busqueda>().Insert(new List<Busqueda> { b1 });
@@ -609,6 +612,7 @@ app.MapPost("/guardar_producto", async (HttpContext context, Supabase.Client cli
 
 app.MapGet("/status", () => Results.Ok("El backend está en funcionamiento correctamente."));
 
+
 app.MapGet("/getBusquedas", async (HttpContext context, Supabase.Client client) =>
 {
     try
@@ -616,6 +620,8 @@ app.MapGet("/getBusquedas", async (HttpContext context, Supabase.Client client) 
         // Leer el cuerpo de la solicitud para obtener los datos del producto
         using (var reader = new StreamReader(context.Request.Body))
         {
+            var requestBody = await reader.ReadToEndAsync();
+            var productoData = JsonConvert.DeserializeObject<Producto>(requestBody);
             var result = await client.From<Busqueda>()
                             .Select("*")
                             .Get();
@@ -629,7 +635,8 @@ app.MapGet("/getBusquedas", async (HttpContext context, Supabase.Client client) 
     catch (Exception ex)
     {
         // Manejar cualquier error y devolver una respuesta de error al cliente
-        errorDefault(context,ex);    }
+        errorDefault(context,ex);    
+    }
 });
 
 app.Run();
@@ -640,7 +647,6 @@ async static void errorDefault(HttpContext context,Exception ex){
     context.Response.ContentType = "text/plain";
     await context.Response.WriteAsync($"Error al guardar el producto: {ex.Message}");
 }
-
 
 public class SearchData
 {

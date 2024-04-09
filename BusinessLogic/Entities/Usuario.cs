@@ -7,6 +7,8 @@ using CyberMercadillo;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
+
 
 namespace CyberMercadillo.Entities
 {       
@@ -21,8 +23,6 @@ namespace CyberMercadillo.Entities
             numeroTarjeta = numeroTarj;
             fechaCaducidad = fechaCad;
             CVV = cvvUser;
-
         }
-
     }
 }

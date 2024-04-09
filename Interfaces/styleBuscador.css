@@ -398,3 +398,9 @@ select {
     background-color: #f9a825; /* Establece el color de fondo del botón de carrito igual que los otros botones */
 }
 
+.fecha{
+    font-size: 10px;
+    color: gray;
+    margin-right: auto;
+}
+
