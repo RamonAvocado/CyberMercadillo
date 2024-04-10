@@ -1705,8 +1705,10 @@ async function getBusquedas() {
             historialDiv.appendChild(h1);
         } else {
             models.forEach(model => {
-                const busqueda = document.createElement('h1');
-                var fecha_busqueda = document.createElement('p');
+                const busqueda = document.createElement('div');
+                
+                var texto_busqueda = document.createElement('span');
+                var fecha_busqueda = document.createElement('span');
 
                 // Asigna el texto al nuevo elemento <p>
 
@@ -1714,14 +1716,18 @@ async function getBusquedas() {
 
                 // Agrega el nuevo elemento <p> al final del elemento <div> seleccionado
                 // Asigna el texto del objeto 'model' a la etiqueta <h1>
-                busqueda.textContent = model.texto;
+                texto_busqueda.textContent = model.texto;
                 fecha_busqueda.textContent = model.fecha;
 
+                texto_busqueda.classList.add('texto-busqueda');
                 fecha_busqueda.classList.add('fecha');
+                busqueda.classList.add("busqueda-historial")
 
                 // Agrega el elemento <h1> al elemento con la clase "historial"
-                historialDiv.appendChild(busqueda);
+                busqueda.appendChild(texto_busqueda);
                 busqueda.appendChild(fecha_busqueda);
+                historialDiv.appendChild(busqueda);
+                
 
             });
         }})
