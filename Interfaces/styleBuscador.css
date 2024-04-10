@@ -398,9 +398,22 @@ select {
     background-color: #f9a825; /* Establece el color de fondo del botón de carrito igual que los otros botones */
 }
 
-.fecha{
+.fecha-historial{
     font-size: 10px;
     color: gray;
-    margin-right: auto;
+
+    text-align: right;
+}
+
+.texto-historial{
+    font-size: 20px;
+
+    text-align: left;
+}
+
+.busqueda-historial{
+    background-color: lightgray;
+    display: flex; 
+    justify-content: space-between;
 }
 

@@ -317,11 +317,8 @@ app.MapPost("/BuscarProducto", async (HttpContext context,Supabase.Client client
             var requestBody = await reader.ReadToEndAsync();
             var searchData = JsonConvert.DeserializeObject<SearchData>(requestBody);
 
-            //Usuario que está haciendo la busqueda
-            var usuario = await client.From<Usuario>().Select("idusuario").Single();
-
             //Añadir busqueda
-            var b1 = new Busqueda(searchData.searchTerm ?? "SmartPhone X", DateTime.Now, 1);
+            var b1 = new Busqueda(searchData.searchTerm ?? "SmartPhone X", DateTime.Now, searchData.idUser ?? 0);
             await client.From<Busqueda>().Insert(new List<Busqueda> { b1 });
 
             // Utilizar searchData.searchTerm en la lógica de búsqueda
@@ -745,8 +742,6 @@ app.MapGet("/getBusquedas", async (HttpContext context, Supabase.Client client) 
         // Leer el cuerpo de la solicitud para obtener los datos del producto
         using (var reader = new StreamReader(context.Request.Body))
         {
-            var requestBody = await reader.ReadToEndAsync();
-            var productoData = JsonConvert.DeserializeObject<Producto>(requestBody);
             var result = await client.From<Busqueda>()
                             .Select("*")
                             .Get();
@@ -777,5 +772,6 @@ public class SearchData
 {
     public string? searchTerm { get; set;}
     public string? category {get; set;}
+    public int? idUser { get; set;}
 }
 

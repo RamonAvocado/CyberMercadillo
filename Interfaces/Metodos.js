@@ -6,6 +6,10 @@ async function buscar() {
     var searchTerm = document.getElementById('searchInput').value;
     var category  = document.getElementById('categorySelect').value;
 
+    const urlParams = new URLSearchParams(window.location.search);
+    var idUser = urlParams.get('idUser');
+    
+
     // Realizar una solicitud POST al backend con la información de búsqueda
     try {
         const response = await fetch('http://localhost:5169/BuscarProducto', {
@@ -14,7 +18,7 @@ async function buscar() {
                 'Content-Type': 'application/json',
             },
             //le paso la búsqueda y la categoría 
-            body: JSON.stringify({ searchTerm: searchTerm, category: category  }),
+            body: JSON.stringify({ searchTerm: searchTerm, category: category, idUser: idUser}),
         });
 
         if (response.ok) {
@@ -1166,12 +1170,15 @@ function mostrarProductosDeVendedor(productos) {
 
 //Ir a la página de búsqueda
 function IrABuquedaProducto(){
-    window.location.href = "ResultadoBusqueda.html"
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('idUser');
+
+    window.location.href = `./ResultadoBusqueda.html?idUser=${userId}`
 }
 
 //boton para redirigir a la página de Búsqueda
 function redirigirABusqueda(){
-    window.location.href = "NewPaginaPrincipal.html"
+    window.location.href = `NewPaginaPrincipal.html?idUser=${userId}`
 }
 
 
@@ -1182,19 +1189,31 @@ function volverPaginaAnterior(){
 
 //Boton para ir al historial de Busqueda
 function irHistorialDeBúsqueda(){
-    window.location.href = "HistorialDeBusqueda.html"
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('idUser');
+
+    window.location.href = `HistorialDeBusqueda.html?idUser=${userId}`
 }
 
 function irANuevoProducto(){
-    window.location.href = "NuevoProducto.html"
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('idUser');
+
+    window.location.href = `NuevoProducto.html?idUser=${userId}`
 }
 
 function irAEditarProducto(){
-    window.location.href = "EditarProducto.html"
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('idUser');
+
+    window.location.href = `EditarProducto.html?idUser=${userId}`
 }
 
 function irALogin(){
-    window.location.href = "Login.html"
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('idUser');
+
+    window.location.href = `Login.html?idUser=${userId}`
 }
 
 
@@ -1621,7 +1640,7 @@ async function IniciarSesionHernan(){
 
             //console.log(idUsuarioIniciado);
             //ahora ir a la página principal
-            window.location.href = `/Interfaces/NewPaginaPrincipal.html?idUser=${data.Id}`;
+            window.location.href = `./NewPaginaPrincipal.html?idUser=${data.Id}`;
         } else {
             console.error('Respuesta NO ok por:', response.statusText);
             throw new Error('Error en la respuesta del servidor');
@@ -1668,43 +1687,29 @@ async function iniciarSesion() {
         console.error('Error al iniciar sesión:', error.message);
     }
 }
-/*
-fetch('/getBusquedas')
-  .then(response => response.json())
-  .then(data => {
-    // Aquí puedes acceder a los datos obtenidos
-    console.log(data.result); // Imprime el objeto result en la consola
-    
-    // Por ejemplo, puedes acceder a la propiedad "Model" o "Models" según tus necesidades
-    const model = data.result.Model;
-    const models = data.result.Models;
-
-    // Haz lo que necesites con los datos obtenidos
-    // Por ejemplo, puedes mostrarlos en tu página HTML
-  })
-  .catch(error => {
-    // Manejar errores en caso de que la solicitud falle
-    console.error('Error al obtener los datos:', error);
-  });
-*/
 
 
 async function getBusquedas() {
+    const urlParams = new URLSearchParams(window.location.search);
+    var idUser = urlParams.get('idUser');
+    
     try {
         const response = await fetch('http://localhost:5169/getBusquedas')
         .then(response => response.json())
         .then(data => {
         
         const models = data.result.Models;
+        const modelosFiltrados = models.filter(model => model.idusuario == idUser);
+        
 
         // Selecciona el elemento con la clase "historial"
         const historialDiv = document.querySelector('.historial');
-        if (models.length == 0){
+        if (modelosFiltrados.length == 0){
             const h1 = document.createElement('h1');
             h1.textContent = "No has buscado nada por ahora";
             historialDiv.appendChild(h1);
         } else {
-            models.forEach(model => {
+            modelosFiltrados.forEach(model => {
                 const busqueda = document.createElement('div');
                 
                 var texto_busqueda = document.createElement('span');
@@ -1719,8 +1724,8 @@ async function getBusquedas() {
                 texto_busqueda.textContent = model.texto;
                 fecha_busqueda.textContent = model.fecha;
 
-                texto_busqueda.classList.add('texto-busqueda');
-                fecha_busqueda.classList.add('fecha');
+                texto_busqueda.classList.add('texto-historial');
+                fecha_busqueda.classList.add('fecha-historial');
                 busqueda.classList.add("busqueda-historial")
 
                 // Agrega el elemento <h1> al elemento con la clase "historial"
