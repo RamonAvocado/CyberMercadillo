@@ -1652,7 +1652,49 @@ async function IniciarSesionHernan(){
     }
 }
 
+async function IniciarSesionVanessa(){
+    try {
+        // Pillar los datos del usuario
+        const correo = document.getElementById("correoUser").value;
+        const contraseña = document.getElementById("contraUser").value;
+        console.log("El correo es: " + correo + " y la contraseña: " + contraseña);
 
+        const response = await fetch('http://localhost:5169/iniciarSesionvanessa', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `correo=${encodeURIComponent(correo)}&contraseña=${encodeURIComponent(contraseña)}`,
+        });
+
+        if(response.ok){
+            console.log("El usuario ha iniciado sesión");
+            const data = await response.json();
+
+            // Determinar el tipo de usuario
+            let tipoUsuario;
+            console.log(data.TipoUsuario);
+            if (data.TipoUsuario === "Vendedor") {
+                tipoUsuario = "vendedor";
+                window.location.href = `./PaginaVendedor.html?idUser=${data.Id}`;
+            } else if (data.TipoUsuario === "Técnico") {
+                tipoUsuario = "tecnico";
+                window.location.href = `./ValidarProductos.html?idUser=${data.Id}`;
+            } else {
+                tipoUsuario = "usuario";
+                window.location.href = `./NewPaginaPrincipal.html?idUser=${data.Id}`;
+            }
+
+        } else {
+            console.error('Respuesta NO ok por:', response.statusText);
+            throw new Error('Error en la respuesta del servidor');
+        }
+    } catch (error) {
+        const mensajeError = document.getElementById("mensajeError");
+        mensajeError.style.display = "block"; // Hacer visible el elemento
+        console.error('Error al iniciar sesión:', error);
+    }
+}
 
 
 async function iniciarSesion() {
