@@ -139,9 +139,11 @@
         </div>
     </footer>
     <script src="Metodos.js"></script>
+
     <script>
-        // Llama a la función buscar cuando la página se cargue
-        window.addEventListener('load', CargarProductosVendedor);
+        // Llama a la función agregarProd() para que se ejecute tu código JavaScript
+        CargarProductosVendedor(localStorage.getItem('UsuarioID'));
+        
     </script>
 </body>
 </html>

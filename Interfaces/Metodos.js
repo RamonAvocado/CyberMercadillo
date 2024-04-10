@@ -1,5 +1,6 @@
 var idProductoSeleccionado;
 var idUsuarioIniciado;//guardo esto aquí para poder acceder en todas las páginas
+var idUsuarioIniciado2;
 
 async function buscar() {
     //window.location.href = "ResultadoBusqueda.html"
@@ -882,7 +883,42 @@ async function cargarYMostrarProductosPorPaginas() {
 }
 
 
-async function CargarProductosVendedor() {
+async function CargarProductosVendedor(idUsuarioIniciado2) {
+    try {
+        console.log('ID del usuario seleccionado:', idUsuarioIniciado2);
+        // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
+        
+        const response = await fetch('http://localhost:5169/ObtenerProductosVendedor',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                idusuario: idUsuarioIniciado2
+            }),
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            const productos = data.productos.Models;
+            
+            const productosPorPagina = 6;
+            const totalPaginas = Math.ceil(productos.length / productosPorPagina);
+
+            // Mostrar los productos de la primera página en la interfaz de usuario
+            mostrarProductosVendedor(productos.slice(0, productosPorPagina));
+
+            // Generar enlaces de paginación
+            generarEnlacesPaginacion(totalPaginas,idUsuarioIniciado2);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+/*async function CargarProductosVendedor() {
     try {
         // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
         const response = await fetch('http://localhost:5169/ObtenerProductosVendedor');
@@ -905,8 +941,7 @@ async function CargarProductosVendedor() {
     } catch (error) {
         console.error('Error inesperado:', error);
     }
-}
-
+} */
 async function CargarProductosValidacion() {
     try {
         // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
@@ -932,11 +967,23 @@ async function CargarProductosValidacion() {
     }
 }
 
-async function cargarProductosPorPagina(numeroPagina) {
+async function cargarProductosPorPagina(numeroPagina,idUsuarioIniciado2) {
     const productosPorPagina = 6;
 
     try {
-        const response = await fetch('http://localhost:5169/ObtenerProductosVendedor');
+
+        console.log('ID del usuario seleccionado:', idUsuarioIniciado2);
+        // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
+        const response = await fetch('http://localhost:5169/ObtenerProductosVendedor',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                idusuario: idUsuarioIniciado2
+            }),
+        });
+
         if (response.ok) {
             const data = await response.json();
             const productos = data.productos.Models;
@@ -977,7 +1024,7 @@ function mostrarProductos(respuesta) {
 }
 
 
-function generarEnlacesPaginacion(totalPaginas) {
+function generarEnlacesPaginacion(totalPaginas,idUsuarioIniciado2) {
     const paginasContainer = document.getElementById('paginas');
     paginasContainer.innerHTML = ''; // Limpiar los enlaces de paginación antes de generarlos nuevamente
 
@@ -993,7 +1040,7 @@ function generarEnlacesPaginacion(totalPaginas) {
         // Agregar event listener para cargar los productos de la página seleccionada
         enlace.addEventListener('click', async function(event) {
             event.preventDefault();
-            await cargarProductosPorPagina(i);
+            await cargarProductosPorPagina(i,idUsuarioIniciado2);
         });
     }
 }
@@ -1281,7 +1328,7 @@ async function agregarProd()
         });
 }
 
-async function agregarProducto()
+async function agregarProducto(idUsuarioIniciado2)
 {
         document.getElementById('agregarProductoForm2').addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -1294,6 +1341,11 @@ async function agregarProducto()
             const descripcion = formData.get('descripcionProd');
             const img = formData.get('imgProd');
             const cantidad = parseInt(formData.get('cantProd'));
+
+
+            console.log('ID del usuario seleccionado:', idUsuarioIniciado2);
+            // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
+            
 
             try {
                 const response = await fetch('http://localhost:5169/AgregarProducto', {
@@ -1308,7 +1360,7 @@ async function agregarProducto()
                         descripcion: descripcion,
                         imagenes: img,
                         cantidad: cantidad,
-                        idvendedor: 5,
+                        idvendedor: idUsuarioIniciado2,
                         validado: false,
                     }),
                 });
@@ -1493,7 +1545,7 @@ async function eliminarProd() {
     }
 }
 
-async function ActualizarProducto(idProductoSeleccionado)
+async function ActualizarProducto(idProductoSeleccionado,idUsuarioIniciado2)
 {
         document.getElementById('agregarProductoForm7').addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -1520,7 +1572,7 @@ async function ActualizarProducto(idProductoSeleccionado)
                         descripcion: descripcion,
                         imagenes: img,
                         cantidad: cantidad,
-                        idvendedor: 5,
+                        idvendedor: idUsuarioIniciado2,
                         idproducto:idProductoSeleccionado,
                     }),
                 });
@@ -1670,19 +1722,21 @@ async function IniciarSesionVanessa(){
         if(response.ok){
             console.log("El usuario ha iniciado sesión");
             const data = await response.json();
-
+            idUsuarioIniciado2 = data.Id;
+            localStorage.setItem('UsuarioID', idUsuarioIniciado2);
+            
             // Determinar el tipo de usuario
             let tipoUsuario;
             console.log(data.TipoUsuario);
             if (data.TipoUsuario === "Vendedor") {
                 tipoUsuario = "vendedor";
-                window.location.href = `./PaginaVendedor.html?idUser=${data.Id}`;
+                window.location.href = `./PaginaVendedor.html`;
             } else if (data.TipoUsuario === "Técnico") {
                 tipoUsuario = "tecnico";
-                window.location.href = `./ValidarProductos.html?idUser=${data.Id}`;
+                window.location.href = `./ValidarProductos.html`;
             } else {
                 tipoUsuario = "usuario";
-                window.location.href = `./NewPaginaPrincipal.html?idUser=${data.Id}`;
+                window.location.href = `./NewPaginaPrincipal.html`;
             }
 
         } else {

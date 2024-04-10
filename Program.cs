@@ -258,36 +258,45 @@ app.MapGet("/ObtenerProductoPorID", async (HttpContext context, Supabase.Client 
     }
 });
 
-app.MapGet("/ObtenerProductosVendedor", async (HttpContext context, Supabase.Client client) =>
+
+app.MapPost("/ObtenerProductosVendedor", async (HttpContext context, Supabase.Client client) =>
 {
-    try
-    {      
-        var productos = await client.From<Producto>()
-        .Where(p => p.idvendedor == 5 && p.validado == true)
-        .Select("idproducto, nombreproducto, precio, descripcion, imagenes")
-        .Get();
-
-        var jsonResponse = new { productos };
-        //var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagen").Limit(6).Get();
-
-        // Devolver los productos al frontend
-        //var jsonResponse = new { productos };
-        context.Response.ContentType = "application/json";
-        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-    }
-    catch (Exception ex)
+    using (var reader = new StreamReader(context.Request.Body))
     {
-        // Manejar cualquier error y devolver una respuesta de error al cliente
-        errorDefault(context,ex);
+        try
+        {      
+            var requestBody = await reader.ReadToEndAsync();
+
+            var usuarioData = JsonConvert.DeserializeObject<Usuario>(requestBody);
+
+            var productos = await client.From<Producto>()
+            .Where(p => p.idvendedor == usuarioData.idusuario && p.validado == true)
+            .Select("idproducto, nombreproducto, precio, descripcion, imagenes")
+            .Get();
+
+            var jsonResponse = new { productos };
+            //var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagen").Limit(6).Get();
+
+            // Devolver los productos al frontend
+            //var jsonResponse = new { productos };
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+        }
+        catch (Exception ex)
+        {
+            // Manejar cualquier error y devolver una respuesta de error al cliente
+            errorDefault(context,ex);
+        }
     }
 });
+
 
 app.MapGet("/ObtenerProductosAValidar", async (HttpContext context, Supabase.Client client) =>
 {
     try
     {      
         var productos = await client.From<Producto>()
-        .Where(p => p.idvendedor == 5 && p.validado == false)
+        .Where(p => p.validado == false)
         .Select("idproducto, nombreproducto, precio, descripcion, imagenes")
         .Get();
 
