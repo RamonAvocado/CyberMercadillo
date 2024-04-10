@@ -201,18 +201,32 @@ app.MapGet("/CargarCategorias", async (HttpContext context, Supabase.Client clie
 });
 
 //carga la dirección de un usuario
-app.MapGet("/ObtenerDireccionUsuario", async (HttpContext context, Supabase.Client client) =>
+app.MapGet("/ObtenerInfoUsuario", async (HttpContext context, Supabase.Client client) =>
 {
     try
     {      
         // Obtener el ID del producto de la consulta
-        //var idBuscado = context.Request.Query["idusuario"].ToString();
-        var idBuscado = 1;
+        var idBuscado = context.Request.Query["idusuario"].ToString();
+        //var idBuscado = 1;
         
-        var direcc = await client.From<Usuario>().Filter("idusuario", Postgrest.Constants.Operator.Equals, idBuscado).Select("direccion").Single();
+        var info = await client.From<Usuario>().Filter("idusuario", Postgrest.Constants.Operator.Equals, idBuscado).Single();
+       
+        /*string rutaArchivo = "C:/Users/2003h/OneDrive/Escritorio/UPV/3º/2º Cuatri/PSW. Proyecto Software/outputs.txt";
+        using (StreamWriter writer = new StreamWriter(rutaArchivo))
+        {
+            // Redirigir la salida estándar de la consola al archivo
+            Console.SetOut(writer);
 
+            // Ahora, todo lo que se imprima con Console.WriteLine() se guardará en el archivo
 
-        var jsonResponse = new { direcc };
+            // Ejemplo:
+            Console.WriteLine(idBuscado);
+            Console.WriteLine(info);
+            // Informar al usuario que se han guardado los outputs
+            Console.WriteLine("Los outputs se han guardado en el archivo: " + rutaArchivo);
+        }*/
+
+        var jsonResponse = new { info };
         context.Response.ContentType = "application/json";
         await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
     }
@@ -653,14 +667,20 @@ app.MapPost("/iniciarSesion", async (HttpContext context, Supabase.Client client
 //pruebas inicio sesión Hernán
 app.MapPost("/iniciarSesionHernan", async (HttpContext context, Supabase.Client client) =>
 {
-       string rutaArchivo = "C:/Users/2003h/OneDrive/Escritorio/UPV/3º/2º Cuatri/PSW. Proyecto Software/outputs.txt";
-
-
     try
     {
-        var correoUsuario = context.Request.Query["correo"].ToString();
-        var contraUsuario = context.Request.Query["contraseña"].ToString();
-        // Crear o abrir el archivo en modo de escritura (se sobrescribirá si ya existe)
+        var correoUsuario = context.Request.Form["correo"].ToString();
+        var contraUsuario = context.Request.Form["contraseña"].ToString();
+
+        //var correoUsuario = "hernan@example.com";
+        //var contraUsuario = "hernan1234";
+
+        // Buscar el usuario por su correo electrónico
+         var usuario = await client.From<Usuario>().Filter("correo", Postgrest.Constants.Operator.Equals, correoUsuario).Single();
+
+/*      ESTO ES PARA VER LOS OTUPUTS EN UN ARCHIVO
+
+        string rutaArchivo = "C:/Users/2003h/OneDrive/Escritorio/UPV/3º/2º Cuatri/PSW. Proyecto Software/outputs.txt";
         using (StreamWriter writer = new StreamWriter(rutaArchivo))
         {
             // Redirigir la salida estándar de la consola al archivo
@@ -669,21 +689,13 @@ app.MapPost("/iniciarSesionHernan", async (HttpContext context, Supabase.Client 
             // Ahora, todo lo que se imprima con Console.WriteLine() se guardará en el archivo
 
             // Ejemplo:
-        Console.WriteLine(correoUsuario);
-        Console.WriteLine(contraUsuario);
-
+            Console.WriteLine(correoUsuario);
+            Console.WriteLine(contraUsuario);
+            Console.WriteLine(usuario);
             // Informar al usuario que se han guardado los outputs
             Console.WriteLine("Los outputs se han guardado en el archivo: " + rutaArchivo);
         }
-
-
-        //var correoUsuario = "hernan@example.com";
-        //var contraUsuario = "hernan1234";
-
-        // Buscar el usuario por su correo electrónico
-        var usuario = await client.From<Usuario>().Filter("correo", Postgrest.Constants.Operator.Equals, correoUsuario).Single();
-
-        Console.WriteLine(usuario);
+*/
 
         if (usuario != null)
         {

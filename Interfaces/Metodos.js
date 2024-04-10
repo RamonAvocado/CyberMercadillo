@@ -467,11 +467,14 @@ function seleccionarProducto(productoSeleccionado) {
 function irAInfoProducto(productoParaInfo) {
     // Obtener el ID del producto y la categoría de los atributos de datos (data-*) de la tarjeta de producto
     const productId = productoParaInfo.querySelector('#idProducto').dataset.info;
-    const categoryProd = productoParaInfo.querySelector('#CategoriaSelec').dataset.info;
 
     // Redirigir a la página de información del producto
-    window.location.href = `/Interfaces/InfoProducto.html?id=${productId}`;
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('idUser');
+
+    window.location.href = `/Interfaces/InfoProducto.html?idProd=${productId}&idUser=${userId}`;
 }
+
 /*
 function irAInfoProducto2(productoParaInfo) {
     window.location.href = `InfoProducto.html?id=${productoParaInfo}`;
@@ -493,7 +496,7 @@ async function CargaUnProducto(){
     try{
         //pillar el id
         const urlParams = new URLSearchParams(window.location.search);
-        const productId = urlParams.get('id');
+        const productId = urlParams.get('idProd');
 
         const response = await fetch(`http://localhost:5169/ObtenerProductoPorID?idproducto=${productId}`);
 
@@ -615,7 +618,12 @@ function mostrarUnProducto(respuesta) {
         // Obtener el ID del producto desde el atributo de datos del contenedor del producto
         const productId = productCard.dataset.productId;
         // Redirigir a la página de compra del producto con el ID del producto en la URI
-        window.location.href = `/Interfaces/CompraProducto.html?id=${productId}`;
+            
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('idUser');
+        const prodID = urlParams.get('idProd');
+
+        window.location.href = `/Interfaces/CompraProducto.html?idProd=${productId}&idUser=${userId}`;
     });
 
 }
@@ -722,11 +730,13 @@ async function CargaUnProductoCompra(){
     try{
         // Pillar el ID del producto de la URI
         const urlParams = new URLSearchParams(window.location.search);
-        const productId = urlParams.get('id');
+        const productId = urlParams.get('idProd');
+        const idUser = urlParams.get('idUser');
 
         //solo falta que aqui le pasemos el id del usuario que ha iniciado sesión
-        idUser = 1;
-        const respuestaDirec = await fetch(`http://localhost:5169/ObtenerDireccionUsuario?idusuario=${idUser}`);
+        //idUser = 1;
+        //console.log(idUser);
+        const respuestaDirec = await fetch(`http://localhost:5169/ObtenerInfoUsuario?idusuario=${idUser}`);
 
 
         // Obtener el producto por ID desde el backend
@@ -735,15 +745,15 @@ async function CargaUnProductoCompra(){
         if(response.ok && respuestaDirec.ok){
             const data = await response.json();
             const producto = data.producto;
-
+            console.log(producto); // Verifica la respuesta del servidor
+            
             //muestra la información de la dirección correctamente
             const dataDirec = await respuestaDirec.json();
-            console.log(dataDirec); // Verifica la respuesta del servidor
+            const usuario = dataDirec.info;
+            console.log(usuario); // Verifica la respuesta del servidor
 
-            const direc = dataDirec.direcc.direccion;
-            console.log(direc); // Verifica la respuesta del servidor
             // Mostrar la información del producto
-            mostrarUnProductoCompra(producto, direc);
+            mostrarUnProductoCompra(producto, usuario);
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
         }
@@ -752,7 +762,7 @@ async function CargaUnProductoCompra(){
     }
 }
 
-function mostrarUnProductoCompra(producto, direc) {
+function mostrarUnProductoCompra(producto, usuario) {
     // Separar las URL de las imágenes
     const imagenes = producto.imagenes.split(' ');
     const primeraImagen = imagenes[0];
@@ -769,15 +779,14 @@ function mostrarUnProductoCompra(producto, direc) {
     productImg.src = primeraImagen; // Suponiendo que el servidor envía la URL de la imagen
     productName.textContent =  `Compra ahora: ${producto.nombreproducto} `;
     //arrivalDate.textContent = `Llegada el: ${respuesta.fecha_llegada}`;
-    shippingInfo.textContent = `${direc}`;
+    shippingInfo.textContent = `${usuario.direccion}`;
     totalCost.textContent = `Total: ${producto.precio} €`; // Suponiendo que el servidor envía el precio
 
     // Si el servidor envía más información sobre el pago, puedes llenarla aquí
-    if (respuesta.metodo_pago) {
-        const paymentData = respuesta.metodo_pago;
-        paymentInputs[0].value = paymentData.numero_tarjeta;
-        paymentInputs[1].value = paymentData.fecha_caducidad;
-        paymentInputs[2].value = paymentData.cvv;
+    if (usuario.numeroTarjeta != null) {
+        paymentInputs[0].value = usuario.numeroTarjeta;
+        paymentInputs[1].value = usuario.fechaCaducidad;
+        paymentInputs[2].value = usuario.CVV;
     }
 }
 // FIN FUNCIONES PARA LA COMPRA DE UN PRODUCTO
@@ -1589,40 +1598,6 @@ document.getElementById('agregarProductoForm2').addEventListener('submit', async
 
 
 
-
-// Método para iniciar sesión
-/*
-async function iniciarSesion() {
-    document.getElementById('loginForm').addEventListener('iniciar-btt', async (event) => {
-        event.preventDefault();
-
-        const formData = new FormData(event.target);
-        const correo = formData.get('correoUser');
-        const contraseña = formData.get('contraUser');
-
-        try {
-            const response = await fetch('http://localhost:5169/IniciarSesion', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ correo: correo, contraseña: contraseña }),
-            });
-
-            if (response.ok) {
-                window.location.href = "NewPaginaPrincipal.html";
-            
-            } else {
-                // No existe user
-                document.getElementById('mensajeError').style.display = 'block';
-            }
-        } catch (error) {
-            console.error('Error ines
-            perado:', error);
-        }
-    });
-}*/
-//idUsuarioIniciado = respuesta.idusuario;
 async function IniciarSesionHernan(){
     try {
         // Pillar los datos del usuario
@@ -1640,17 +1615,23 @@ async function IniciarSesionHernan(){
 
         if(response.ok){
             console.log("el usuario ha iniciado sesión");
+            const data = await response.json();
+            idUsuarioIniciado = data.Id;
+            //hay que guardar el idUsuarioIniciado en el hidden
+
+            //console.log(idUsuarioIniciado);
             //ahora ir a la página principal
-            window.location.href = "NewPaginaPrincipal.html";
+            window.location.href = `/Interfaces/NewPaginaPrincipal.html?idUser=${data.Id}`;
         } else {
             console.error('Respuesta NO ok por:', response.statusText);
             throw new Error('Error en la respuesta del servidor');
         }
     } catch (error) {
+        const mensajeError = document.getElementById("mensajeError");
+        mensajeError.style.display = "block"; // Hacer visible el elemento
         console.error('Error al iniciar sesión:', error);
     }
 }
-
 
 
 
