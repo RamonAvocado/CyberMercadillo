@@ -429,3 +429,6 @@ select {
     justify-content: space-between;
 }
 
+#sesion-link {
+    margin-left: auto; /* Mover el elemento de cierre de sesión a la derecha */
+}

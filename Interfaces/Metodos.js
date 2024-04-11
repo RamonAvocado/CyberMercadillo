@@ -1977,6 +1977,8 @@ async function IniciarSesion(){
                 tipoUsuario = "usuario";
                 window.location.href = `./NewPaginaPrincipal.html`;
             }
+            localStorage.setItem('tipoUserID', tipoUsuario);
+
 
         } else {
             console.error('Respuesta NO ok por:', response.statusText);
@@ -2041,4 +2043,39 @@ async function getBusquedas() {
     } catch (error) {
         console.error('Error inesperado:', error);
     }
+}
+
+async function agregarCerrarSesion() {
+    var usuarioLogueado = localStorage.getItem('UsuarioID');
+    var tipoUsuarioLogueado = localStorage.getItem('tipoUserID');
+    var sesionLink = document.getElementById('sesion-link');
+    var sesionSellerLink = document.getElementById('sesion-seller-link');
+    console.log(tipoUsuarioLogueado);
+    if (!usuarioLogueado) {
+        sesionLink.innerHTML = '<a href="#" onclick="iniciarSesionUser()">Iniciar Sesión</a>';
+    } else {
+        sesionLink.innerHTML = '<a href="#" onclick="cerrarSesion()">Cerrar Sesión</a>';
+        if(tipoUsuarioLogueado == "vendedor"){
+            sesionSellerLink.innerHTML = '<a href="#" onclick="irAPagianVendedor()">Productos</a>';
+        }else if(tipoUsuarioLogueado == "tecnico"){
+            sesionSellerLink.innerHTML = '<a href="#" onclick="irAPagianValidaciones()">Validaciones</a>';
+        }       
+    }
+}
+
+function cerrarSesion() {
+    localStorage.removeItem('UsuarioID');
+    window.location.href = './NewPaginaPrincipal.html';
+}
+
+function iniciarSesionUser() {
+    window.location.href = './Login.html';
+}
+
+function irAPagianVendedor() {
+    window.location.href = './PaginaVendedor.html';
+}
+
+function irAPagianValidaciones() {
+    window.location.href = './ValidarProductos.html';
 }

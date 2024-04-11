@@ -97,7 +97,8 @@
                 </li>
                 <li><a href="/Interfaces/NewPaginaPrincipal.html">Principal</a></li>
                 <li><a href="/Interfaces/ListaDeseados.html">Lista Deseados</a></li>
-                <li><a href="#">Productos</a></li>
+                <li id="sesion-seller-link"></li>
+                <li id="sesion-link"></li>
                 <li>
                     <div class="user-icons">
                         <!-- Iconos de usuario (por ejemplo, inicio de sesión, carrito de compras) -->
@@ -144,6 +145,10 @@
         // Llama a la función agregarProd() para que se ejecute tu código JavaScript
         CargarProductosVendedor(localStorage.getItem('UsuarioID'));
         
+    </script>
+    <script>
+        // Llamar a la función para agregar el enlace de Iniciar Sesión o Cerrar Sesión
+        agregarCerrarSesion();
     </script>
 </body>
 </html>
