@@ -401,8 +401,16 @@ select {
 .fecha-historial{
     font-size: 10px;
     color: gray;
-
     text-align: right;
+}
+
+/* Establecer el tamaño máximo y agregar puntos suspensivos */
+.product-info h3,
+.product-info p {
+    max-width: 200px; /* Tamaño máximo */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; /* Agrega puntos suspensivos si el contenido se sobrepasa */
 }
 
 .texto-historial{

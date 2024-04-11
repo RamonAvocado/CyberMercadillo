@@ -11,6 +11,7 @@ using CyberMercadillo.Entities;
 using System.Linq;
 using Postgrest;
 using Postgrest.Responses;
+using Newtonsoft.Json.Linq;
 
 
 
@@ -95,7 +96,7 @@ app.MapGet("/ObtenerProductosDestacados", async (HttpContext context, Supabase.C
     try
     {
         // Obtener los 6 primeros productos desde la base de datos
-        var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagenes").Limit(12).Get();
+        var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagenes").Limit(18).Get();
 
         // Devolver los productos al frontend
         var jsonResponse = new { productos };
@@ -115,7 +116,7 @@ app.MapGet("/ObtenerProductosRecomendados", async (HttpContext context, Supabase
     try
     {
         // Obtener los 6 primeros productos desde la base de datos
-        var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagenes").Limit(12).Get();
+        var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagenes").Limit(18).Get();
 
         // Devolver los productos al frontend
         var jsonResponse = new { productos };
@@ -167,7 +168,7 @@ app.MapGet("/ObtenerTodosProductos", async (HttpContext context, Supabase.Client
     try
     {
         // Obtener los 6 primeros productos desde la base de datos
-        var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, categoria, imagenes").Limit(12).Get();
+        var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, categoria, imagenes").Get();
 
         // Devolver los productos al frontend
         var jsonResponse = new { productos };
@@ -257,6 +258,117 @@ app.MapGet("/ObtenerProductoPorID", async (HttpContext context, Supabase.Client 
         errorDefault(context,ex);
     }
 });
+
+app.MapPost("/ActualizarCantidadProducto", async (HttpContext context, Supabase.Client client) =>
+{
+    // Leer el cuerpo de la solicitud para obtener la información del producto
+    using (var reader = new StreamReader(context.Request.Body))
+    {
+        try
+        {
+            var requestBody = await reader.ReadToEndAsync();
+            var requestData = JsonConvert.DeserializeObject<JObject>(requestBody);
+
+            // Obtener el ID del producto y la cantidad seleccionada
+            var idProducto = requestData["idproducto"].ToObject<int>();
+            var cantidadSeleccionada = requestData["idProductoCantidadSelec"].ToObject<int>();
+
+            // Obtener el producto de la base de datos
+            var producto = await client.From<Producto>().Filter("idproducto", Postgrest.Constants.Operator.Equals, idProducto).Single();
+
+            // Calcular la nueva cantidad restando la cantidad actual del producto y la cantidad seleccionada
+            var nuevaCantidad = producto.cantidad - cantidadSeleccionada;
+
+
+            //VAS A BORRAR UN PRUDCUTO SI TE METES AQUI
+            if (nuevaCantidad <= 0)
+            {
+                // Si la nueva cantidad es menor o igual a cero, borrar el producto de la base de datos
+                await producto.Delete<Producto>();
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync("Producto eliminado correctamente");
+            }
+            else
+            {
+                // Actualizar la cantidad del producto con la nueva cantidad calculada
+                producto.cantidad = nuevaCantidad;
+
+                // Actualizar el producto en la base de datos
+                await producto.Update<Producto>();
+
+                // Devolver una respuesta de éxito al cliente
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync("Cantidad del producto actualizada correctamente");
+            }
+        }
+        catch (Exception ex)
+        {
+            // Manejar cualquier error y devolver una respuesta de error al cliente
+            errorDefault(context, ex);
+        }
+    }
+});
+
+
+app.MapPost("/GuardarDatosUsuario", async (HttpContext context, Supabase.Client client) =>
+{
+    // Leer el cuerpo de la solicitud para obtener la información del producto
+    using var reader = new StreamReader(context.Request.Body);
+    try
+    {
+        var requestBody = await reader.ReadToEndAsync();
+        var requestData = JsonConvert.DeserializeObject<JObject>(requestBody);
+
+        // Obtener el ID del producto y la cantidad seleccionada
+
+        //faltaría ver que el formato en el que lo guardamos casa
+        var idusuario = requestData["idusuario"].ToObject<int>();
+        var numTarjeta = requestData["numTarjeta"].ToObject<int>();
+        var fechaCaducidad = requestData["fechaCaducidad"].ToObject<string>();
+        var cvv = requestData["cvv"].ToObject<int>();
+
+        // Obtener el producto de la base de datos
+        var usuario = await client.From<Usuario>().Filter("idusuario", Postgrest.Constants.Operator.Equals, idusuario).Single();
+
+        //guardo la tarjeta de crédito
+        usuario.CVV = cvv;
+        usuario.numeroTarjeta = numTarjeta;
+        usuario.fechaCaducidad = fechaCaducidad;
+
+        string rutaArchivo = "C:/Users/2003h/OneDrive/Escritorio/UPV/3º/2º Cuatri/PSW. Proyecto Software/outputs.txt";
+        using (StreamWriter writer = new StreamWriter(rutaArchivo))
+        {
+            // Redirigir la salida estándar de la consola al archivo
+            Console.SetOut(writer);
+
+            // Ahora, todo lo que se imprima con Console.WriteLine() se guardará en el archivo
+
+            // Ejemplo:
+            Console.WriteLine(idusuario + "idusuario");
+            Console.WriteLine(numTarjeta + "numTarjeta");
+            Console.WriteLine(fechaCaducidad + "fechaCaducidad");
+            Console.WriteLine(cvv + "cvv");
+            Console.WriteLine(usuario + "usuario");
+            // Informar al usuario que se han guardado los outputs
+            Console.WriteLine("Los outputs se han guardado en el archivo: " + rutaArchivo);
+        }
+
+        // Actualizar el producto en la base de datos
+        await usuario.Update<Usuario>();
+
+        // Devolver una respuesta de éxito al cliente
+        //context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync("Cantidad del producto actualizada correctamente");
+
+    }
+    catch (Exception ex)
+    {
+        // Manejar cualquier error y devolver una respuesta de error al cliente
+        errorDefault(context, ex);
+    }
+});
+
+
 
 
 app.MapPost("/ObtenerProductosVendedor", async (HttpContext context, Supabase.Client client) =>

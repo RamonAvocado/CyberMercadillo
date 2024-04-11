@@ -1,5 +1,11 @@
 var idProductoSeleccionado;
 var idUsuarioIniciado;//guardo esto aquí para poder acceder en todas las páginas
+var idProductoCantidadSelec;//cantidad de producto seleccionada
+var idProductoCantidad;//cuantos producto hay en la base de datos
+var numTarjeta;
+var fechaCaducidad;
+var cvv;
+
 
 //funcion para guardar y acceder a idUsuario
 function gestionarValorIDUser(valor) {
@@ -29,7 +35,7 @@ function LimpiarLocalStorage() {
     //localStorage.setItem('itemID', idProductoSeleccionado);
     //localStorage.setItem('UsuarioID', idUsuarioIniciado);
 
-    localStorage.removeItem('itemId');
+    localStorage.removeItem('itemID');
     localStorage.removeItem('UsuarioID');
 }
 
@@ -292,9 +298,9 @@ function mostrarProductosDestacados(productos) {
         productCard.innerHTML = `
             <button class="favorite-btn"></button> <!-- Botón de favoritos -->
             <img src="${primeraImagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
-            <h3>${producto.nombreproducto}</h3>
-            <p>${producto.precio} €</p>
-            <p>${producto.descripcion}</p>
+            <h3>${truncate(producto.nombreproducto)}</h3>
+            <p class="price">${producto.precio} €</p>
+            <p class="description">${truncate(producto.descripcion)}</p>
             <div hidden>
                 <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
                 <div id="idProducto" data-info="${producto.idproducto}"> </div>
@@ -406,9 +412,9 @@ function mostrarProductosRecomendados(productos) {
         productCard.innerHTML = `
             <button class="favorite-btn"></button> <!-- Botón de favoritos -->
             <img src="${primeraImagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
-            <h3>${producto.nombreproducto}</h3>
-            <p>${producto.precio} €</p>
-            <p>${producto.descripcion}</p>
+            <h3>${truncate(producto.nombreproducto)}</h3>
+            <p class="price">${producto.precio} €</p>
+            <p class="description">${truncate(producto.descripcion)}</p>
             <div hidden>
                 <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
                 <div id="idProducto" data-info="${producto.idproducto}"> </div>
@@ -466,9 +472,9 @@ function mostrarTodosProductos(productos) {
         productCard.innerHTML = `
             <button class="favorite-btn"></button> <!-- Botón de favoritos -->
             <img src="${primeraImagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
-            <h3>${producto.nombreproducto}</h3>
-            <p>${producto.precio} €</p>
-            <p>${producto.descripcion}</p>
+            <h3>${truncate(producto.nombreproducto)}</h3>
+            <p class="price">${producto.precio} €</p>
+            <p class="description">${truncate(producto.descripcion)}</p>
             <div hidden>
                 <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
                 <div id="idProducto" data-info="${producto.idproducto}"> </div>
@@ -489,6 +495,12 @@ function mostrarTodosProductos(productos) {
     });
 }
 
+// Función para truncar el texto si supera el tamaño máximo
+function truncate(text) {
+    const maxLength = 50; // Establece el tamaño máximo
+    return text.length > maxLength ? text.substring(0, maxLength - 3) + '...' : text;
+}
+
 
 //FUNCIONES CLICKS
 function seleccionarProducto(productoSeleccionado) {
@@ -504,16 +516,7 @@ function irAInfoProducto(productoParaInfo) {
     // Obtener el ID del producto y la categoría de los atributos de datos (data-*) de la tarjeta de producto
     const productId = productoParaInfo.querySelector('#idProducto').dataset.info;
     localStorage.setItem('itemID', productId);
-    //localStorage.setItem('UsuarioID', idUsuarioIniciado);
 
-    // Redirigir a la página de información del producto
-    /*  LO DE ANTES 
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const userId = urlParams.get('idUser');
-
-    window.location.href = `/Interfaces/InfoProducto.html?idProd=${productId}&idUser=${userId}`;
-    */
     window.location.href = `/Interfaces/InfoProducto.html`;
 }
 
@@ -560,6 +563,9 @@ function mostrarUnProducto(respuesta) {
     const container = document.querySelector('.product-container');
     container.innerHTML = '';
 
+    //guardo la cantidad
+    idProductoCantidad = localStorage.setItem('itemCant', producto.cantidad);
+
     // Separar las URL de las imágenes
     const imagenes = producto.imagenes.split(' ');
     const primeraImagen = imagenes[0];
@@ -597,11 +603,13 @@ function mostrarUnProducto(respuesta) {
     const productInfo = document.createElement('div');
     productInfo.id = 'productInfo'; // Puedes utilizar un ID único si lo deseas
     productInfo.innerHTML = `
-        <h3>${producto.nombreproducto}</h3>
+        <h2>${producto.nombreproducto}</h2>
         <p>${producto.precio} €</p>
-        <p> Descripción del producto: </p style="font-size: 18px;">
+        <p> Acerca del producto: </p>
         <p>${producto.descripcion}</p>
     `;
+    productInfo.style.margin = '40px';
+    productInfo.style.fontSize = '22px';
     productCard.appendChild(productInfo);
 
     // Crear el contenedor de botones
@@ -659,18 +667,16 @@ function mostrarUnProducto(respuesta) {
 
     // Agregar evento de clic al botón de comprar
     comprarButton.addEventListener('click', function() {
-        // Obtener el ID del producto desde el atributo de datos del contenedor del producto
-        const productId = productCard.dataset.productId;
-        // Redirigir a la página de compra del producto con el ID del producto en la URI
-        
-        /* LO DE ANTES
-        const urlParams = new URLSearchParams(window.location.search);
-        const userId = urlParams.get('idUser');
-        const prodID = urlParams.get('idProd');
 
-        window.location.href = `/Interfaces/CompraProducto.html?idProd=${productId}&idUser=${userId}`;
-        */
+        // Redirigir a la página de compra del producto con el ID del producto en la URI
         window.location.href = `/Interfaces/CompraProducto.html`;
+    });
+
+    selectCantidad.addEventListener('change', function() {
+        const cantidadSeleccionada = parseInt(selectCantidad.value);
+        localStorage.setItem('itemCantSelec', cantidadSeleccionada);
+        console.log("Cantidad seleccionada:", cantidadSeleccionada);
+        // Aquí puedes almacenar la cantidad seleccionada en una variable, en el local storage, o realizar cualquier otra acción que desees.
     });
 
 }
@@ -823,14 +829,19 @@ function mostrarUnProductoCompra(producto, usuario) {
     const shippingInfo = document.querySelector('.shipping-info p');
     const paymentInputs = document.querySelectorAll('.payment-info input');
     const totalCost = document.querySelector('.total-cost');
+    const cant = document.querySelector('.cantidad');
+    idProductoCantidadSelec = localStorage.getItem('itemCantSelec')
+
 
     // Llenar la información del producto con los datos obtenidos del servidor
     productImg.src = primeraImagen; // Suponiendo que el servidor envía la URL de la imagen
-    productDescrip = `Descripción: ${producto.descripcion} `;
+    console.log(producto.descripcion);
+    productDescrip.textContent = `Descripción: ${producto.descripcion} `;
     productName.textContent =  `Compra ahora: ${producto.nombreproducto} `;
     //arrivalDate.textContent = `Llegada el: ${respuesta.fecha_llegada}`;
     shippingInfo.textContent = `${usuario.direccion}`;
     totalCost.textContent = `Total: ${producto.precio} €`; // Suponiendo que el servidor envía el precio
+    cant.textContent = `Cantidad Seleccionada: ${idProductoCantidadSelec} ${producto.nombreproducto}`;
 
     // Si el servidor envía más información sobre el pago, puedes llenarla aquí
     if (usuario.numeroTarjeta != null) {
@@ -839,6 +850,140 @@ function mostrarUnProductoCompra(producto, usuario) {
         paymentInputs[2].value = usuario.CVV;
     }
 }
+
+// Función para verificar si los campos de la tarjeta están rellenados
+function verificarCamposTarjeta() {
+    const numTarjetaInput = document.querySelector('.payment-info input[type="text"][placeholder="Número de tarjeta"]');
+    const fechaCaducidadInput = document.querySelector('.payment-info input[type="text"][placeholder="Fecha de caducidad"]');
+    const cvvInput = document.querySelector('.payment-info input[type="text"][placeholder="CVV"]');
+    
+    localStorage.setItem('numTarjeta', numTarjetaInput);
+    localStorage.setItem('fechCaduci', fechaCaducidadInput);
+    localStorage.setItem('cvv', cvvInput);
+    
+    numTarjeta = localStorage.getItem("numTarjeta");
+    fechaCaducidad = localStorage.getItem("fechCaduci");
+    cvv = localStorage.getItem("cvv");
+
+
+    // Verificar que todos los campos estén completos
+    if (numTarjeta.trim() === '') {
+        alert('Por favor, ingrese el número de tarjeta.');
+        numTarjetaInput.focus();
+        return false;
+    }
+    if (fechaCaducidad.trim() === '') {
+        alert('Por favor, ingrese la fecha de caducidad de la tarjeta.');
+        fechaCaducidadInput.focus();
+        return false;
+    }
+    if (cvv.trim() === '') {
+        alert('Por favor, ingrese el código CVV.');
+        cvvInput.focus();
+        return false;
+    }
+
+/*
+    if (!validarFormatoFecha(fechaCaducidad)) {
+        alert('El formato de la fecha de caducidad no es válido. Por favor, ingrese en formato MM/AA.');
+        fechaCaducidadInput.focus();
+        return false;
+    }*/
+    return true;
+}
+
+function validarFormatoFecha(fechaCaducidadInput) {
+    //es un formato año, mes, dia
+    const regex = /^\d{4}-\d{2}-\d{2}$/;
+    return regex.test(fechaCaducidadInput);
+}
+
+
+// Función para mostrar una ventana emergente para guardar los datos de la tarjeta
+function mostrarVentanaEmergente() {
+    const confirmacion = confirm('¿Desea guardar los datos de su tarjeta para futuras compras?');
+
+    if (confirmacion) {
+        // guardo los datos de su tarjeta en la base de datos
+        try {
+            idUsuarioIniciado = localStorage.getItem("UsuarioID");
+            numTarjeta = localStorage.getItem("numTarjeta");
+            fechaCaducidad = localStorage.getItem("fechCaduci");
+            cvv = localStorage.getItem("cvv");
+
+            
+            console.log(idUsuarioIniciado + "idUsuarioIniciado");
+            console.log(numTarjeta + "numTarjeta");
+            console.log(fechaCaducidad + "fechaCaducidad");
+            console.log(cvv + "cvv");
+
+            const response = fetch(`http://localhost:5169/GuardarDatosUsuario`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    idusuario: idUsuarioIniciado,
+                    numTarjeta: numTarjeta,
+                    fechaCaducidad: fechaCaducidad,
+                    cvv: cvv
+                })
+            });
+            
+
+        } catch (error) {
+            console.error('Error inesperado:', error);
+        }
+        return true;
+    } else {
+        alert('Los datos de su tarjeta no han sido guardados.');
+        return true;
+    }
+}
+
+// Función para finalizar la compra
+async function FinalizarCompra() {
+    // Verificar si los campos de la tarjeta están rellenados
+    const camposRellenados = verificarCamposTarjeta();
+
+    if (camposRellenados) {
+        // Mostrar ventana emergente para guardar los datos de la tarjeta
+        const guardarDatosTarjeta =  mostrarVentanaEmergente();
+
+        if (guardarDatosTarjeta) {
+            // Aquí puedes agregar el código para proceder con la compra
+            // Primero, actualiza la cantidad del producto en la base de datos
+            try {
+                const idProductoCantidadSelec = localStorage.getItem("itemCantSelec");
+                const idProductoSeleccionado = localStorage.getItem("itemID");
+
+                const response = await fetch(`http://localhost:5169/ActualizarCantidadProducto`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        idproducto: idProductoSeleccionado,
+                        idProductoCantidadSelec: idProductoCantidadSelec
+                    })
+                });
+
+                if (response.ok) {
+                    //const data = await response.json();
+                    alert("Gracias por su compra");
+                    window.location.href = `./NewPaginaPrincipal.html`;
+                } else {
+                    console.error('Error en la solicitud al backend:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error inesperado:', error);
+            }
+        }
+    }
+}
+
+
+
 // FIN FUNCIONES PARA LA COMPRA DE UN PRODUCTO
 
 // INCIO mostrar categorias

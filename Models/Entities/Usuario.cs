@@ -34,7 +34,7 @@ namespace CyberMercadillo.Entities
         public int? numeroTarjeta { get; set; }
 
         [Column("fechaCaducidad")]
-        public DateTime? fechaCaducidad { get; set; }
+        public string? fechaCaducidad { get; set; }
 
         [Column("CVV")]
         public int? CVV { get; set; }
