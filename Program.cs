@@ -187,7 +187,13 @@ app.MapGet("/CargarCategorias", async (HttpContext context, Supabase.Client clie
     {      
         var CategoriasProductos = await client.From<Producto>().Select("categoria").Get();
 
-        var jsonResponse = new { CategoriasProductos };
+        // Extraer categorías únicas
+        var categoriasUnicas = CategoriasProductos.Models
+            .Select(p => p.categoria)
+            .Distinct()
+            .ToList();
+
+        var jsonResponse = new { Categorias = categoriasUnicas };
 
         context.Response.ContentType = "application/json";
         await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));

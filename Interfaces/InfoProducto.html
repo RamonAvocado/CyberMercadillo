@@ -44,6 +44,10 @@
             margin-top: 20px;
             margin-right: 290px;
         }
+
+        /* Estilos para la sub-contenedor */
+
+
         </style>
     </header>
     <div class = "grupo-nav-list">
@@ -76,27 +80,29 @@
     </div>
 
     <div class = "texto-titulo">
-        <h2>Comentarios</h2>
+        <h2>Más Información</h2>
     </div>
-    <div class="recommended-products-container">
-        <!-- Productos destacados (similar a la imagen) -->
-        <div class="recommended-products">
-            <p>Detalles del producto:</p>
-            <ul>
-                <li>100% algodón orgánico</li>
-                <li>Hecho en España</li>
-                <li>Lavable en la lavadora</li>
-            </ul>
-            <p>Comentarios:</p>
-            <ul>
-                <li>Poco ★★★★: AAAAAAAAAAAAAAAAAAAAAAA...</li>
-                <li>Poco ★★★★: AAAAAAAAAAAAAAAAAAAAAAA...</li>
-                <li>Poco ★★★★: AAAAAAAAAAAAAAAAAAAAAAA...</li>
-                <li>Poco ★★★★: AAAAAAAAAAAAAAAAAAAAAAA...</li>
-            </ul>
-        </div>        
-    </div>
-    </div>
+    
+        <div class="recommended-products-container">
+            <div class = "sub-container">
+                <h2>Productos Relacionados</h2>
+                <div class="recommended-products">
+                    <!-- Aquí se mostrarán los productos recomendados -->
+                </div>
+                <div class="comentarios-container">
+                    <h2>Comentarios</h2>
+                    <!-- Aquí se mostrarán los comentarios -->
+                    <div>
+                        <ul>
+                            <p>Hernán ★★★: Buen Producto</p>
+                            <p>Ramón ★★★★★: Me encanta</p>
+                            <p>Vanessa ★★: Un poco decepcionada</p>
+                            <p>Jordi ★★★★: Lo recomiendo</p>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     <div class="boton-Volver">
         <button onclick = "volverPaginaAnterior()" class="volver-btn">Volver</button>
     </div>
@@ -117,8 +123,11 @@
     </footer>
     <script src="Metodos.js"></script>
     <script>
-        //window.addEventListener('load', CargaUnProducto);
-        CargaUnProducto(localStorage.getItem('UsuarioID'));
+        window.addEventListener('load', CargaUnProducto);
+        //CargaUnProducto(localStorage.getItem('UsuarioID'));
+    </script>
+    <script>
+        window.addEventListener('DOMContentLoaded', CargarProductosRecomendadosInfoProd);  
     </script>
 </body>
 </html>

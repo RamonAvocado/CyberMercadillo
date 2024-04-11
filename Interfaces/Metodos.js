@@ -327,6 +327,29 @@ function mostrarProductosDestacados(productos) {
 
 //  INICIO PRODUCTOS RECOMENDADOS
 
+//FUNCION PARA MOSTRAR 2 PRODUCTOS RECOMENDADOS EN LA PAGINA DE LA INFORMACIÓN DE PRODUCTO
+async function CargarProductosRecomendadosInfoProd(){
+    try {
+        // Realizar una solicitud GET al backend para obtener los 6 primeros productos
+        const response = await fetch('http://localhost:5169/ObtenerProductosRecomendados');
+        if (response.ok) {
+            const data = await response.json();
+            const productos = data.productos.Models;
+
+            const productosPorPagina = 2;
+            const totalPaginas = Math.ceil(productos.length / productosPorPagina);
+
+            // Mostrar los productos de la primera página en la interfaz de usuario
+            mostrarProductosRecomendados(productos.slice(0, productosPorPagina));
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+
 //carga los productos de la base de datos, deberían de ser los productos Recomendados por búsquedas
 //pero todavía no tenemos Recomendaciones
 async function CargarProductosRecomendados(){
@@ -995,7 +1018,8 @@ async function CargaCategorias() {
         const response = await fetch('http://localhost:5169/CargarCategorias');
         if (response.ok) {
             const data = await response.json();
-            mostrarCategorias(data);
+            console.log(data.Categorias);
+            mostrarCategorias(data.Categorias);
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
         }
@@ -1004,15 +1028,14 @@ async function CargaCategorias() {
     }
 }
 
-function mostrarCategorias(data) {
+function mostrarCategorias(array) {
     const selectElement = document.getElementById('categorySelect');
-    const categoriasUnicas = [...new Set(data.map(item => item.categoria))];
 
     // Limpiar opciones existentes, excepto la primera (Todas las categorías)
     selectElement.options.length = 1;
 
     // Agregar nuevas opciones de categorías
-    categoriasUnicas.forEach(categoria => {
+    array.forEach(categoria => {
         const option = document.createElement('option');
         option.value = categoria;
         option.textContent = categoria;
@@ -1409,15 +1432,13 @@ function mostrarProductosDeVendedor(productos) {
 
 //Ir a la página de búsqueda
 function IrABuquedaProducto(){
-    const urlParams = new URLSearchParams(window.location.search);
-    const userId = urlParams.get('idUser');
 
-    window.location.href = `./ResultadoBusqueda.html?idUser=${userId}`
+    window.location.href = `./ResultadoBusqueda.html`
 }
 
 //boton para redirigir a la página de Búsqueda
 function redirigirABusqueda(){
-    window.location.href = `NewPaginaPrincipal.html?idUser=${userId}`
+    window.location.href = `NewPaginaPrincipal.html`
 }
 
 
@@ -1428,10 +1449,9 @@ function volverPaginaAnterior(){
 
 //Boton para ir al historial de Busqueda
 function irHistorialDeBúsqueda(){
-    const urlParams = new URLSearchParams(window.location.search);
-    const userId = urlParams.get('idUser');
-
-    window.location.href = `HistorialDeBusqueda.html?idUser=${userId}`
+    //localStorage.setItem('itemID', idProductoSeleccionado);
+    //localStorage.setItem('UsuarioID', idUsuarioIniciado);
+    window.location.href = `HistorialDeBusqueda.html`
 }
 
 function irANuevoProducto(){
@@ -1906,9 +1926,10 @@ async function IniciarSesion(){
 }
 
 async function getBusquedas() {
-    const urlParams = new URLSearchParams(window.location.search);
-    var idUser = urlParams.get('idUser');
-    
+
+    //le paso el iduser por localStorage
+    idUsuarioIniciado = localStorage.getItem('idUsuario');
+
     try {
         const response = await fetch('http://localhost:5169/getBusquedas')
         .then(response => response.json())
