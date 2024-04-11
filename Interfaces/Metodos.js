@@ -41,6 +41,7 @@ function LimpiarLocalStorage() {
 async function buscar() {
     var searchTerm = document.getElementById('searchInput').value;
     var category  = localStorage.getItem('categoriaSeleccionada');
+    localStorage.setItem('searchTerm', searchTerm);
 
     buscarProd(searchTerm,category);
 }
@@ -76,9 +77,13 @@ async function buscarProd(searchTerm, category) {
 
             if (response.ok) {
                 const data = await response.json();
+                //console.log("Texto y todo intro: " + data.productos.Models);
                 console.log(data);
-                console.log("Respuesta de Todas las categorias" + data.productos.Models.nombreproducto)
-                mostrarResultado(data.productos.Models.nombreproducto);  // Llama a una función para mostrar todos los productos
+                console.log(data.productos.Models.length);
+                if(data.productos.Models.length==0){
+                    //Poner que no hay productos con estos criterios de búsqueda
+                    mostrarResultado("No existen productos con estos términos de búsqueda");  // Llama a una función para mostrar todos los productos
+                }
                 mostrarProductosCat(data.productos.Models);//cargar los productos relacionados
             } else {
                 console.error('Error en la solicitud al backend:', response.statusText);
@@ -87,7 +92,7 @@ async function buscarProd(searchTerm, category) {
         //ahora ya hay que buscar por texto y la categoría seleccionada
         else
         {
-            const response = await fetch(`http://localhost:5169/BuscarProducto`, {
+            const response = await fetch(`http://localhost:5169/BuscarProductoTodo`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -97,8 +102,14 @@ async function buscarProd(searchTerm, category) {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log("Texto y todo intro: " + data.productos)
-                mostrarResultado("Respuesta de busqueda con todo" +data.resultado);  // Llama a una función para mostrar el resultado en la página
+                //console.log("Texto y todo intro: " + data.productos.Models);
+                console.log(data);
+                console.log(data.productos.Models);
+                if(data.productos.Models.length==0){
+                    //Poner que no hay productos con estos criterios de búsqueda
+                    mostrarResultado("No existen productos con estos términos de búsqueda");  // Llama a una función para mostrar todos los productos
+                }
+                mostrarProductosCat(data.productos.Models);//cargar los productos relacionados
             } else {
                 console.error('Error en la solicitud al backend:', response.statusText);
             }
@@ -116,38 +127,6 @@ function mostrarResultado(resultado) {
 }
 
 //FIN BUSQUEDA TEXTO
-
-/*
-async function buscarProducto(string){
-    var category  = document.getElementById('categorySelect').value;
-
-    // Realizar una solicitud POST al backend con la información de búsqueda
-    try {
-        const response = await fetch('http://localhost:5169/buscar', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            //le paso la búsqueda y la categoría 
-            body: JSON.stringify({ searchTerm: string, category: category  }),
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            console.log(data);
-            //mostrarProductosCat(data.resultado);  // Llama a una función para mostrar el resultado en la página
-        } else {
-            console.error('Error en la solicitud al backend:', response.statusText);
-        }
-    } catch (error) {
-        console.error('Error inesperado:', error);
-    }
-}
-
-async function buscarProducto(){
-    var searchTerm = document.getElementById('searchInput').value;
-    buscarProducto(searchTerm);
-}*/
 
 
 // INCIO mostrar categorias
@@ -194,8 +173,17 @@ function mostrarCategorias(array) {
 
 async function buscarPorCategoria() {
     categoriaSelect = localStorage.getItem("categoriaSeleccionada");
+    idUsuarioIniciado = localStorage.getItem("UsuarioID");
+    searchTerm = localStorage.getItem("searchTerm");
     //console.log(categoriaSelect);
     // Realizar una consulta con la categoría seleccionada
+
+    var requestBody = {
+        idusuario: idUsuarioIniciado,
+        searchTerm: searchTerm,
+        category: categoriaSelect
+    };   
+
     try {
         if(categoriaSelect == "Todas las categorías")
         {
@@ -204,7 +192,13 @@ async function buscarPorCategoria() {
             console.log("Todas las categorías mostradas")    
         }
         else{
-            const response = await fetch(`http://localhost:5169/BuscarPorCategoria?categoria=${categoriaSelect}`);
+            const response = await fetch(`http://localhost:5169/BuscarPorCategoria`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestBody)
+            });
             if (response.ok) {
                 const data = await response.json();
                 productos = data.ProductosXCat.Models;
@@ -2040,56 +2034,92 @@ async function IniciarSesion(){
 async function getBusquedas() {
 
     //le paso el iduser por localStorage
-    idUsuarioIniciado = localStorage.getItem('idUsuario');
-
+    idUsuarioIniciado = localStorage.getItem('UsuarioID');
+    console.log(idUsuarioIniciado);
+    
+    var requestBody = {
+        idusuario: idUsuarioIniciado,
+    };   
     try {
-        const response = await fetch('http://localhost:5169/getBusquedas')
-        .then(response => response.json())
-        .then(data => {
-        
-        const models = data.result.Models;
-
-        // Selecciona el elemento con la clase "historial"
-        const historialDiv = document.querySelector('.historial');
-        if (models.length == 0){
-            const h1 = document.createElement('h1');
-            h1.textContent = "No has buscado nada por ahora";
-            historialDiv.appendChild(h1);
-        } else {
-            models.forEach(model => {
-                const busqueda = document.createElement('div');
-                
-                var texto_busqueda = document.createElement('span');
-                var fecha_busqueda = document.createElement('span');
-
-                //Pone valor a las variables
-                texto_busqueda.textContent = model.texto;
-                fecha_busqueda.textContent = model.fecha;
-
-                //Añade los css
-                texto_busqueda.classList.add('texto-historial');
-                fecha_busqueda.classList.add('fecha-historial');
-                busqueda.classList.add("busqueda-historial")
-
-                // Agrega el elemento <h1> al elemento con la clase "historial"
-                busqueda.appendChild(texto_busqueda);
-                busqueda.appendChild(fecha_busqueda);
-                historialDiv.appendChild(busqueda);
-                
-                texto_busqueda.addEventListener('click', function() {
-                    console.log("se ha hecho click");
-                    buscar(texto_busqueda,"Todas las categorias");
-                });
-            });
-        }})
-        .catch(error => {
-            // Manejar errores en caso de que la solicitud falle
-            console.error('Error al obtener los datos:', error);
+        const response = await fetch(`http://localhost:5169/getBusquedas`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
         });
-    } catch (error) {
+
+        if (response.ok) 
+        {
+            const data = await response.json();
+            console.log(data);
+            const models = data.result.Models;
+
+
+            // Selecciona el elemento con la clase "historial"
+            const historialDiv = document.querySelector('.historial');
+            if (models.length == 0)
+            {
+                const h1 = document.createElement('h1');
+                h1.textContent = "No has buscado nada por ahora";
+                historialDiv.appendChild(h1);
+            }else 
+            {
+                models.forEach(model => 
+                {
+                    const busqueda = document.createElement('div');
+                    
+                    var texto_busqueda = document.createElement('span');
+                    var fecha_busqueda = document.createElement('span');
+                    var categoria_busqueda = document.createElement('span');
+
+                    //Pone valor a las variables
+                    texto_busqueda.textContent = model.texto;
+                    fecha_busqueda.textContent = model.fecha;
+                    categoria_busqueda.textContent = model.categoria;
+
+                    //Añade los css
+                    texto_busqueda.classList.add('texto-historial');
+                    fecha_busqueda.classList.add('fecha-historial');
+                    categoria_busqueda.classList.add('categoria-busqueda');
+                    busqueda.classList.add("busqueda-historial")
+
+                    // Agrega el elemento <h1> al elemento con la clase "historial"
+                    busqueda.appendChild(texto_busqueda);
+                    busqueda.appendChild(categoria_busqueda);
+                    busqueda.appendChild(fecha_busqueda);                    
+                    historialDiv.appendChild(busqueda);
+                    
+                    busqueda.addEventListener('click', function() 
+                    {
+                        console.log("se ha hecho click");
+                        //console.log(texto_busqueda.textContent);
+                        //console.log(categoria_busqueda.textContent)
+                        //window.location.href = './ResultadoBusqueda.html';
+                        const paginaActual = window.location.pathname.split('/').pop();
+                        console.log(paginaActual); // Esto imprimirá el nombre del archivo actual, por ejemplo, "ResultadoBusqueda.html" o "HistorialBusqueda.html"
+                        buscarProd(texto_busqueda.textContent, categoria_busqueda.textContent, paginaActual);
+                    });
+                });
+            }
+        }
+    }
+    catch (error) {
         console.error('Error inesperado:', error);
     }
 }
+
+
+//INICIO BUSCAR PRODUCTO POR TEXTO
+async function buscarHist(TextBuscar, CatBuscar, pagina) {
+    /*localStorage.setItem('searchTerm', TextBuscar);
+    localStorage.setItem('searchTerm', categoriaSelect);*/
+    //console.log("llegue aqui")
+
+    //esto no va, hay que darle una vuelta
+    buscarProd(TextBuscar,CatBuscar);
+}
+
 
 async function agregarCerrarSesion() {
     var usuarioLogueado = localStorage.getItem('UsuarioID');

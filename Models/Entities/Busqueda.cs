@@ -25,7 +25,7 @@ namespace CyberMercadillo.Entities
         public DateTime? fecha { get; set; }
 
         [Column("idusuario")]
-        public int? idusuario { get; set; }
+        public int idusuario { get; set; }
 
 
     }
