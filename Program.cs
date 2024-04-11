@@ -752,23 +752,17 @@ app.MapPost("/iniciarSesion", async (HttpContext context, Supabase.Client client
     {
         var correoUsuario = context.Request.Form["correo"].ToString();
         var contraUsuario = context.Request.Form["contraseña"].ToString();
-
         //var correoUsuario = "hernan@example.com";
         //var contraUsuario = "hernan1234";
-
         // Buscar el usuario por su correo electrónico
          var usuario = await client.From<Usuario>().Filter("correo", Postgrest.Constants.Operator.Equals, correoUsuario).Single();
-
 /*      ESTO ES PARA VER LOS OTUPUTS EN UN ARCHIVO
-
         string rutaArchivo = "C:/Users/2003h/OneDrive/Escritorio/UPV/3º/2º Cuatri/PSW. Proyecto Software/outputs.txt";
         using (StreamWriter writer = new StreamWriter(rutaArchivo))
         {
             // Redirigir la salida estándar de la consola al archivo
             Console.SetOut(writer);
-
             // Ahora, todo lo que se imprima con Console.WriteLine() se guardará en el archivo
-
             // Ejemplo:
             Console.WriteLine(correoUsuario);
             Console.WriteLine(contraUsuario);
@@ -777,14 +771,33 @@ app.MapPost("/iniciarSesion", async (HttpContext context, Supabase.Client client
             Console.WriteLine("Los outputs se han guardado en el archivo: " + rutaArchivo);
         }
 */
-
         if (usuario != null)
         {
             // Verificar si la contraseña coincide
             if (usuario.contraseña == contraUsuario)
             {
                 // Las credenciales son válidas
-                var jsonResponse = new { Id = usuario.idusuario, Nombre = usuario.nombre, Correo = usuario.correo }; // Agrega las propiedades que necesites
+                var jsonResponse = new Dictionary<string, object>
+                {
+                    { "Id", usuario.idusuario }, // Asumiendo que idusuario no puede ser nulo, pero ajusta esto según tus requisitos
+                    { "Nombre", usuario.nombre ?? "UsuarioPorDefecto" }, // Si nombre es nullable, usa el operador de coalescencia nula para proporcionar un valor predeterminado en caso de que sea nulo
+                    { "Correo", usuario.correo ?? "CorreoPorDefecto" },
+                    { "TipoUsuario", "TipoUusarioPorDefecto" }
+                };
+                var vendedor = await client.From<Vendedor>().Where(v => v.idvendedor == usuario.idusuario).Single();
+                var tecnico = await client.From<Tecnico>().Where(t => t.idtecnico == usuario.idusuario).Single();
+                if (vendedor != null)
+                {
+                    jsonResponse["TipoUsuario"] = "Vendedor";
+                }
+                else if (tecnico != null)
+                {
+                    jsonResponse["TipoUsuario"] = "Técnico";
+                }
+                else
+                {
+                    jsonResponse["TipoUsuario"] = "Usuario Común";
+                }
                 context.Response.StatusCode = 200;
                 context.Response.ContentType = "application/json";
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
