@@ -109,7 +109,10 @@ button[type="iniciar-btt"]:hover {
 }
 
 .error-message {
+    display: flex;
     color: red;
     font-size: 14px;
-    margin-top: 5px;
+    margin-top: 15px;
+    text-align: center;
+    margin-bottom:5px;
 }

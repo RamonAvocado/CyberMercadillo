@@ -1,6 +1,37 @@
 var idProductoSeleccionado;
 var idUsuarioIniciado;//guardo esto aquí para poder acceder en todas las páginas
-var idUsuarioIniciado2;
+
+//funcion para guardar y acceder a idUsuario
+function gestionarValorIDUser(valor) {
+    if (valor === -1) {
+        // Si se pasa -1, devolver el valor almacenado
+        return idUsuarioIniciado;
+    } else {
+        // Si se pasa un valor distinto de -1, almacenarlo y devolver el mismo valor
+        idUsuarioIniciado = valor;
+        return idUsuarioIniciado;
+    }
+}
+
+//funcion para guardar y acceder a idProd
+function gestionarValorIDProduct(valor) {
+    if (valor === -1) {
+        // Si se pasa -1, devolver el valor almacenado
+        return idProductoSeleccionado;
+    } else {
+        // Si se pasa un valor distinto de -1, almacenarlo y devolver el mismo valor
+        idProductoSeleccionado = valor;
+        return idProductoSeleccionado;
+    }
+}
+
+function LimpiarLocalStorage() {
+    //localStorage.setItem('itemID', idProductoSeleccionado);
+    //localStorage.setItem('UsuarioID', idUsuarioIniciado);
+
+    localStorage.removeItem('itemId');
+    localStorage.removeItem('UsuarioID');
+}
 
 async function buscar() {
     //window.location.href = "ResultadoBusqueda.html"
@@ -472,12 +503,18 @@ function seleccionarProducto(productoSeleccionado) {
 function irAInfoProducto(productoParaInfo) {
     // Obtener el ID del producto y la categoría de los atributos de datos (data-*) de la tarjeta de producto
     const productId = productoParaInfo.querySelector('#idProducto').dataset.info;
+    localStorage.setItem('itemID', productId);
+    //localStorage.setItem('UsuarioID', idUsuarioIniciado);
 
     // Redirigir a la página de información del producto
+    /*  LO DE ANTES 
+
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get('idUser');
 
     window.location.href = `/Interfaces/InfoProducto.html?idProd=${productId}&idUser=${userId}`;
+    */
+    window.location.href = `/Interfaces/InfoProducto.html`;
 }
 
 /*
@@ -500,10 +537,12 @@ function irAInfoProducto2(productoParaInfo) {
 async function CargaUnProducto(){
     try{
         //pillar el id
+        /*  LO DE ANTES 
         const urlParams = new URLSearchParams(window.location.search);
         const productId = urlParams.get('idProd');
-
-        const response = await fetch(`http://localhost:5169/ObtenerProductoPorID?idproducto=${productId}`);
+        */
+        idProductoSeleccionado = localStorage.getItem('itemID');
+        const response = await fetch(`http://localhost:5169/ObtenerProductoPorID?idproducto=${idProductoSeleccionado}`);
 
         if(response.ok){
             const data = await response.json();
@@ -623,12 +662,15 @@ function mostrarUnProducto(respuesta) {
         // Obtener el ID del producto desde el atributo de datos del contenedor del producto
         const productId = productCard.dataset.productId;
         // Redirigir a la página de compra del producto con el ID del producto en la URI
-            
+        
+        /* LO DE ANTES
         const urlParams = new URLSearchParams(window.location.search);
         const userId = urlParams.get('idUser');
         const prodID = urlParams.get('idProd');
 
         window.location.href = `/Interfaces/CompraProducto.html?idProd=${productId}&idUser=${userId}`;
+        */
+        window.location.href = `/Interfaces/CompraProducto.html`;
     });
 
 }
@@ -734,18 +776,18 @@ function mostrarUnProductoBasico(respuesta) {
 async function CargaUnProductoCompra(){
     try{
         // Pillar el ID del producto de la URI
-        const urlParams = new URLSearchParams(window.location.search);
-        const productId = urlParams.get('idProd');
-        const idUser = urlParams.get('idUser');
+        idUsuarioIniciado = localStorage.getItem('UsuarioID');
+        idProductoSeleccionado = localStorage.getItem('itemID')
+    
 
         //solo falta que aqui le pasemos el id del usuario que ha iniciado sesión
         //idUser = 1;
         //console.log(idUser);
-        const respuestaDirec = await fetch(`http://localhost:5169/ObtenerInfoUsuario?idusuario=${idUser}`);
+        const respuestaDirec = await fetch(`http://localhost:5169/ObtenerInfoUsuario?idusuario=${idUsuarioIniciado}`);
 
 
         // Obtener el producto por ID desde el backend
-        const response = await fetch(`http://localhost:5169/ObtenerProductoPorID?idproducto=${productId}`);
+        const response = await fetch(`http://localhost:5169/ObtenerProductoPorID?idproducto=${idProductoSeleccionado}`);
 
         if(response.ok && respuestaDirec.ok){
             const data = await response.json();
@@ -773,6 +815,8 @@ function mostrarUnProductoCompra(producto, usuario) {
     const primeraImagen = imagenes[0];
 
     const productImg = document.querySelector('.product-container-compra img');
+    const productDescrip = document.querySelector('.product-container-compra h1');
+
     const productName = document.querySelector('.header h1');
 
     //const arrivalDate = document.querySelector('.product-container-compra p');
@@ -782,6 +826,7 @@ function mostrarUnProductoCompra(producto, usuario) {
 
     // Llenar la información del producto con los datos obtenidos del servidor
     productImg.src = primeraImagen; // Suponiendo que el servidor envía la URL de la imagen
+    productDescrip = `Descripción: ${producto.descripcion} `;
     productName.textContent =  `Compra ahora: ${producto.nombreproducto} `;
     //arrivalDate.textContent = `Llegada el: ${respuesta.fecha_llegada}`;
     shippingInfo.textContent = `${usuario.direccion}`;
@@ -883,9 +928,9 @@ async function cargarYMostrarProductosPorPaginas() {
 }
 
 
-async function CargarProductosVendedor(idUsuarioIniciado2) {
+async function CargarProductosVendedor(idUsuarioIniciado) {
     try {
-        console.log('ID del usuario seleccionado:', idUsuarioIniciado2);
+        console.log('ID del usuario seleccionado:', idUsuarioIniciado);
         // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
         
         const response = await fetch('http://localhost:5169/ObtenerProductosVendedor',{
@@ -894,7 +939,7 @@ async function CargarProductosVendedor(idUsuarioIniciado2) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                idusuario: idUsuarioIniciado2
+                idusuario: idUsuarioIniciado
             }),
         });
         
@@ -909,7 +954,7 @@ async function CargarProductosVendedor(idUsuarioIniciado2) {
             mostrarProductosVendedor(productos.slice(0, productosPorPagina));
 
             // Generar enlaces de paginación
-            generarEnlacesPaginacion(totalPaginas,idUsuarioIniciado2);
+            generarEnlacesPaginacion(totalPaginas,idUsuarioIniciado);
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
         }
@@ -967,12 +1012,12 @@ async function CargarProductosValidacion() {
     }
 }
 
-async function cargarProductosPorPagina(numeroPagina,idUsuarioIniciado2) {
+async function cargarProductosPorPagina(numeroPagina,idUsuarioIniciado) {
     const productosPorPagina = 6;
 
     try {
 
-        console.log('ID del usuario seleccionado:', idUsuarioIniciado2);
+        console.log('ID del usuario seleccionado:', idUsuarioIniciado);
         // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
         const response = await fetch('http://localhost:5169/ObtenerProductosVendedor',{
             method: 'POST',
@@ -980,7 +1025,7 @@ async function cargarProductosPorPagina(numeroPagina,idUsuarioIniciado2) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                idusuario: idUsuarioIniciado2
+                idusuario: idUsuarioIniciado
             }),
         });
 
@@ -1024,7 +1069,7 @@ function mostrarProductos(respuesta) {
 }
 
 
-function generarEnlacesPaginacion(totalPaginas,idUsuarioIniciado2) {
+function generarEnlacesPaginacion(totalPaginas,idUsuarioIniciado) {
     const paginasContainer = document.getElementById('paginas');
     paginasContainer.innerHTML = ''; // Limpiar los enlaces de paginación antes de generarlos nuevamente
 
@@ -1040,7 +1085,7 @@ function generarEnlacesPaginacion(totalPaginas,idUsuarioIniciado2) {
         // Agregar event listener para cargar los productos de la página seleccionada
         enlace.addEventListener('click', async function(event) {
             event.preventDefault();
-            await cargarProductosPorPagina(i,idUsuarioIniciado2);
+            await cargarProductosPorPagina(i,idUsuarioIniciado);
         });
     }
 }
@@ -1328,7 +1373,7 @@ async function agregarProd()
         });
 }
 
-async function agregarProducto(idUsuarioIniciado2)
+async function agregarProducto(idUsuarioIniciado)
 {
         document.getElementById('agregarProductoForm2').addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -1343,7 +1388,7 @@ async function agregarProducto(idUsuarioIniciado2)
             const cantidad = parseInt(formData.get('cantProd'));
 
 
-            console.log('ID del usuario seleccionado:', idUsuarioIniciado2);
+            console.log('ID del usuario seleccionado:', idUsuarioIniciado);
             // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
             
 
@@ -1360,7 +1405,7 @@ async function agregarProducto(idUsuarioIniciado2)
                         descripcion: descripcion,
                         imagenes: img,
                         cantidad: cantidad,
-                        idvendedor: idUsuarioIniciado2,
+                        idvendedor: idUsuarioIniciado,
                         validado: false,
                     }),
                 });
@@ -1545,7 +1590,7 @@ async function eliminarProd() {
     }
 }
 
-async function ActualizarProducto(idProductoSeleccionado,idUsuarioIniciado2)
+async function ActualizarProducto(idProductoSeleccionado,idUsuarioIniciado)
 {
         document.getElementById('agregarProductoForm7').addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -1572,7 +1617,7 @@ async function ActualizarProducto(idProductoSeleccionado,idUsuarioIniciado2)
                         descripcion: descripcion,
                         imagenes: img,
                         cantidad: cantidad,
-                        idvendedor: idUsuarioIniciado2,
+                        idvendedor: idUsuarioIniciado,
                         idproducto:idProductoSeleccionado,
                     }),
                 });
@@ -1667,51 +1712,15 @@ document.getElementById('agregarProductoForm2').addEventListener('submit', async
     }
 });*/
 
-
-
-async function IniciarSesionHernan(){
+//He elimando el resto de funciones de inicio de sesion
+async function IniciarSesion(){
     try {
         // Pillar los datos del usuario
         const correo = document.getElementById("correoUser").value;
         const contraseña = document.getElementById("contraUser").value;
         console.log("El correo es: " + correo + " y la contraseña: " + contraseña);
 
-        const response = await fetch('http://localhost:5169/iniciarSesionHernan', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: `correo=${encodeURIComponent(correo)}&contraseña=${encodeURIComponent(contraseña)}`,
-        });
-
-        if(response.ok){
-            console.log("el usuario ha iniciado sesión");
-            const data = await response.json();
-            idUsuarioIniciado = data.Id;
-            //hay que guardar el idUsuarioIniciado en el hidden
-
-            //console.log(idUsuarioIniciado);
-            //ahora ir a la página principal
-            window.location.href = `./NewPaginaPrincipal.html?idUser=${data.Id}`;
-        } else {
-            console.error('Respuesta NO ok por:', response.statusText);
-            throw new Error('Error en la respuesta del servidor');
-        }
-    } catch (error) {
-        const mensajeError = document.getElementById("mensajeError");
-        mensajeError.style.display = "block"; // Hacer visible el elemento
-        console.error('Error al iniciar sesión:', error);
-    }
-}
-
-async function IniciarSesionVanessa(){
-    try {
-        // Pillar los datos del usuario
-        const correo = document.getElementById("correoUser").value;
-        const contraseña = document.getElementById("contraUser").value;
-        console.log("El correo es: " + correo + " y la contraseña: " + contraseña);
-
-        const response = await fetch('http://localhost:5169/iniciarSesionvanessa', {
+        const response = await fetch('http://localhost:5169/iniciarSesion', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -1722,8 +1731,8 @@ async function IniciarSesionVanessa(){
         if(response.ok){
             console.log("El usuario ha iniciado sesión");
             const data = await response.json();
-            idUsuarioIniciado2 = data.Id;
-            localStorage.setItem('UsuarioID', idUsuarioIniciado2);
+            idUsuarioIniciado = data.Id;
+            localStorage.setItem('UsuarioID', idUsuarioIniciado);
             
             // Determinar el tipo de usuario
             let tipoUsuario;
@@ -1749,41 +1758,6 @@ async function IniciarSesionVanessa(){
         console.error('Error al iniciar sesión:', error);
     }
 }
-
-
-async function iniciarSesion() {
-
-    const correo = document.getElementById("correoUser").value;
-    const contraseña = document.getElementById("contraUser").value;
-
-    const data = {
-        correo: correo,//correoUser
-        contraseña: contraseña//contraUser
-    };
-
-    try {
-
-        const response = await fetch('/iniciarSesion', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
-
-        if (response.ok) {
-
-            window.location.href = "NewPaginaPrincipal.html";
-        } else {
-
-            console.error('Error al iniciar sesión:', response.statusText);
-        }
-    } catch (error) {
-
-        console.error('Error al iniciar sesión:', error.message);
-    }
-}
-
 
 async function getBusquedas() {
     const urlParams = new URLSearchParams(window.location.search);
