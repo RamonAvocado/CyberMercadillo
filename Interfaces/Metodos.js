@@ -2,6 +2,7 @@ var idProductoSeleccionado;
 var idUsuarioIniciado;//guardo esto aquí para poder acceder en todas las páginas
 var idProductoCantidadSelec;//cantidad de producto seleccionada
 var idProductoCantidad;//cuantos producto hay en la base de datos
+var categoriaSelect;
 var numTarjeta;
 var fechaCaducidad;
 var cvv;
@@ -464,14 +465,20 @@ function mostrarProductosRecomendados(productos) {
 
 
 // MOSTRAR TODOS LOS PRODUCTOS A LA HORA DE BUSCAR CUALQUIERO COSA
-async function CargaTodosProductos(){
+//le paso un 1 y es para mostrarProductosCat, sino que funcione con normalidad
+async function CargaTodosProductos(valor){
     try {
         // Realizar una solicitud GET al backend para obtener los 6 primeros productos
         const response = await fetch('http://localhost:5169/ObtenerTodosProductos');
         if (response.ok) {
             const data = await response.json();
             const productos = data.productos.Models;
-            mostrarTodosProductos(productos);// Llama a una función para mostrar los productos en la página
+            if(valor ==  1){
+                mostrarProductosCat(productos);
+            }
+            else{
+                mostrarTodosProductos(productos);// Llama a una función para mostrar los productos en la página
+            }
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
         }
@@ -1007,8 +1014,6 @@ async function FinalizarCompra() {
     }
 }
 
-
-
 // FIN FUNCIONES PARA LA COMPRA DE UN PRODUCTO
 
 // INCIO mostrar categorias
@@ -1041,25 +1046,97 @@ function mostrarCategorias(array) {
         option.textContent = categoria;
         selectElement.appendChild(option);
     });
+
+    selectElement.addEventListener('change', function() {
+        const selectedCategory = selectElement.value;
+        localStorage.setItem('categoriaSeleccionada', selectedCategory);
+        categoriaSelect = localStorage.getItem("categoriaSeleccionada");
+
+        console.log('Categoría seleccionada:', categoriaSelect);
+        // Aquí puedes hacer lo que necesites con la categoría seleccionada
+    });
 }
 
 
 async function buscarPorCategoria() {
-    const categoriaSeleccionada = document.getElementById('categorySelect').value;
+    categoriaSelect = localStorage.getItem("categoriaSeleccionada");
+    //console.log(categoriaSelect);
     // Realizar una consulta con la categoría seleccionada
     try {
-        const response = await fetch(`http://localhost:5169/BuscarPorCategoria?categoria=${categoriaSeleccionada}`);
-        if (response.ok) {
-            const data = await response.json();
-            // Lógica para mostrar los resultados de la consulta en el HTML
-            console.log(data); // Aquí puedes procesar los datos y mostrarlos en el HTML
-        } else {
-            console.error('Error en la solicitud al backend:', response.statusText);
+        if(categoriaSelect == "Todas las categorías")
+        {
+            //le paso un 1 y es para mostrarProductosCat
+            CargaTodosProductos(1);
+            console.log("Todas las categorías mostradas")    
+        }
+        else{
+            const response = await fetch(`http://localhost:5169/BuscarPorCategoria?categoria=${categoriaSelect}`);
+            if (response.ok) {
+                const data = await response.json();
+                productos = data.ProductosXCat.Models;
+                console.log(productos); 
+                mostrarProductosCat(productos);
+            } else {
+                console.error('Error en la solicitud al backend:', response.statusText);
+            }
         }
     } catch (error) {
         console.error('Error inesperado:', error);
     }
 }
+function mostrarProductosCat(productos) {
+    const container = document.querySelector('.resultado-busqueda-container');
+    container.innerHTML = '';
+
+    // Itera sobre los productos y crea elementos para mostrarlos
+    productos.forEach((producto) => {
+        const productCard = document.createElement('div');
+        productCard.classList.add('product-card');
+
+        // Verificar si las imágenes existen y obtener la primera
+        const imagenes = producto.imagenes ? producto.imagenes.split(' ') : [];
+        const primeraImagen = imagenes.length > 0 ? imagenes[0] : 'placeholder.jpg';
+
+        // Verificar si el nombre del producto existe
+        const nombreProducto = producto.nombreproducto ? producto.nombreproducto : 'Nombre del Producto Desconocido';
+
+        // Verificar si el precio existe
+        const precio = producto.precio ? `${producto.precio} €` : 'Precio Desconocido';
+
+        // Verificar si la descripción existe
+        const descripcion = producto.descripcion ? producto.descripcion : 'Descripción no disponible';
+
+        // Agregar la imagen, nombre y precio del producto dentro de un enlace
+        productCard.innerHTML = `
+            <button class="favorite-btn"></button> <!-- Botón de favoritos -->
+            <img src="${primeraImagen}" alt="${nombreProducto}"  style="width: 200px; height: 240px;">
+            <h3>${truncate(nombreProducto)}</h3>
+            <p class="price">${precio}</p>
+            <p class="description">${truncate(descripcion)}</p>
+            <div hidden>
+                <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
+                <div id="idProducto" data-info="${producto.idproducto}"> </div>
+            </div>
+        `;
+
+        // Agregar evento de clic para seleccionar el producto
+        productCard.addEventListener('click', (event) => {
+            seleccionarProducto(event.currentTarget);
+        });
+
+        // Agregar evento de doble clic para ir a la página de información del producto
+        productCard.addEventListener('dblclick', (event) => {
+            irAInfoProducto(event.currentTarget);
+        });
+        container.appendChild(productCard);
+    });
+
+    const categoriaTitle = document.createElement('h2');
+    categoriaSelect = localStorage.getItem("categoriaSeleccionada");
+    categoriaTitle.textContent = `Categoría: ${categoriaSelect}`;
+    container.insertBefore(categoriaTitle, container.firstChild);
+}
+
 
 // FIN mostrar categorias
 
@@ -1214,28 +1291,6 @@ async function cargarProductosPorPagina(numeroPagina,idUsuarioIniciado) {
     } catch (error) {
         console.error('Error inesperado:', error);
     }
-}
-
-function mostrarProductos(respuesta) {
-    const productos = respuesta.productos.Models;
-    const container = document.querySelector('.featured-products');
-
-    // Itera sobre los productos y crea elementos para mostrarlos
-    productos.forEach((producto) => {
-        const productCard = document.createElement('div');
-        productCard.classList.add('product-card');
-
-        // Agrega la imagen, nombre y precio del producto
-        productCard.innerHTML = `
-            <button class="favorite-btn"></button>
-            <img src="${producto.imagen}" alt="${producto.nombreproducto}">
-            <h3>${producto.nombreproducto}</h3>
-            <p>${producto.precio} €</p>
-            <p>${producto.descripcion}</p>
-        `;
-
-        container.appendChild(productCard);
-    });
 }
 
 

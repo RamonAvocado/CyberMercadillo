@@ -205,6 +205,30 @@ app.MapGet("/CargarCategorias", async (HttpContext context, Supabase.Client clie
     }
 });
 
+
+//carga todas las categorías de todos los productos
+app.MapGet("/BuscarPorCategoria", async (HttpContext context, Supabase.Client client) =>
+{
+    try
+    {  
+        var categoriaSelected = context.Request.Query["categoria"].ToString();
+
+        var ProductosXCat = await client.From<Producto>()
+        .Where(p => p.categoria == categoriaSelected).Get();
+
+
+        var jsonResponse = new { ProductosXCat };
+
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+    }
+    catch (Exception ex)
+    {
+        // Manejar cualquier error y devolver una respuesta de error al cliente
+        errorDefault(context,ex);
+    }
+});
+
 //carga la dirección de un usuario
 app.MapGet("/ObtenerInfoUsuario", async (HttpContext context, Supabase.Client client) =>
 {
@@ -778,13 +802,33 @@ app.MapPost("/iniciarSesion", async (HttpContext context, Supabase.Client client
         }
 */
 
-        if (usuario != null)
+if (usuario != null)
         {
             // Verificar si la contraseña coincide
             if (usuario.contraseña == contraUsuario)
             {
                 // Las credenciales son válidas
-                var jsonResponse = new { Id = usuario.idusuario, Nombre = usuario.nombre, Correo = usuario.correo }; // Agrega las propiedades que necesites
+                var jsonResponse = new Dictionary<string, object>
+                {
+                    { "Id", usuario.idusuario }, // Asumiendo que idusuario no puede ser nulo, pero ajusta esto según tus requisitos
+                    { "Nombre", usuario.nombre ?? "UsuarioPorDefecto" }, // Si nombre es nullable, usa el operador de coalescencia nula para proporcionar un valor predeterminado en caso de que sea nulo
+                    { "Correo", usuario.correo ?? "CorreoPorDefecto" },
+                    { "TipoUsuario", "TipoUusarioPorDefecto" }
+                };
+                var vendedor = await client.From<Vendedor>().Where(v => v.idvendedor == usuario.idusuario).Single();
+                var tecnico = await client.From<Tecnico>().Where(t => t.idtecnico == usuario.idusuario).Single();
+                if (vendedor != null)
+                {
+                    jsonResponse["TipoUsuario"] = "Vendedor";
+                }
+                else if (tecnico != null)
+                {
+                    jsonResponse["TipoUsuario"] = "Técnico";
+                }
+                else
+                {
+                    jsonResponse["TipoUsuario"] = "Usuario Común";
+                }
                 context.Response.StatusCode = 200;
                 context.Response.ContentType = "application/json";
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
