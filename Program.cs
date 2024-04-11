@@ -456,50 +456,91 @@ app.MapGet("/ObtenerProductosAValidar", async (HttpContext context, Supabase.Cli
     }
 });
 
-//Busca un producto desde el forntend
+
+//Busca un producto con categoria== Todas categorías y el texto de búsqueda
+app.MapPost("/BuscarProductoText", async (HttpContext context,Supabase.Client client) =>
+{
+    // Leer el cuerpo de la solicitud para obtener la información de búsqueda
+    using var reader = new StreamReader(context.Request.Body);
+    try
+    {
+        var requestBody = await reader.ReadToEndAsync();
+        var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
+
+        var idBuscado = searchData["idusuario"].ToObject<int>();
+        var searchTerm = searchData["searchTerm"].ToObject<string>();
+        var category = searchData["category"].ToObject<string>();
+
+        //Añadir busqueda
+#pragma warning disable CS8604 // Possible null reference argument.
+        var b1 = new Busqueda(searchTerm, DateTime.Now, idBuscado, category);
+#pragma warning restore CS8604 // Possible null reference argument.
+
+        //Inserto la búsqueda en la base de datos
+        await client.From<Busqueda>().Insert(new List<Busqueda> { b1 });
+
+        //convierto la consulta a minusculas para diferencias más productos
+        var searchTermLower = searchTerm.ToLowerInvariant();
+        //busco el texto parecido
+        var productos = client.From<Producto>().Filter("nombreproducto", Postgrest.Constants.Operator.ILike, $"%{searchTerm}%").Get();
+
+        // Devolver la respuesta al frontend
+        var jsonResponse = new { productos };
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+    }
+    catch (Exception ex)
+    {
+        // Manejar cualquier error y devolver una respuesta de error al cliente
+        errorDefault(context, ex);
+    }
+});
+
+/*
+//Busca un producto con categoria!= Todas categorías y el texto de búsqueda
 app.MapPost("/BuscarProducto", async (HttpContext context,Supabase.Client client) =>
 {
     // Leer el cuerpo de la solicitud para obtener la información de búsqueda
-    using (var reader = new StreamReader(context.Request.Body))
+    using var reader = new StreamReader(context.Request.Body);
+    try
     {
-        try{
-            var requestBody = await reader.ReadToEndAsync();
-            var searchData = JsonConvert.DeserializeObject<SearchData>(requestBody);
+        var requestBody = await reader.ReadToEndAsync();
+        var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
 
-            //Añadir busqueda
-            var b1 = new Busqueda(searchData.searchTerm ?? "SmartPhone X", DateTime.Now, ID_USUARIO);
-            await client.From<Busqueda>().Insert(new List<Busqueda> { b1 });
+        var idBuscado = searchData["idusuario"].ToObject<int>();
+        var searchTerm = searchData["searchTerm"].ToObject<string>();
+        var category = searchData["category"].ToObject<string>();
 
-            // Utilizar searchData.searchTerm en la lógica de búsqueda
-            var nombreBuscado = searchData!.searchTerm ?? "Auriculares Bluetooth";
-            var categoriaBuscada = searchData!.category ?? "Electrónica";
+        //Añadir busqueda
+#pragma warning disable CS8604 // Possible null reference argument.
+        var b1 = new Busqueda(searchTerm, DateTime.Now, idBuscado, category);
+#pragma warning restore CS8604 // Possible null reference argument.
 
-            var query = client.From<Producto>().Filter("nombreproducto", Postgrest.Constants.Operator.Equals, nombreBuscado);
+        //Inserto la búsqueda en la base de datos
+        await client.From<Busqueda>().Insert(new List<Busqueda> { b1 });
+
+        var query = client.From<Producto>().Filter("nombreproducto", Postgrest.Constants.Operator.ILike, searchTerm)
+        .And.Filter("categoria",  Postgrest.Constants.Operator.ILike, category);
+    
+
+        //var query = client.From<Producto>().Filter("nombreproducto", Postgrest.Constants.Operator.Equals, nombreBuscado);
+
+        // Ejecutar la consulta
+        var producto = await query.Single();
 
 
-           // Aplicar el filtro de la categoría si existe
-           /*
-            if (!string.IsNullOrEmpty(categoriaBuscada))
-            {
-                query = query.Filter("categoria", Postgrest.Constants.Operator.Equals, categoriaBuscada);
-            }
-*/
-            // Ejecutar la consulta
-            var producto = await query.Single();
-
-
-            // Devolver la respuesta al frontend
-            var jsonResponse = new { resultado = producto?.idproducto.ToString() ?? "No existe ese producto" };
-            context.Response.ContentType = "application/json";
-            await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-        } catch (Exception ex)
-        {
-            // Manejar cualquier error y devolver una respuesta de error al cliente
-            errorDefault(context,ex);
-        }
-        
+        // Devolver la respuesta al frontend
+        var jsonResponse = new { producto };
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+    }
+    catch (Exception ex)
+    {
+        // Manejar cualquier error y devolver una respuesta de error al cliente
+        errorDefault(context, ex);
     }
 });
+*/
 
 /*
 app.MapGet("/buscarProductoX", async (HttpContext context, Supabase.Client client) =>
@@ -898,9 +939,4 @@ async static void errorDefault(HttpContext context,Exception ex){
     await context.Response.WriteAsync($"Error al guardar el producto: {ex.Message}");
 }
 
-public class SearchData
-{
-    public string? searchTerm { get; set;}
-    public string? category {get; set;}
-}
 

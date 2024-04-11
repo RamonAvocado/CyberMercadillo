@@ -17,6 +17,9 @@ namespace CyberMercadillo.Entities
 
         [Column("texto")]
         public string? texto { get; set; }
+        
+        [Column("categoria")]
+        public string? categoria { get; set; }
 
         [Column("fecha")]
         public DateTime? fecha { get; set; }

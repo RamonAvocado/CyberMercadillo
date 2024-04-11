@@ -36,36 +36,88 @@ function LimpiarLocalStorage() {
     localStorage.clear();
 }
 
+
+//INICIO BUSCAR PRODUCTO POR TEXTO
+async function buscar() {
+    var searchTerm = document.getElementById('searchInput').value;
+    var category  = localStorage.getItem('categoriaSeleccionada');
+
+    buscarProd(searchTerm,category);
+}
+
 async function buscarProd(searchTerm, category) {
     // Realizar una solicitud POST al backend con la información de búsqueda
-    try {
-        const response = await fetch('http://localhost:5169/BuscarProducto', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            //le paso la búsqueda y la categoría 
-            body: JSON.stringify({ searchTerm: searchTerm, category: category}),
-        });
+    idUsuarioIniciado = localStorage.getItem("UsuarioID");
 
-        if (response.ok) {
-            const data = await response.json();
-            mostrarResultado(data.resultado);  // Llama a una función para mostrar el resultado en la página
-        } else {
-            console.error('Error en la solicitud al backend:', response.statusText);
+    var requestBody = {
+        idusuario: idUsuarioIniciado,
+        searchTerm: searchTerm,
+        category: category
+    };   
+    //console.log("Texto a buscar: " + searchTerm);
+
+    try {
+        //console.log("esto es ante sd ela a:" + category);
+         //si es igual a todas las categorías, obtener como resultado solo el texto vacío -> mostrarTodo
+        if (category == "Todas las categorías" && searchTerm == ""){
+            //No has introducido ningún campo de búsqueda, recargo la página
+            window.location.href = `/Interfaces/ResultadoBusqueda.html`;
+        
+        //ahora el texto ya tiene contendio y es con TODAS LAS CATEGORÍAS
+        }else if(category == "Todas las categorías")
+        {
+            const response = await fetch(`http://localhost:5169/BuscarProductoText`,{
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+                console.log("Respuesta de Todas las categorias" + data.productos.Models.nombreproducto)
+                mostrarResultado(data.productos.Models.nombreproducto);  // Llama a una función para mostrar todos los productos
+                mostrarProductosCat(data.productos.Models);//cargar los productos relacionados
+            } else {
+                console.error('Error en la solicitud al backend:', response.statusText);
+            }
+        }
+        //ahora ya hay que buscar por texto y la categoría seleccionada
+        else
+        {
+            const response = await fetch(`http://localhost:5169/BuscarProducto`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestBody)
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log("Texto y todo intro: " + data.productos)
+                mostrarResultado("Respuesta de busqueda con todo" +data.resultado);  // Llama a una función para mostrar el resultado en la página
+            } else {
+                console.error('Error en la solicitud al backend:', response.statusText);
+            }
         }
     } catch (error) {
         console.error('Error inesperado:', error);
     }
 }
 
-async function buscar() {
-    var searchTerm = document.getElementById('searchInput').value;
-    var category  = document.getElementById('categorySelect').value;
-
-    buscarProd(searchTerm,category);
+// Función para mostrar el resultado en la página
+function mostrarResultado(resultado) {
+    var resultadosDiv = document.getElementById('resultados');
+    //Esto es la respuesta que a accedido al Controlador Program y lo muestra por pantalla en la Pagina Principal
+    resultadosDiv.innerHTML = `<p>Resultado: ${resultado}</p>`;
 }
 
+//FIN BUSQUEDA TEXTO
+
+/*
 async function buscarProducto(string){
     var category  = document.getElementById('categorySelect').value;
 
@@ -95,7 +147,7 @@ async function buscarProducto(string){
 async function buscarProducto(){
     var searchTerm = document.getElementById('searchInput').value;
     buscarProducto(searchTerm);
-}
+}*/
 
 
 // INCIO mostrar categorias
@@ -105,7 +157,7 @@ async function CargaCategorias() {
         const response = await fetch('http://localhost:5169/CargarCategorias');
         if (response.ok) {
             const data = await response.json();
-            console.log(data.Categorias);
+            console.log("Categorías de todos los productos: " + data.Categorias);
             mostrarCategorias(data.Categorias);
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
@@ -213,7 +265,7 @@ function mostrarProductosCat(productos) {
     });
 
     const categoriaTitle = document.createElement('h2');
-    console.log(container);
+    //console.log(container);
     categoriaSelect = localStorage.getItem("categoriaSeleccionada");
     categoriaTitle.textContent = `Categoría: ${categoriaSelect}`;
     container.insertBefore(categoriaTitle, container.firstChild);
@@ -1538,12 +1590,6 @@ function irALogin(){
     window.location.href = `Login.html?idUser=${userId}`
 }
 
-// Función para mostrar el resultado en la página
-function mostrarResultado(resultado) {
-    var resultadosDiv = document.getElementById('resultados');
-    //Esto es la respuesta que a accedido al Controlador Program y lo muestra por pantalla en la Pagina Principal
-    resultadosDiv.innerHTML = `<p>Resultado: ${resultado}</p>`;
-}
 
 
 //Método agragar producto desde el frontend
