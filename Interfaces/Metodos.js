@@ -33,14 +33,10 @@ function gestionarValorIDProduct(valor) {
 }
 
 function LimpiarLocalStorage() {
-    //localStorage.setItem('itemID', idProductoSeleccionado);
-    //localStorage.setItem('UsuarioID', idUsuarioIniciado);
-
-    localStorage.removeItem('itemID');
-    localStorage.removeItem('UsuarioID');
+    localStorage.clear();
 }
 
-async function buscar(searchTerm, category) {
+async function buscarProd(searchTerm, category) {
     // Realizar una solicitud POST al backend con la información de búsqueda
     try {
         const response = await fetch('http://localhost:5169/BuscarProducto', {
@@ -67,7 +63,7 @@ async function buscar() {
     var searchTerm = document.getElementById('searchInput').value;
     var category  = document.getElementById('categorySelect').value;
 
-    buscar(searchTerm,category);
+    buscarProd(searchTerm,category);
 }
 
 async function buscarProducto(string){
@@ -86,7 +82,8 @@ async function buscarProducto(string){
 
         if (response.ok) {
             const data = await response.json();
-            mostrarProducto(data.resultado);  // Llama a una función para mostrar el resultado en la página
+            console.log(data);
+            //mostrarProductosCat(data.resultado);  // Llama a una función para mostrar el resultado en la página
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
         }
@@ -99,6 +96,132 @@ async function buscarProducto(){
     var searchTerm = document.getElementById('searchInput').value;
     buscarProducto(searchTerm);
 }
+
+
+// INCIO mostrar categorias
+
+async function CargaCategorias() {
+    try {
+        const response = await fetch('http://localhost:5169/CargarCategorias');
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data.Categorias);
+            mostrarCategorias(data.Categorias);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+function mostrarCategorias(array) {
+    const selectElement = document.getElementById('categorySelect');
+
+    // Limpiar opciones existentes, excepto la primera (Todas las categorías)
+    selectElement.options.length = 1;
+
+    // Agregar nuevas opciones de categorías
+    array.forEach(categoria => {
+        const option = document.createElement('option');
+        option.value = categoria;
+        option.textContent = categoria;
+        selectElement.appendChild(option);
+    });
+
+    selectElement.addEventListener('change', function() {
+        const selectedCategory = selectElement.value;
+        localStorage.setItem('categoriaSeleccionada', selectedCategory);
+        categoriaSelect = localStorage.getItem("categoriaSeleccionada");
+
+        console.log('Categoría seleccionada:', categoriaSelect);
+        // Aquí puedes hacer lo que necesites con la categoría seleccionada
+    });
+}
+
+
+async function buscarPorCategoria() {
+    categoriaSelect = localStorage.getItem("categoriaSeleccionada");
+    //console.log(categoriaSelect);
+    // Realizar una consulta con la categoría seleccionada
+    try {
+        if(categoriaSelect == "Todas las categorías")
+        {
+            //le paso un 1 y es para mostrarProductosCat
+            CargaTodosProductos(1);
+            console.log("Todas las categorías mostradas")    
+        }
+        else{
+            const response = await fetch(`http://localhost:5169/BuscarPorCategoria?categoria=${categoriaSelect}`);
+            if (response.ok) {
+                const data = await response.json();
+                productos = data.ProductosXCat.Models;
+                console.log(productos); 
+                mostrarProductosCat(productos);
+            } else {
+                console.error('Error en la solicitud al backend:', response.statusText);
+            }
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+function mostrarProductosCat(productos) {
+    const container = document.querySelector('.resultado-busqueda-container');
+    container.innerHTML = '';
+
+    // Itera sobre los productos y crea elementos para mostrarlos
+    const cartButtonContainer = document.createElement('div');
+    cartButtonContainer.classList.add('cart-button-container');
+    const cartButton = document.createElement('button');
+    cartButton.classList.add('cart-btn');
+    cartButton.textContent = 'Añadir al Carrito de Compra';
+    cartButtonContainer.appendChild(cartButton);
+    container.appendChild(cartButtonContainer);
+    
+    productos.forEach((producto) => {
+        const productCard = document.createElement('div');
+        productCard.classList.add('product-card');
+
+        // Verificar si las imágenes existen y obtener la primera
+        const imagenes = producto.imagenes.split(' ');
+        const primeraImagen = imagenes[0];
+
+        // Agregar la imagen, nombre y precio del producto dentro de un enlace
+        productCard.innerHTML = `
+            <button class="favorite-btn"></button> <!-- Botón de favoritos -->
+            <img src="${primeraImagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
+            <h3>${truncate(producto.nombreproducto)}</h3>
+            <p class="price">${producto.precio}</p>
+            <p class="description">${truncate(producto.descripcion)}</p>
+            <div hidden>
+                <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
+                <div id="idProducto" data-info="${producto.idproducto}"> </div>
+            </div>
+        `;
+
+        // Agregar evento de clic para seleccionar el producto
+        productCard.addEventListener('click', (event) => {
+            seleccionarProducto(event.currentTarget);
+        });
+
+        // Agregar evento de doble clic para ir a la página de información del producto
+        productCard.addEventListener('dblclick', (event) => {
+            irAInfoProducto(event.currentTarget);
+        });
+        container.appendChild(productCard);
+    });
+
+    const categoriaTitle = document.createElement('h2');
+    console.log(container);
+    categoriaSelect = localStorage.getItem("categoriaSeleccionada");
+    categoriaTitle.textContent = `Categoría: ${categoriaSelect}`;
+    container.insertBefore(categoriaTitle, container.firstChild);
+}
+
+
+// FIN mostrar categorias
+
 
 // INICIO BOTON FAVORITO PARA SELECCIONAR VARIOS Y PODER DESELECCIONAR
 
@@ -492,6 +615,15 @@ function mostrarTodosProductos(productos) {
 
     // Limpia el contenedor antes de agregar nuevos productos
     container.innerHTML = '';
+    
+    // Agregar el botón "Añadir al Carrito de Compra" fuera del bucle
+    const cartButtonContainer = document.createElement('div');
+    cartButtonContainer.classList.add('cart-button-container');
+    const cartButton = document.createElement('button');
+    cartButton.classList.add('cart-btn');
+    cartButton.textContent = 'Añadir al Carrito de Compra';
+    cartButtonContainer.appendChild(cartButton);
+    container.appendChild(cartButtonContainer);
 
     // Itera sobre los productos y crea elementos para mostrarlos
     productos.forEach((producto) => {
@@ -1015,130 +1147,6 @@ async function FinalizarCompra() {
 }
 
 // FIN FUNCIONES PARA LA COMPRA DE UN PRODUCTO
-
-// INCIO mostrar categorias
-
-async function CargaCategorias() {
-    try {
-        const response = await fetch('http://localhost:5169/CargarCategorias');
-        if (response.ok) {
-            const data = await response.json();
-            console.log(data.Categorias);
-            mostrarCategorias(data.Categorias);
-        } else {
-            console.error('Error en la solicitud al backend:', response.statusText);
-        }
-    } catch (error) {
-        console.error('Error inesperado:', error);
-    }
-}
-
-function mostrarCategorias(array) {
-    const selectElement = document.getElementById('categorySelect');
-
-    // Limpiar opciones existentes, excepto la primera (Todas las categorías)
-    selectElement.options.length = 1;
-
-    // Agregar nuevas opciones de categorías
-    array.forEach(categoria => {
-        const option = document.createElement('option');
-        option.value = categoria;
-        option.textContent = categoria;
-        selectElement.appendChild(option);
-    });
-
-    selectElement.addEventListener('change', function() {
-        const selectedCategory = selectElement.value;
-        localStorage.setItem('categoriaSeleccionada', selectedCategory);
-        categoriaSelect = localStorage.getItem("categoriaSeleccionada");
-
-        console.log('Categoría seleccionada:', categoriaSelect);
-        // Aquí puedes hacer lo que necesites con la categoría seleccionada
-    });
-}
-
-
-async function buscarPorCategoria() {
-    categoriaSelect = localStorage.getItem("categoriaSeleccionada");
-    //console.log(categoriaSelect);
-    // Realizar una consulta con la categoría seleccionada
-    try {
-        if(categoriaSelect == "Todas las categorías")
-        {
-            //le paso un 1 y es para mostrarProductosCat
-            CargaTodosProductos(1);
-            console.log("Todas las categorías mostradas")    
-        }
-        else{
-            const response = await fetch(`http://localhost:5169/BuscarPorCategoria?categoria=${categoriaSelect}`);
-            if (response.ok) {
-                const data = await response.json();
-                productos = data.ProductosXCat.Models;
-                console.log(productos); 
-                mostrarProductosCat(productos);
-            } else {
-                console.error('Error en la solicitud al backend:', response.statusText);
-            }
-        }
-    } catch (error) {
-        console.error('Error inesperado:', error);
-    }
-}
-function mostrarProductosCat(productos) {
-    const container = document.querySelector('.resultado-busqueda-container');
-    container.innerHTML = '';
-
-    // Itera sobre los productos y crea elementos para mostrarlos
-    productos.forEach((producto) => {
-        const productCard = document.createElement('div');
-        productCard.classList.add('product-card');
-
-        // Verificar si las imágenes existen y obtener la primera
-        const imagenes = producto.imagenes ? producto.imagenes.split(' ') : [];
-        const primeraImagen = imagenes.length > 0 ? imagenes[0] : 'placeholder.jpg';
-
-        // Verificar si el nombre del producto existe
-        const nombreProducto = producto.nombreproducto ? producto.nombreproducto : 'Nombre del Producto Desconocido';
-
-        // Verificar si el precio existe
-        const precio = producto.precio ? `${producto.precio} €` : 'Precio Desconocido';
-
-        // Verificar si la descripción existe
-        const descripcion = producto.descripcion ? producto.descripcion : 'Descripción no disponible';
-
-        // Agregar la imagen, nombre y precio del producto dentro de un enlace
-        productCard.innerHTML = `
-            <button class="favorite-btn"></button> <!-- Botón de favoritos -->
-            <img src="${primeraImagen}" alt="${nombreProducto}"  style="width: 200px; height: 240px;">
-            <h3>${truncate(nombreProducto)}</h3>
-            <p class="price">${precio}</p>
-            <p class="description">${truncate(descripcion)}</p>
-            <div hidden>
-                <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
-                <div id="idProducto" data-info="${producto.idproducto}"> </div>
-            </div>
-        `;
-
-        // Agregar evento de clic para seleccionar el producto
-        productCard.addEventListener('click', (event) => {
-            seleccionarProducto(event.currentTarget);
-        });
-
-        // Agregar evento de doble clic para ir a la página de información del producto
-        productCard.addEventListener('dblclick', (event) => {
-            irAInfoProducto(event.currentTarget);
-        });
-        container.appendChild(productCard);
-    });
-
-    const categoriaTitle = document.createElement('h2');
-    categoriaSelect = localStorage.getItem("categoriaSeleccionada");
-    categoriaTitle.textContent = `Categoría: ${categoriaSelect}`;
-    container.insertBefore(categoriaTitle, container.firstChild);
-}
-
-
-// FIN mostrar categorias
 
 // AQUI HICE EL MERGE MANUAL YA QUE ERA IMPOSIBLE HACERLO AUTOMÁTICO
 
@@ -1936,6 +1944,7 @@ document.getElementById('agregarProductoForm2').addEventListener('submit', async
 //He elimando el resto de funciones de inicio de sesion
 async function IniciarSesion(){
     try {
+        LimpiarLocalStorage();
         // Pillar los datos del usuario
         const correo = document.getElementById("correoUser").value;
         const contraseña = document.getElementById("contraUser").value;
