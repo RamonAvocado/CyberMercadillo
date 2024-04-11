@@ -778,32 +778,7 @@ app.MapPost("/iniciarSesion", async (HttpContext context, Supabase.Client client
             if (usuario.contraseña == contraUsuario)
             {
                 // Las credenciales son válidas
-                var jsonResponse = new Dictionary<string, object>
-                {
-                    { "Id", usuario.idusuario }, // Asumiendo que idusuario no puede ser nulo, pero ajusta esto según tus requisitos
-                    { "Nombre", usuario.nombre ?? "UsuarioPorDefecto" }, // Si nombre es nullable, usa el operador de coalescencia nula para proporcionar un valor predeterminado en caso de que sea nulo
-                    { "Correo", usuario.correo ?? "CorreoPorDefecto" },
-                    { "TipoUsuario", "TipoUusarioPorDefecto" }
-                };
-
-                ID_USUARIO = usuario.idusuario;
-
-                var vendedor = await client.From<Vendedor>().Where(v => v.idvendedor == usuario.idusuario).Single();
-                var tecnico = await client.From<Tecnico>().Where(t => t.idtecnico == usuario.idusuario).Single();
-
-                if (vendedor != null)
-                {
-                    jsonResponse["TipoUsuario"] = "Vendedor";
-                }
-                else if (tecnico != null)
-                {
-                    jsonResponse["TipoUsuario"] = "Técnico";
-                }
-                else
-                {
-                    jsonResponse["TipoUsuario"] = "Usuario Común";
-                }
-
+                var jsonResponse = new { Id = usuario.idusuario, Nombre = usuario.nombre, Correo = usuario.correo }; // Agrega las propiedades que necesites
                 context.Response.StatusCode = 200;
                 context.Response.ContentType = "application/json";
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
