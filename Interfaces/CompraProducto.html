@@ -13,15 +13,17 @@
         </div>
     </header>
     <div class="product-container-compra">
-        <div class = "product-compra">
-            <div class = "imagen-llegada">
+        <div class="product-compra">
+            <div class="imagen-llegada">
                 <img src="">
-                <p>Llegada el: 15 de marzo</p>
+                <div class="descripción">
+                    <h1>  </h1>
+                </div>
             </div>
             <div class="shipping-info">
+                <h1>Llegada el: 15 de marzo</h1>
                 <h2>Enviar a:</h2>
                 <p>Campus de la vera XXXXXXXXXXXXXXXX</p>
-
             </div>
             <div class="payment-info">
                 <h2>Pago:</h2>
@@ -29,10 +31,15 @@
                 <input type="text" placeholder="Fecha de caducidad">
                 <input type="text" placeholder="CVV">
             </div>
-            <p class="total-cost">Total 20 euros</p>
-            <div class="buttons">
-                <button onclick = "volverPaginaAnterior()" class="volver-btn">Volver</button>
-                <button class="checkout-button">Finalizar Pedido</button>
+            <div class="final">
+                <div class="inter-final">
+                    <h1 class="cantidad">Cantidad Seleccionada: <strong>10</strong></h1>
+                    <h2 class="total-cost">Total 20 euros</h2>
+                </div>
+                <div class="button-container">
+                    <button onclick="volverPaginaAnterior()" class="volver-btn">Volver</button>
+                    <button onclick="FinalizarCompra()" class="checkout-button">Finalizar Pedido</button>
+                </div>
             </div>
         </div>
     </div>

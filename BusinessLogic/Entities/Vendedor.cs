@@ -14,5 +14,7 @@ namespace CyberMercadillo.Entities
             nombretienda = nombreDeTienda;
             telefonotienda = telTienda;
         }
+
+        public Vendedor(){}
     }
 }

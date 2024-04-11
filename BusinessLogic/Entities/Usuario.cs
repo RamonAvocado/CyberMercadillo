@@ -14,7 +14,7 @@ namespace CyberMercadillo.Entities
 {       
     public partial class Usuario{
         public Usuario(){}
-        public Usuario(string nombreUser, int movilUser, string correoUser, string contraUser, string dirUser, int numeroTarj, DateTime fechaCad, int cvvUser) {
+        public Usuario(string nombreUser, int movilUser, string correoUser, string contraUser, string dirUser, int numeroTarj, string fechaCad, int cvvUser) {
             nombre = nombreUser;
             movil = movilUser;
             correo = correoUser;

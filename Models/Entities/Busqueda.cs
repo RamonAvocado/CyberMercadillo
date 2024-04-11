@@ -23,7 +23,8 @@ namespace CyberMercadillo.Entities
 
         [Column("idusuario")]
         public int? idusuario { get; set; }
-    }
 
+
+    }
 }
     

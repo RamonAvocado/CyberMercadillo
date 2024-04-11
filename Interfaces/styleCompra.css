@@ -6,7 +6,7 @@ body {
 }
 
 .header {
-    background-color: #F3F3F3;
+    background-color: #8a2f91;
     color: #000;
     padding: 10px;
     display: flex;
@@ -52,15 +52,32 @@ body {
     border-color: #000;
 }
 
+.descripción{
+    font-size: 14px;
+    margin: 40px
+}
+
 img {
     border-radius: 40px;
-    max-width: 20%;
+    max-width: 30%;
     height: auto;
     border: 1px solid #ddd;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.shipping-info h1{
+    margin-top: 25px;
+    font-size: 24px;
+}
 
+.shipping-info p, h2{
+    color: #be0e0e;
+    font-size: 26px;
+}
+.payment-info h2{
+    color: black;
+}
+    
 input {
     width: 100%;
     padding: 10px;
@@ -80,18 +97,29 @@ input {
 }
 
 button {
-    padding: 10px 20px;
-    font-size: 14px;
+    padding: 18px 28px;
+    font-size: 24px;
     border: none;
     cursor: pointer;
     background-color: #f9a825;
     color: #fff;
-    border-radius: 5px;
+    border-radius: 35px;
     margin-right: 10px;
+}
+
+.button-container {
+    text-align: center;
 }
 
 .back-button {
     background-color: #f9a825;
+}
+.inter-final h1{
+    font-size: 30px;
+   }
+
+.inter-final h2{
+ font-size: 26px;
 }
 
 .checkout-button {

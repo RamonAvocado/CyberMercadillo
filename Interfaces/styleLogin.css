@@ -57,6 +57,8 @@ input[type="password"] {
 }
 
 button[type="iniciar-btt"] {
+    display: flex;
+    margin: 0 auto;
     background-color: #4CAF50;
     color: #fff;
     padding: 12px 20px;
@@ -107,7 +109,10 @@ button[type="iniciar-btt"]:hover {
 }
 
 .error-message {
+    display: flex;
     color: red;
     font-size: 14px;
-    margin-top: 5px;
+    margin-top: 15px;
+    text-align: center;
+    margin-bottom:5px;
 }
