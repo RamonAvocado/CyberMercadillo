@@ -43,6 +43,9 @@ async function buscar() {
     var category  = localStorage.getItem('categoriaSeleccionada');
     localStorage.setItem('searchTerm', searchTerm);
 
+    var limpiarResult = document.getElementById('resultados');
+    limpiarResult.innerHTML = `<p></p>`;
+
     buscarProd(searchTerm,category);
 }
 
@@ -148,6 +151,13 @@ async function CargaCategorias() {
 
 function mostrarCategorias(array) {
     const selectElement = document.getElementById('categorySelect');
+    console.log(selectElement.options);
+    console.log(selectElement.options[0]);
+    categoriaSelect = selectElement.options[0].value;
+    console.log(categoriaSelect);
+
+    localStorage.setItem('categoriaSeleccionada', categoriaSelect);
+
 
     // Limpiar opciones existentes, excepto la primera (Todas las categorías)
     selectElement.options.length = 1;
@@ -175,6 +185,10 @@ async function buscarPorCategoria() {
     categoriaSelect = localStorage.getItem("categoriaSeleccionada");
     idUsuarioIniciado = localStorage.getItem("UsuarioID");
     searchTerm = localStorage.getItem("searchTerm");
+
+    var limpiarResult = document.getElementById('resultados');
+    limpiarResult.innerHTML = `<p></p>`;
+
     //console.log(categoriaSelect);
     // Realizar una consulta con la categoría seleccionada
 
@@ -253,11 +267,15 @@ function mostrarProductosCat(productos) {
 
         // Agregar evento de doble clic para ir a la página de información del producto
         productCard.addEventListener('dblclick', (event) => {
+            localStorage.setItem('itemID', productCard.idproducto);
+            idProductoSeleccionado = localStorage.getItem('itemID');
+            console.log(idProductoSeleccionado);
             irAInfoProducto(event.currentTarget);
         });
         container.appendChild(productCard);
     });
 
+    //Muestro la categoría por la que he buscado
     const categoriaTitle = document.createElement('h2');
     //console.log(container);
     categoriaSelect = localStorage.getItem("categoriaSeleccionada");
@@ -774,7 +792,10 @@ function mostrarUnProducto(respuesta) {
     container.innerHTML = '';
 
     //guardo la cantidad
-    idProductoCantidad = localStorage.setItem('itemCant', producto.cantidad);
+    localStorage.setItem('itemCant', producto.cantidad);
+    idProductoCantidad = localStorage.getItem('itemCant');
+
+    localStorage.setItem('categoriaSeleccionada', categoriaSelect); 
 
     // Separar las URL de las imágenes
     const imagenes = producto.imagenes.split(' ');
@@ -845,6 +866,9 @@ function mostrarUnProducto(respuesta) {
     const selectCantidad = document.createElement('select');
     selectCantidad.id = 'cantidad';
     selectCantidad.name = 'cantidad';
+    
+    localStorage.setItem('itemCantSelec',1);
+
     for (let i = 1; i <= producto.cantidad; i++) {
         const option = document.createElement('option');
         option.value = i;
@@ -1067,14 +1091,18 @@ function verificarCamposTarjeta() {
     const fechaCaducidadInput = document.querySelector('.payment-info input[type="text"][placeholder="Fecha de caducidad"]');
     const cvvInput = document.querySelector('.payment-info input[type="text"][placeholder="CVV"]');
     
-    localStorage.setItem('numTarjeta', numTarjetaInput);
-    localStorage.setItem('fechCaduci', fechaCaducidadInput);
-    localStorage.setItem('cvv', cvvInput);
-    
-    numTarjeta = localStorage.getItem("numTarjeta");
-    fechaCaducidad = localStorage.getItem("fechCaduci");
-    cvv = localStorage.getItem("cvv");
+    localStorage.setItem('numTarjeta', numTarjetaInput.value);
+    localStorage.setItem('fechCaduci', fechaCaducidadInput.value);
+    localStorage.setItem('cvv', cvvInput.value);
 
+    /* meras comprobaciones
+    console.log(" ANTES DE: fechaCaducidad: "+ numTarjetaInput.value);
+    console.log(fechaCaducidadInput.value + " fechaCaducidad");
+    console.log(cvvInput.value + "cvv");*/
+
+    numTarjeta = localStorage.getItem('numTarjeta');
+    fechaCaducidad = localStorage.getItem('fechCaduci');
+    cvv = localStorage.getItem('cvv');
 
     // Verificar que todos los campos estén completos
     if (numTarjeta.trim() === '') {
@@ -1116,16 +1144,10 @@ function mostrarVentanaEmergente() {
     if (confirmacion) {
         // guardo los datos de su tarjeta en la base de datos
         try {
-            idUsuarioIniciado = localStorage.getItem("UsuarioID");
-            numTarjeta = localStorage.getItem("numTarjeta");
-            fechaCaducidad = localStorage.getItem("fechCaduci");
-            cvv = localStorage.getItem("cvv");
-
-            
-            console.log(idUsuarioIniciado + "idUsuarioIniciado");
-            console.log(numTarjeta + "numTarjeta");
-            console.log(fechaCaducidad + "fechaCaducidad");
-            console.log(cvv + "cvv");
+            idUsuarioIniciado = localStorage.getItem('UsuarioID');
+            numTarjeta = localStorage.getItem('numTarjeta');
+            fechaCaducidad = localStorage.getItem('fechCaduci');
+            cvv = localStorage.getItem('cvv');
 
             const response = fetch(`http://localhost:5169/GuardarDatosUsuario`, {
                 method: 'POST',
