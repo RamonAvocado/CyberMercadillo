@@ -1410,9 +1410,9 @@ function mostrarProductosVendedor(productos) {
         productCard.innerHTML = `
             <button class="favorite-btn"></button> 
             <img src="${primeraImagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
-            <h3>${producto.nombreproducto}</h3>
+            <h3>${truncate(producto.nombreproducto)}</h3>
             <p>${producto.precio} €</p>
-            <p>${producto.descripcion}</p>
+            <p>${truncate(producto.descripcion)}</p>
         `;
 
         productCard.addEventListener('dblclick', (event) => {
@@ -1803,13 +1803,67 @@ async function mostrarProd(idProductoSeleccionado) {
             console.log(productos);
             if (productos.length > 0) {
                 const primerProducto = productos[0]; // Obtener el primer producto (suponiendo que hay al menos uno)
+                // Separar las URL de las imágenes
+                
+                
+                const container = document.querySelector('.recommended-products');
+
+                const imagenes = primerProducto.imagenes.split(' ');
+                const primeraImagen = imagenes[0];
+
+                // Crear elementos para mostrar el producto
+                const productCard = document.createElement('div');
+                productCard.classList.add('product-element');
+
+                // Agregar la imagen principal del producto
+                const imagenPrincipal = document.createElement('img');
+                imagenPrincipal.src = primeraImagen;
+                imagenPrincipal.alt = primerProducto.nombreproducto;
+                imagenPrincipal.style.width = '200px';
+                imagenPrincipal.style.height = '240px';
+                productCard.appendChild(imagenPrincipal);
+
+                // Contenedor para la flecha semi visible
+                const contenedorFlecha = document.createElement('div');
+                contenedorFlecha.classList.add('contenedor-flecha');
+
+                // Verificar si hay más de una imagen para mostrar la flecha
+                if (imagenes.length > 1) {
+                    // Agrega la imagen semi visible de la flecha al contenedor
+                    const flechaSemiVisible = document.createElement('img');
+                    flechaSemiVisible.src = 'Imagenes/flecha.png'; // Ruta a la imagen de la fecha
+                    flechaSemiVisible.alt = 'Flecha';
+                    flechaSemiVisible.style.width = '40px';
+                    flechaSemiVisible.style.height = '40px';
+                    flechaSemiVisible.classList.add('flecha-semi-visible');
+                    contenedorFlecha.appendChild(flechaSemiVisible);
+                }
+
+                // Agregar el contenedor de fecha al producto
+                productCard.appendChild(contenedorFlecha);
+
+
+                const nuevoUrlImagenInput = document.getElementById('nuevo-url-imagen');
+                nuevoUrlImagenInput.value = primeraImagen;
+
+
+                // Evento de clic en el contenedor de flecha semi visible para cambiar la imagen principal
+                if (imagenes.length > 1) {
+                    contenedorFlecha.addEventListener('click', function() {
+                        const index = imagenes.indexOf(imagenPrincipal.src);
+                        const siguienteIndex = (index + 1) % imagenes.length;
+                        imagenPrincipal.src = imagenes[siguienteIndex];
+                        nuevoUrlImagenInput.value = imagenes[siguienteIndex]; 
+                    });
+                }
+                container.appendChild(productCard);
+
                 document.getElementById('nombre').value = primerProducto.nombreproducto;
                 document.getElementById('precio').value = primerProducto.precio;
                 document.getElementById('categoria').value = primerProducto.categoria;
                 document.getElementById('descripcion').value = primerProducto.descripcion;
-                document.getElementById('imagenProducto').src = primerProducto.imagenes;
                 document.getElementById('cantidad').value = primerProducto.cantidad;
-                document.getElementById('nuevo-url-imagen').value = primerProducto.imagenes;             
+                //document.getElementById('nuevo-url-imagen').value = primerProducto.imagenes;             
             }
         } else {
             console.error('Error al obtener los detalles del producto:', response.statusText);
@@ -2148,17 +2202,17 @@ async function agregarCerrarSesion() {
     var usuarioLogueado = localStorage.getItem('UsuarioID');
     var tipoUsuarioLogueado = localStorage.getItem('tipoUserID');
     var sesionLink = document.getElementById('sesion-link');
-    var sesionSellerLink = document.getElementById('sesion-seller-link');
+    var sesionSUserLink = document.getElementById('sesion-user-link');
     console.log(tipoUsuarioLogueado);
     if (!usuarioLogueado) {
-        sesionLink.innerHTML = '<a href="#" onclick="iniciarSesionUser()">Iniciar Sesión</a>';
+        sesionLink.innerHTML = '<a href="./Login.html">Iniciar Sesión</a>';
     } else {
         sesionLink.innerHTML = '<a href="#" onclick="cerrarSesion()">Cerrar Sesión</a>';
         if(tipoUsuarioLogueado == "vendedor"){
-            sesionSellerLink.innerHTML = '<a href="#" onclick="irAPagianVendedor()">Productos</a>';
+            sesionSUserLink.innerHTML = '<a href="./PaginaVendedor.html">Productos</a>';
         }else if(tipoUsuarioLogueado == "tecnico"){
-            sesionSellerLink.innerHTML = '<a href="#" onclick="irAPagianValidaciones()">Validaciones</a>';
-        }       
+            sesionSUserLink.innerHTML = '<a onclick="irAPagianValidaciones()">Validaciones</a>';
+        }else sesionSUserLink.innerHTML = '<a href="./ListaDeseados.html">Lista Deseados</a>';        
     }
 }
 
@@ -2178,3 +2232,4 @@ function irAPagianVendedor() {
 function irAPagianValidaciones() {
     window.location.href = './ValidarProductos.html';
 }
+
