@@ -1843,8 +1843,8 @@ async function mostrarProd(idProductoSeleccionado) {
                 productCard.appendChild(contenedorFlecha);
 
 
-                const nuevoUrlImagenInput = document.getElementById('nuevo-url-imagen');
-                nuevoUrlImagenInput.value = primeraImagen;
+                //const nuevoUrlImagenInput = document.getElementById('nuevo-url-imagen');
+                //nuevoUrlImagenInput.value = primeraImagen;
 
 
                 // Evento de clic en el contenedor de flecha semi visible para cambiar la imagen principal
@@ -1853,7 +1853,7 @@ async function mostrarProd(idProductoSeleccionado) {
                         const index = imagenes.indexOf(imagenPrincipal.src);
                         const siguienteIndex = (index + 1) % imagenes.length;
                         imagenPrincipal.src = imagenes[siguienteIndex];
-                        nuevoUrlImagenInput.value = imagenes[siguienteIndex]; 
+                        //nuevoUrlImagenInput.value = imagenes[siguienteIndex]; 
                     });
                 }
                 container.appendChild(productCard);
@@ -1863,7 +1863,7 @@ async function mostrarProd(idProductoSeleccionado) {
                 document.getElementById('categoria').value = primerProducto.categoria;
                 document.getElementById('descripcion').value = primerProducto.descripcion;
                 document.getElementById('cantidad').value = primerProducto.cantidad;
-                //document.getElementById('nuevo-url-imagen').value = primerProducto.imagenes;             
+                document.getElementById('nuevo-url-imagen').value = primerProducto.imagenes;             
             }
         } else {
             console.error('Error al obtener los detalles del producto:', response.statusText);
