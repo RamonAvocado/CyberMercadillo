@@ -2066,7 +2066,7 @@ async function IniciarSesion(){
         const contraseña = document.getElementById("contraUser").value;
         console.log("El correo es: " + correo + " y la contraseña: " + contraseña);
 
-        const response = await fetch('http://localhost:5169/iniciarSesion', {
+        const response = await fetch('https://cybermercadillo.onrender.com/iniciarSesion', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
