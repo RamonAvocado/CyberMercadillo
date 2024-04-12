@@ -8,6 +8,8 @@ var fechaCaducidad;
 var cvv;
 
 
+var lugarDeEjecucion = "http://localhost:5169";
+
 //funcion para guardar y acceder a idUsuario
 function gestionarValorIDUser(valor) {
     if (valor === -1) {
@@ -70,7 +72,7 @@ async function buscarProd(searchTerm, category) {
         //ahora el texto ya tiene contendio y es con TODAS LAS CATEGORÍAS
         }else if(category == "Todas las categorías")
         {
-            const response = await fetch(`http://localhost:5169/BuscarProductoText`,{
+            const response = await fetch(`${lugarDeEjecucion}/BuscarProductoText`,{
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -95,7 +97,7 @@ async function buscarProd(searchTerm, category) {
         //ahora ya hay que buscar por texto y la categoría seleccionada
         else
         {
-            const response = await fetch(`http://localhost:5169/BuscarProductoTodo`, {
+            const response = await fetch(`${lugarDeEjecucion}/BuscarProductoTodo`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -136,7 +138,7 @@ function mostrarResultado(resultado) {
 
 async function CargaCategorias() {
     try {
-        const response = await fetch('http://localhost:5169/CargarCategorias');
+        const response = await fetch(`${lugarDeEjecucion}/CargarCategorias`);
         if (response.ok) {
             const data = await response.json();
             console.log("Categorías de todos los productos: " + data.Categorias);
@@ -206,7 +208,7 @@ async function buscarPorCategoria() {
             console.log("Todas las categorías mostradas")    
         }
         else{
-            const response = await fetch(`http://localhost:5169/BuscarPorCategoria`, {
+            const response = await fetch(`${lugarDeEjecucion}/BuscarPorCategoria`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -407,7 +409,7 @@ async function cargarProductosPorPagina(numeroPagina, tipoProductos) {
 async function CargarProductosDestacados() {
     try {
         // Realizar una solicitud GET al backend para obtener los 6 primeros productos
-        const response = await fetch('http://localhost:5169/ObtenerProductosDestacados');
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosDestacados`);
         if (response.ok) {
             const data = await response.json();
             const productos = data.productos.Models;
@@ -453,7 +455,7 @@ async function cargarProductosPorPaginaDest(numeroPagina) {
     const productosPorPagina = 6;
 
     try {
-        const response = await fetch('http://localhost:5169/ObtenerProductosDestacados');
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosDestacados`);
         if (response.ok) {
             const data = await response.json();
             const productos = data.productos.Models;
@@ -519,7 +521,7 @@ function mostrarProductosDestacados(productos) {
 async function CargarProductosRecomendadosInfoProd(){
     try {
         // Realizar una solicitud GET al backend para obtener los 6 primeros productos
-        const response = await fetch('http://localhost:5169/ObtenerProductosRecomendados');
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosRecomendados`);
         if (response.ok) {
             const data = await response.json();
             const productos = data.productos.Models;
@@ -543,7 +545,7 @@ async function CargarProductosRecomendadosInfoProd(){
 async function CargarProductosRecomendados(){
     try {
         // Realizar una solicitud GET al backend para obtener los 6 primeros productos
-        const response = await fetch('http://localhost:5169/ObtenerProductosRecomendados');
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosRecomendados`);
         if (response.ok) {
             const data = await response.json();
             const productos = data.productos.Models;
@@ -590,7 +592,7 @@ async function cargarProductosPorPaginaRec(numeroPagina) {
     const productosPorPagina = 6;
 
     try {
-        const response = await fetch('http://localhost:5169/ObtenerProductosRecomendados');
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosRecomendados`);
         if (response.ok) {
             const data = await response.json();
             const productos = data.productos.Models;
@@ -656,7 +658,7 @@ function mostrarProductosRecomendados(productos) {
 async function CargaTodosProductos(valor){
     try {
         // Realizar una solicitud GET al backend para obtener los 6 primeros productos
-        const response = await fetch('http://localhost:5169/ObtenerTodosProductos');
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerTodosProductos`);
         if (response.ok) {
             const data = await response.json();
             const productos = data.productos.Models;
@@ -773,7 +775,7 @@ async function CargaUnProducto(){
         const productId = urlParams.get('idProd');
         */
         idProductoSeleccionado = localStorage.getItem('itemID');
-        const response = await fetch(`http://localhost:5169/ObtenerProductoPorID?idproducto=${idProductoSeleccionado}`);
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductoPorID?idproducto=${idProductoSeleccionado}`);
 
         if(response.ok){
             const data = await response.json();
@@ -921,7 +923,7 @@ async function CargaUnProductoBasico(){
         const urlParams = new URLSearchParams(window.location.search);
         const productId = urlParams.get('id');
 
-        const response = await fetch(`http://localhost:5169/ObtenerProductoPorID?idproducto=${productId}`);
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductoPorID?idproducto=${productId}`);
 
         if(response.ok){
             const data = await response.json();
@@ -1023,11 +1025,11 @@ async function CargaUnProductoCompra(){
         //solo falta que aqui le pasemos el id del usuario que ha iniciado sesión
         //idUser = 1;
         //console.log(idUser);
-        const respuestaDirec = await fetch(`http://localhost:5169/ObtenerInfoUsuario?idusuario=${idUsuarioIniciado}`);
+        const respuestaDirec = await fetch(`${lugarDeEjecucion}/ObtenerInfoUsuario?idusuario=${idUsuarioIniciado}`);
 
 
         // Obtener el producto por ID desde el backend
-        const response = await fetch(`http://localhost:5169/ObtenerProductoPorID?idproducto=${idProductoSeleccionado}`);
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductoPorID?idproducto=${idProductoSeleccionado}`);
 
         if(response.ok && respuestaDirec.ok){
             const data = await response.json();
@@ -1149,7 +1151,7 @@ function mostrarVentanaEmergente() {
             fechaCaducidad = localStorage.getItem('fechCaduci');
             cvv = localStorage.getItem('cvv');
 
-            const response = fetch(`http://localhost:5169/GuardarDatosUsuario`, {
+            const response = fetch(`${lugarDeEjecucion}/GuardarDatosUsuario`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -1189,7 +1191,7 @@ async function FinalizarCompra() {
                 const idProductoCantidadSelec = localStorage.getItem("itemCantSelec");
                 const idProductoSeleccionado = localStorage.getItem("itemID");
 
-                const response = await fetch(`http://localhost:5169/ActualizarCantidadProducto`, {
+                const response = await fetch(`${lugarDeEjecucion}/ActualizarCantidadProducto`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -1223,7 +1225,7 @@ async function FinalizarCompra() {
 async function cargarYMostrarProductosPorPaginas() {
     try {
         // Llamar a la función para cargar todos los productos del vendedor
-        const response = await fetch('http://localhost:5169/ObtenerProductosVendedor');
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosVendedor`);
         
         if (response.ok) {
             const data = await response.json();
@@ -1256,7 +1258,7 @@ async function CargarProductosVendedor(idUsuarioIniciado) {
         console.log('ID del usuario seleccionado:', idUsuarioIniciado);
         // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
         
-        const response = await fetch('http://localhost:5169/ObtenerProductosVendedor',{
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosVendedor`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1313,7 +1315,7 @@ async function CargarProductosVendedor(idUsuarioIniciado) {
 async function CargarProductosValidacion() {
     try {
         // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
-        const response = await fetch('http://localhost:5169/ObtenerProductosAValidar');
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosAValidar`);
         
         if (response.ok) {
             const data = await response.json();
@@ -1342,7 +1344,7 @@ async function cargarProductosPorPagina(numeroPagina,idUsuarioIniciado) {
 
         console.log('ID del usuario seleccionado:', idUsuarioIniciado);
         // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
-        const response = await fetch('http://localhost:5169/ObtenerProductosVendedor',{
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosVendedor`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1625,7 +1627,7 @@ async function agregarProd()
 
         
             try {
-                const response = await fetch('https://cybermercadillo.onrender.com/AgregarProducto', {
+                const response = await fetch(`${lugarDeEjecucion}/AgregarProducto`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1684,7 +1686,7 @@ async function agregarProducto(idUsuarioIniciado)
             
 
             try {
-                const response = await fetch('https://cybermercadillo.onrender.com/AgregarProducto', {
+                const response = await fetch(`${lugarDeEjecucion}/AgregarProducto`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1781,7 +1783,7 @@ async function mostrarProd(idProductoSeleccionado) {
         //const response = await fetch('http://localhost:5169/buscarProductoX');
 
         //const response = await fetch(`http://localhost:5169/buscarProductoX?idProductoSeleccionado=${idProductoSeleccionado}`);
-        const response = await fetch('https://cybermercadillo.onrender.com/buscarProductoX',{
+        const response = await fetch(`${lugarDeEjecucion}/buscarProductoX`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1882,7 +1884,7 @@ async function validarProd() {
         //const response = await fetch('http://localhost:5169/buscarProductoX');
 
         //const response = await fetch(`http://localhost:5169/buscarProductoX?idProductoSeleccionado=${idProductoSeleccionado}`);
-        const response = await fetch('https://cybermercadillo.onrender.com/validarProductoX',{
+        const response = await fetch(`${lugarDeEjecucion}/validarProductoX`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1919,7 +1921,7 @@ async function eliminarProd() {
         //const response = await fetch('http://localhost:5169/buscarProductoX');
 
         //const response = await fetch(`http://localhost:5169/buscarProductoX?idProductoSeleccionado=${idProductoSeleccionado}`);
-        const response = await fetch('https://cybermercadillo.onrender.com/eliminarProductoX',{
+        const response = await fetch(`${lugarDeEjecucion}/eliminarProductoX`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1950,7 +1952,7 @@ async function ActualizarProducto(idProductoSeleccionado,idUsuarioIniciado)
             const cantidad = parseInt(formData.get('cantidad'));
 
             try {
-                const response = await fetch('https://cybermercadillo.onrender.com/ActualizarProducto', {
+                const response = await fetch(`${lugarDeEjecucion}/ActualizarProducto`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -2066,7 +2068,7 @@ async function IniciarSesion(){
         const contraseña = document.getElementById("contraUser").value;
         console.log("El correo es: " + correo + " y la contraseña: " + contraseña);
 
-        const response = await fetch('https://cybermercadillo.onrender.com/iniciarSesion', {
+        const response = await fetch(`${lugarDeEjecucion}/iniciarSesion`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -2114,7 +2116,7 @@ async function getBusquedas() {
     var idUser = urlParams.get('idUser');
     
     try {
-        const response = await fetch('https://cybermercadillo.onrender.com/getBusquedas')
+        const response = await fetch(`${lugarDeEjecucion}/getBusquedas`)
         .then(response => response.json())
         .then(data => {
         
@@ -2172,7 +2174,7 @@ async function getBusquedas() {
 
 async function getID() {
     try {
-        const response = await fetch('https://cybermercadillo.onrender.com/getID', {
+        const response = await fetch(`${lugarDeEjecucion}/getID`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json'
