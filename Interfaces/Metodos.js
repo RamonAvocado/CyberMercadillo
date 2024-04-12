@@ -1625,7 +1625,7 @@ async function agregarProd()
 
         
             try {
-                const response = await fetch('http://localhost:5169/AgregarProducto', {
+                const response = await fetch('https://cybermercadillo.onrender.com/AgregarProducto', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1684,7 +1684,7 @@ async function agregarProducto(idUsuarioIniciado)
             
 
             try {
-                const response = await fetch('http://localhost:5169/AgregarProducto', {
+                const response = await fetch('https://cybermercadillo.onrender.com/AgregarProducto', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1781,7 +1781,7 @@ async function mostrarProd(idProductoSeleccionado) {
         //const response = await fetch('http://localhost:5169/buscarProductoX');
 
         //const response = await fetch(`http://localhost:5169/buscarProductoX?idProductoSeleccionado=${idProductoSeleccionado}`);
-        const response = await fetch('http://localhost:5169/buscarProductoX',{
+        const response = await fetch('https://cybermercadillo.onrender.com/buscarProductoX',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1882,7 +1882,7 @@ async function validarProd() {
         //const response = await fetch('http://localhost:5169/buscarProductoX');
 
         //const response = await fetch(`http://localhost:5169/buscarProductoX?idProductoSeleccionado=${idProductoSeleccionado}`);
-        const response = await fetch('http://localhost:5169/validarProductoX',{
+        const response = await fetch('https://cybermercadillo.onrender.com/validarProductoX',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1919,7 +1919,7 @@ async function eliminarProd() {
         //const response = await fetch('http://localhost:5169/buscarProductoX');
 
         //const response = await fetch(`http://localhost:5169/buscarProductoX?idProductoSeleccionado=${idProductoSeleccionado}`);
-        const response = await fetch('http://localhost:5169/eliminarProductoX',{
+        const response = await fetch('https://cybermercadillo.onrender.com/eliminarProductoX',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1950,7 +1950,7 @@ async function ActualizarProducto(idProductoSeleccionado,idUsuarioIniciado)
             const cantidad = parseInt(formData.get('cantidad'));
 
             try {
-                const response = await fetch('http://localhost:5169/ActualizarProducto', {
+                const response = await fetch('https://cybermercadillo.onrender.com/ActualizarProducto', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -2083,6 +2083,7 @@ async function IniciarSesion(){
             // Determinar el tipo de usuario
             let tipoUsuario;
             console.log(data.TipoUsuario);
+            /*
             if (data.TipoUsuario === "Vendedor") {
                 tipoUsuario = "vendedor";
                 window.location.href = `./Interfaces/PaginaVendedor.html`;
@@ -2093,6 +2094,7 @@ async function IniciarSesion(){
                 tipoUsuario = "usuario";
                 window.location.href = `./Interfaces/NewPaginaPrincipal.html`;
             }
+            */
             localStorage.setItem('tipoUserID', tipoUsuario);
 
 
@@ -2112,7 +2114,7 @@ async function getBusquedas() {
     var idUser = urlParams.get('idUser');
     
     try {
-        const response = await fetch('http://localhost:5169/getBusquedas')
+        const response = await fetch('https://cybermercadillo.onrender.com/getBusquedas')
         .then(response => response.json())
         .then(data => {
         
@@ -2170,7 +2172,7 @@ async function getBusquedas() {
 
 async function getID() {
     try {
-        const response = await fetch('http://localhost:5169/getID', {
+        const response = await fetch('https://cybermercadillo.onrender.com/getID', {
             method: 'GET',
             headers: {
                 'Accept': 'application/json'
