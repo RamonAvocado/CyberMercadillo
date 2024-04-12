@@ -2085,13 +2085,13 @@ async function IniciarSesion(){
             console.log(data.TipoUsuario);
             if (data.TipoUsuario === "Vendedor") {
                 tipoUsuario = "vendedor";
-                window.location.href = `./PaginaVendedor.html`;
+                window.location.href = `./Interfaces/PaginaVendedor.html`;
             } else if (data.TipoUsuario === "Técnico") {
                 tipoUsuario = "tecnico";
-                window.location.href = `./ValidarProductos.html`;
+                window.location.href = `./Interfaces/ValidarProductos.html`;
             } else {
                 tipoUsuario = "usuario";
-                window.location.href = `./NewPaginaPrincipal.html`;
+                window.location.href = `./Interfaces/NewPaginaPrincipal.html`;
             }
             localStorage.setItem('tipoUserID', tipoUsuario);
 
