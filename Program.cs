@@ -1020,6 +1020,7 @@ app.MapGet("/getID", async (HttpContext context) =>
     await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
 });
 
+Console.WriteLine("SE HA EJECUTADO EL BACKEND");
 
 app.Run();
 
