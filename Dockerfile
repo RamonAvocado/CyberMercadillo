@@ -15,4 +15,4 @@ FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS backend-runtime
 WORKDIR /app
 COPY --from=backend-publish /app/publish .
 EXPOSE 5169
-CMD ["dotnet", "CyberMercadillo.dll", "start", "Interfaces\Login.html"]
+CMD ["dotnet", "CyberMercadillo.dll"]
