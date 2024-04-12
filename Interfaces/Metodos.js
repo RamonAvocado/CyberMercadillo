@@ -2054,83 +2054,84 @@ async function IniciarSesion(){
 }
 
 async function getBusquedas() {
-
-    //le paso el iduser por localStorage
-    idUsuarioIniciado = localStorage.getItem('UsuarioID');
-    console.log(idUsuarioIniciado);
+    const urlParams = new URLSearchParams(window.location.search);
+    var idUser = urlParams.get('idUser');
     
-    var requestBody = {
-        idusuario: idUsuarioIniciado,
-    };   
     try {
-        const response = await fetch(`http://localhost:5169/getBusquedas`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestBody)
-        });
+        const response = await fetch('http://localhost:5169/getBusquedas')
+        .then(response => response.json())
+        .then(data => {
+        
+        const models = data.result.Models;
 
-        if (response.ok) 
-        {
-            const data = await response.json();
-            console.log(data);
-            const models = data.result.Models;
+        // Selecciona el elemento con la clase "historial"
+        const historialDiv = document.querySelector('.historial');
+        if (models.length == 0){
+            const h1 = document.createElement('h1');
+            h1.textContent = "No has buscado nada por ahora";
+            historialDiv.appendChild(h1);
+        } else {
+            models.forEach(model => {
+                const busqueda = document.createElement('div');
+                
+                var texto_busqueda = document.createElement('span');
+                var fecha_busqueda = document.createElement('span');
 
+                //Pone valor a las variables
+                texto_busqueda.textContent = model.texto;
+                fecha_busqueda.textContent = model.fecha;
 
-            // Selecciona el elemento con la clase "historial"
-            const historialDiv = document.querySelector('.historial');
-            if (models.length == 0)
-            {
-                const h1 = document.createElement('h1');
-                h1.textContent = "No has buscado nada por ahora";
-                historialDiv.appendChild(h1);
-            }else 
-            {
-                models.forEach(model => 
-                {
-                    const busqueda = document.createElement('div');
-                    
-                    var texto_busqueda = document.createElement('span');
-                    var fecha_busqueda = document.createElement('span');
-                    var categoria_busqueda = document.createElement('span');
+                //Añade los css
+                texto_busqueda.classList.add('texto-historial');
+                fecha_busqueda.classList.add('fecha-historial');
+                busqueda.classList.add("busqueda-historial")
 
-                    //Pone valor a las variables
-                    texto_busqueda.textContent = model.texto;
-                    fecha_busqueda.textContent = model.fecha;
-                    categoria_busqueda.textContent = model.categoria;
-
-                    //Añade los css
-                    texto_busqueda.classList.add('texto-historial');
-                    fecha_busqueda.classList.add('fecha-historial');
-                    categoria_busqueda.classList.add('categoria-busqueda');
-                    busqueda.classList.add("busqueda-historial")
-
-                    // Agrega el elemento <h1> al elemento con la clase "historial"
-                    busqueda.appendChild(texto_busqueda);
-                    busqueda.appendChild(categoria_busqueda);
-                    busqueda.appendChild(fecha_busqueda);                    
-                    historialDiv.appendChild(busqueda);
-                    
-                    busqueda.addEventListener('click', function() 
-                    {
-                        console.log("se ha hecho click");
+                // Agrega el elemento <h1> al elemento con la clase "historial"
+                busqueda.appendChild(texto_busqueda);
+                busqueda.appendChild(fecha_busqueda);
+                historialDiv.appendChild(busqueda);
+                
+                texto_busqueda.addEventListener('click', function() {
+                    console.log("se ha hecho click");
                         //console.log(texto_busqueda.textContent);
                         //console.log(categoria_busqueda.textContent)
                         //window.location.href = './ResultadoBusqueda.html';
                         const paginaActual = window.location.pathname.split('/').pop();
                         console.log(paginaActual); // Esto imprimirá el nombre del archivo actual, por ejemplo, "ResultadoBusqueda.html" o "HistorialBusqueda.html"
                         buscarProd(texto_busqueda.textContent, categoria_busqueda.textContent, paginaActual);
-                    });
                 });
-            }
-        }
-    }
-    catch (error) {
+            });
+        }})
+        .catch(error => {
+            // Manejar errores en caso de que la solicitud falle
+            console.error('Error al obtener los datos:', error);
+        });
+    } catch (error) {
         console.error('Error inesperado:', error);
     }
 }
 
+
+
+
+async function getID() {
+    try {
+        const response = await fetch('http://localhost:5169/getID', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+        if (response.ok) {
+            const responseBody = await response.json(); // Guarda el cuerpo de la respuesta en una variable
+            return(responseBody.ID_USUARIO);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
 
 //INICIO BUSCAR PRODUCTO POR TEXTO
 async function buscarHist(TextBuscar, CatBuscar, pagina) {

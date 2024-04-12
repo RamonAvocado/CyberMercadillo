@@ -939,6 +939,9 @@ if (usuario != null)
                 };
                 var vendedor = await client.From<Vendedor>().Where(v => v.idvendedor == usuario.idusuario).Single();
                 var tecnico = await client.From<Tecnico>().Where(t => t.idtecnico == usuario.idusuario).Single();
+
+                //Asigna valor al ID_USUARIO del backend
+                ID_USUARIO = usuario.idusuario;
                 if (vendedor != null)
                 {
                     jsonResponse["TipoUsuario"] = "Vendedor";
@@ -984,32 +987,37 @@ if (usuario != null)
 app.MapGet("/status", () => Results.Ok("El backend está en funcionamiento correctamente."));
 
 
-app.MapPost("/getBusquedas", async (HttpContext context, Supabase.Client client) =>
+app.MapGet("/getBusquedas", async (HttpContext context, Supabase.Client client) =>
 {
-    using var reader = new StreamReader(context.Request.Body);
     try
     {
-        var requestBody = await reader.ReadToEndAsync();
-        var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
+        Console.WriteLine("Desde el backend, el id: "+ ID_USUARIO);
+        // Leer el cuerpo de la solicitud para obtener los datos del producto
+        using (var reader = new StreamReader(context.Request.Body))
+        {
+            var result = await client.From<Busqueda>()
+                            .Where(x => x.idusuario == ID_USUARIO)
+                            .Select("*")
+                            .Get();
 
-        var idUser = searchData["idusuario"].ToObject<int>();
-      
-        var result = await client.From<Busqueda>()
-                        .Where(x => x.idusuario == idUser)
-                        .Select("*")
-                        .Get();
-
-        // Devolver los productos al frontend
-        var jsonResponse = new { result };
-        context.Response.ContentType = "application/json";
-        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-        
+            // Devolver los productos al frontend
+            var jsonResponse = new { result };
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+        }
     }
     catch (Exception ex)
     {
         // Manejar cualquier error y devolver una respuesta de error al cliente
         errorDefault(context,ex);    
     }
+});
+
+app.MapGet("/getID", async (HttpContext context) =>
+{
+    var jsonResponse = new { ID_USUARIO };
+    context.Response.ContentType = "application/json";
+    await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
 });
 
 
