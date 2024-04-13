@@ -2086,7 +2086,7 @@ async function IniciarSesion(){
             // Determinar el tipo de usuario
             let tipoUsuario;
             console.log(data.TipoUsuario);
-            /*
+            
             if (data.TipoUsuario === "Vendedor") {
                 tipoUsuario = "vendedor";
                 window.location.href = `./Interfaces/PaginaVendedor.html`;
@@ -2097,7 +2097,7 @@ async function IniciarSesion(){
                 tipoUsuario = "usuario";
                 window.location.href = `./Interfaces/NewPaginaPrincipal.html`;
             }
-            */
+            
             localStorage.setItem('tipoUserID', tipoUsuario);
 
 
