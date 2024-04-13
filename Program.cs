@@ -1020,7 +1020,7 @@ app.MapGet("/getID", async (HttpContext context) =>
     await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
 });
 
-Console.WriteLine("SE HA EJECUTADO EL BACKEND 4");
+Console.WriteLine("Prueba de que se actualiza el docker sin yo hacer nada");
 
 app.Run();
 

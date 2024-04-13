@@ -7,8 +7,9 @@ var numTarjeta;
 var fechaCaducidad;
 var cvv;
 
-
-var lugarDeEjecucion = "http://localhost:5169";
+//Para ejecutar en localhost : "http://localhost:5169";
+//Para ejecutar en WEB : "https://cybermercadillo.onrender.com";
+var lugarDeEjecucion = "https://cybermercadillo.onrender.com";
 
 //funcion para guardar y acceder a idUsuario
 function gestionarValorIDUser(valor) {
@@ -1205,7 +1206,7 @@ async function FinalizarCompra() {
                 if (response.ok) {
                     //const data = await response.json();
                     alert("Gracias por su compra");
-                    window.location.href = `./NewPaginaPrincipal.html`;
+                    window.location.href = `./Interfaces/NewPaginaPrincipal.html`;
                 } else {
                     console.error('Error en la solicitud al backend:', response.statusText);
                 }
@@ -1566,12 +1567,12 @@ function mostrarProductosDeVendedor(productos) {
 //Ir a la página de búsqueda
 function IrABuquedaProducto(){
 
-    window.location.href = `./ResultadoBusqueda.html`
+    window.location.href = `./Interfaces/ResultadoBusqueda.html`
 }
 
 //boton para redirigir a la página de Búsqueda
 function redirigirABusqueda(){
-    window.location.href = `NewPaginaPrincipal.html`
+    window.location.href = `./Interfaces/NewPaginaPrincipal.html`
 }
 
 
@@ -1584,28 +1585,28 @@ function volverPaginaAnterior(){
 function irHistorialDeBúsqueda(){
     //localStorage.setItem('itemID', idProductoSeleccionado);
     //localStorage.setItem('UsuarioID', idUsuarioIniciado);
-    window.location.href = `HistorialDeBusqueda.html`
+    window.location.href = `./Interfaces/HistorialDeBusqueda.html`
 }
 
 function irANuevoProducto(){
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get('idUser');
 
-    window.location.href = `NuevoProducto.html?idUser=${userId}`
+    window.location.href = `./Interfaces/NuevoProducto.html?idUser=${userId}`
 }
 
 function irAEditarProducto(){
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get('idUser');
 
-    window.location.href = `EditarProducto.html?idUser=${userId}`
+    window.location.href = `./Interfaces/EditarProducto.html?idUser=${userId}`
 }
 
 function irALogin(){
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get('idUser');
 
-    window.location.href = `Login.html?idUser=${userId}`
+    window.location.href = `./Interfaces/Login.html?idUser=${userId}`
 }
 
 
@@ -2209,31 +2210,31 @@ async function agregarCerrarSesion() {
     var sesionSUserLink = document.getElementById('sesion-user-link');
     console.log(tipoUsuarioLogueado);
     if (!usuarioLogueado) {
-        sesionLink.innerHTML = '<a href="./Login.html">Iniciar Sesión</a>';
+        sesionLink.innerHTML = '<a href="./index.html">Iniciar Sesión</a>';
     } else {
         sesionLink.innerHTML = '<a href="#" onclick="cerrarSesion()">Cerrar Sesión</a>';
         if(tipoUsuarioLogueado == "vendedor"){
-            sesionSUserLink.innerHTML = '<a href="./PaginaVendedor.html">Productos</a>';
+            sesionSUserLink.innerHTML = '<a href="./Interfaces/PaginaVendedor.html">Productos</a>';
         }else if(tipoUsuarioLogueado == "tecnico"){
             sesionSUserLink.innerHTML = '<a onclick="irAPagianValidaciones()">Validaciones</a>';
-        }else sesionSUserLink.innerHTML = '<a href="./ListaDeseados.html">Lista Deseados</a>';        
+        }else sesionSUserLink.innerHTML = '<a href="./Interfaces/ListaDeseados.html">Lista Deseados</a>';        
     }
 }
 
 function cerrarSesion() {
     localStorage.removeItem('UsuarioID');
-    window.location.href = './NewPaginaPrincipal.html';
+    window.location.href = './Interfaces/NewPaginaPrincipal.html';
 }
 
 function iniciarSesionUser() {
-    window.location.href = './Login.html';
+    window.location.href = './Interfaces/index.html';
 }
 
 function irAPagianVendedor() {
-    window.location.href = './PaginaVendedor.html';
+    window.location.href = './Interfaces/PaginaVendedor.html';
 }
 
 function irAPagianValidaciones() {
-    window.location.href = './ValidarProductos.html';
+    window.location.href = './Interfaces/ValidarProductos.html';
 }
 
