@@ -13,7 +13,7 @@ var category;
 
 //Para ejecutar en localhost : "http://localhost:5169";
 //Para ejecutar en WEB : "https://cybermercadillo.onrender.com";
-var lugarDeEjecucion = "http://localhost:5169";
+var lugarDeEjecucion = "https://cybermercadillo.onrender.com";
 
 //funcion para guardar y acceder a idUsuario
 function gestionarValorIDUser(valor) {
