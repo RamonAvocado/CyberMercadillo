@@ -406,3 +406,7 @@ button[type="submit"]:hover {
 #cambiar-imagen-btn:hover {
     background-color: #0056b3;
 }
+
+#sesion-link {
+    margin-left: auto; /* Mover el elemento de cierre de sesión a la derecha */
+}
