@@ -47,7 +47,7 @@
         </nav>
     </div>
     <div class="boton-historial">
-        <button onclick = "irHistorialDeBúsqueda()" class="search-history-btn">Historial de Búsqueda</button>
+        <button onclick = "irAHistorialDeBúsqueda()" class="search-history-btn">Historial de Búsqueda</button>
     </div>
     <div class="resultado-busqueda-container">
 
@@ -75,10 +75,20 @@
     </footer>
     <script src="Metodos.js"></script>
     <script>
-        window.addEventListener('load', CargaTodosProductos);
+        if(getPaginaAnt() != "HistorialDeBusqueda.html"){
+            window.addEventListener('load', CargaTodosProductos);
+        } else {
+            buscarProd(getSearchTerm(), getCategory());
+            localStorage.clear();
+        }
     </script>
     <script>
-        window.addEventListener('load', CargaCategorias);
+        if(getPaginaAnt() != "HistorialDeBusqueda.html"){
+            window.addEventListener('load', CargaCategorias);
+        } else {
+            buscarProd(getSearchTerm(), getCategory());
+            localStorage.clear();
+        }
     </script>
     <script>
         // Llamar a la función para agregar el enlace de Iniciar Sesión o Cerrar Sesión
