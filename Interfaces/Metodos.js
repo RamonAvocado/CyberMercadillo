@@ -783,7 +783,14 @@ async function CargaUnProducto(){
 
         if(response.ok){
             const data = await response.json();
-            mostrarUnProducto(data);
+            var usuarioLogueado = localStorage.getItem('UsuarioID');
+            var tipoUsuarioLogueado = localStorage.getItem('tipoUserID');
+            console.log(usuarioLogueado);
+            if (usuarioLogueado && tipoUsuarioLogueado == "usuario") {
+                mostrarUnProducto(data);
+            } else {
+                mostrarUnProductoNoLogeado(data);
+            }
         } else{
             console.error('Error en la solicitud al backend:', response.statusText);
         }
@@ -791,6 +798,7 @@ async function CargaUnProducto(){
         console.error('Error inesperado:', error);
     }
 }
+
 
 function mostrarUnProducto(respuesta) {
     const producto = respuesta.producto;
@@ -919,6 +927,81 @@ function mostrarUnProducto(respuesta) {
         // Aquí puedes almacenar la cantidad seleccionada en una variable, en el local storage, o realizar cualquier otra acción que desees.
     });
 
+}
+
+
+function mostrarUnProductoNoLogeado(respuesta) {
+    const producto = respuesta.producto;
+    const container = document.querySelector('.product-container');
+    container.innerHTML = '';
+
+    //guardo la cantidad
+    localStorage.setItem('itemCant', producto.cantidad);
+    idProductoCantidad = localStorage.getItem('itemCant');
+
+    localStorage.setItem('categoriaSeleccionada', categoriaSelect); 
+
+    // Separar las URL de las imágenes
+    const imagenes = producto.imagenes.split(' ');
+    const primeraImagen = imagenes[0];
+
+    // Crear elementos para mostrar el producto
+    const productCard = document.createElement('div');
+    productCard.classList.add('product-element');
+
+    // Agregar la imagen principal del producto
+    const imagenPrincipal = document.createElement('img');
+    imagenPrincipal.src = primeraImagen;
+    imagenPrincipal.alt = producto.nombreproducto;
+    imagenPrincipal.style.width = '500px';
+    imagenPrincipal.style.height = '540px';
+    productCard.appendChild(imagenPrincipal);
+
+    // Contenedor para la flecha semi visible
+    const contenedorFlecha = document.createElement('div');
+    contenedorFlecha.classList.add('contenedor-flecha');
+
+    // Verificar si hay más de una imagen para mostrar la flecha
+    if (imagenes.length > 1) {
+        // Agrega la imagen semi visible de la flecha al contenedor
+        const flechaSemiVisible = document.createElement('img');
+        flechaSemiVisible.src = 'Imagenes/flecha.png'; // Ruta a la imagen de la fecha
+        flechaSemiVisible.alt = 'Flecha';
+        flechaSemiVisible.classList.add('flecha-semi-visible');
+        contenedorFlecha.appendChild(flechaSemiVisible);
+    }
+
+    // Agregar el contenedor de fecha al producto
+    productCard.appendChild(contenedorFlecha);
+
+    // Agrega el nombre, precio y descripción del producto dentro de la tarjeta
+    const productInfo = document.createElement('div');
+    productInfo.id = 'productInfo'; // Puedes utilizar un ID único si lo deseas
+    productInfo.innerHTML = `
+        <h2>${producto.nombreproducto}</h2>
+        <p>${producto.precio} €</p>
+        <p> Acerca del producto: </p>
+        <p>${producto.descripcion}</p>
+    `;
+    productInfo.style.margin = '40px';
+    productInfo.style.fontSize = '22px';
+    productCard.appendChild(productInfo);
+
+
+
+    // Agregar el producto al contenedor principal
+    container.appendChild(productCard);
+
+    // Evento de clic en el contenedor de flecha semi visible para cambiar la imagen principal
+    if (imagenes.length > 1) {
+        contenedorFlecha.addEventListener('click', function() {
+            const index = imagenes.indexOf(imagenPrincipal.src);
+            const siguienteIndex = (index + 1) % imagenes.length;
+            imagenPrincipal.src = imagenes[siguienteIndex];
+        });
+    }
+
+    productCard.dataset.productId = producto.idproducto;
 }
 
 async function CargaUnProductoBasico(){
