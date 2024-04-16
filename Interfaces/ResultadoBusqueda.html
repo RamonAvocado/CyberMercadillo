@@ -79,7 +79,7 @@
             window.addEventListener('load', CargaTodosProductos);
         } else {
             buscarProd(getSearchTerm(), getCategory());
-            localStorage.clear();
+            localStorage.setItem('paginaActual', "null");
         }
     </script>
     <script>
@@ -87,7 +87,7 @@
             window.addEventListener('load', CargaCategorias);
         } else {
             buscarProd(getSearchTerm(), getCategory());
-            localStorage.clear();
+            localStorage.setItem('paginaActual', "null");
         }
     </script>
     <script>

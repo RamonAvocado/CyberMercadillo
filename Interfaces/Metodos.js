@@ -13,7 +13,7 @@ var category;
 
 //Para ejecutar en localhost : "http://localhost:5169";
 //Para ejecutar en WEB : "https://cybermercadillo.onrender.com";
-var lugarDeEjecucion = "https://cybermercadillo.onrender.com";
+var lugarDeEjecucion = "http://localhost:5169";
 
 //funcion para guardar y acceder a idUsuario
 function gestionarValorIDUser(valor) {
@@ -47,7 +47,7 @@ function LimpiarLocalStorage() {
 //INICIO BUSCAR PRODUCTO POR TEXTO
 async function buscar() {
     var searchTerm = document.getElementById('searchInput').value;
-    var category  = localStorage.getItem('categoriaSeleccionada');
+    var category  = localStorage.getItem('category');
     localStorage.setItem('searchTerm', searchTerm);
 
     var limpiarResult = document.getElementById('resultados');
