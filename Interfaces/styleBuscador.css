@@ -37,7 +37,17 @@ header h1 {
     text-align: left;
 }
 
+.barra-busqueda{
+    width: 110%; /* Hacemos que los elementos ocupen todo el ancho disponible */
+}
 
+/* Estilos para el botón de búsqueda */
+.barra-busqueda button {
+    cursor: pointer;
+    margin-left: 20px; /* Espacio entre los elementos */
+    margin-right: 10px; /* Espacio entre los elementos */
+    width: 90%; /* Hacemos que los elementos ocupen todo el ancho disponible */
+}
 /* Estilos para el botón de búsqueda */
 .barra-busqueda button {
     background-color: #8a2f91;

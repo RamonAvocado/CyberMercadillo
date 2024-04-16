@@ -195,7 +195,6 @@ async function buscarPorCategoria() {
     var limpiarResult = document.getElementById('resultados');
     limpiarResult.innerHTML = `<p></p>`;
 
-    //console.log(categoriaSelect);
     // Realizar una consulta con la categoría seleccionada
 
     var requestBody = {
@@ -289,122 +288,7 @@ function mostrarProductosCat(productos) {
     container.insertBefore(categoriaTitle, container.firstChild);
 }
 
-
 // FIN mostrar categorias
-
-
-// INICIO BOTON FAVORITO PARA SELECCIONAR VARIOS Y PODER DESELECCIONAR
-
-/*  NO FUNCIONA
-
-Función para alternar el estado seleccionado/deseleccionado del botón de favoritos
-document.addEventListener('DOMContentLoaded', function() {
-    const favoriteButtons = document.querySelectorAll('.favorite-btn');
-
-    favoriteButtons.forEach(function(button) {
-        button.addEventListener('click', function(event) {
-            event.stopPropagation(); // Evitar que el clic se propague al hacer clic fuera del botón
-            this.classList.toggle('selected');
-        });
-    });
-
-    // Evitar que los clics en otras partes de la página deseleccionen los botones
-    document.addEventListener('click', function(event) {
-        // Verificar si el clic se realizó en un botón favorito
-        const isFavoriteButton = event.target.classList.contains('favorite-btn');
-        
-        if (!isFavoriteButton) {
-            favoriteButtons.forEach(function(button) {
-                // Verificar si el botón está seleccionado y el clic no fue en el botón mismo
-                if (!button.contains(event.target) && button.classList.contains('selected')) {
-                    button.classList.remove('selected');
-                }
-            });
-        }
-    });
-});
-*/
-// FIN BOTON FAVORITO
-
-
-/*
-// botones para cambio de página para cargar más productos
-
-// CARGA LOS PRODUCTOS DIRECTAMENTE
-document.addEventListener('DOMContentLoaded', function() {
-    // Agrega un evento click a cada número de página para los productos destacados
-    document.getElementById('pagina1').addEventListener('click', function(event) {
-        event.preventDefault();
-        cargarProductosPorPagina(1, 'destacados'); // Cargar productos de la página 1 para productos destacados
-    });
-
-    // Agrega un evento click a cada número de página para los productos recomendados
-    document.getElementById('pagina1_rec').addEventListener('click', function(event) {
-        event.preventDefault();
-        cargarProductosPorPagina(1, 'recomendados'); // Cargar productos de la página 1 para productos recomendados
-    });
-    //PAGINAS 2
-    document.getElementById('pagina2').addEventListener('click', function(event) {
-        event.preventDefault();
-        cargarProductosPorPagina(2, 'destacados'); // Cargar productos de la página 1 para productos destacados
-    });
-
-    // Agrega un evento click a cada número de página para los productos recomendados
-    document.getElementById('pagina2_rec').addEventListener('click', function(event) {
-        event.preventDefault();
-        cargarProductosPorPagina(2, 'recomendados'); // Cargar productos de la página 1 para productos recomendados
-    });
-    //PAGINAS 3
-    document.getElementById('pagina3').addEventListener('click', function(event) {
-        event.preventDefault();
-        cargarProductosPorPagina(3, 'destacados'); // Cargar productos de la página 1 para productos destacados
-    });
-
-    // Agrega un evento click a cada número de página para los productos recomendados
-    document.getElementById('pagina3_rec').addEventListener('click', function(event) {
-        event.preventDefault();
-        cargarProductosPorPagina(3, 'recomendados'); // Cargar productos de la página 1 para productos recomendados
-    });
-});
-
-
-// Función para cargar productos de una página específica
-async function cargarProductosPorPagina(numeroPagina, tipoProductos) {
-    try {
-        let url;
-        // Determina la URL correspondiente según el tipo de productos
-        if (tipoProductos === 'destacados') {
-            url = `http://localhost:5169/ObtenerProductosPorPagina?pagina=${numeroPagina}`;
-        } else if (tipoProductos === 'recomendados') {
-            //url = `http://localhost:5169/ObtenerProductosRecomendados?pagina=${numeroPagina}`;
-            url = `http://localhost:5169/ObtenerProductosPorPagina?pagina=${numeroPagina}`;
-        } else {
-            console.error('Tipo de productos no válido');
-            return;
-        }
-
-        // Realiza una solicitud GET al backend para obtener los productos de la página especificada
-        const response = await fetch(url);
-        if (response.ok) {
-            const data = await response.json();
-            // Llama a la función correspondiente para mostrar los productos en la página
-            if (tipoProductos === 'destacados') {
-                mostrarProductosDestacados(data);
-            } else if (tipoProductos === 'recomendados') {
-                mostrarProductosRecomendados(data);
-            }
-        } else {
-            console.error('Error en la solicitud al backend:', response.statusText);
-        }
-    } catch (error) {
-        console.error('Error inesperado:', error);
-    }
-}
-
-//fin botones cambio página
-*/
-
-
 
 //  INICIO PRODUCTOS DESTACADOS
 
@@ -754,10 +638,6 @@ function irAInfoProducto(productoParaInfo) {
     window.location.href = `./InfoProducto.html`;
 }
 
-/*
-function irAInfoProducto2(productoParaInfo) {
-    window.location.href = `InfoProducto.html?id=${productoParaInfo}`;
-}*/
 
 function irAInfoProducto2(productoParaInfo) {
     // Redirigir a la página de InfoProducto.html con el parámetro del producto
@@ -773,11 +653,6 @@ function irAInfoProducto2(productoParaInfo) {
 //inicio información una unidad de producto
 async function CargaUnProducto(){
     try{
-        //pillar el id
-        /*  LO DE ANTES 
-        const urlParams = new URLSearchParams(window.location.search);
-        const productId = urlParams.get('idProd');
-        */
         idProductoSeleccionado = localStorage.getItem('itemID');
         const response = await fetch(`${lugarDeEjecucion}/ObtenerProductoPorID?idproducto=${idProductoSeleccionado}`);
 
@@ -1163,7 +1038,7 @@ function mostrarUnProductoCompra(producto, usuario) {
     productName.textContent =  `Compra ahora: ${producto.nombreproducto} `;
     //arrivalDate.textContent = `Llegada el: ${respuesta.fecha_llegada}`;
     shippingInfo.textContent = `${usuario.direccion}`;
-    totalCost.textContent = `Total: ${producto.precio} €`; // Suponiendo que el servidor envía el precio
+    totalCost.textContent = `Total: ${(producto.precio * idProductoCantidadSelec)} €`; // Suponiendo que el servidor envía el precio
     cant.textContent = `Cantidad Seleccionada: ${idProductoCantidadSelec} ${producto.nombreproducto}`;
 
     // Si el servidor envía más información sobre el pago, puedes llenarla aquí
@@ -1183,11 +1058,6 @@ function verificarCamposTarjeta() {
     localStorage.setItem('numTarjeta', numTarjetaInput.value);
     localStorage.setItem('fechCaduci', fechaCaducidadInput.value);
     localStorage.setItem('cvv', cvvInput.value);
-
-    /* meras comprobaciones
-    console.log(" ANTES DE: fechaCaducidad: "+ numTarjetaInput.value);
-    console.log(fechaCaducidadInput.value + " fechaCaducidad");
-    console.log(cvvInput.value + "cvv");*/
 
     numTarjeta = localStorage.getItem('numTarjeta');
     fechaCaducidad = localStorage.getItem('fechCaduci');
@@ -1211,6 +1081,8 @@ function verificarCamposTarjeta() {
     }
 
 /*
+        NO BORRAR   
+
     if (!validarFormatoFecha(fechaCaducidad)) {
         alert('El formato de la fecha de caducidad no es válido. Por favor, ingrese en formato MM/AA.');
         fechaCaducidadInput.focus();
@@ -1308,38 +1180,6 @@ async function FinalizarCompra() {
 // AQUI HICE EL MERGE MANUAL YA QUE ERA IMPOSIBLE HACERLO AUTOMÁTICO
 
 
-
-async function cargarYMostrarProductosPorPaginas() {
-    try {
-        // Llamar a la función para cargar todos los productos del vendedor
-        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosVendedor`);
-        
-        if (response.ok) {
-            const data = await response.json();
-            const productos = data.productos.Models;
-
-            // Dividir los productos en páginas de 6 productos cada una
-            const productosPorPagina = 6;
-            const totalPaginas = Math.ceil(productos.length / productosPorPagina);
-
-            for (let pagina = 1; pagina <= totalPaginas; pagina++) {
-                const inicio = (pagina - 1) * productosPorPagina;
-                const fin = pagina * productosPorPagina;
-                const productosPagina = productos.slice(inicio, fin);
-
-                // Mostrar los productos de esta página en la interfaz de usuario
-                mostrarProductosEnPagina(productosPagina);
-            }
-            generarEnlacesPaginacion(totalPaginas);
-        } else {
-            console.error('Error en la solicitud al backend:', response.statusText);
-        }
-    } catch (error) {
-        console.error('Error inesperado:', error);
-    }
-}
-
-
 async function CargarProductosVendedor(idUsuarioIniciado) {
     try {
         console.log('ID del usuario seleccionado:', idUsuarioIniciado);
@@ -1375,30 +1215,6 @@ async function CargarProductosVendedor(idUsuarioIniciado) {
     }
 }
 
-/*async function CargarProductosVendedor() {
-    try {
-        // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
-        const response = await fetch('http://localhost:5169/ObtenerProductosVendedor');
-        
-        if (response.ok) {
-            const data = await response.json();
-            const productos = data.productos.Models;
-            
-            const productosPorPagina = 6;
-            const totalPaginas = Math.ceil(productos.length / productosPorPagina);
-
-            // Mostrar los productos de la primera página en la interfaz de usuario
-            mostrarProductosVendedor(productos.slice(0, productosPorPagina));
-
-            // Generar enlaces de paginación
-            generarEnlacesPaginacion(totalPaginas);
-        } else {
-            console.error('Error en la solicitud al backend:', response.statusText);
-        }
-    } catch (error) {
-        console.error('Error inesperado:', error);
-    }
-} */
 async function CargarProductosValidacion() {
     try {
         // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
@@ -2233,6 +2049,8 @@ async function getBusquedas() {
                 busqueda.appendChild(texto_busqueda);
                 busqueda.appendChild(fecha_busqueda);
                 historialDiv.appendChild(busqueda);
+
+                console.log("estamos aqui:" +  texto_busqueda.textContent);
                 
                 texto_busqueda.addEventListener('click', function() {
                     localStorage.setItem('paginaAnterior', "HistorialDeBusqueda.html");
