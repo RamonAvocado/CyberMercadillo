@@ -128,37 +128,6 @@ app.MapGet("/ObtenerProductosRecomendados", async (HttpContext context, Supabase
     }
 });
 
-/*
-//obtener los productos por página
-app.MapGet("/ObtenerProductosPorPagina", async (HttpContext context, Supabase.Client client) =>
-{
-    try
-    {
-        // Obtener el número de página desde los parámetros de la solicitud
-        var numeroPagina = Convert.ToInt32(context.Request.Query["pagina"]);
-
-        // Calcular el índice de inicio y fin de los productos basado en el número de página
-        var cantidadPorPagina = 6; // Cantidad de productos por página
-        var indiceInicio = (numeroPagina - 1) * cantidadPorPagina;
-        var indiceFin = indiceInicio + cantidadPorPagina;
-
-        // Obtener los productos de la base de datos dentro del rango calculado
-        var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagen").Range(indiceInicio, indiceFin).Get();
-
-        // Devolver los productos al frontend
-        var jsonResponse = new { productos };
-        context.Response.ContentType = "application/json";
-        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-    }
-    catch (Exception ex)
-    {
-        context.Response.StatusCode = 500;
-        context.Response.ContentType = "text/plain";
-        await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
-    }
-});
-
-*/
 
 //obtener Todos los productos de la BD, solo voy a mostrar 20, sobra...
 app.MapGet("/ObtenerTodosProductos", async (HttpContext context, Supabase.Client client) =>
@@ -194,7 +163,6 @@ app.MapGet("/CargarCategorias", async (HttpContext context, Supabase.Client clie
             .ToList();
 
         var jsonResponse = new { Categorias = categoriasUnicas };
-
         context.Response.ContentType = "application/json";
         await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
     }
@@ -205,26 +173,6 @@ app.MapGet("/CargarCategorias", async (HttpContext context, Supabase.Client clie
     }
 });
 
-/*
-    // Leer el cuerpo de la solicitud para obtener la información de búsqueda
-    using var reader = new StreamReader(context.Request.Body);
-    try
-    {
-        var requestBody = await reader.ReadToEndAsync();
-        var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
-
-        var idBuscado = searchData["idusuario"].ToObject<int>();
-        var searchTerm = searchData["searchTerm"].ToObject<string>();
-        var category = searchData["category"].ToObject<string>();
-
-        //Añadir busqueda
-#pragma warning disable CS8604 // Possible null reference argument.
-        var b1 = new Busqueda(searchTerm, DateTime.Now, idBuscado, category);
-#pragma warning restore CS8604 // Possible null reference argument.
-
-        //Inserto la búsqueda en la base de datos
-        await client.From<Busqueda>().Insert(new List<Busqueda> { b1 });
-        */
 
 //carga todas las categorías de todos los productos
 app.MapPost("/BuscarPorCategoria", async (HttpContext context, Supabase.Client client) =>
@@ -239,11 +187,6 @@ app.MapPost("/BuscarPorCategoria", async (HttpContext context, Supabase.Client c
         var searchTerm = searchData["searchTerm"].ToObject<string>();
         var category = searchData["category"].ToObject<string>();
         var text = "Buscando solo con la categoría: " + category;
-
-        /* con get
-        var categoriaSelected = context.Request.Query["categoria"].ToString();
-        var idBuscado = context.Request.Query["idusuario"].ToString();
-        var searchTerm = context.Request.Query["searchTerm"].ToString();*/
     
 
         //Añadir busqueda
@@ -280,21 +223,6 @@ app.MapGet("/ObtenerInfoUsuario", async (HttpContext context, Supabase.Client cl
         //var idBuscado = 1;
         
         var info = await client.From<Usuario>().Filter("idusuario", Postgrest.Constants.Operator.Equals, idBuscado).Single();
-       
-        /*string rutaArchivo = "C:/Users/2003h/OneDrive/Escritorio/UPV/3º/2º Cuatri/PSW. Proyecto Software/outputs.txt";
-        using (StreamWriter writer = new StreamWriter(rutaArchivo))
-        {
-            // Redirigir la salida estándar de la consola al archivo
-            Console.SetOut(writer);
-
-            // Ahora, todo lo que se imprima con Console.WriteLine() se guardará en el archivo
-
-            // Ejemplo:
-            Console.WriteLine(idBuscado);
-            Console.WriteLine(info);
-            // Informar al usuario que se han guardado los outputs
-            Console.WriteLine("Los outputs se han guardado en el archivo: " + rutaArchivo);
-        }*/
 
         var jsonResponse = new { info };
         context.Response.ContentType = "application/json";
@@ -456,10 +384,6 @@ app.MapPost("/ObtenerProductosVendedor", async (HttpContext context, Supabase.Cl
             .Get();
 
             var jsonResponse = new { productos };
-            //var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagen").Limit(6).Get();
-
-            // Devolver los productos al frontend
-            //var jsonResponse = new { productos };
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
         }
@@ -482,10 +406,6 @@ app.MapGet("/ObtenerProductosAValidar", async (HttpContext context, Supabase.Cli
         .Get();
 
         var jsonResponse = new { productos };
-        //var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagen").Limit(6).Get();
-
-        // Devolver los productos al frontend
-        //var jsonResponse = new { productos };
         context.Response.ContentType = "application/json";
         await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
     }
@@ -577,75 +497,6 @@ app.MapPost("/BuscarProductoTodo", async (HttpContext context,Supabase.Client cl
     }
 });
 
-/*
-//Busca un producto con categoria!= Todas categorías y el texto de búsqueda
-app.MapPost("/BuscarProducto", async (HttpContext context,Supabase.Client client) =>
-{
-    // Leer el cuerpo de la solicitud para obtener la información de búsqueda
-    using var reader = new StreamReader(context.Request.Body);
-    try
-    {
-        var requestBody = await reader.ReadToEndAsync();
-        var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
-
-        var idBuscado = searchData["idusuario"].ToObject<int>();
-        var searchTerm = searchData["searchTerm"].ToObject<string>();
-        var category = searchData["category"].ToObject<string>();
-
-        //Añadir busqueda
-#pragma warning disable CS8604 // Possible null reference argument.
-        var b1 = new Busqueda(searchTerm, DateTime.Now, idBuscado, category);
-#pragma warning restore CS8604 // Possible null reference argument.
-
-        //Inserto la búsqueda en la base de datos
-        await client.From<Busqueda>().Insert(new List<Busqueda> { b1 });
-
-        var query = client.From<Producto>().Filter("nombreproducto", Postgrest.Constants.Operator.ILike, searchTerm)
-        .And.Filter("categoria",  Postgrest.Constants.Operator.ILike, category);
-    
-
-        //var query = client.From<Producto>().Filter("nombreproducto", Postgrest.Constants.Operator.Equals, nombreBuscado);
-
-        // Ejecutar la consulta
-        var producto = await query.Single();
-
-
-        // Devolver la respuesta al frontend
-        var jsonResponse = new { producto };
-        context.Response.ContentType = "application/json";
-        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-    }
-    catch (Exception ex)
-    {
-        // Manejar cualquier error y devolver una respuesta de error al cliente
-        errorDefault(context, ex);
-    }
-});
-*/
-
-/*
-app.MapGet("/buscarProductoX", async (HttpContext context, Supabase.Client client) =>
-{
-    try
-    {      
-        //string nombreBuscado = "Smartphone X";
-        var result = await client.From<Producto>()
-                                .Where(p => p.idproducto== 237)
-                                .Select("precio, cantidad, categoria, descripcion, imagen, nombreproducto")
-                                .Get();
-
-        // Devolver los productos al frontend
-        var jsonResponse = new { result };
-        context.Response.ContentType = "application/json";
-        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-    }
-    catch (Exception ex)
-    {
-        context.Response.StatusCode = 500;
-        context.Response.ContentType = "text/plain";
-        await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
-    }
-});*/
 
 app.MapPost("/buscarProductoX", async (HttpContext context, Supabase.Client client) =>
 {
@@ -684,14 +535,10 @@ app.MapPost("/validarProductoX", async (HttpContext context, Supabase.Client cli
             var requestBody = await reader.ReadToEndAsync();
             var productoData = JsonConvert.DeserializeObject<Producto>(requestBody);
 
-            //string nombreBuscado = "Smartphone X";
             var result = await client.From<Producto>()
                                     .Where(p => p.idproducto == productoData.idproducto && p.validado == true)
                                     .Select("precio, cantidad, categoria, descripcion, imagenes, nombreproducto")
                                     .Get();
-            //var jsonResponse = new { result };
-            //context.Response.ContentType = "application/json";
-            //await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
 
             if (result.Model == null) {
                 // Si se encuentra el producto, devolverlo como JSON
@@ -736,11 +583,6 @@ app.MapPost("/eliminarProductoX", async (HttpContext context, Supabase.Client cl
                                     .Where(p => p.idproducto == productoData.idproducto)
                                     .Delete();
 
-
-            // Devolver los productos al frontend
-           /* var jsonResponse = new { result };
-            context.Response.ContentType = "application/json";
-            await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));*/
         }
         catch (Exception ex)
         {
@@ -749,6 +591,8 @@ app.MapPost("/eliminarProductoX", async (HttpContext context, Supabase.Client cl
         }
     }
 });
+
+
 //Metodo para agreagar producto desde el frontend
 app.MapPost("/AgregarProducto", async (HttpContext context,Supabase.Client client) =>
 {
@@ -800,35 +644,10 @@ app.MapPost("/ActualizarProducto", async (HttpContext context,Supabase.Client cl
             var requestBody = await reader.ReadToEndAsync();
             var productoData = JsonConvert.DeserializeObject<Producto>(requestBody);
 
-            // Utiliza los datos recibidos para crear un nuevo producto
-            //var fabrica = new FabricaDeProductos();
-
 #pragma warning disable CS8602 // Esto es para quitar un warning raro
-/*
-            var nuevoProducto = fabrica.CrearProducto(
-                productoData.nombreproducto ?? "Producto de Serie Creación", //Este tmb
-                productoData.precio ?? "-1", 
-                productoData.categoria ?? "CatPrueba", 
-                productoData.descripcion ?? "Este articulo es el predeterminado por si llega un null a esta funcion", 
-                productoData.imagen ?? "/rutaPrueba",  //Este lo pone siempre
-                productoData.cantidad ?? -1,//predeterminado que si llega un nulo, sea -1 
-                productoData.idvendedor ?? -1);
-*/
 #pragma warning restore CS8602 // Y aqui para volver a instaurarlo
 
-            // Inserta el nuevo producto en la base de datos
-            //await client.From<Producto>().Insert(new List<Producto> { nuevoProducto });
-           /* await client.From<Producto>()
-                    .Where(p => p.idproducto== 237)
-                    .Update(nuevoProducto);
-
-                */    
-    //string nombreBuscado = "Smartphone X";
-            /*var result2 = await client.From<Producto>()
-                    .Where(p => p.idproducto== 237)  // Use supabase.eq for comparison
-                    .Set(p => p.cantidad, 5)                       // Set the value directly (number)
-                    .Update();
-*/          var result2 = await client.From<Producto>()
+            var result2 = await client.From<Producto>()
                     .Where(p => p.idproducto == productoData.idproducto)
                     .Single();
                       // Use supabase.eq for comparison
@@ -899,32 +718,10 @@ app.MapPost("/iniciarSesion", async (HttpContext context, Supabase.Client client
         var correoUsuario = context.Request.Form["correo"].ToString();
         var contraUsuario = context.Request.Form["contraseña"].ToString();
 
-        //var correoUsuario = "hernan@example.com";
-        //var contraUsuario = "hernan1234";
-
         // Buscar el usuario por su correo electrónico
          var usuario = await client.From<Usuario>().Filter("correo", Postgrest.Constants.Operator.Equals, correoUsuario).Single();
 
-/*      ESTO ES PARA VER LOS OTUPUTS EN UN ARCHIVO
-
-        string rutaArchivo = "C:/Users/2003h/OneDrive/Escritorio/UPV/3º/2º Cuatri/PSW. Proyecto Software/outputs.txt";
-        using (StreamWriter writer = new StreamWriter(rutaArchivo))
-        {
-            // Redirigir la salida estándar de la consola al archivo
-            Console.SetOut(writer);
-
-            // Ahora, todo lo que se imprima con Console.WriteLine() se guardará en el archivo
-
-            // Ejemplo:
-            Console.WriteLine(correoUsuario);
-            Console.WriteLine(contraUsuario);
-            Console.WriteLine(usuario);
-            // Informar al usuario que se han guardado los outputs
-            Console.WriteLine("Los outputs se han guardado en el archivo: " + rutaArchivo);
-        }
-*/
-
-if (usuario != null)
+        if (usuario != null)
         {
             // Verificar si la contraseña coincide
             if (usuario.contraseña == contraUsuario)
@@ -982,10 +779,6 @@ if (usuario != null)
     }
 });
 
-//fin prueba de inicio sesion
-
-app.MapGet("/status", () => Results.Ok("El backend está en funcionamiento correctamente."));
-
 
 app.MapGet("/getBusquedas", async (HttpContext context, Supabase.Client client) =>
 {
@@ -1020,9 +813,11 @@ app.MapGet("/getID", async (HttpContext context) =>
     await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
 });
 
-Console.WriteLine("Prueba de que se actualiza el docker sin yo hacer nada");
+app.MapGet("/status", () => Results.Ok("El backend está en funcionamiento correctamente."));
 
 app.Run();
+
+
 
 
 async static void errorDefault(HttpContext context,Exception ex){
@@ -1030,5 +825,3 @@ async static void errorDefault(HttpContext context,Exception ex){
     context.Response.ContentType = "text/plain";
     await context.Response.WriteAsync($"Error al guardar el producto: {ex.Message}");
 }
-
-
