@@ -13,7 +13,7 @@ var category;
 
 //Para ejecutar en localhost : "http://localhost:5169";
 //Para ejecutar en WEB : "https://cybermercadillo.onrender.com";
-var lugarDeEjecucion = "https://cybermercadillo.onrender.com";
+var lugarDeEjecucion = "http://localhost:5169";
 
 //funcion para guardar y acceder a idUsuario
 function gestionarValorIDUser(valor) {
@@ -114,6 +114,7 @@ async function buscarProd(searchTerm, category) {
                 //console.log("Texto y todo intro: " + data.productos.Models);
                 console.log(data);
                 console.log(data.productos.Models);
+                console.log("ENTRA AQUI"); //REVISAR!!!!!!!!!
                 if(data.productos.Models.length==0){
                     //Poner que no hay productos con estos criterios de búsqueda
                     mostrarResultado("No existen productos con estos términos de búsqueda");  // Llama a una función para mostrar todos los productos
@@ -2050,7 +2051,6 @@ async function getBusquedas() {
                 busqueda.appendChild(fecha_busqueda);
                 historialDiv.appendChild(busqueda);
 
-                console.log("estamos aqui:" +  texto_busqueda.textContent);
                 
                 texto_busqueda.addEventListener('click', function() {
                     localStorage.setItem('paginaAnterior', "HistorialDeBusqueda.html");

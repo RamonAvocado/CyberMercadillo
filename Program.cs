@@ -74,20 +74,6 @@ app.MapPost("/añadir",  async (Supabase.Client client) =>
 });
 
 
-//Buscar Productos de manera manual
-app.MapPost("/buscar",  async (Supabase.Client client) => 
-{
-    string nombreBuscado = "Smartphone X";
-    var result = await client.From<Producto>().Filter("nombreproducto",Postgrest.Constants.Operator.Equals,nombreBuscado).Single();
-
-    #nullable disable
-    var respuesta = result.idproducto!.ToString() ?? "No existe ese producto";
-    #nullable restore
-
-    return Results.Ok(respuesta);
-
-});
-
 // Obtinene los 6 primeros productos, ya que no hay productos destacados
 app.MapGet("/ObtenerProductosDestacados", async (HttpContext context, Supabase.Client client) =>
 {
