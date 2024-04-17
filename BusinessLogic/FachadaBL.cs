@@ -10,19 +10,20 @@ using Microsoft.Extensions.Hosting;
 
     class FachadaBL
     {
-        static void Main(string[] args)
+        List<Producto> productos= new List<Producto>();
+        List<Busqueda> busquedas= new List<Busqueda>();
+        List<Usuario> usuarios= new List<Usuario>();
+        List<Compra> compras= new List<Compra>();
+        List<Tecnico> tecnicos= new List<Tecnico>();
+        public void main(List<Producto> p1, List<Busqueda> p2, List<Usuario> p3, List<Compra> p4, List<Tecnico> p5)
         {
-            CreateHostBuilder(args).Build().Run();
-
-            DB dB= new DB();
-            Console.WriteLine(dB.Inicializar());
-            Console.WriteLine("HUAHSUABSIHABSIBA");
+            productos = p1;
+            busquedas = p2;
+            usuarios = p3;
+            compras = p4;
+            tecnicos = p5;
+            Console.WriteLine(productos.Count);
         }
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    //webBuilder.UseStartup<Startup>();
-                });
+        
     }
     

@@ -802,19 +802,42 @@ app.MapGet("/getID", async (HttpContext context) =>
 app.MapGet("/status", () => Results.Ok("El backend está en funcionamiento correctamente."));
 
 
-List<Producto> productos= new List<Producto>();
+
 app.MapGet("/inicializar", async (HttpContext context,Supabase.Client client) =>
 { 
-
-    var result = await client.From<Producto>().Get();
-    foreach (var item in result.Models){
-        productos.Add(item);
+    List<Producto> productos= new List<Producto>();
+    List<Busqueda> busquedas= new List<Busqueda>();
+    List<Usuario> usuarios= new List<Usuario>();
+    List<Compra> compras= new List<Compra>();
+    List<Tecnico> tecnicos= new List<Tecnico>();
+    var result1 = await client.From<Producto>().Get();
+    var result2 = await client.From<Busqueda>().Get();
+    var result3 = await client.From<Usuario>().Get();
+    var result4 = await client.From<Compra>().Get();
+    var result5 = await client.From<Tecnico>().Get();
+    foreach (var item1 in result1.Models){
+        productos.Add(item1);
+    }
+    foreach (var item2 in result2.Models){
+        busquedas.Add(item2);
+    }
+    foreach (var item3 in result3.Models){
+        usuarios.Add(item3);
+    }
+    foreach (var item4 in result4.Models){
+        compras.Add(item4);
+    }
+    foreach (var item5 in result5.Models){
+        tecnicos.Add(item5);
     }
 
-    Console.WriteLine(productos.Count);
+    FachadaBL fachada = new FachadaBL();
+    fachada.main(productos, busquedas, usuarios, compras, tecnicos);
 });
 
-FachadaBL fachada = new FachadaBL();
+
+
+
 
 app.Run();
 
@@ -823,17 +846,6 @@ async static void errorDefault(HttpContext context,Exception ex){
     context.Response.ContentType = "text/plain";
     await context.Response.WriteAsync($"Error al guardar el producto: {ex.Message}");
 }
-
-public class DB{
-    public List<Producto> Inicializar(){
-        FabricaDeProductos f1 = new FabricaDeProductos();
-        List<Producto> productos= new List<Producto>();
-        productos.Add(f1.CrearProducto("Smartphone XX","20","CatPrueba","Nuevo Smatphone Pro xx Max","imagen.jpg",5,7,false));
-        productos.Add(f1.CrearProducto("Smartphone yy","20","CatPrueba","Nuevo Smatphone Pro xx Max","imagen.jpg",5,7,false));
-        return productos;
-    }
-}
-
 
 
 
