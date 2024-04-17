@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ramon\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj": {}
+    "C:\\Users\\2003h\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ramon\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj": {
+    "C:\\Users\\2003h\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ramon\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
+        "projectUniqueName": "C:\\Users\\2003h\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
         "projectName": "CyberMercadillo",
-        "projectPath": "C:\\Users\\ramon\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
-        "packagesPath": "C:\\Users\\ramon\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ramon\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\obj\\",
+        "projectPath": "C:\\Users\\2003h\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
+        "packagesPath": "C:\\Users\\2003h\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\2003h\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ramon\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -1917,51 +1917,6 @@ function cambiarImagen() {
         alert('Por favor, ingrese un URL de imagen válido.');
     }
 }
-// Llama a la función agregarProd() cuando el DOM esté completamente cargado
-/*document.addEventListener('DOMContentLoaded', function() {
-    mostrarProd();
-});*/
-/*
-document.getElementById('agregarProductoForm2').addEventListener('submit', async (event) => {
-    event.preventDefault();
-    
-    const formData = new FormData(event.target);
-    const nombre = formData.get('nombreProd');
-    const precio = parseFloat(formData.get('precioProd'));
-    const categoria = formData.get('categoriaProd');
-    const descripcion = formData.get('descripcionProd');
-    const imagen = formData.get('imgProd');
-    const cantidad = parseInt(formData.get('cantProd'));
-
-    try {
-        const response = await fetch('/http://localhost:5169/AgregarProducto', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                nombre: nombre,
-                precio: precio,
-                categoria: categoria,
-                descripcion: descripcion,
-                imagen: imagen,
-                cantidad: cantidad
-            }),
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            console.log('Producto creado correctamente:', data);
-            // Aquí podrías mostrar un mensaje de éxito o redirigir a otra página
-            // Por ejemplo, redirigir al usuario a una página de confirmación
-            window.location.href = '/confirmacion.html';
-        } else {
-            console.error('Error al crear el producto:', response.statusText);
-        }
-    } catch (error) {
-        console.error('Error inesperado:', error);
-    }
-});*/
 
 //He elimando el resto de funciones de inicio de sesion
 async function IniciarSesion(){
