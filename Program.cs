@@ -801,13 +801,40 @@ app.MapGet("/getID", async (HttpContext context) =>
 
 app.MapGet("/status", () => Results.Ok("El backend está en funcionamiento correctamente."));
 
+
+List<Producto> productos= new List<Producto>();
+app.MapGet("/inicializar", async (HttpContext context,Supabase.Client client) =>
+{ 
+
+    var result = await client.From<Producto>().Get();
+    foreach (var item in result.Models){
+        productos.Add(item);
+    }
+
+    Console.WriteLine(productos.Count);
+});
+
+FachadaBL fachada = new FachadaBL();
+
 app.Run();
-
-
-
 
 async static void errorDefault(HttpContext context,Exception ex){
     context.Response.StatusCode = 500;
     context.Response.ContentType = "text/plain";
     await context.Response.WriteAsync($"Error al guardar el producto: {ex.Message}");
 }
+
+public class DB{
+    public List<Producto> Inicializar(){
+        FabricaDeProductos f1 = new FabricaDeProductos();
+        List<Producto> productos= new List<Producto>();
+        productos.Add(f1.CrearProducto("Smartphone XX","20","CatPrueba","Nuevo Smatphone Pro xx Max","imagen.jpg",5,7,false));
+        productos.Add(f1.CrearProducto("Smartphone yy","20","CatPrueba","Nuevo Smatphone Pro xx Max","imagen.jpg",5,7,false));
+        return productos;
+    }
+}
+
+
+
+
+
