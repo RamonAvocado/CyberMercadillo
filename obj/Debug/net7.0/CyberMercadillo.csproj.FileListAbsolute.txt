@@ -254,7 +254,6 @@ C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\Cyber
 C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\CyberMercadillo.pdb
 C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\Supabase.Functions.dll
 C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\Supabase.Gotrue.dll
-C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\Microsoft.AspNetCore.OpenApi.dll
 C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
 C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
 C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
@@ -294,3 +293,4 @@ C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\obj\Debug\net7.0\refin
 C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\obj\Debug\net7.0\CyberMercadillo.pdb
 C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\obj\Debug\net7.0\CyberMercadillo.genruntimeconfig.cache
 C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\obj\Debug\net7.0\ref\CyberMercadillo.dll
+C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\Microsoft.AspNetCore.OpenApi.dll

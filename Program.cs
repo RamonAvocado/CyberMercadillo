@@ -74,20 +74,6 @@ app.MapPost("/añadir",  async (Supabase.Client client) =>
 });
 
 
-//Buscar Productos de manera manual
-app.MapPost("/buscar",  async (Supabase.Client client) => 
-{
-    string nombreBuscado = "Smartphone X";
-    var result = await client.From<Producto>().Filter("nombreproducto",Postgrest.Constants.Operator.Equals,nombreBuscado).Single();
-
-    #nullable disable
-    var respuesta = result.idproducto!.ToString() ?? "No existe ese producto";
-    #nullable restore
-
-    return Results.Ok(respuesta);
-
-});
-
 // Obtinene los 6 primeros productos, ya que no hay productos destacados
 app.MapGet("/ObtenerProductosDestacados", async (HttpContext context, Supabase.Client client) =>
 {
@@ -920,8 +906,154 @@ app.MapPost("/AgregarComprador", async (HttpContext context,Supabase.Client clie
 });
 
 
+
+app.MapPost("/AgregarUsuario2", async (HttpContext context,Supabase.Client client) =>
+{
+    // Leer el cuerpo de la solicitud para obtener la información de búsqueda
+    
+        try{
+            using (var reader = new StreamReader(context.Request.Body)){
+            
+            // Devuelve una respuesta al frontend (opcional)
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync("Producto creado exitosamente");}
+        } catch (Exception ex)
+        {
+            // Manejar cualquier error y devolver una respuesta de error al cliente
+            errorDefault(context,ex);
+        }
+    
+    return Results.Ok("Producto created successfully"); 
+});
+
+
+app.MapPost("/AgregarComprador", async (HttpContext context,Supabase.Client client) =>
+{
+    // Leer el cuerpo de la solicitud para obtener la información de búsqueda
+    using (var reader = new StreamReader(context.Request.Body))
+    {
+        try{
+            Console.WriteLine("Hola, mundo!"); 
+            var requestBody = await reader.ReadToEndAsync();
+            var productoData = JsonConvert.DeserializeObject<Comprador>(requestBody);
+            
+            // Utiliza los datos recibidos para crear un nuevo producto
+            var fabrica = new FabricaDeUsuarios();
+
+#pragma warning disable CS8602 // Esto es para quitar un warning raro
+//CrearUsuario(string tipoUsuario, string nombre, int movil, string correo, string contraseña, string direccion, string nombreTienda = "", 
+                                           // int telefonoTienda = 0,int CVV = 0, int numTarjeta = 0,string fechaCaducidad = "")
+            var nuevoUsuario = fabrica.CrearUsuario(
+                productoData.tipoUsuario ?? "",
+                productoData.nombre ?? "Usuario de Serie Creación", //Este tmb
+                productoData.movil ?? 0, 
+                productoData.correo ?? "Correo Usuario", 
+                productoData.contraseña ?? "xxxx", 
+                productoData.direccion ?? "direccion usuario",
+                "",
+                0000,
+                productoData.CVV ?? 0,
+                productoData.numeroTarjeta ?? 0,
+                productoData.fechaCaducidad ?? "/rutaPrueba");
+                
+
+#pragma warning restore CS8602 // Y aqui para volver a instaurarlo
+
+            // Inserta el nuevo producto en la base de datos
+            
+            await client.From<Comprador>().Insert(new List<Comprador> { (Comprador) nuevoUsuario });
+           // await client.From<Usuario>().Insert(new List<Usuario> {  nuevoUsuario });
+
+            // Devuelve una respuesta al frontend (opcional)
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync("Producto creado exitosamente");
+        } catch (Exception ex)
+        {
+            // Manejar cualquier error y devolver una respuesta de error al cliente
+            errorDefault(context,ex);
+        }
+    }
+    return Results.Ok("Producto created successfully"); 
+});
+
+app.MapPost("/AgregarComprador", async (HttpContext context,Supabase.Client client) =>
+{
+    using (var reader = new StreamReader(context.Request.Body))
+    {
+        try{
+            var requestBody = await reader.ReadToEndAsync();
+            var productoData = JsonConvert.DeserializeObject<Comprador>(requestBody);
+            var fabrica = new FabricaDeUsuarios();
+            var nuevoUsuario = fabrica.CrearUsuario(
+                productoData.tipoUsuario ?? "",
+                productoData.nombre ?? "Usuario de Serie Creación", //Este tmb
+                productoData.movil ?? 0, 
+                productoData.correo ?? "Correo Usuario", 
+                productoData.contraseña ?? "xxxx", 
+                productoData.direccion ?? "direccion usuario",
+                "",
+                0000,
+                productoData.CVV ?? 0,
+                productoData.numeroTarjeta ?? 0,
+                productoData.fechaCaducidad ?? "/rutaPrueba");
+            
+            await client.From<Comprador>().Insert(new List<Comprador> { (Comprador) nuevoUsuario });
+           // await client.From<Usuario>().Insert(new List<Usuario> {  nuevoUsuario });
+
+            // Devuelve una respuesta al frontend (opcional)
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync("Producto creado exitosamente");
+        } catch (Exception ex)
+        {
+            // Manejar cualquier error y devolver una respuesta de error al cliente
+            errorDefault(context,ex);
+        }
+    }
+    return Results.Ok("Producto created successfully"); 
+});
+
+
 app.MapGet("/status", () => Results.Ok("El backend está en funcionamiento correctamente."));
 
+
+
+app.MapGet("/inicializar", async (HttpContext context,Supabase.Client client) =>
+{ 
+    List<Producto> productos= new List<Producto>();
+    List<Busqueda> busquedas= new List<Busqueda>();
+    List<Usuario> usuarios= new List<Usuario>();
+    List<Compra> compras= new List<Compra>();
+    List<Tecnico> tecnicos= new List<Tecnico>();
+    var result1 = await client.From<Producto>().Get();
+    var result2 = await client.From<Busqueda>().Get();
+    var result3 = await client.From<Usuario>().Get();
+    var result4 = await client.From<Compra>().Get();
+    var result5 = await client.From<Tecnico>().Get();
+    foreach (var item1 in result1.Models){
+        productos.Add(item1);
+    }
+    foreach (var item2 in result2.Models){
+        busquedas.Add(item2);
+    }
+    foreach (var item3 in result3.Models){
+        usuarios.Add(item3);
+    }
+    foreach (var item4 in result4.Models){
+        compras.Add(item4);
+    }
+    foreach (var item5 in result5.Models){
+        tecnicos.Add(item5);
+    }
+
+    FachadaBL fachada = new FachadaBL();
+    fachada.main(productos, busquedas, usuarios, compras, tecnicos);
+});
+
+
+
+
+
+app.Run();
 app.Run();
 
 
@@ -930,3 +1062,7 @@ async static void errorDefault(HttpContext context,Exception ex){
     context.Response.ContentType = "text/plain";
     await context.Response.WriteAsync($"Error al guardar el producto: {ex.Message}");
 }
+
+
+
+
