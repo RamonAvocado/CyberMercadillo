@@ -10,10 +10,8 @@ using System.Threading.Tasks;
 namespace CyberMercadillo.Entities
 {
     [Table("Vendedor")]
-    public partial class Vendedor : BaseModel
+    public partial class Vendedor : Usuario
     {
-        [PrimaryKey("idvendedor", false)]
-        public int idvendedor { get; set; }
 
         [Column("nombretienda")]
         public string? nombretienda { get; set; }

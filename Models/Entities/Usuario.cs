@@ -29,16 +29,10 @@ namespace CyberMercadillo.Entities
 
         [Column("direccion")]
         public string? direccion { get; set; }
+
+        [Column("tipoUsuario")]
+        public string? tipoUsuario { get; set; }
         
-        [Column("numeroTarjeta")]
-        public int? numeroTarjeta { get; set; }
-
-        [Column("fechaCaducidad")]
-        public string? fechaCaducidad { get; set; }
-
-        [Column("CVV")]
-        public int? CVV { get; set; }
-
     }
 
 }

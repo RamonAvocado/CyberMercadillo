@@ -9,12 +9,15 @@ using System.Threading.Tasks;
 
 namespace CyberMercadillo.Entities
 {       
-    public partial class Vendedor{
-        public Vendedor(String nombreDeTienda, int telTienda){
-            nombretienda = nombreDeTienda;
-            telefonotienda = telTienda;
-        }
+    public partial class Vendedor:Usuario{
 
         public Vendedor(){}
+
+        public Vendedor(string nombre, int movil, string correo, string contraseña, string direccion, string nombretienda, int telefonotienda,string tipoUser)
+            : base(nombre, movil, correo, contraseña, direccion,tipoUser)
+        {
+            this.nombretienda = nombretienda;
+            this.telefonotienda = telefonotienda;
+        }
     }
 }

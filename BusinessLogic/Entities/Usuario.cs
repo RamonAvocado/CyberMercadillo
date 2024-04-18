@@ -14,15 +14,13 @@ namespace CyberMercadillo.Entities
 {       
     public partial class Usuario{
         public Usuario(){}
-        public Usuario(string nombreUser, int movilUser, string correoUser, string contraUser, string dirUser, int numeroTarj, string fechaCad, int cvvUser) {
+        public Usuario(string nombreUser, int movilUser, string correoUser, string contraUser, string dirUser,string tipoUser) {
             nombre = nombreUser;
             movil = movilUser;
             correo = correoUser;
             contraseña = contraUser;
             direccion = dirUser;
-            numeroTarjeta = numeroTarj;
-            fechaCaducidad = fechaCad;
-            CVV = cvvUser;
+            tipoUsuario = tipoUser;
         }
     }
 }

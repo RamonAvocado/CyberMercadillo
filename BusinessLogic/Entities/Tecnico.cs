@@ -9,7 +9,10 @@ using System.Threading.Tasks;
 
 namespace CyberMercadillo.Entities
 {       
-    public partial class Tecnico{
+    public partial class Tecnico:Usuario{
         public Tecnico(){}
+        public Tecnico(string nombre, int movil, string correo, string contraseña, string direccion,string tipoUser)
+            : base(nombre, movil, correo, contraseña, direccion,tipoUser)
+        {}
     }
 }

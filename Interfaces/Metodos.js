@@ -10,6 +10,7 @@ var cvv;
 var paginaAnterior;
 var searchTerm;
 var category;
+var TipoUsuarioRegistrado;
 
 //Para ejecutar en localhost : "http://localhost:5169";
 //Para ejecutar en WEB : "https://cybermercadillo.onrender.com";
@@ -2150,3 +2151,81 @@ function getCategory(){
     return localStorage.getItem('category');
 }
 
+
+function irRegistroVendedor() {
+
+    window.location.href = `./NuevoUsuarioVendedor.html`;
+    localStorage.setItem('tipoUsuRegistro', "vendedor");
+    console.log("vendedor");
+}"vendedor"
+
+function irRegistroComprador() {
+    // Obtener el ID del producto y la categoría de los atributos de datos (data-*) de la tarjeta de producto
+
+    window.location.href = `./NuevoUsuarioComprador.html`;
+    localStorage.setItem('tipoUsuRegistro', "comprador");
+    console.log("comprador");
+}
+
+
+async function agregarUsuarioComprador(TipoUsuarioRegistrado)
+{
+        console.log('ID del usuario registrado:', TipoUsuarioRegistrado);
+        document.getElementById('agregarCompradorForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            console.log(TipoUsuarioRegistrado);
+            const formData = new FormData(event.target);
+            const nombreUsu = formData.get('nombreUsuC');
+            const telefono = formData.get('TelUsuC');
+            const correoUsu = formData.get('CorreoUsuC');
+            const contraseña = formData.get('ContraseñaUsuC');
+            const contraseñaR = formData.get('RContraseñaUsuC');
+            const direccion = formData.get('DirUsuC');
+            const cvv = parseInt(formData.get('CVV'));
+            const numTarj = parseInt(formData.get('NumTarj'));
+            const FechaCad = formData.get('FechaCad');
+
+            try {
+                //const response = await fetch(`${lugarDeEjecucion}/AgregarUsuario2`, {
+                const response = await fetch(`http://localhost:5169/AgregarComprador`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        nombre: nombreUsu,
+                        movil: telefono,
+                        correo: correoUsu,
+                        contraseña: contraseña,
+                        direccion: direccion,
+                        CVV: cvv,
+                        fechaCaducidad: FechaCad,
+                        numeroTarjeta: numTarj,
+                        tipoUsu:TipoUsuarioRegistrado,
+                    }),
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Producto creado correctamente');
+                    mostrarResultado(data.resultado); 
+
+                    // Aquí podrías mostrar un mensaje de éxito o redirigir a otra página
+                    // Borra los campos del formulario
+                    window.location.reload();
+                   /* document.getElementById('nombreProd').value = '';
+                    document.getElementById('precioProd').value = '';
+                    document.getElementById('categoriaProd').value = '';
+                    document.getElementById('descripcionProd').value = '';
+                    document.getElementById('imgProd').value = '';
+                    document.getElementById('cantProd').value = '';
+                    */
+                } else {
+                    console.error('Error al crear el usuario:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error inesperado:', error);
+            }
+            alert("Usuario creado correctamente")
+            window.location.reload();
+        });
+}
