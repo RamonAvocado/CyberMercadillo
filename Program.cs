@@ -208,11 +208,24 @@ app.MapGet("/ObtenerInfoUsuario", async (HttpContext context, Supabase.Client cl
         var idBuscado = context.Request.Query["idusuario"].ToString();
         //var idBuscado = 1;
         
-        var info = await client.From<Usuario>().Filter("idusuario", Postgrest.Constants.Operator.Equals, idBuscado).Single();
-
-        var jsonResponse = new { info };
-        context.Response.ContentType = "application/json";
-        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+        var infoC = await client.From<Comprador>().Filter("idusuario", Postgrest.Constants.Operator.Equals, idBuscado).Single();
+        if(infoC != null){
+             var jsonResponse = new { infoC };
+             context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+        }else{
+            var infoV = await client.From<Vendedor>().Filter("idusuario", Postgrest.Constants.Operator.Equals, idBuscado).Single();
+            if(infoV != null){
+                var jsonResponse = new { infoV };
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+            }else{
+                var infoT = await client.From<Tecnico>().Filter("idusuario", Postgrest.Constants.Operator.Equals, idBuscado).Single();
+                var jsonResponse = new { infoT };
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+            }
+        }
     }
     catch (Exception ex)
     {
@@ -220,6 +233,43 @@ app.MapGet("/ObtenerInfoUsuario", async (HttpContext context, Supabase.Client cl
         errorDefault(context,ex);
     }
 });
+
+/*
+Codigo Viejo:
+app.MapGet("/ObtenerInfoUsuario", async (HttpContext context, Supabase.Client client) =>
+{
+    try
+    {      
+        // Obtener el ID del producto de la consulta
+        var idBuscado = context.Request.Query["idusuario"].ToString();
+        //var idBuscado = 1;
+        
+        var infoC = await client.From<Comprador>().Filter("idusuario", Postgrest.Constants.Operator.Equals, idBuscado).Single();
+        if(infoC != null){
+             var jsonResponse = new { infoC };
+             context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+        }else{
+            var infoV = await client.From<Vendedor>().Filter("idusuario", Postgrest.Constants.Operator.Equals, idBuscado).Single();
+            if(infoV != null){
+                var jsonResponse = new { infoV };
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+            }else{
+                var infoT = await client.From<Tecnico>().Filter("idusuario", Postgrest.Constants.Operator.Equals, idBuscado).Single();
+                var jsonResponse = new { infoT };
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        // Manejar cualquier error y devolver una respuesta de error al cliente
+        errorDefault(context,ex);
+    }
+});
+*/
 
 app.MapGet("/ObtenerProductoPorID", async (HttpContext context, Supabase.Client client) =>
 {
@@ -241,6 +291,31 @@ app.MapGet("/ObtenerProductoPorID", async (HttpContext context, Supabase.Client 
         errorDefault(context,ex);
     }
 });
+
+/*
+Codigo Viejo:
+app.MapGet("/ObtenerProductoPorID", async (HttpContext context, Supabase.Client client) =>
+{
+    try
+    {
+        // Obtener el ID del producto de la consulta
+        var idBuscado = context.Request.Query["idproducto"].ToString();
+
+        // Realizar la consulta para obtener el producto por su ID
+        var producto = await client.From<Producto>().Filter("idproducto", Postgrest.Constants.Operator.Equals, idBuscado).Single();
+
+        var jsonResponse = new { producto };
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+    }
+    catch (Exception ex)
+    {
+        // Manejar cualquier error y devolver una respuesta de error al cliente
+        errorDefault(context,ex);
+    }
+});
+
+*/
 
 app.MapPost("/ActualizarCantidadProducto", async (HttpContext context, Supabase.Client client) =>
 {
@@ -311,7 +386,7 @@ app.MapPost("/GuardarDatosUsuario", async (HttpContext context, Supabase.Client 
         var cvv = requestData["cvv"].ToObject<int>();
 
         // Obtener el producto de la base de datos
-        var usuario = await client.From<Usuario>().Filter("idusuario", Postgrest.Constants.Operator.Equals, idusuario).Single();
+        var usuario = await client.From<Comprador>().Filter("idusuario", Postgrest.Constants.Operator.Equals, idusuario).Single();
 
         //guardo la tarjeta de crédito
        // usuario.CVV = cvv;
@@ -337,7 +412,7 @@ app.MapPost("/GuardarDatosUsuario", async (HttpContext context, Supabase.Client 
         }
 
         // Actualizar el producto en la base de datos
-        await usuario.Update<Usuario>();
+        await usuario.Update<Comprador>();
 
         // Devolver una respuesta de éxito al cliente
         //context.Response.ContentType = "application/json";
@@ -351,6 +426,67 @@ app.MapPost("/GuardarDatosUsuario", async (HttpContext context, Supabase.Client 
     }
 });
 
+/*
+Codigo Viejo:
+app.MapPost("/GuardarDatosUsuario", async (HttpContext context, Supabase.Client client) =>
+{
+    // Leer el cuerpo de la solicitud para obtener la información del producto
+    using var reader = new StreamReader(context.Request.Body);
+    try
+    {
+        var requestBody = await reader.ReadToEndAsync();
+        var requestData = JsonConvert.DeserializeObject<JObject>(requestBody);
+
+        // Obtener el ID del producto y la cantidad seleccionada
+
+        //faltaría ver que el formato en el que lo guardamos casa
+        var idusuario = requestData["idusuario"].ToObject<int>();
+        var numTarjeta = requestData["numTarjeta"].ToObject<int>();
+        var fechaCaducidad = requestData["fechaCaducidad"].ToObject<string>();
+        var cvv = requestData["cvv"].ToObject<int>();
+
+        // Obtener el producto de la base de datos
+        var usuario = await client.From<Comprador>().Filter("idusuario", Postgrest.Constants.Operator.Equals, idusuario).Single();
+
+        //guardo la tarjeta de crédito
+       // usuario.CVV = cvv;
+        //usuario.numeroTarjeta = numTarjeta;
+        //usuario.fechaCaducidad = fechaCaducidad;
+
+        string rutaArchivo = "C:/Users/2003h/OneDrive/Escritorio/UPV/3º/2º Cuatri/PSW. Proyecto Software/outputs.txt";
+        using (StreamWriter writer = new StreamWriter(rutaArchivo))
+        {
+            // Redirigir la salida estándar de la consola al archivo
+            Console.SetOut(writer);
+
+            // Ahora, todo lo que se imprima con Console.WriteLine() se guardará en el archivo
+
+            // Ejemplo:
+            Console.WriteLine(idusuario + "idusuario");
+            Console.WriteLine(numTarjeta + "numTarjeta");
+            Console.WriteLine(fechaCaducidad + "fechaCaducidad");
+            Console.WriteLine(cvv + "cvv");
+            Console.WriteLine(usuario + "usuario");
+            // Informar al usuario que se han guardado los outputs
+            Console.WriteLine("Los outputs se han guardado en el archivo: " + rutaArchivo);
+        }
+
+        // Actualizar el producto en la base de datos
+        await usuario.Update<Comprador>();
+
+        // Devolver una respuesta de éxito al cliente
+        //context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync("Cantidad del producto actualizada correctamente");
+
+    }
+    catch (Exception ex)
+    {
+        // Manejar cualquier error y devolver una respuesta de error al cliente
+        errorDefault(context, ex);
+    }
+});
+
+*/
 
 
 
@@ -705,6 +841,101 @@ app.MapPost("/iniciarSesion", async (HttpContext context, Supabase.Client client
         var contraUsuario = context.Request.Form["contraseña"].ToString();
 
         // Buscar el usuario por su correo electrónico
+         //var usuario = await client.From<Usuario>().Filter("correo", Postgrest.Constants.Operator.Equals, correoUsuario).Single();
+         var vendedor = await client.From<Vendedor>().Filter("correo", Postgrest.Constants.Operator.Equals, correoUsuario).Single();
+        if (vendedor != null)
+        {
+             if (vendedor.contraseña == contraUsuario)
+            {
+               var jsonResponse = new Dictionary<string, object>
+                {
+                    { "Id", vendedor.idusuario }, // Asumiendo que idusuario no puede ser nulo, pero ajusta esto según tus requisitos
+                    { "Nombre", vendedor.nombre ?? "UsuarioPorDefecto" }, // Si nombre es nullable, usa el operador de coalescencia nula para proporcionar un valor predeterminado en caso de que sea nulo
+                    { "Correo", vendedor.correo ?? "CorreoPorDefecto" },
+                    { "TipoUsuario", "TipoUusarioPorDefecto" }
+                }; 
+                jsonResponse["TipoUsuario"] = "Vendedor";
+                context.Response.StatusCode = 200;
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+            }else{
+                    // La contraseña es incorrecta
+                    context.Response.StatusCode = 401; // Unauthorized
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsync(JsonConvert.SerializeObject(new { error = "Contraseña incorrecta" }));
+                }
+        }else{
+            var tecnico = await client.From<Tecnico>().Filter("correo", Postgrest.Constants.Operator.Equals, correoUsuario).Single();
+            if (tecnico != null){
+                if (tecnico.contraseña == contraUsuario)
+                {
+                var jsonResponse = new Dictionary<string, object>
+                    {
+                        { "Id", tecnico.idusuario }, // Asumiendo que idusuario no puede ser nulo, pero ajusta esto según tus requisitos
+                        { "Nombre", tecnico.nombre ?? "UsuarioPorDefecto" }, // Si nombre es nullable, usa el operador de coalescencia nula para proporcionar un valor predeterminado en caso de que sea nulo
+                        { "Correo", tecnico.correo ?? "CorreoPorDefecto" },
+                        { "TipoUsuario", "TipoUusarioPorDefecto" }
+                    }; 
+                    jsonResponse["TipoUsuario"] = "Técnico";
+                    context.Response.StatusCode = 200;
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                }else{
+                        // La contraseña es incorrecta
+                        context.Response.StatusCode = 401; // Unauthorized
+                        context.Response.ContentType = "application/json";
+                        await context.Response.WriteAsync(JsonConvert.SerializeObject(new { error = "Contraseña incorrecta" }));
+                    }
+            }else{
+                var comprador = await client.From<Comprador>().Where(c => c.correo == correoUsuario).Single();
+                if (comprador != null){
+                    if(comprador.contraseña == contraUsuario)
+                        {
+                        var jsonResponse = new Dictionary<string, object>
+                            {
+                                { "Id", comprador.idusuario }, // Asumiendo que idusuario no puede ser nulo, pero ajusta esto según tus requisitos
+                                { "Nombre", comprador.nombre ?? "UsuarioPorDefecto" }, // Si nombre es nullable, usa el operador de coalescencia nula para proporcionar un valor predeterminado en caso de que sea nulo
+                                { "Correo", comprador.correo ?? "CorreoPorDefecto" },
+                                { "TipoUsuario", "TipoUusarioPorDefecto" }
+                            }; 
+                            jsonResponse["TipoUsuario"] = "Usuario Común";
+                            context.Response.StatusCode = 200;
+                            context.Response.ContentType = "application/json";
+                            await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                        }else{
+                            // La contraseña es incorrecta
+                            context.Response.StatusCode = 401; // Unauthorized
+                            context.Response.ContentType = "application/json";
+                            await context.Response.WriteAsync(JsonConvert.SerializeObject(new { error = "Contraseña incorrecta" }));
+                        }
+                    }else{
+                            // No se encontró ningún usuario con ese correo electrónico
+                            context.Response.StatusCode = 401; // Unauthorized
+                            context.Response.ContentType = "application/json";
+                            await context.Response.WriteAsync(JsonConvert.SerializeObject(new { error = "Usuario no encontrado" }));
+                        }
+                }
+        }
+    }
+    catch (Exception ex)
+    {
+        context.Response.StatusCode = 500;
+        context.Response.ContentType = "text/plain";
+        await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+    }
+});
+
+/*
+Codigo Viejo:
+
+app.MapPost("/iniciarSesion", async (HttpContext context, Supabase.Client client) =>
+{
+    try
+    {
+        var correoUsuario = context.Request.Form["correo"].ToString();
+        var contraUsuario = context.Request.Form["contraseña"].ToString();
+
+        // Buscar el usuario por su correo electrónico
          var usuario = await client.From<Usuario>().Filter("correo", Postgrest.Constants.Operator.Equals, correoUsuario).Single();
 
         if (usuario != null)
@@ -764,7 +995,7 @@ app.MapPost("/iniciarSesion", async (HttpContext context, Supabase.Client client
         await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
     }
 });
-
+*/
 
 app.MapGet("/getBusquedas", async (HttpContext context, Supabase.Client client) =>
 {
@@ -800,29 +1031,8 @@ app.MapGet("/getID", async (HttpContext context) =>
 });
 
 
-app.MapPost("/AgregarUsuario2", async (HttpContext context,Supabase.Client client) =>
-{
-    // Leer el cuerpo de la solicitud para obtener la información de búsqueda
-    
-        try{
-            using (var reader = new StreamReader(context.Request.Body)){
-            
-            // Devuelve una respuesta al frontend (opcional)
-            context.Response.ContentType = "application/json";
-            await context.Response.WriteAsync("Producto creado exitosamente");}
-        } catch (Exception ex)
-        {
-            // Manejar cualquier error y devolver una respuesta de error al cliente
-            errorDefault(context,ex);
-        }
-    
-    return Results.Ok("Producto created successfully"); 
-});
-
-
 app.MapPost("/AgregarComprador", async (HttpContext context,Supabase.Client client) =>
 {
-    // Leer el cuerpo de la solicitud para obtener la información de búsqueda
     using (var reader = new StreamReader(context.Request.Body))
     {
         try{
@@ -869,13 +1079,13 @@ app.MapPost("/AgregarComprador", async (HttpContext context,Supabase.Client clie
     return Results.Ok("Producto created successfully"); 
 });
 
-app.MapPost("/AgregarComprador", async (HttpContext context,Supabase.Client client) =>
+app.MapPost("/AgregarVendedor", async (HttpContext context,Supabase.Client client) =>
 {
     using (var reader = new StreamReader(context.Request.Body))
     {
         try{
             var requestBody = await reader.ReadToEndAsync();
-            var productoData = JsonConvert.DeserializeObject<Comprador>(requestBody);
+            var productoData = JsonConvert.DeserializeObject<Vendedor>(requestBody);
             var fabrica = new FabricaDeUsuarios();
             var nuevoUsuario = fabrica.CrearUsuario(
                 productoData.tipoUsuario ?? "",
@@ -884,121 +1094,14 @@ app.MapPost("/AgregarComprador", async (HttpContext context,Supabase.Client clie
                 productoData.correo ?? "Correo Usuario", 
                 productoData.contraseña ?? "xxxx", 
                 productoData.direccion ?? "direccion usuario",
-                "",
-                0000,
-                productoData.CVV ?? 0,
-                productoData.numeroTarjeta ?? 0,
-                productoData.fechaCaducidad ?? "/rutaPrueba");
+                productoData.nombretienda ?? "nombre tienda",
+                productoData.telefonotienda ?? 0000,
+                0,
+                0,
+                "");
             
-            await client.From<Comprador>().Insert(new List<Comprador> { (Comprador) nuevoUsuario });
-           // await client.From<Usuario>().Insert(new List<Usuario> {  nuevoUsuario });
-
-            // Devuelve una respuesta al frontend (opcional)
-            context.Response.ContentType = "application/json";
-            await context.Response.WriteAsync("Producto creado exitosamente");
-        } catch (Exception ex)
-        {
-            // Manejar cualquier error y devolver una respuesta de error al cliente
-            errorDefault(context,ex);
-        }
-    }
-    return Results.Ok("Producto created successfully"); 
-});
-
-
-
-app.MapPost("/AgregarUsuario2", async (HttpContext context,Supabase.Client client) =>
-{
-    // Leer el cuerpo de la solicitud para obtener la información de búsqueda
+            await client.From<Vendedor>().Insert(new List<Vendedor> { (Vendedor) nuevoUsuario });
     
-        try{
-            using (var reader = new StreamReader(context.Request.Body)){
-            
-            // Devuelve una respuesta al frontend (opcional)
-            context.Response.ContentType = "application/json";
-            await context.Response.WriteAsync("Producto creado exitosamente");}
-        } catch (Exception ex)
-        {
-            // Manejar cualquier error y devolver una respuesta de error al cliente
-            errorDefault(context,ex);
-        }
-    
-    return Results.Ok("Producto created successfully"); 
-});
-
-
-app.MapPost("/AgregarComprador", async (HttpContext context,Supabase.Client client) =>
-{
-    // Leer el cuerpo de la solicitud para obtener la información de búsqueda
-    using (var reader = new StreamReader(context.Request.Body))
-    {
-        try{
-            Console.WriteLine("Hola, mundo!"); 
-            var requestBody = await reader.ReadToEndAsync();
-            var productoData = JsonConvert.DeserializeObject<Comprador>(requestBody);
-            
-            // Utiliza los datos recibidos para crear un nuevo producto
-            var fabrica = new FabricaDeUsuarios();
-
-#pragma warning disable CS8602 // Esto es para quitar un warning raro
-//CrearUsuario(string tipoUsuario, string nombre, int movil, string correo, string contraseña, string direccion, string nombreTienda = "", 
-                                           // int telefonoTienda = 0,int CVV = 0, int numTarjeta = 0,string fechaCaducidad = "")
-            var nuevoUsuario = fabrica.CrearUsuario(
-                productoData.tipoUsuario ?? "",
-                productoData.nombre ?? "Usuario de Serie Creación", //Este tmb
-                productoData.movil ?? 0, 
-                productoData.correo ?? "Correo Usuario", 
-                productoData.contraseña ?? "xxxx", 
-                productoData.direccion ?? "direccion usuario",
-                "",
-                0000,
-                productoData.CVV ?? 0,
-                productoData.numeroTarjeta ?? 0,
-                productoData.fechaCaducidad ?? "/rutaPrueba");
-                
-
-#pragma warning restore CS8602 // Y aqui para volver a instaurarlo
-
-            // Inserta el nuevo producto en la base de datos
-            
-            await client.From<Comprador>().Insert(new List<Comprador> { (Comprador) nuevoUsuario });
-           // await client.From<Usuario>().Insert(new List<Usuario> {  nuevoUsuario });
-
-            // Devuelve una respuesta al frontend (opcional)
-            context.Response.ContentType = "application/json";
-            await context.Response.WriteAsync("Producto creado exitosamente");
-        } catch (Exception ex)
-        {
-            // Manejar cualquier error y devolver una respuesta de error al cliente
-            errorDefault(context,ex);
-        }
-    }
-    return Results.Ok("Producto created successfully"); 
-});
-
-app.MapPost("/AgregarComprador", async (HttpContext context,Supabase.Client client) =>
-{
-    using (var reader = new StreamReader(context.Request.Body))
-    {
-        try{
-            var requestBody = await reader.ReadToEndAsync();
-            var productoData = JsonConvert.DeserializeObject<Comprador>(requestBody);
-            var fabrica = new FabricaDeUsuarios();
-            var nuevoUsuario = fabrica.CrearUsuario(
-                productoData.tipoUsuario ?? "",
-                productoData.nombre ?? "Usuario de Serie Creación", //Este tmb
-                productoData.movil ?? 0, 
-                productoData.correo ?? "Correo Usuario", 
-                productoData.contraseña ?? "xxxx", 
-                productoData.direccion ?? "direccion usuario",
-                "",
-                0000,
-                productoData.CVV ?? 0,
-                productoData.numeroTarjeta ?? 0,
-                productoData.fechaCaducidad ?? "/rutaPrueba");
-            
-            await client.From<Comprador>().Insert(new List<Comprador> { (Comprador) nuevoUsuario });
-           // await client.From<Usuario>().Insert(new List<Usuario> {  nuevoUsuario });
 
             // Devuelve una respuesta al frontend (opcional)
             context.Response.ContentType = "application/json";
@@ -1026,7 +1129,10 @@ app.MapGet("/inicializar", async (HttpContext context,Supabase.Client client) =>
     List<Tecnico> tecnicos= new List<Tecnico>();
     var result1 = await client.From<Producto>().Get();
     var result2 = await client.From<Busqueda>().Get();
-    var result3 = await client.From<Usuario>().Get();
+    //var result3 = await client.From<Usuario>().Get();
+    var result3 = await client.From<Comprador>().Get();
+    var result6 = await client.From<Vendedor>().Get();
+    var result7 = await client.From<Tecnico>().Get();
     var result4 = await client.From<Compra>().Get();
     var result5 = await client.From<Tecnico>().Get();
     foreach (var item1 in result1.Models){
@@ -1037,6 +1143,13 @@ app.MapGet("/inicializar", async (HttpContext context,Supabase.Client client) =>
     }
     foreach (var item3 in result3.Models){
         usuarios.Add(item3);
+    }
+    //nuevos foreach
+    foreach (var item6 in result6.Models){
+        usuarios.Add(item6);
+    }
+    foreach (var item7 in result7.Models){
+        usuarios.Add(item7);
     }
     foreach (var item4 in result4.Models){
         compras.Add(item4);
@@ -1049,11 +1162,51 @@ app.MapGet("/inicializar", async (HttpContext context,Supabase.Client client) =>
     fachada.main(productos, busquedas, usuarios, compras, tecnicos);
 });
 
+/*
+Codigo Viejo:
+app.MapGet("/inicializar", async (HttpContext context,Supabase.Client client) =>
+{ 
+    List<Producto> productos= new List<Producto>();
+    List<Busqueda> busquedas= new List<Busqueda>();
+    List<Usuario> usuarios= new List<Usuario>();
+    List<Compra> compras= new List<Compra>();
+    List<Tecnico> tecnicos= new List<Tecnico>();
+    var result1 = await client.From<Producto>().Get();
+    var result2 = await client.From<Busqueda>().Get();
+    //var result3 = await client.From<Usuario>().Get();
+    var result3 = await client.From<Comprador>().Get();
+    var result6 = await client.From<Vendedor>().Get();
+    var result7 = await client.From<Tecnico>().Get();
+    var result4 = await client.From<Compra>().Get();
+    var result5 = await client.From<Tecnico>().Get();
+    foreach (var item1 in result1.Models){
+        productos.Add(item1);
+    }
+    foreach (var item2 in result2.Models){
+        busquedas.Add(item2);
+    }
+    foreach (var item3 in result3.Models){
+        usuarios.Add(item3);
+    }
+    //nuevos foreach
+    foreach (var item6 in result6.Models){
+        usuarios.Add(item6);
+    }
+    foreach (var item7 in result7.Models){
+        usuarios.Add(item7);
+    }
+    foreach (var item4 in result4.Models){
+        compras.Add(item4);
+    }
+    foreach (var item5 in result5.Models){
+        tecnicos.Add(item5);
+    }
 
+    FachadaBL fachada = new FachadaBL();
+    fachada.main(productos, busquedas, usuarios, compras, tecnicos);
+});
+*/
 
-
-
-app.Run();
 app.Run();
 
 

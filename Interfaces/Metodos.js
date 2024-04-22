@@ -2128,7 +2128,6 @@ async function agregarUsuarioComprador(TipoUsuarioRegistrado)
         console.log('ID del usuario registrado:', TipoUsuarioRegistrado);
         document.getElementById('agregarCompradorForm').addEventListener('submit', async (event) => {
             event.preventDefault();
-            console.log(TipoUsuarioRegistrado);
             const formData = new FormData(event.target);
             const nombreUsu = formData.get('nombreUsuC');
             const telefono = formData.get('TelUsuC');
@@ -2141,7 +2140,6 @@ async function agregarUsuarioComprador(TipoUsuarioRegistrado)
             const FechaCad = formData.get('FechaCad');
 
             try {
-                //const response = await fetch(`${lugarDeEjecucion}/AgregarUsuario2`, {
                 const response = await fetch(`http://localhost:5169/AgregarComprador`, {
                     method: 'POST',
                     headers: {
@@ -2163,17 +2161,55 @@ async function agregarUsuarioComprador(TipoUsuarioRegistrado)
                     const data = await response.json();
                     console.log('Producto creado correctamente');
                     mostrarResultado(data.resultado); 
-
-                    // Aquí podrías mostrar un mensaje de éxito o redirigir a otra página
-                    // Borra los campos del formulario
                     window.location.reload();
-                   /* document.getElementById('nombreProd').value = '';
-                    document.getElementById('precioProd').value = '';
-                    document.getElementById('categoriaProd').value = '';
-                    document.getElementById('descripcionProd').value = '';
-                    document.getElementById('imgProd').value = '';
-                    document.getElementById('cantProd').value = '';
-                    */
+                } else {
+                    console.error('Error al crear el usuario:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error inesperado:', error);
+            }
+            alert("Usuario creado correctamente")
+            window.location.reload();
+        });
+}
+
+async function agregarUsuarioVendedor(TipoUsuarioRegistrado){
+        document.getElementById('agregarVendedorForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const nombreUsu = formData.get('nombreUsuV');
+            const telefono = formData.get('TelUsuV');
+            const correoUsu = formData.get('CorreoUsuV');
+            const contraseña = formData.get('ContraseñaUsuV');
+            const contraseñaR = formData.get('RContraseñaUsuV');
+            const direccion = formData.get('DirUsuV');
+            const telTienda = parseInt(formData.get('TelUsuT'));
+            const nombreTienda = formData.get('NomTUsu');
+            try {
+                const response = await fetch(`http://localhost:5169/AgregarVendedor`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        nombre: nombreUsu,
+                        movil: telefono,
+                        correo: correoUsu,
+                        contraseña: contraseña,
+                        direccion: direccion,
+                        CVV: cvv,
+                        fechaCaducidad: FechaCad,
+                        numeroTarjeta: numTarj,
+                        tipoUsu:TipoUsuarioRegistrado,
+                        telefonotienda: telTienda,
+                        nombretienda: nombreTienda,
+                    }),
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Producto creado correctamente');
+                    mostrarResultado(data.resultado); 
+                    window.location.reload();
                 } else {
                     console.error('Error al crear el usuario:', response.statusText);
                 }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace CyberMercadillo.Entities
 {
     [Table("Usuario")]
-    public partial class Usuario : BaseModel
+    public abstract partial class Usuario : BaseModel
     {
         [PrimaryKey("idusuario", false)]
         public int idusuario { get; set; }

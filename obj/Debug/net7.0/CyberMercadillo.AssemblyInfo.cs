@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CyberMercadillo")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8bca9a93ce73e9d27b6ad07802f843ea0293bd73")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d8ece0b3a961f54c5983e885c1b416f841d33646")]
 [assembly: System.Reflection.AssemblyProductAttribute("CyberMercadillo")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CyberMercadillo")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

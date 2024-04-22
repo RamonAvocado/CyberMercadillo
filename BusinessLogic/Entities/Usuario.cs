@@ -12,7 +12,7 @@ using System.Security.Cryptography;
 
 namespace CyberMercadillo.Entities
 {       
-    public partial class Usuario{
+    public abstract partial class Usuario{
         public Usuario(){}
         public Usuario(string nombreUser, int movilUser, string correoUser, string contraUser, string dirUser,string tipoUser) {
             nombre = nombreUser;

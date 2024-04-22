@@ -80,37 +80,37 @@
                 <form id="agregarVendedorForm" >
                     <div class="form-group">
                         <label for="nombreUsu">Nombre:</label>
-                        <input type="text" id="nombreUsu" name="nombreUsu" required><br>
+                        <input type="text" id="nombreUsu" name="nombreUsuV" required><br>
                     </div>
 
                     <div class="form-group">
                         <label for="TelUsu">Telefono:</label>
-                        <input type="text" id="TelUsu" name="TelUsu" required><br>
+                        <input type="text" id="TelUsu" name="TelUsuV" required><br>
                     </div>
 
                     <div class="form-group">
                         <label for="CorreoUsu">Correo Electrónico:</label>
-                        <input type="text" id="CorreoUsu" name="CorreoUsu" required><br>
+                        <input type="text" id="CorreoUsu" name="CorreoUsuV" required><br>
                     </div>
 
                     <div class="form-group">
                         <label for="ContraseñaUsu">Contraseña:</label>
-                        <input type="text" id="ContraseñaUsu" name="ContraseñaUsu" required><br>
+                        <input type="text" id="ContraseñaUsu" name="ContraseñaUsuV" required><br>
                     </div>
 
                     <div class="form-group">
                         <label for="RContraseñaUsu">Repetir Contraseña:</label>
-                        <input type="text" id="RContraseñaUsu" name="RContraseñaUsu" required><br>
+                        <input type="text" id="RContraseñaUsu" name="RContraseñaUsuV" required><br>
                     </div>
 
                     <div class="form-group">
                         <label for="DirUsu">Direccion:</label>
-                        <input type="text" id="DirUsu" name="DirUsu" required><br>
+                        <input type="text" id="DirUsu" name="DirUsuV" required><br>
                     </div>
 
                     <div class="form-group">
                         <label for="TelUsuT">Telefono Tienda:</label>
-                        <input type="text" id="TelUsuT" name="TelUsuT" required><br>
+                        <input type="number" id="TelUsuT" name="TelUsuT" required><br>
                     </div>
 
                     <div class="form-group">
@@ -118,7 +118,7 @@
                         <input type="text" id="NomTUsu" name="NomTUsu" required><br>
                     </div>
                     
-                    <button onclick = "agregarUsuario()" class="search-history-btn">Confirmar</button>
+                    <button onclick = "agregarUsuarioVendedor(localStorage.getItem('tipoUsuRegistro'))" class="search-history-btn">Confirmar</button>
                 </form>
             
             </div>
