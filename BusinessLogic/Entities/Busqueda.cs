@@ -17,6 +17,7 @@ namespace CyberMercadillo.Entities
             idusuario = usuario;
             categoria = categ;
         }
+
     }
 }
 

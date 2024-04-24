@@ -298,6 +298,7 @@ function mostrarProductosCat(productos) {
 //pero todavía no tenemos Recomendaciones
 async function CargarProductosDestacados() {
     try {
+        console.log("Entra funcion cargarProductos");
         // Realizar una solicitud GET al backend para obtener los 6 primeros productos
         const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosDestacados`);
         if (response.ok) {
