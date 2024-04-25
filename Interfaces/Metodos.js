@@ -30,6 +30,7 @@ function gestionarValorIDUser(valor) {
 }
 
 //funcion para guardar y acceder a idProd
+//Copiado
 function gestionarValorIDProduct(valor) {
     if (valor === -1) {
         // Si se pasa -1, devolver el valor almacenado
@@ -41,12 +42,14 @@ function gestionarValorIDProduct(valor) {
     }
 }
 
+//copiado
 function LimpiarLocalStorage() {
     localStorage.clear();
 }
 
 
 //INICIO BUSCAR PRODUCTO POR TEXTO
+//Copiado
 async function buscar() {
     var searchTerm = document.getElementById('searchInput').value;
     var category  = localStorage.getItem('categoriaSeleccionada');
@@ -144,7 +147,7 @@ function mostrarResultado(resultado) {
 
 
 // INCIO mostrar categorias
-
+//copiado
 async function CargaCategorias() {
     try {
         const response = await fetch(`${lugarDeEjecucion}/CargarCategorias`);
@@ -160,6 +163,7 @@ async function CargaCategorias() {
     }
 }
 
+//copiado
 function mostrarCategorias(array) {
     const selectElement = document.getElementById('categorySelect');
     //console.log(selectElement.options);
@@ -191,7 +195,7 @@ function mostrarCategorias(array) {
     });
 }
 
-
+//copiado
 async function buscarPorCategoria() {
     categoriaSelect = localStorage.getItem("categoriaSeleccionada");
     idUsuarioIniciado = localStorage.getItem("UsuarioID");
@@ -1301,7 +1305,7 @@ async function cargarProductosPorPagina(numeroPagina,idUsuarioIniciado) {
     }
 }
 
-
+//Copiado
 function generarEnlacesPaginacion(totalPaginas,idUsuarioIniciado) {
     const paginasContainer = document.getElementById('paginas');
     paginasContainer.innerHTML = ''; // Limpiar los enlaces de paginación antes de generarlos nuevamente

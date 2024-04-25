@@ -1,3 +1,4 @@
+import GeneralMetodos from './GeneralMetodos.js';
 var idProductoSeleccionado;
 var idUsuarioIniciado;//guardo esto aquí para poder acceder en todas las páginas
 var idProductoCantidadSelec;//cantidad de producto seleccionada
@@ -28,7 +29,45 @@ function gestionarValorIDUser(valor) {
     }
 }
 
+async function FinalizarCompra() {
+    // Verificar si los campos de la tarjeta están rellenados
+    const camposRellenados = verificarCamposTarjeta();
 
+    if (camposRellenados) {
+        // Mostrar ventana emergente para guardar los datos de la tarjeta
+        const guardarDatosTarjeta =  mostrarVentanaEmergente();
+
+        if (guardarDatosTarjeta) {
+            // Aquí puedes agregar el código para proceder con la compra
+            // Primero, actualiza la cantidad del producto en la base de datos
+            try {
+                const idProductoCantidadSelec = localStorage.getItem("itemCantSelec");
+                const idProductoSeleccionado = localStorage.getItem("itemID");
+
+                const response = await fetch(`${lugarDeEjecucion}/ActualizarCantidadProducto`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        idproducto: idProductoSeleccionado,
+                        idProductoCantidadSelec: idProductoCantidadSelec
+                    })
+                });
+
+                if (response.ok) {
+                    //const data = await response.json();
+                    alert("Gracias por su compra");
+                    window.location.href = `./NewPaginaPrincipal.html`;
+                } else {
+                    console.error('Error en la solicitud al backend:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error inesperado:', error);
+            }
+        }
+    }
+}
 
 function verificarCamposTarjeta() {
     const numTarjetaInput = document.querySelector('.payment-info input[type="text"][placeholder="Número de tarjeta"]');
@@ -249,7 +288,7 @@ async function agregarUsuarioComprador(TipoUsuarioRegistrado)
                 if (response.ok) {
                     const data = await response.json();
                     console.log('Producto creado correctamente');
-                    mostrarResultado(data.resultado); 
+                    GeneralMetodos.mostrarResultado(data.resultado);
                     window.location.reload();
                 } else {
                     console.error('Error al crear el usuario:', response.statusText);

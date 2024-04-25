@@ -1,3 +1,4 @@
+import GeneralMetodos from './GeneralMetodos.js';
 var idProductoSeleccionado;
 var idUsuarioIniciado;//guardo esto aquí para poder acceder en todas las páginas
 var idProductoCantidadSelec;//cantidad de producto seleccionada
@@ -52,6 +53,27 @@ async function CargarProductosVendedor(idUsuarioIniciado) {
     }
 }
 
+function generarEnlacesPaginacion(totalPaginas,idUsuarioIniciado) {
+    const paginasContainer = document.getElementById('paginas');
+    paginasContainer.innerHTML = ''; // Limpiar los enlaces de paginación antes de generarlos nuevamente
+
+    for (let i = 1; i <= totalPaginas; i++) {
+        const pagina = document.createElement('li');
+        pagina.classList.add('pagina-item');
+        const enlace = document.createElement('a');
+        enlace.href = `#pagina-${i}`;
+        enlace.textContent = i;
+        pagina.appendChild(enlace);
+        paginasContainer.appendChild(pagina);
+
+        // Agregar event listener para cargar los productos de la página seleccionada
+        enlace.addEventListener('click', async function(event) {
+            event.preventDefault();
+            await cargarProductosPorPagina(i,idUsuarioIniciado);
+        });
+    }
+}
+
 
 function mostrarProductosVendedor(productos) {
     //const productos = respuesta.productos.Models;
@@ -78,7 +100,7 @@ function mostrarProductosVendedor(productos) {
         `;
 
         productCard.addEventListener('dblclick', (event) => {
-            irAInfoProducto2(producto.idproducto);
+            GeneralMetodos.irAInfoProducto2(producto.idproducto);
         });
         
         productCard.addEventListener('click', (event) => {
@@ -109,7 +131,7 @@ function mostrarProductosVendedor(productos) {
                 }
                 console.log('ID del producto seleccionado al clicar:', idProductoSeleccionado);
                 localStorage.setItem('itemID', idProductoSeleccionado);
-                mostrarProd(idProductoSeleccionado);
+                GeneralMetodos.mostrarProd(idProductoSeleccionado);
             });
 
             document.getElementById('eliminarBtn').addEventListener('click', () => {
@@ -218,7 +240,7 @@ async function agregarUsuarioVendedor(TipoUsuarioRegistrado){
             if (response.ok) {
                 const data = await response.json();
                 console.log('Producto creado correctamente');
-                mostrarResultado(data.resultado); 
+                GeneralMetodos.mostrarResultado(data.resultado);
                 window.location.reload();
             } else {
                 console.error('Error al crear el usuario:', response.statusText);

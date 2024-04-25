@@ -1,4 +1,21 @@
+import GeneralMetodos from './GeneralMetodos.js';
+var idProductoSeleccionado;
+var idUsuarioIniciado;//guardo esto aquí para poder acceder en todas las páginas
+var idProductoCantidadSelec;//cantidad de producto seleccionada
+var idProductoCantidad;//cuantos producto hay en la base de datos
+var categoriaSelect;
+var numTarjeta;
+var fechaCaducidad;
+var cvv;
 
+var paginaAnterior;
+var searchTerm;
+var category;
+var TipoUsuarioRegistrado;
+
+//Para ejecutar en localhost : "http://localhost:5169";
+//Para ejecutar en WEB : "https://cybermercadillo.onrender.com";
+var lugarDeEjecucion = "http://localhost:5169";
 
 async function buscarHist(TextBuscar, CatBuscar, pagina) {
     /*localStorage.setItem('searchTerm', TextBuscar);
@@ -44,7 +61,7 @@ async function buscarProd(searchTerm, category) {
                 console.log(data.productos.Models.length);
                 if(data.productos.Models.length==0){
                     //Poner que no hay productos con estos criterios de búsqueda
-                    mostrarResultado("No existen productos con estos términos de búsqueda");  // Llama a una función para mostrar todos los productos
+                    GeneralMetodos.mostrarResultado("No existen productos con estos términos de búsqueda");
                 }
                 mostrarProductosCat(data.productos.Models);//cargar los productos relacionados
             } else {
@@ -70,7 +87,7 @@ async function buscarProd(searchTerm, category) {
                 console.log("ENTRA AQUI"); //REVISAR!!!!!!!!!
                 if(data.productos.Models.length==0){
                     //Poner que no hay productos con estos criterios de búsqueda
-                    mostrarResultado("No existen productos con estos términos de búsqueda");  // Llama a una función para mostrar todos los productos
+                    GeneralMetodos.mostrarResultado("No existen productos con estos términos de búsqueda");
                 }
                 mostrarProductosCat(data.productos.Models);//cargar los productos relacionados
             } else {
@@ -82,11 +99,7 @@ async function buscarProd(searchTerm, category) {
     }
 }
 
-function mostrarResultado(resultado) {
-    var resultadosDiv = document.getElementById('resultados');
-    //Esto es la respuesta que a accedido al Controlador Program y lo muestra por pantalla en la Pagina Principal
-    resultadosDiv.innerHTML = `<p>Resultado: ${resultado}</p>`;
-}
+
 
 function mostrarProductosCat(productos) {
     const container = document.querySelector('.resultado-busqueda-container');
@@ -162,11 +175,104 @@ function irAInfoProducto(productoParaInfo) {
     window.location.href = `./InfoProducto.html`;
 }
 
-function irAInfoProducto2(productoParaInfo) {
-    // Redirigir a la página de InfoProducto.html con el parámetro del producto
-    window.location.href = `InfoBasicaProducto.html?id=${productoParaInfo}`;
+async function buscar() {
+    var searchTerm = document.getElementById('searchInput').value;
+    var category  = localStorage.getItem('categoriaSeleccionada');
+    localStorage.setItem('searchTerm', searchTerm);
 
-    // Ocultar el botón después de la redirección
-    const historialBtn = document.getElementById('historialBtnInfoProd');
-    historialBtn.style.display = 'none';
+    var limpiarResult = document.getElementById('resultados');
+    limpiarResult.innerHTML = `<p></p>`;
+
+    buscarProd(searchTerm,category);
+}
+
+async function CargaCategorias() {
+    try {
+        const response = await fetch(`${lugarDeEjecucion}/CargarCategorias`);
+        if (response.ok) {
+            const data = await response.json();
+            console.log("Categorías de todos los productos: " + data.categorias);
+            mostrarCategorias(data.categorias);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+function mostrarCategorias(array) {
+    const selectElement = document.getElementById('categorySelect');
+    //console.log(selectElement.options);
+    //console.log(selectElement.options[0]);
+    categoriaSelect = selectElement.options[0].value;
+    console.log("categoría seleccinonada: " + categoriaSelect);
+
+    localStorage.setItem('categoriaSeleccionada', categoriaSelect);
+
+
+    // Limpiar opciones existentes, excepto la primera (Todas las categorías)
+    selectElement.options.length = 1;
+
+    // Agregar nuevas opciones de categorías
+    array.forEach(categoria => {
+        const option = document.createElement('option');
+        option.value = categoria;
+        option.textContent = categoria;
+        selectElement.appendChild(option);
+    });
+
+    selectElement.addEventListener('change', function() {
+        const selectedCategory = selectElement.value;
+        localStorage.setItem('categoriaSeleccionada', selectedCategory);
+        categoriaSelect = localStorage.getItem("categoriaSeleccionada");
+
+        console.log('Categoría seleccionada:', categoriaSelect);
+        // Aquí puedes hacer lo que necesites con la categoría seleccionada
+    });
+}
+
+async function buscarPorCategoria() {
+    categoriaSelect = localStorage.getItem("categoriaSeleccionada");
+    idUsuarioIniciado = localStorage.getItem("UsuarioID");
+    searchTerm = localStorage.getItem("searchTerm");
+
+    var limpiarResult = document.getElementById('resultados');
+    limpiarResult.innerHTML = `<p></p>`;
+
+    // Realizar una consulta con la categoría seleccionada
+
+    var requestBody = {
+        idusuario: idUsuarioIniciado,
+        searchTerm: searchTerm,
+        category: categoriaSelect
+    };   
+
+    try {
+        if(categoriaSelect == "Todas las categorías")
+        {
+            //le paso un 1 y es para mostrarProductosCat
+            CargaTodosProductos(1);
+            console.log("Todas las categorías mostradas")    
+        }
+        else{
+            const response = await fetch(`${lugarDeEjecucion}/BuscarPorCategoria`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestBody)
+            });
+            if (response.ok) {
+                const data = await response.json();
+                productos = data.ProductosXCat.Models;
+                console.log(productos); 
+                mostrarProductosCat(productos);
+            } else {
+                console.error('Error en la solicitud al backend:', response.statusText);
+            }
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
 }

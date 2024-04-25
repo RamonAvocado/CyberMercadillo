@@ -1,3 +1,4 @@
+import GeneralMetodos from './GeneralMetodos.js';
 var idProductoSeleccionado;
 var idUsuarioIniciado;//guardo esto aquí para poder acceder en todas las páginas
 var idProductoCantidadSelec;//cantidad de producto seleccionada
@@ -68,7 +69,7 @@ function mostrarProductosParaValidar(productos) {
         `;
 
         productCard.addEventListener('dblclick', (event) => {
-            irAInfoProducto2(producto.idproducto);
+            GeneralMetodos.irAInfoProducto2(producto.idproducto);
         });
 
         productCard.addEventListener('click', (event) => {
