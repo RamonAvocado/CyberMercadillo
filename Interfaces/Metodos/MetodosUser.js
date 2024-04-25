@@ -30,18 +30,6 @@ function gestionarValorIDUser(valor) {
 
 
 
-
-
-function seleccionarProducto(productoSeleccionado) {
-    // Desmarcar todos los productos seleccionados
-    const selectedProducts = document.querySelectorAll('.product-card.selected');
-    selectedProducts.forEach(product => product.classList.remove('selected'));
-
-    // Marcar el producto actualmente seleccionado
-    productoSeleccionado.classList.add('selected');
-}
-
-
 function verificarCamposTarjeta() {
     const numTarjetaInput = document.querySelector('.payment-info input[type="text"][placeholder="Número de tarjeta"]');
     const fechaCaducidadInput = document.querySelector('.payment-info input[type="text"][placeholder="Fecha de caducidad"]');
@@ -178,6 +166,11 @@ async function IniciarSesion(){
         mensajeError.style.display = "block"; // Hacer visible el elemento
         console.error('Error al iniciar sesión:', error);
     }
+}
+
+
+function LimpiarLocalStorage() {
+    localStorage.clear();
 }
 
 
