@@ -17,6 +17,7 @@ var TipoUsuarioRegistrado;
 var lugarDeEjecucion = "http://localhost:5169";
 
 //funcion para guardar y acceder a idUsuario
+//COPIADO--METODOSUSER
 function gestionarValorIDUser(valor) {
     if (valor === -1) {
         // Si se pasa -1, devolver el valor almacenado
@@ -57,6 +58,7 @@ async function buscar() {
     buscarProd(searchTerm,category);
 }
 
+//Copiado
 async function buscarProd(searchTerm, category) {
     // Realizar una solicitud POST al backend con la información de búsqueda
     idUsuarioIniciado = localStorage.getItem("UsuarioID");
@@ -130,6 +132,7 @@ async function buscarProd(searchTerm, category) {
     }
 }
 
+//Copiado
 // Función para mostrar el resultado en la página
 function mostrarResultado(resultado) {
     var resultadosDiv = document.getElementById('resultados');
@@ -233,6 +236,8 @@ async function buscarPorCategoria() {
         console.error('Error inesperado:', error);
     }
 }
+
+//Copiado
 function mostrarProductosCat(productos) {
     const container = document.querySelector('.resultado-busqueda-container');
     container.innerHTML = '';
@@ -624,6 +629,7 @@ function truncate(text) {
 
 
 //FUNCIONES CLICKS
+//COPIADO
 function seleccionarProducto(productoSeleccionado) {
     // Desmarcar todos los productos seleccionados
     const selectedProducts = document.querySelectorAll('.product-card.selected');
@@ -633,6 +639,7 @@ function seleccionarProducto(productoSeleccionado) {
     productoSeleccionado.classList.add('selected');
 }
 
+//Copiado
 function irAInfoProducto(productoParaInfo) {
     // Obtener el ID del producto y la categoría de los atributos de datos (data-*) de la tarjeta de producto
     const productId = productoParaInfo.querySelector('#idProducto').dataset.info;
@@ -641,7 +648,7 @@ function irAInfoProducto(productoParaInfo) {
     window.location.href = `./InfoProducto.html`;
 }
 
-
+//Copiado
 function irAInfoProducto2(productoParaInfo) {
     // Redirigir a la página de InfoProducto.html con el parámetro del producto
     window.location.href = `InfoBasicaProducto.html?id=${productoParaInfo}`;
@@ -654,6 +661,7 @@ function irAInfoProducto2(productoParaInfo) {
 // FIN MOSTRAR TODOS PRODUCTOS
 
 //inicio información una unidad de producto
+//Copiado
 async function CargaUnProducto(){
     try{
         idProductoSeleccionado = localStorage.getItem('itemID');
@@ -677,7 +685,7 @@ async function CargaUnProducto(){
     }
 }
 
-
+//Copiado
 function mostrarUnProducto(respuesta) {
     const producto = respuesta.producto;
     const container = document.querySelector('.product-container');
@@ -807,7 +815,7 @@ function mostrarUnProducto(respuesta) {
 
 }
 
-
+//Copiado
 function mostrarUnProductoNoLogeado(respuesta) {
     const producto = respuesta.producto;
     const container = document.querySelector('.product-container');
@@ -882,6 +890,7 @@ function mostrarUnProductoNoLogeado(respuesta) {
     productCard.dataset.productId = producto.idproducto;
 }
 
+//Copiado
 async function CargaUnProductoBasico(){
     try{
         //pillar el id
@@ -901,6 +910,7 @@ async function CargaUnProductoBasico(){
     }
 }
 
+//Copiado
 function mostrarUnProductoBasico(respuesta) {
     const producto = respuesta.producto;
     const container = document.querySelector('.product-container');
@@ -979,7 +989,7 @@ function mostrarUnProductoBasico(respuesta) {
 }
 
 // INICIO FUNCIONES PARA LA COMPRA DE UN PRODUCTO
-
+//Copiado
 async function CargaUnProductoCompra(){
     try{
         // Pillar el ID del producto de la URI
@@ -1016,6 +1026,7 @@ async function CargaUnProductoCompra(){
     }
 }
 
+//Copiado
 function mostrarUnProductoCompra(producto, usuario) {
     // Separar las URL de las imágenes
     const imagenes = producto.imagenes.split(' ');
@@ -1053,6 +1064,7 @@ function mostrarUnProductoCompra(producto, usuario) {
 }
 
 // Función para verificar si los campos de la tarjeta están rellenados
+//COPIADO -- MetodosUser
 function verificarCamposTarjeta() {
     const numTarjetaInput = document.querySelector('.payment-info input[type="text"][placeholder="Número de tarjeta"]');
     const fechaCaducidadInput = document.querySelector('.payment-info input[type="text"][placeholder="Fecha de caducidad"]');
@@ -1093,7 +1105,7 @@ function verificarCamposTarjeta() {
     }*/
     return true;
 }
-
+//COPIADO --MetodoUser
 function validarFormatoFecha(fechaCaducidadInput) {
     //es un formato año, mes, dia
     const regex = /^\d{4}-\d{2}-\d{2}$/;
@@ -1102,6 +1114,7 @@ function validarFormatoFecha(fechaCaducidadInput) {
 
 
 // Función para mostrar una ventana emergente para guardar los datos de la tarjeta
+//COPIADO --MetodoUser
 function mostrarVentanaEmergente() {
     const confirmacion = confirm('¿Desea guardar los datos de su tarjeta para futuras compras?');
 
@@ -1138,6 +1151,7 @@ function mostrarVentanaEmergente() {
 }
 
 // Función para finalizar la compra
+//Copiado
 async function FinalizarCompra() {
     // Verificar si los campos de la tarjeta están rellenados
     const camposRellenados = verificarCamposTarjeta();
@@ -1182,7 +1196,7 @@ async function FinalizarCompra() {
 
 // AQUI HICE EL MERGE MANUAL YA QUE ERA IMPOSIBLE HACERLO AUTOMÁTICO
 
-
+//COPIADO --MetodoVendedor
 async function CargarProductosVendedor(idUsuarioIniciado) {
     try {
         console.log('ID del usuario seleccionado:', idUsuarioIniciado);
@@ -1218,6 +1232,7 @@ async function CargarProductosVendedor(idUsuarioIniciado) {
     }
 }
 
+//Copiado MetodosTecnico
 async function CargarProductosValidacion() {
     try {
         // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
@@ -1299,6 +1314,7 @@ function generarEnlacesPaginacion(totalPaginas,idUsuarioIniciado) {
     }
 }
 
+//COPIADO --MetodoVendedor
 function mostrarProductosVendedor(productos) {
     //const productos = respuesta.productos.Models;
     const container = document.querySelector('.seller-products');
@@ -1371,6 +1387,7 @@ function mostrarProductosVendedor(productos) {
     });
 }
 
+//COPIADO --MetodosTecnico
 function mostrarProductosParaValidar(productos) {
     //const productos = respuesta.productos.Models;
     const container = document.querySelector('.validation-products');
@@ -1441,6 +1458,7 @@ function mostrarProductosParaValidar(productos) {
     });
 }
 
+//COPIADO --MetodoVendedor
 function mostrarProductosDeVendedor(productos) {
     const container = document.getElementById('seller-products');
 
@@ -1517,6 +1535,7 @@ function irALogin(){
 
 
 //Método agragar producto desde el frontend
+//Copiado
 async function agregarProd()
 {
         document.getElementById('agregarProductoForm').addEventListener('submit', async (event) => {
@@ -1572,6 +1591,8 @@ async function agregarProd()
         });
 }
 
+//Copiado
+/*
 async function agregarProducto(idUsuarioIniciado)
 {
         document.getElementById('agregarProductoForm2').addEventListener('submit', async (event) => {
@@ -1613,17 +1634,7 @@ async function agregarProducto(idUsuarioIniciado)
                     const data = await response.json();
                     console.log('Producto creado correctamente');
                     mostrarResultado(data.resultado); 
-
-                    // Aquí podrías mostrar un mensaje de éxito o redirigir a otra página
-                    // Borra los campos del formulario
                     window.location.reload();
-                   /* document.getElementById('nombreProd').value = '';
-                    document.getElementById('precioProd').value = '';
-                    document.getElementById('categoriaProd').value = '';
-                    document.getElementById('descripcionProd').value = '';
-                    document.getElementById('imgProd').value = '';
-                    document.getElementById('cantProd').value = '';
-                    */
                 } else {
                     console.error('Error al crear el producto:', response.statusText);
                 }
@@ -1634,7 +1645,9 @@ async function agregarProducto(idUsuarioIniciado)
             window.location.reload();
         });
 }
+*/
 
+//creo que no se usa
 /*
 async function mostrarProd(idProductoSeleccionado) {
     try {
@@ -1682,7 +1695,7 @@ async function mostrarProd(idProductoSeleccionado) {
     }
 }*/
 
-
+//Copiado
 async function mostrarProd(idProductoSeleccionado) {
     try {
         console.log('ID del producto seleccionado:', idProductoSeleccionado);
@@ -1747,15 +1760,8 @@ async function mostrarProd(idProductoSeleccionado) {
                     contenedorFlecha.appendChild(flechaSemiVisible);
                 }
 
-                // Agregar el contenedor de fecha al producto
                 productCard.appendChild(contenedorFlecha);
 
-
-                //const nuevoUrlImagenInput = document.getElementById('nuevo-url-imagen');
-                //nuevoUrlImagenInput.value = primeraImagen;
-
-
-                // Evento de clic en el contenedor de flecha semi visible para cambiar la imagen principal
                 if (imagenes.length > 1) {
                     contenedorFlecha.addEventListener('click', function() {
                         const index = imagenes.indexOf(imagenPrincipal.src);
@@ -1784,6 +1790,7 @@ async function mostrarProd(idProductoSeleccionado) {
     }
 }
 
+//Copiado MetodosTecnico
 async function validarProd() {
     try {
         console.log('ID del producto seleccionado:', idProductoSeleccionado);
@@ -1821,6 +1828,7 @@ async function validarProd() {
     }
 }
 
+//Copiado
 async function eliminarProd() {
     try {
         console.log('ID del producto seleccionado:', idProductoSeleccionado);
@@ -1843,6 +1851,7 @@ async function eliminarProd() {
     }
 }
 
+//Copiado
 async function ActualizarProducto(idProductoSeleccionado,idUsuarioIniciado)
 {
         document.getElementById('agregarProductoForm7').addEventListener('submit', async (event) => {
@@ -1901,6 +1910,7 @@ async function ActualizarProducto(idProductoSeleccionado,idUsuarioIniciado)
         });
 }
 
+//Copiado MetodosVendedor
 function cambiarImagen() {
     // Obtén el valor del nuevo URL de imagen
     const nuevoUrlImagen = document.getElementById('nuevo-url-imagen').value;
@@ -1921,6 +1931,7 @@ function cambiarImagen() {
 }
 
 //He elimando el resto de funciones de inicio de sesion
+//COPIADO --MetodoUser
 async function IniciarSesion(){
     try {
         LimpiarLocalStorage();
@@ -2050,6 +2061,7 @@ async function getID() {
 }
 
 //INICIO BUSCAR PRODUCTO POR TEXTO
+//Copiado
 async function buscarHist(TextBuscar, CatBuscar, pagina) {
     /*localStorage.setItem('searchTerm', TextBuscar);
     localStorage.setItem('searchTerm', categoriaSelect);*/
@@ -2059,7 +2071,7 @@ async function buscarHist(TextBuscar, CatBuscar, pagina) {
     buscarProd(TextBuscar,CatBuscar);
 }
 
-
+//COPIADO --MetodoUser
 async function agregarCerrarSesion() {
     var usuarioLogueado = localStorage.getItem('UsuarioID');
     var tipoUsuarioLogueado = localStorage.getItem('tipoUserID');
@@ -2077,37 +2089,40 @@ async function agregarCerrarSesion() {
         }else sesionSUserLink.innerHTML = '<a href="./ListaDeseados.html">Lista Deseados</a>';        
     }
 }
-
+//COPIADO --MetodoUser
 function cerrarSesion() {
     localStorage.removeItem('UsuarioID');
     window.location.href = './NewPaginaPrincipal.html';
 }
-
+//COPIADO --MetodoUser
 function iniciarSesionUser() {
     window.location.href = '../index.html';
 }
-
+//COPIADO --MetodoUser
 function irAPagianVendedor() {
     window.location.href = './PaginaVendedor.html';
 }
-
+//COPIADO --MetodoUser
 function irAPagianValidaciones() {
     window.location.href = './ValidarProductos.html';
 }
 
+//Copiado
 function getPaginaAnt(){
     return localStorage.getItem('paginaAnterior');
 }
 
+//Copiado
 function getSearchTerm(){
     return localStorage.getItem('searchTerm');
 }
 
+//Copiado
 function getCategory(){
     return localStorage.getItem('category');
 }
 
-
+//Copiado MetodosVendedor
 function irRegistroVendedor() {
 
     window.location.href = `./NuevoUsuarioVendedor.html`;
@@ -2115,6 +2130,7 @@ function irRegistroVendedor() {
     console.log("vendedor");
 }"vendedor"
 
+//COPIADO --MetodoUser
 function irRegistroComprador() {
     // Obtener el ID del producto y la categoría de los atributos de datos (data-*) de la tarjeta de producto
 
@@ -2123,7 +2139,7 @@ function irRegistroComprador() {
     console.log("comprador");
 }
 
-
+//COPIADO --MetodoUser
 async function agregarUsuarioComprador(TipoUsuarioRegistrado)
 {
         console.log('ID del usuario registrado:', TipoUsuarioRegistrado);
@@ -2174,6 +2190,7 @@ async function agregarUsuarioComprador(TipoUsuarioRegistrado)
         });
 }
 
+//Copiado MetodosVendedor
 async function agregarUsuarioVendedor(TipoUsuarioRegistrado){
         document.getElementById('agregarVendedorForm').addEventListener('submit', async (event) => {
             event.preventDefault();
