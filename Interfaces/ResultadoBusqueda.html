@@ -76,7 +76,7 @@
     <script src="Metodos.js"></script>
     <script>
         if(getPaginaAnt() != "HistorialDeBusqueda.html"){
-            window.addEventListener('load', CargaTodosProductos);
+            window.addEventListener('DOMContentLoaded', CargaTodosProductos(1));
         } else {
             buscarProd(getSearchTerm(), getCategory());
 
@@ -86,7 +86,7 @@
     </script>
     <script>
         if(getPaginaAnt() != "HistorialDeBusqueda.html"){
-            window.addEventListener('load', CargaCategorias);
+            window.addEventListener('DOMContentLoaded', CargaCategorias);
         } else {
             buscarProd(getSearchTerm(), getCategory());
 

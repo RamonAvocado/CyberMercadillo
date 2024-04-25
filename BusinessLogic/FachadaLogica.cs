@@ -18,5 +18,24 @@ class FachadaLogica{
         return tienda.Productos;
     }
 
+    public Producto GetProductoPorID(string idbuscado){
 
+            //hacer la lógica para buscar el producto
+            return tienda.buscarID(idbuscado);
+    }
+
+//no se si la lógica tiene que estar aquí
+    public List<String> GetCategorías(){
+
+        List<string> categoriasUnicas = new List<string>();
+
+        foreach (Producto prod in tienda.Productos){
+
+            if (!categoriasUnicas.Contains(prod.categoria??"va mal en cargacat fachada"))
+            {
+                categoriasUnicas.Add(prod.categoria??"va mal en cargacat fachada");
+            }
+        }
+        return categoriasUnicas;
+    }
 }

@@ -150,8 +150,8 @@ async function CargaCategorias() {
         const response = await fetch(`${lugarDeEjecucion}/CargarCategorias`);
         if (response.ok) {
             const data = await response.json();
-            console.log("Categorías de todos los productos: " + data.Categorias);
-            mostrarCategorias(data.Categorias);
+            console.log("Categorías de todos los productos: " + data.categorias);
+            mostrarCategorias(data.categorias);
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
         }
@@ -162,10 +162,10 @@ async function CargaCategorias() {
 
 function mostrarCategorias(array) {
     const selectElement = document.getElementById('categorySelect');
-    console.log(selectElement.options);
-    console.log(selectElement.options[0]);
+    //console.log(selectElement.options);
+    //console.log(selectElement.options[0]);
     categoriaSelect = selectElement.options[0].value;
-    console.log(categoriaSelect);
+    console.log("categoría seleccinonada: " + categoriaSelect);
 
     localStorage.setItem('categoriaSeleccionada', categoriaSelect);
 
@@ -299,16 +299,23 @@ function mostrarProductosCat(productos) {
 
 //  INICIO PRODUCTOS DESTACADOS
 
-//carga los 6 primeros productos de la base de datos, deberían de ser los productos Recomendados por búsquedas
-//pero todavía no tenemos Recomendaciones
+//NUEVO CARGAR PRODUCTOS CON LA NUEVA  ARQUITECTURA
 async function CargarProductosDestacados() {
     try {
-        console.log("Entra funcion cargarProductos");
-        // Realizar una solicitud GET al backend para obtener los 6 primeros productos
+        console.log("Entra funcion cargarProductosDestacados");
+        // Realizar una solicitud GET al archvo SERVICIOS para obtener los productos del archivo de fachada logica y luego de tienda
         const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosDestacados`);
+    
         if (response.ok) {
             const data = await response.json();
-            const productos = data.productos.Models;
+
+            //comprobar desde f12 consola que salen todos los productos
+            /*
+            data.productos.forEach((prod) => {
+                console.log(`Nombre: ${prod.nombreproducto}, Precio: ${prod.precio}`);
+            });*/
+        
+            const productos = data.productos;
             
             const productosPorPagina = 6;
             const totalPaginas = Math.ceil(productos.length / productosPorPagina);
@@ -325,6 +332,8 @@ async function CargarProductosDestacados() {
         console.error('Error inesperado:', error);
     }
 }
+//
+
 
 function generarEnlacesPaginacionDest(totalPaginas) {
     const paginasContainer = document.getElementById('paginasDest');
@@ -354,7 +363,7 @@ async function cargarProductosPorPaginaDest(numeroPagina) {
         const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosDestacados`);
         if (response.ok) {
             const data = await response.json();
-            const productos = data.productos.Models;
+            const productos = data.productos;
 
             const inicio = (numeroPagina - 1) * productosPorPagina;
             const fin = numeroPagina * productosPorPagina;
@@ -407,7 +416,6 @@ function mostrarProductosDestacados(productos) {
         container.appendChild(productCard);
     });
 }
-
 //  FIN PRODUCTOS DESTACADOS
 
 
@@ -420,7 +428,7 @@ async function CargarProductosRecomendadosInfoProd(){
         const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosRecomendados`);
         if (response.ok) {
             const data = await response.json();
-            const productos = data.productos.Models;
+            const productos = data.productos;
 
             const productosPorPagina = 2;
             const totalPaginas = Math.ceil(productos.length / productosPorPagina);
@@ -444,7 +452,7 @@ async function CargarProductosRecomendados(){
         const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosRecomendados`);
         if (response.ok) {
             const data = await response.json();
-            const productos = data.productos.Models;
+            const productos = data.productos;
 
             const productosPorPagina = 6;
             const totalPaginas = Math.ceil(productos.length / productosPorPagina);
@@ -491,7 +499,7 @@ async function cargarProductosPorPaginaRec(numeroPagina) {
         const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosRecomendados`);
         if (response.ok) {
             const data = await response.json();
-            const productos = data.productos.Models;
+            const productos = data.productos;
 
             const inicio = (numeroPagina - 1) * productosPorPagina;
             const fin = numeroPagina * productosPorPagina;
@@ -557,7 +565,7 @@ async function CargaTodosProductos(valor){
         const response = await fetch(`${lugarDeEjecucion}/ObtenerTodosProductos`);
         if (response.ok) {
             const data = await response.json();
-            const productos = data.productos.Models;
+            const productos = data.productos;
             if(valor ==  1){
                 mostrarProductosCat(productos);
             }
@@ -672,6 +680,7 @@ async function CargaUnProducto(){
             var usuarioLogueado = localStorage.getItem('UsuarioID');
             var tipoUsuarioLogueado = localStorage.getItem('tipoUserID');
             console.log(usuarioLogueado);
+
             if (usuarioLogueado && tipoUsuarioLogueado == "usuario") {
                 mostrarUnProducto(data);
             } else {

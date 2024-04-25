@@ -42,7 +42,8 @@ class Tienda
         }
 
         public void pregunta(){
-            Console.WriteLine("Hay x busquedas : " + busquedas.Count);
+            Console.WriteLine("Hay " + Busquedas.Count + " busquedas ");
+            Console.WriteLine("Hay " + Productos.Count + " productos ");
         }
 
 
@@ -56,7 +57,26 @@ class Tienda
 
             productos.ForEach(getNombre);
         }
-        
+
+        public Producto buscarID(string idbuscado){
+
+        Producto producto = new Producto
+        {
+            //por si no existe ese id
+            idproducto = -1
+        };
+
+        //Buscar en la lista de productos de la tienda el id y devolver ese productos
+        foreach (Producto prod in Productos)
+            {
+                if (prod.idproducto.ToString() == idbuscado)
+                {
+                    producto = prod;
+                }
+            }
+            return producto;
+        }
+       
         
     }
     

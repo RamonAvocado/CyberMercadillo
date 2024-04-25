@@ -7,8 +7,109 @@ using Newtonsoft.Json.Linq;
 
 class Servicios{
 
-    public Servicios(FachadaLogica fachada, WebApplication app){
+    public Servicios(FachadaLogica fachadaLogica, WebApplication app){
         Console.WriteLine("Se ha creado los servicios");
+
+        // Obtinene los 6 primeros productos, ya que no hay productos destacados
+        app.MapGet("/ObtenerProductosDestacados", async (HttpContext context, Supabase.Client client) =>
+        {
+            try
+            {
+                var productos = fachadaLogica.GetProductos();
+                // Devolver los productos al frontend
+                
+                var jsonResponse = new { productos };
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier error y devolver una respuesta de error al cliente
+                errorDefault(context,ex);
+            }
+        });
+
+        // Obtinene los 6 primeros productos, ya que no hay productos destacados
+        app.MapGet("/ObtenerProductosRecomendados", async (HttpContext context, Supabase.Client client) =>
+        {
+            try
+            {
+                //HABRÁ QUE HACER LA LÓGICA PARA CARGAR LOS PRODCUTOS RECOMENDADOS EN BASE A BUSQUEDAS Y COMPRAS
+                var productos = fachadaLogica.GetProductos();
+                // Devolver los productos al frontend
+                
+                var jsonResponse = new { productos };
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier error y devolver una respuesta de error al cliente
+                errorDefault(context,ex);
+            }
+        });
+
+        // Obtinene TODOS los productos
+        app.MapGet("/ObtenerTodosProductos", async (HttpContext context, Supabase.Client client) =>
+        {
+            try
+            {
+                //HABRÁ QUE HACER LA LÓGICA PARA CARGAR LOS PRODCUTOS RECOMENDADOS EN BASE A BUSQUEDAS Y COMPRAS
+                var productos = fachadaLogica.GetProductos();
+                // Devolver los productos al frontend
+                
+                var jsonResponse = new { productos };
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier error y devolver una respuesta de error al cliente
+                errorDefault(context,ex);
+            }
+        });
+
+        app.MapGet("/ObtenerProductoPorID", async (HttpContext context, Supabase.Client client) =>
+        {
+            try
+            {
+                var idBuscado = context.Request.Query["idproducto"].ToString();
+
+                var producto = fachadaLogica.GetProductoPorID(idBuscado);
+                // Devolver los productos al frontend
+                
+                var jsonResponse = new { producto };
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier error y devolver una respuesta de error al cliente
+                errorDefault(context,ex);
+            }
+        });
+
+        //que las categorías de todos los productos
+        app.MapGet("/CargarCategorias", async (HttpContext context, Supabase.Client client) =>
+        {
+            try
+            {
+                //HABRÁ QUE HACER LA LÓGICA PARA CARGAR LOS PRODCUTOS RECOMENDADOS EN BASE A BUSQUEDAS Y COMPRAS
+                var categorias = fachadaLogica.GetCategorías();
+                // Devolver los productos al frontend
+  
+                //quiero devolver categorías que van a ser un string
+                var jsonResponse = new { categorias };
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier error y devolver una respuesta de error al cliente
+                errorDefault(context,ex);
+            }
+        });
+                
         /*
         app.MapPost("/añadir",  async (Supabase.Client client) => 
         {
@@ -30,28 +131,27 @@ class Servicios{
         });
         */
 
-        // Obtinene los 6 primeros productos, ya que no hay productos destacados
-        app.MapGet("/ObtenerProductosDestacados", async (HttpContext context, Supabase.Client client) =>
-        {
-            try
-            {
-                // Obtener los 6 primeros productos desde la base de datos
-                //CAMBIOOO
-                //var productos = await client.From<Producto>().Select("idproducto, nombreproducto, precio, descripcion, imagenes").Limit(18).Get();
-                var productos = fachada.GetProductos();
-                Console.WriteLine("Estamos en servicios y hay x productos:" + productos.Count);
-                // Devolver los productos al frontend
-                
-                var jsonResponse = new { productos };
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-            }
-            catch (Exception ex)
-            {
-                // Manejar cualquier error y devolver una respuesta de error al cliente
-                errorDefault(context,ex);
-            }
-        });
+/*
+app.MapGet("/ObtenerProductoPorID", async (HttpContext context, Supabase.Client client) =>
+{
+    try
+    {
+        // Obtener el ID del producto de la consulta
+        var idBuscado = context.Request.Query["idproducto"].ToString();
+
+        // Realizar la consulta para obtener el producto por su ID
+        var producto = await client.From<Producto>().Filter("idproducto", Postgrest.Constants.Operator.Equals, idBuscado).Single();
+
+        var jsonResponse = new { producto };
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+    }
+    catch (Exception ex)
+    {
+        // Manejar cualquier error y devolver una respuesta de error al cliente
+        errorDefault(context,ex);
+    }
+});*/
 
         //Busca un producto con categoria== Todas categorías y el texto de búsqueda
         app.MapPost("/BuscarProductoText", async (HttpContext context) =>
@@ -75,7 +175,7 @@ class Servicios{
 
                 //CAMBIOOOO
                 var b1 = new Busqueda(searchTerm, DateTime.Now, idBuscado, category);
-                fachada.insertarBusqueda(b1);
+                fachadaLogica.insertarBusqueda(b1);
 
 
 
