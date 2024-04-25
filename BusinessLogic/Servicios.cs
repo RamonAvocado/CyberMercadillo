@@ -105,10 +105,40 @@ class Servicios{
             }
             catch (Exception ex)
             {
-                // Manejar cualquier error y devolver una respuesta de error al cliente
-                errorDefault(context,ex);
+                errorDefault(context,ex);   // Manejar cualquier error y devolver una respuesta de error al cliente
             }
         });
+
+        //NO TOCAR NADA DE INICIAR SESION
+        app.MapPost("/iniciarSesion", async (HttpContext context, Supabase.Client client) =>
+        {
+        try
+        {
+            var correoUsuario = context.Request.Form["correo"].ToString();
+            var contraUsuario = context.Request.Form["contraseña"].ToString();
+
+            // Buscar el usuario por su correo electrónico
+            var user = fachadaLogica.returnTienda().buscarUsuario(correoUsuario, contraUsuario);
+
+            Console.WriteLine("Usuario que intenta iniciar sesion " + user.correo);
+
+            var jsonResponse = new Dictionary<string, object>
+                    {
+                        { "Id", user.idusuario }, // Asumiendo que idusuario no puede ser nulo, pero ajusta esto según tus requisitos
+                        { "Nombre", user.nombre ?? "UsuarioPorDefecto" }, // Si nombre es nullable, usa el operador de coalescencia nula para proporcionar un valor predeterminado en caso de que sea nulo
+                        { "Correo", user.correo ?? "CorreoPorDefecto" },
+                        { "TipoUsuario", user.tipoUsuario ?? "TipoUusarioPorDefecto" }
+                    }; 
+                    
+            context.Response.StatusCode = 200;
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+        }
+        catch (Exception ex)
+        {
+            errorDefault(context,ex);   // Manejar cualquier error y devolver una respuesta de error al cliente
+        }
+    });
                 
         /*
         app.MapPost("/añadir",  async (Supabase.Client client) => 
@@ -219,8 +249,8 @@ app.MapGet("/ObtenerProductoPorID", async (HttpContext context, Supabase.Client 
             await context.Response.WriteAsync($"Error al guardar el producto: {ex.Message}");
         }
     }
+
     
-    //Si sesion no iniciada ID_USUARIO = 0, al cerrar sesion este valor debería volver a ser 0
 /*
 *   Los metodos de SUPABASE, son:
     And, BaseUrl, Clear, Columns, Count, Delete, Equals, Filter<>, GenerateUrl, Get,
@@ -228,8 +258,6 @@ app.MapGet("/ObtenerProductoPorID", async (HttpContext context, Supabase.Client 
     OnConflict, Or, Order, Range, Select, Set, Single, TableName, ToString, Update, Upsert, Where
 *
 */
-
-
 /*
 // Obtinene los 6 primeros productos, ya que no hay productos destacados
 app.MapGet("/ObtenerProductosDestacados", async (HttpContext context, Supabase.Client client) =>
@@ -990,96 +1018,7 @@ app.MapPost("/guardar_producto", async (HttpContext context, Supabase.Client cli
     }
 });
 
-app.MapPost("/iniciarSesion", async (HttpContext context, Supabase.Client client) =>
-{
-    try
-    {
-        var correoUsuario = context.Request.Form["correo"].ToString();
-        var contraUsuario = context.Request.Form["contraseña"].ToString();
 
-        // Buscar el usuario por su correo electrónico
-         //var usuario = await client.From<Usuario>().Filter("correo", Postgrest.Constants.Operator.Equals, correoUsuario).Single();
-         var vendedor = await client.From<Vendedor>().Filter("correo", Postgrest.Constants.Operator.Equals, correoUsuario).Single();
-        if (vendedor != null)
-        {
-             if (vendedor.contraseña == contraUsuario)
-            {
-               var jsonResponse = new Dictionary<string, object>
-                {
-                    { "Id", vendedor.idusuario }, // Asumiendo que idusuario no puede ser nulo, pero ajusta esto según tus requisitos
-                    { "Nombre", vendedor.nombre ?? "UsuarioPorDefecto" }, // Si nombre es nullable, usa el operador de coalescencia nula para proporcionar un valor predeterminado en caso de que sea nulo
-                    { "Correo", vendedor.correo ?? "CorreoPorDefecto" },
-                    { "TipoUsuario", "TipoUusarioPorDefecto" }
-                }; 
-                jsonResponse["TipoUsuario"] = "Vendedor";
-                context.Response.StatusCode = 200;
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-            }else{
-                    // La contraseña es incorrecta
-                    context.Response.StatusCode = 401; // Unauthorized
-                    context.Response.ContentType = "application/json";
-                    await context.Response.WriteAsync(JsonConvert.SerializeObject(new { error = "Contraseña incorrecta" }));
-                }
-        }else{
-            var tecnico = await client.From<Tecnico>().Filter("correo", Postgrest.Constants.Operator.Equals, correoUsuario).Single();
-            if (tecnico != null){
-                if (tecnico.contraseña == contraUsuario)
-                {
-                var jsonResponse = new Dictionary<string, object>
-                    {
-                        { "Id", tecnico.idusuario }, // Asumiendo que idusuario no puede ser nulo, pero ajusta esto según tus requisitos
-                        { "Nombre", tecnico.nombre ?? "UsuarioPorDefecto" }, // Si nombre es nullable, usa el operador de coalescencia nula para proporcionar un valor predeterminado en caso de que sea nulo
-                        { "Correo", tecnico.correo ?? "CorreoPorDefecto" },
-                        { "TipoUsuario", "TipoUusarioPorDefecto" }
-                    }; 
-                    jsonResponse["TipoUsuario"] = "Técnico";
-                    context.Response.StatusCode = 200;
-                    context.Response.ContentType = "application/json";
-                    await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-                }else{
-                        // La contraseña es incorrecta
-                        context.Response.StatusCode = 401; // Unauthorized
-                        context.Response.ContentType = "application/json";
-                        await context.Response.WriteAsync(JsonConvert.SerializeObject(new { error = "Contraseña incorrecta" }));
-                    }
-            }else{
-                var comprador = await client.From<Comprador>().Where(c => c.correo == correoUsuario).Single();
-                if (comprador != null){
-                    if(comprador.contraseña == contraUsuario)
-                        {
-                        var jsonResponse = new Dictionary<string, object>
-                            {
-                                { "Id", comprador.idusuario }, // Asumiendo que idusuario no puede ser nulo, pero ajusta esto según tus requisitos
-                                { "Nombre", comprador.nombre ?? "UsuarioPorDefecto" }, // Si nombre es nullable, usa el operador de coalescencia nula para proporcionar un valor predeterminado en caso de que sea nulo
-                                { "Correo", comprador.correo ?? "CorreoPorDefecto" },
-                                { "TipoUsuario", "TipoUusarioPorDefecto" }
-                            }; 
-                            jsonResponse["TipoUsuario"] = "Usuario Común";
-                            context.Response.StatusCode = 200;
-                            context.Response.ContentType = "application/json";
-                            await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-                        }else{
-                            // La contraseña es incorrecta
-                            context.Response.StatusCode = 401; // Unauthorized
-                            context.Response.ContentType = "application/json";
-                            await context.Response.WriteAsync(JsonConvert.SerializeObject(new { error = "Contraseña incorrecta" }));
-                        }
-                    }else{
-                            // No se encontró ningún usuario con ese correo electrónico
-                            context.Response.StatusCode = 401; // Unauthorized
-                            context.Response.ContentType = "application/json";
-                            await context.Response.WriteAsync(JsonConvert.SerializeObject(new { error = "Usuario no encontrado" }));
-                        }
-                }
-        }
-    }
-    catch (Exception ex)
-    {
-        context.Response.StatusCode = 500;
-        context.Response.ContentType = "text/plain";
-        await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
-    }
 });
 */
 /*
@@ -1179,6 +1118,97 @@ app.MapGet("/getBusquedas", async (HttpContext context, Supabase.Client client) 
         errorDefault(context,ex);    
     }
 });
+
+app.MapPost("/iniciarSesion", async (HttpContext context, Supabase.Client client) =>
+{
+    try
+    {
+        var correoUsuario = context.Request.Form["correo"].ToString();
+        var contraUsuario = context.Request.Form["contraseña"].ToString();
+
+        // Buscar el usuario por su correo electrónico
+         //var usuario = await client.From<Usuario>().Filter("correo", Postgrest.Constants.Operator.Equals, correoUsuario).Single();
+         var vendedor = await client.From<Vendedor>().Filter("correo", Postgrest.Constants.Operator.Equals, correoUsuario).Single();
+        if (vendedor != null)
+        {
+             if (vendedor.contraseña == contraUsuario)
+            {
+               var jsonResponse = new Dictionary<string, object>
+                {
+                    { "Id", vendedor.idusuario }, // Asumiendo que idusuario no puede ser nulo, pero ajusta esto según tus requisitos
+                    { "Nombre", vendedor.nombre ?? "UsuarioPorDefecto" }, // Si nombre es nullable, usa el operador de coalescencia nula para proporcionar un valor predeterminado en caso de que sea nulo
+                    { "Correo", vendedor.correo ?? "CorreoPorDefecto" },
+                    { "TipoUsuario", "TipoUusarioPorDefecto" }
+                }; 
+                jsonResponse["TipoUsuario"] = "Vendedor";
+                context.Response.StatusCode = 200;
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+            }else{
+                    // La contraseña es incorrecta
+                    context.Response.StatusCode = 401; // Unauthorized
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsync(JsonConvert.SerializeObject(new { error = "Contraseña incorrecta" }));
+                }
+        }else{
+            var tecnico = await client.From<Tecnico>().Filter("correo", Postgrest.Constants.Operator.Equals, correoUsuario).Single();
+            if (tecnico != null){
+                if (tecnico.contraseña == contraUsuario)
+                {
+                var jsonResponse = new Dictionary<string, object>
+                    {
+                        { "Id", tecnico.idusuario }, // Asumiendo que idusuario no puede ser nulo, pero ajusta esto según tus requisitos
+                        { "Nombre", tecnico.nombre ?? "UsuarioPorDefecto" }, // Si nombre es nullable, usa el operador de coalescencia nula para proporcionar un valor predeterminado en caso de que sea nulo
+                        { "Correo", tecnico.correo ?? "CorreoPorDefecto" },
+                        { "TipoUsuario", "TipoUusarioPorDefecto" }
+                    }; 
+                    jsonResponse["TipoUsuario"] = "Técnico";
+                    context.Response.StatusCode = 200;
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                }else{
+                        // La contraseña es incorrecta
+                        context.Response.StatusCode = 401; // Unauthorized
+                        context.Response.ContentType = "application/json";
+                        await context.Response.WriteAsync(JsonConvert.SerializeObject(new { error = "Contraseña incorrecta" }));
+                    }
+            }else{
+                var comprador = await client.From<Comprador>().Where(c => c.correo == correoUsuario).Single();
+                if (comprador != null){
+                    if(comprador.contraseña == contraUsuario)
+                        {
+                        var jsonResponse = new Dictionary<string, object>
+                            {
+                                { "Id", comprador.idusuario }, // Asumiendo que idusuario no puede ser nulo, pero ajusta esto según tus requisitos
+                                { "Nombre", comprador.nombre ?? "UsuarioPorDefecto" }, // Si nombre es nullable, usa el operador de coalescencia nula para proporcionar un valor predeterminado en caso de que sea nulo
+                                { "Correo", comprador.correo ?? "CorreoPorDefecto" },
+                                { "TipoUsuario", "TipoUusarioPorDefecto" }
+                            }; 
+                            jsonResponse["TipoUsuario"] = "Usuario Común";
+                            context.Response.StatusCode = 200;
+                            context.Response.ContentType = "application/json";
+                            await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                        }else{
+                            // La contraseña es incorrecta
+                            context.Response.StatusCode = 401; // Unauthorized
+                            context.Response.ContentType = "application/json";
+                            await context.Response.WriteAsync(JsonConvert.SerializeObject(new { error = "Contraseña incorrecta" }));
+                        }
+                    }else{
+                            // No se encontró ningún usuario con ese correo electrónico
+                            context.Response.StatusCode = 401; // Unauthorized
+                            context.Response.ContentType = "application/json";
+                            await context.Response.WriteAsync(JsonConvert.SerializeObject(new { error = "Usuario no encontrado" }));
+                        }
+                }
+        }
+    }
+    catch (Exception ex)
+    {
+        context.Response.StatusCode = 500;
+        context.Response.ContentType = "text/plain";
+        await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+    }
 
 app.MapGet("/getID", async (HttpContext context) =>
 {

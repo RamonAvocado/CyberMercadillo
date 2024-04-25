@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
+using Microsoft.AspNetCore.SignalR;
 
 class Tienda
     {
@@ -17,28 +18,42 @@ class Tienda
             get { return productos; }
             private set { productos = value; }
         }
-    
         private List<Busqueda> busquedas= new List<Busqueda>();
         public List<Busqueda> Busquedas
         {
             get { return busquedas; }
             private set { busquedas = value; }
         }
-        private List<Usuario> usuarios= new List<Usuario>();
-        private List<Compra> compras= new List<Compra>();
-        private List<Tecnico> tecnicos= new List<Tecnico>();
-
-    
-        
-        public void inic(List<Producto> p1, List<Busqueda> p2, List<Usuario> p3, List<Compra> p4, List<Tecnico> p5)
+        private List<Comprador> compradores= new List<Comprador>();
+        public List<Comprador> Compradores
         {
-            productos = p1;
-            busquedas = p2;
-            usuarios = p3;
-            compras = p4;
-            tecnicos = p5;
-            Console.WriteLine(productos.Count);
-            //main();
+            get { return compradores; }
+            private set { compradores = value; }
+        }
+        private List<Vendedor> vendedores= new List<Vendedor>();
+        public List<Vendedor> Vendedores
+        {
+            get { return vendedores; }
+            private set { vendedores = value; }
+        }
+        private List<Tecnico> tecnicos= new List<Tecnico>();
+        public List<Tecnico> Tecnicos
+        {
+            get { return tecnicos; }
+            private set { tecnicos = value; }
+        }
+        private List<Compra> compras = new List<Compra>();
+        public List<Compra> Compras
+        {
+            get { return compras; }
+            private set { compras = value; }
+        }
+        
+        private List<Usuario> usuarios = new List<Usuario>();
+        public List<Usuario> Usuarios
+        {
+            get { return usuarios; }
+            private set { usuarios = value; }
         }
 
         public void pregunta(){
@@ -75,6 +90,15 @@ class Tienda
                 }
             }
             return producto;
+        }
+
+        public Usuario buscarUsuario(String correo, String password){
+            Tecnico usuarioFalso = new Tecnico("Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se", "Tecnico");
+            Usuario usuarioEncontrado = usuarios.Find(u => u.correo == correo && u.contraseña == password) ?? usuarioFalso;
+            Console.WriteLine("usuario encontrado "+ usuarioEncontrado.correo);
+            if (usuarioEncontrado != null && usuarioEncontrado.contraseña == password)
+            {return usuarioEncontrado;}
+            else{return usuarioFalso;}
         }
        
         

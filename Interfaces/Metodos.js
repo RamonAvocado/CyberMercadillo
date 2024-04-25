@@ -308,6 +308,7 @@ async function CargarProductosDestacados() {
     try {
         console.log("Entra funcion cargarProductosDestacados");
         // Realizar una solicitud GET al archvo SERVICIOS para obtener los productos del archivo de fachada logica y luego de tienda
+        const inici = await fetch(`${lugarDeEjecucion}/inicializar`);
         const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosDestacados`);
     
         if (response.ok) {
@@ -1951,7 +1952,6 @@ async function IniciarSesion(){
         // Pillar los datos del usuario
         const correo = document.getElementById("correoUser").value;
         const contraseña = document.getElementById("contraUser").value;
-        console.log("El correo es: " + correo + " y la contraseña: " + contraseña);
 
         const response = await fetch(`${lugarDeEjecucion}/iniciarSesion`, {
             method: 'POST',
