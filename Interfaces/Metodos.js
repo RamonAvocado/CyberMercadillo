@@ -303,12 +303,31 @@ function mostrarProductosCat(productos) {
 
 //  INICIO PRODUCTOS DESTACADOS
 
+//cargar todos los productos de la base de datos
+async function InicializarProductos() {
+    try {
+        console.log("Entra funcion InicializarProductos");
+        
+        const response = await fetch(`${lugarDeEjecucion}/inicializar`);
+    
+        if (response.ok) {
+            const data = await response.json();
+            CargarProductosDestacados();
+            CargarProductosRecomendados();
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
 //NUEVO CARGAR PRODUCTOS CON LA NUEVA  ARQUITECTURA
 async function CargarProductosDestacados() {
     try {
         console.log("Entra funcion cargarProductosDestacados");
         // Realizar una solicitud GET al archvo SERVICIOS para obtener los productos del archivo de fachada logica y luego de tienda
-        const inici = await fetch(`${lugarDeEjecucion}/inicializar`);
+        //await fetch(`${lugarDeEjecucion}/inicializar`);
         const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosDestacados`);
     
         if (response.ok) {

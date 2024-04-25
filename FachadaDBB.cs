@@ -17,41 +17,55 @@ class FachadaDBB{
 
     public FachadaDBB(String[] args, WebApplication app, Tienda tienda){
 
+    bool TodoCargadoCargados = false;
+
+
     //EL BOTON INICIAR SESION DEBERÁ LLAMAR TAMBIÉN A ESTA FUNCION
     app.MapGet("/inicializar", async (HttpContext context, Supabase.Client client) =>
     { 
-        var result1 = await client.From<Producto>().Get();
-        var result2 = await client.From<Busqueda>().Get();
-        var result3 = await client.From<Comprador>().Get();
-        var result4 = await client.From<Vendedor>().Get();
-        var result5 = await client.From<Tecnico>().Get();
-        var result6 = await client.From<Compra>().Get();
+        if(!TodoCargadoCargados){
+
+        
+        var productos = await client.From<Producto>().Get();
+        var busquedas = await client.From<Busqueda>().Get();
+        var compradores = await client.From<Comprador>().Get();
+        var vendedores = await client.From<Vendedor>().Get();
+        var tecnicos = await client.From<Tecnico>().Get();
+        var compras = await client.From<Compra>().Get();
+        
 
 
-        foreach (var item1 in result1.Models){
-            tienda.Productos.Add(item1);
+        foreach (var producto in productos.Models){
+            tienda.Productos.Add(producto);
         }
-        foreach (var item2 in result2.Models){
-            tienda.Busquedas.Add(item2);
+        foreach (var busqueda in busquedas.Models){
+            tienda.Busquedas.Add(busqueda);
         }
-        foreach (var item3 in result3.Models){
-            tienda.Compradores.Add(item3);
+        foreach (var comprador in compradores.Models){
+            tienda.Compradores.Add(comprador);
         }
-        foreach (var item4 in result4.Models){
-            tienda.Vendedores.Add(item4);
+        foreach (var vendedor in vendedores.Models){
+            tienda.Vendedores.Add(vendedor);
         }
-        foreach (var item5 in result5.Models){
-            tienda.Tecnicos.Add(item5);
+        foreach (var tecnico in tecnicos.Models){
+            tienda.Tecnicos.Add(tecnico);
         }
-        foreach (var item6 in result6.Models){
-            tienda.Compras.Add(item6);
+        foreach (var compra in compras.Models){
+            tienda.Compras.Add(compra);
         }
 
-
+        TodoCargadoCargados = true;        
+        }
+        else{
+            Console.WriteLine("Ya has cargado todo lo de la base de datos, y no puedes volver a cargarlo");
+        }
         tienda.pregunta();
+
+        //para cargar los productos al iniciar
+        var jsonResponse = new {};
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
     });
-
-
     app.Run();
     }
 }

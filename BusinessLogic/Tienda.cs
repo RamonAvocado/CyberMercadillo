@@ -59,6 +59,11 @@ class Tienda
         public void pregunta(){
             Console.WriteLine("Hay " + Busquedas.Count + " busquedas ");
             Console.WriteLine("Hay " + Productos.Count + " productos ");
+            Console.WriteLine("Hay " + Compradores.Count + " Compradores ");
+            Console.WriteLine("Hay " + Vendedores.Count + " Vendedores ");
+            Console.WriteLine("Hay " + Tecnicos.Count + " Tecnicos ");
+            Console.WriteLine("Hay " + Usuarios.Count + " Usuarios ");
+            
         }
 
 
