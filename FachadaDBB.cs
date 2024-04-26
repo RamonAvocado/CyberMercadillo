@@ -54,12 +54,12 @@ class FachadaDBB{
             tienda.Compras.Add(compra);
         }
 
-        TodoCargadoCargados = true;        
+        TodoCargadoCargados = true;   
+        tienda.pregunta();     
         }
         else{
-            Console.WriteLine("Ya has cargado todo lo de la base de datos, y no puedes volver a cargarlo");
+            Console.WriteLine("Ya has cargado todo lo de la base de datos, y no puedes volver a cargarlo  :p");
         }
-        tienda.pregunta();
 
         //para cargar los productos al iniciar
         var jsonResponse = new {};

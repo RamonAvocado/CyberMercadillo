@@ -138,7 +138,78 @@ class Servicios{
         {
             errorDefault(context,ex);   // Manejar cualquier error y devolver una respuesta de error al cliente
         }
-    });
+        });
+
+                //Busca un producto con categoria== Todas categorías y el texto de búsqueda
+        app.MapPost("/BuscarProductoText", async (HttpContext context) =>
+        {
+            // Leer el cuerpo de la solicitud para obtener la información de búsqueda
+            using var reader = new StreamReader(context.Request.Body);
+            try
+            {
+                var requestBody = await reader.ReadToEndAsync();
+                var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
+
+                var idBuscado = searchData["idusuario"].ToObject<int>();
+                var searchTerm = searchData["searchTerm"].ToObject<string>();
+                var category = searchData["category"].ToObject<string>();
+
+                var searchTermLower = searchTerm.ToLowerInvariant();
+
+                //guardo la búsqueda en local, pero aun no en base de datos
+                fachadaLogica.GuardarBusqueda(category??"Todas las categorias", searchTerm??"", idBuscado);
+                //recupero los productos con esta categoría
+                var productos = fachadaLogica.GetProductosBusqueda(category??"Todas las categorias", searchTermLower, idBuscado);
+                
+                var jsonResponse = new { productos };
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier error y devolver una respuesta de error al cliente
+                errorDefault(context, ex);
+            }
+        });
+
+        app.MapPost("/BuscarPorCategoria", async (HttpContext context, Supabase.Client client) =>
+        {
+            using var reader = new StreamReader(context.Request.Body);
+            try
+            {  
+                var requestBody = await reader.ReadToEndAsync();
+                var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
+
+                var idBuscado = searchData["idusuario"].ToObject<int>();
+                var searchTerm = searchData["searchTerm"].ToObject<string>();
+                var category = searchData["category"].ToObject<string>();
+                var text = "Buscando solo con la categoría: " + category;
+            
+                //guardo la búsqueda en local, pero aun no en base de datos
+                fachadaLogica.GuardarBusqueda(category??"Todas las categorias", searchTerm??"", idBuscado);
+                //recupero los productos con esta categoría
+                var ProductosXCat = fachadaLogica.GetProductosMismaCategoria(category??"Todas las categorias");
+
+
+                var jsonResponse = new { ProductosXCat };
+
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier error y devolver una respuesta de error al cliente
+                errorDefault(context,ex);
+            }
+        });
+
+        async static void errorDefault(HttpContext context,Exception ex){
+            context.Response.StatusCode = 500;
+            context.Response.ContentType = "text/plain";
+            await context.Response.WriteAsync($"Error al guardar el producto: {ex.Message}");
+        }
+    }
                 
         /*
         app.MapPost("/añadir",  async (Supabase.Client client) => 
@@ -182,73 +253,6 @@ app.MapGet("/ObtenerProductoPorID", async (HttpContext context, Supabase.Client 
         errorDefault(context,ex);
     }
 });*/
-
-        //Busca un producto con categoria== Todas categorías y el texto de búsqueda
-        app.MapPost("/BuscarProductoText", async (HttpContext context) =>
-        {
-            // Leer el cuerpo de la solicitud para obtener la información de búsqueda
-            using var reader = new StreamReader(context.Request.Body);
-            try
-            {
-                var requestBody = await reader.ReadToEndAsync();
-                var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
-
-                var idBuscado = searchData["idusuario"].ToObject<int>();
-                var searchTerm = searchData["searchTerm"].ToObject<string>();
-                var category = searchData["category"].ToObject<string>();
-
-                //Añadir busqueda
-                #pragma warning disable CS8604 // Possible null reference argument.
-
-
-
-
-                //CAMBIOOOO
-                var b1 = new Busqueda(searchTerm, DateTime.Now, idBuscado, category);
-                fachadaLogica.insertarBusqueda(b1);
-
-
-
-
-
-                #pragma warning restore CS8604 // Possible null reference argument.
-
-                //Inserto la búsqueda en la base de datos
-                //await client.From<Busqueda>().Insert(new List<Busqueda> { b1 });
-
-                //convierto la consulta a minusculas para diferencias más productos
-                var searchTermLower = searchTerm.ToLowerInvariant();
-
-
-
-                //busco el texto parecido
-                //CAMBIOOOO
-                //var productos = await client.From<Producto>().Filter("nombreproducto", Postgrest.Constants.Operator.ILike, $"%{searchTermLower}%").Get();
-
-
-
-                // Devolver la respuesta al frontend
-
-                //CAMBIOOOO
-                /*
-                var jsonResponse = new { productos };
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-                */
-            }
-            catch (Exception ex)
-            {
-                // Manejar cualquier error y devolver una respuesta de error al cliente
-                errorDefault(context, ex);
-            }
-        });
-
-        async static void errorDefault(HttpContext context,Exception ex){
-            context.Response.StatusCode = 500;
-            context.Response.ContentType = "text/plain";
-            await context.Response.WriteAsync($"Error al guardar el producto: {ex.Message}");
-        }
-    }
 
     
 /*

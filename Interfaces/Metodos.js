@@ -168,14 +168,15 @@ function mostrarCategorias(array) {
     const selectElement = document.getElementById('categorySelect');
     //console.log(selectElement.options);
     //console.log(selectElement.options[0]);
-    categoriaSelect = selectElement.options[0].value;
-    console.log("categoría seleccinonada: " + categoriaSelect);
-
-    localStorage.setItem('categoriaSeleccionada', categoriaSelect);
 
 
     // Limpiar opciones existentes, excepto la primera (Todas las categorías)
     selectElement.options.length = 1;
+
+    categoriaSelect = selectElement.options[0].value;
+    console.log("categoría seleccinonada: " + categoriaSelect);
+
+    localStorage.setItem('categoriaSeleccionada', categoriaSelect);
 
     // Agregar nuevas opciones de categorías
     array.forEach(categoria => {
@@ -229,8 +230,8 @@ async function buscarPorCategoria() {
             });
             if (response.ok) {
                 const data = await response.json();
-                productos = data.ProductosXCat.Models;
-                console.log(productos); 
+                productos = data.ProductosXCat;
+                //console.log(productos); 
                 mostrarProductosCat(productos);
             } else {
                 console.error('Error en la solicitud al backend:', response.statusText);
@@ -586,6 +587,7 @@ function mostrarProductosRecomendados(productos) {
 async function CargaTodosProductos(valor){
     try {
         // Realizar una solicitud GET al backend para obtener los 6 primeros productos
+        CargaCategorias();
         const response = await fetch(`${lugarDeEjecucion}/ObtenerTodosProductos`);
         if (response.ok) {
             const data = await response.json();
