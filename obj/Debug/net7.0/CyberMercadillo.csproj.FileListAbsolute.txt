@@ -294,3 +294,16 @@ C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\obj\Debug\net7.0\Cyber
 C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\obj\Debug\net7.0\CyberMercadillo.genruntimeconfig.cache
 C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\obj\Debug\net7.0\ref\CyberMercadillo.dll
 C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\Microsoft.AspNetCore.OpenApi.dll
+C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\itext.barcodes.dll
+C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\itext.forms.dll
+C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\itext.io.dll
+C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\itext.kernel.dll
+C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\itext.layout.dll
+C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\itext.pdfa.dll
+C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\itext.sign.dll
+C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\itext.styledxmlparser.dll
+C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\itext.svg.dll
+C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\itext.commons.dll
+C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\Microsoft.DotNet.PlatformAbstractions.dll
+C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\BouncyCastle.Crypto.dll

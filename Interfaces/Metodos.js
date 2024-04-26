@@ -812,10 +812,22 @@ function mostrarUnProducto(respuesta) {
     }
     productButtons.appendChild(selectCantidad);
     
+    //CREAR BOTON LISTA DE DESEOS
     const deseosButton = document.createElement('button');
     deseosButton.classList.add('deseosButton');
     deseosButton.textContent = 'Añadir lista de deseos';
     productButtons.appendChild(deseosButton);
+
+    //BOTON DE CREAR HUELLA ECOLOGICA
+    const crearHuella = document.createElement('button');
+    crearHuella.classList.add('deseosButton');
+    crearHuella.textContent = 'Crear certificado ecológico';
+    crearHuella.addEventListener("click", crearCertificado);
+    
+
+    productButtons.appendChild(crearHuella);
+
+    
 
     // Agregar el contenedor de botones al producto
     productCard.appendChild(productButtons);
@@ -995,8 +1007,10 @@ function mostrarUnProductoBasico(respuesta) {
     `;
     productCard.appendChild(productInfo);
 
+
     // Crear el contenedor de botones
     const productButtons = document.createElement('div');
+
    
 
     // Agregar el producto al contenedor principal
@@ -2020,7 +2034,7 @@ async function IniciarSesion(){
 async function getBusquedas() {
     
     try {
-        const response = await fetch(`${lugarDeEjecucion}/getBusquedas`)
+        await fetch(`${lugarDeEjecucion}/getBusquedas`)
         .then(response => response.json())
         .then(data => {
         
@@ -2271,4 +2285,31 @@ async function agregarUsuarioVendedor(TipoUsuarioRegistrado){
             alert("Usuario creado correctamente")
             window.location.reload();
         });
+}
+
+
+//CODIGO CREAR CERTIFICADO ECOLÓGICO
+async function crearCertificado() {
+    const response = await fetch(`${lugarDeEjecucion}/crearCertificado`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(idProductoSeleccionado)
+    });
+
+    if (response.ok) {
+        // Crear una URL para el blob (archivo binario)
+        const blobUrl = URL.createObjectURL(await response.blob());
+
+        // Crear un enlace <a> para descargar el archivo
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.setAttribute('download', 'certificado.pdf');
+
+        // Simular clic en el enlace para iniciar la descarga
+        link.click();
+    } else {
+        console.error('Error al crear el certificado');
+    }
 }

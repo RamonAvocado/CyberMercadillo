@@ -140,7 +140,7 @@ class Servicios{
         }
         });
 
-                //Busca un producto con categoria== Todas categorías y el texto de búsqueda
+        //Busca un producto con categoria== Todas categorías y el texto de búsqueda
         app.MapPost("/BuscarProductoText", async (HttpContext context) =>
         {
             // Leer el cuerpo de la solicitud para obtener la información de búsqueda
@@ -201,6 +201,33 @@ class Servicios{
             {
                 // Manejar cualquier error y devolver una respuesta de error al cliente
                 errorDefault(context,ex);
+            }
+        });
+
+        app.MapPost("/crearCertificado", async (HttpContext context, Supabase.Client client) =>
+        {
+            using var reader = new StreamReader(context.Request.Body);
+            try
+            {
+                //Leer frontend
+                var requestBody = await reader.ReadToEndAsync();
+                var idProductoSeleccionado = JsonConvert.DeserializeObject(requestBody);
+
+                //Crear PDF
+                var producto = fachadaLogica.GetProductoPorID(idProductoSeleccionado.ToString() ?? "0");
+                var pdf = producto.CrearPDF();
+                
+                //Devolver PDF
+                context.Response.ContentType = "application/pdf";
+                context.Response.Headers.Add("Content-Disposition", "attachment; filename=certificado.pdf");
+
+                // Escribir el contenido del PDF en la respuesta HTTP
+                pdf.Position = 0; // Asegurar que estamos al principio del MemoryStream
+                await pdf.CopyToAsync(context.Response.Body);
+            }
+            catch (Exception ex)
+            {
+                errorDefault(context,ex);   // Manejar cualquier error y devolver una respuesta de error al cliente
             }
         });
 

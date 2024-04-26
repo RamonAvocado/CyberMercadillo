@@ -38,6 +38,9 @@ namespace CyberMercadillo.Entities
 
         [Column("validado")]
         public bool? validado { get; set; }
+
+        [Column("huellaEco")]
+        public int? huellaEco { get; set; }
     }
 
 }
