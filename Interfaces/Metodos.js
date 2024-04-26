@@ -495,7 +495,7 @@ async function CargarProductosRecomendados(){
     }
 }
 
-
+//COPIADO--METODOSVENDEDOR
 function generarEnlacesPaginacionRec(totalPaginas) {
     const paginasContainer = document.getElementById('paginasRec');
     paginasContainer.innerHTML = ''; // Limpiar los enlaces de paginación antes de generarlos nuevamente
@@ -1113,7 +1113,7 @@ function mostrarUnProductoCompra(producto, usuario) {
 }
 
 // Función para verificar si los campos de la tarjeta están rellenados
-//COPIADO -- MetodosUser
+//COPIADO -- MetodosCompra
 function verificarCamposTarjeta() {
     const numTarjetaInput = document.querySelector('.payment-info input[type="text"][placeholder="Número de tarjeta"]');
     const fechaCaducidadInput = document.querySelector('.payment-info input[type="text"][placeholder="Fecha de caducidad"]');
@@ -1154,7 +1154,7 @@ function verificarCamposTarjeta() {
     }*/
     return true;
 }
-//COPIADO --MetodoUser
+//COPIADO --MetodoCompra
 function validarFormatoFecha(fechaCaducidadInput) {
     //es un formato año, mes, dia
     const regex = /^\d{4}-\d{2}-\d{2}$/;
@@ -1163,7 +1163,7 @@ function validarFormatoFecha(fechaCaducidadInput) {
 
 
 // Función para mostrar una ventana emergente para guardar los datos de la tarjeta
-//COPIADO --MetodoUser
+//COPIADO --MetodoCompra
 function mostrarVentanaEmergente() {
     const confirmacion = confirm('¿Desea guardar los datos de su tarjeta para futuras compras?');
 
@@ -1200,7 +1200,7 @@ function mostrarVentanaEmergente() {
 }
 
 // Función para finalizar la compra
-//Copiado
+//Copiado--MetodoCompra
 async function FinalizarCompra() {
     // Verificar si los campos de la tarjeta están rellenados
     const camposRellenados = verificarCamposTarjeta();
@@ -1307,6 +1307,8 @@ async function CargarProductosValidacion() {
     }
 }
 
+
+//COPIADO -- METODOSVENDEDOR
 async function cargarProductosPorPagina(numeroPagina,idUsuarioIniciado) {
     const productosPorPagina = 6;
 
@@ -2176,7 +2178,7 @@ function irRegistroVendedor() {
     window.location.href = `./NuevoUsuarioVendedor.html`;
     localStorage.setItem('tipoUsuRegistro', "vendedor");
     console.log("vendedor");
-}"vendedor"
+}
 
 //COPIADO --MetodoUser
 function irRegistroComprador() {
@@ -2297,6 +2299,7 @@ async function crearCertificado() {
         },
         body: JSON.stringify(idProductoSeleccionado)
     });
+    
 
     if (response.ok) {
         // Crear una URL para el blob (archivo binario)
