@@ -563,3 +563,104 @@ function irAInfoProducto(productoParaInfo) {
 
     window.location.href = `./InfoProducto.html`;
 }
+
+function mostrarTodosProductos(productos) {
+    const container = document.querySelector('.resultado-busqueda');
+
+    // Limpia el contenedor antes de agregar nuevos productos
+    container.innerHTML = '';
+    
+    // Agregar el botón "Añadir al Carrito de Compra" fuera del bucle
+    const cartButtonContainer = document.createElement('div');
+    cartButtonContainer.classList.add('cart-button-container');
+    const cartButton = document.createElement('button');
+    cartButton.classList.add('cart-btn');
+    cartButton.textContent = 'Añadir al Carrito de Compra';
+    cartButtonContainer.appendChild(cartButton);
+    container.appendChild(cartButtonContainer);
+
+    // Itera sobre los productos y crea elementos para mostrarlos
+    productos.forEach((producto) => {
+        const productCard = document.createElement('div');
+        productCard.classList.add('product-card');
+        //imagenes de cada producto
+        const imagenes = producto.imagenes.split(' ');
+        const primeraImagen = imagenes[0];
+        // Agrega la imagen, nombre y precio del producto dentro de la tarjeta
+        productCard.innerHTML = `
+            <button class="favorite-btn"></button> <!-- Botón de favoritos -->
+            <img src="${primeraImagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
+            <h3>${truncate(producto.nombreproducto)}</h3>
+            <p class="price">${producto.precio} €</p>
+            <p class="description">${truncate(producto.descripcion)}</p>
+            <div hidden>
+                <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
+                <div id="idProducto" data-info="${producto.idproducto}"> </div>
+            </div>
+        `;
+
+        // Agregar evento de clic para seleccionar el producto
+        productCard.addEventListener('click', (event) => {
+            seleccionarProducto(event.currentTarget);
+        });
+
+        // Agregar evento de doble clic para ir a la página de información del producto
+        productCard.addEventListener('dblclick', (event) => {
+            irAInfoProducto(event.currentTarget);
+        });
+
+        container.appendChild(productCard);
+    });
+}
+
+
+// Función para truncar el texto si supera el tamaño máximo
+function truncate(text) {
+    const maxLength = 50; // Establece el tamaño máximo
+    return text.length > maxLength ? text.substring(0, maxLength - 3) + '...' : text;
+}
+
+async function getID() {
+    try {
+        const response = await fetch(`${lugarDeEjecucion}/getID`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+        if (response.ok) {
+            const responseBody = await response.json(); // Guarda el cuerpo de la respuesta en una variable
+            return(responseBody.ID_USUARIO);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+async function crearCertificado() {
+    const response = await fetch(`${lugarDeEjecucion}/crearCertificado`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(idProductoSeleccionado)
+    });
+
+
+    if (response.ok) {
+        // Crear una URL para el blob (archivo binario)
+        const blobUrl = URL.createObjectURL(await response.blob());
+
+        // Crear un enlace <a> para descargar el archivo
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.setAttribute('download', 'certificado.pdf');
+
+        // Simular clic en el enlace para iniciar la descarga
+        link.click();
+    } else {
+        console.error('Error al crear el certificado');
+    }
+}

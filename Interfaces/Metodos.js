@@ -451,7 +451,7 @@ function mostrarProductosDestacados(productos) {
 //  INICIO PRODUCTOS RECOMENDADOS
 
 //FUNCION PARA MOSTRAR 2 PRODUCTOS RECOMENDADOS EN LA PAGINA DE LA INFORMACIÓN DE PRODUCTO
-//COPIADO-- METODOSVENDEDOR 
+//COPIADO-- METODOSPRODUCTO
 async function CargarProductosRecomendadosInfoProd(){
     try {
         // Realizar una solicitud GET al backend para obtener los 6 primeros productos
@@ -611,7 +611,7 @@ async function CargaTodosProductos(valor){
         console.error('Error inesperado:', error);
     }
 }
-
+//COPIADO--GENERALMETODOS //posible productos
 function mostrarTodosProductos(productos) {
     const container = document.querySelector('.resultado-busqueda');
 
@@ -662,6 +662,7 @@ function mostrarTodosProductos(productos) {
 }
 
 // Función para truncar el texto si supera el tamaño máximo
+//COPIADO -- GENERALMETODOS
 function truncate(text) {
     const maxLength = 50; // Establece el tamaño máximo
     return text.length > maxLength ? text.substring(0, maxLength - 3) + '...' : text;
@@ -2040,6 +2041,7 @@ async function IniciarSesion(){
     }
 }
 
+//COPIADO -- METODOSBUSQUEDAS
 async function getBusquedas() {
     
     try {
@@ -2097,7 +2099,7 @@ async function getBusquedas() {
 
 
 
-
+//COPIADO -- GENERALMETODOS
 async function getID() {
     try {
         const response = await fetch(`${lugarDeEjecucion}/getID`, {
@@ -2299,6 +2301,7 @@ async function agregarUsuarioVendedor(TipoUsuarioRegistrado){
 
 
 //CODIGO CREAR CERTIFICADO ECOLÓGICO
+//COPIADO--GENERALMETODOS
 async function crearCertificado() {
     const response = await fetch(`${lugarDeEjecucion}/crearCertificado`, {
         method: 'POST',

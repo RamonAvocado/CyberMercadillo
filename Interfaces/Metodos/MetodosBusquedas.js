@@ -279,3 +279,58 @@ async function buscarPorCategoria() {
         console.error('Error inesperado:', error);
     }
 }
+
+async function getBusquedas() {
+    
+    try {
+        await fetch(`${lugarDeEjecucion}/getBusquedas`)
+        .then(response => response.json())
+        .then(data => {
+        
+        const models = data.result.Models;
+
+        // Selecciona el elemento con la clase "historial"
+        const historialDiv = document.querySelector('.historial');
+        if (models.length == 0){
+            const h1 = document.createElement('h1');
+            h1.textContent = "No has buscado nada por ahora";
+            historialDiv.appendChild(h1);
+        } else {
+            models.forEach(model => {
+                const busqueda = document.createElement('div');
+                
+                var texto_busqueda = document.createElement('span');
+                var fecha_busqueda = document.createElement('span');
+
+                //Pone valor a las variables
+                texto_busqueda.textContent = model.texto;
+                fecha_busqueda.textContent = model.fecha;
+
+                //Añade los css
+                texto_busqueda.classList.add('texto-historial');
+                fecha_busqueda.classList.add('fecha-historial');
+                busqueda.classList.add("busqueda-historial")
+
+                // Agrega el elemento <h1> al elemento con la clase "historial"
+                busqueda.appendChild(texto_busqueda);
+                busqueda.appendChild(fecha_busqueda);
+                historialDiv.appendChild(busqueda);
+
+                
+                texto_busqueda.addEventListener('click', function() {
+                    localStorage.setItem('paginaAnterior', "HistorialDeBusqueda.html");
+                    localStorage.setItem('searchTerm', texto_busqueda.textContent);
+                    localStorage.setItem('category', model.categoria);
+                    //console.log(paginaAnterior); // Esto imprimirá el nombre del archivo actual, por ejemplo, "ResultadoBusqueda.html" o "HistorialBusqueda.html"
+                    window.location.href = './ResultadoBusqueda.html';
+                });
+            });
+        }})
+        .catch(error => {
+            // Manejar errores en caso de que la solicitud falle
+            console.error('Error al obtener los datos:', error);
+        });
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
