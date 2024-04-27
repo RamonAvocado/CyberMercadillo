@@ -305,6 +305,7 @@ function mostrarProductosCat(productos) {
 //  INICIO PRODUCTOS DESTACADOS
 
 //cargar todos los productos de la base de datos
+//COPIADO--GENERALMETODOS
 async function InicializarProductos() {
     try {
         console.log("Entra funcion InicializarProductos");
@@ -324,6 +325,7 @@ async function InicializarProductos() {
 }
 
 //NUEVO CARGAR PRODUCTOS CON LA NUEVA  ARQUITECTURA
+//COPIADO--GENERALMETODOS
 async function CargarProductosDestacados() {
     try {
         console.log("Entra funcion cargarProductosDestacados");
@@ -357,9 +359,9 @@ async function CargarProductosDestacados() {
         console.error('Error inesperado:', error);
     }
 }
-//
 
 
+//COPIADO--GENERALMETODOS
 function generarEnlacesPaginacionDest(totalPaginas) {
     const paginasContainer = document.getElementById('paginasDest');
     paginasContainer.innerHTML = ''; // Limpiar los enlaces de paginación antes de generarlos nuevamente
@@ -381,6 +383,7 @@ function generarEnlacesPaginacionDest(totalPaginas) {
     }
 }
 
+//COPIADO--GENERALMETODOS
 async function cargarProductosPorPaginaDest(numeroPagina) {
     const productosPorPagina = 6;
 
@@ -403,6 +406,7 @@ async function cargarProductosPorPaginaDest(numeroPagina) {
     }
 }
 
+//COPIADO--GENERALMETODOS
 function mostrarProductosDestacados(productos) {
     const container = document.querySelector('.featured-products');
     container.innerHTML = '';
@@ -447,6 +451,7 @@ function mostrarProductosDestacados(productos) {
 //  INICIO PRODUCTOS RECOMENDADOS
 
 //FUNCION PARA MOSTRAR 2 PRODUCTOS RECOMENDADOS EN LA PAGINA DE LA INFORMACIÓN DE PRODUCTO
+//COPIADO-- METODOSVENDEDOR 
 async function CargarProductosRecomendadosInfoProd(){
     try {
         // Realizar una solicitud GET al backend para obtener los 6 primeros productos
@@ -471,6 +476,7 @@ async function CargarProductosRecomendadosInfoProd(){
 
 //carga los productos de la base de datos, deberían de ser los productos Recomendados por búsquedas
 //pero todavía no tenemos Recomendaciones
+//COPIADO--GENERALMETODOS
 async function CargarProductosRecomendados(){
     try {
         // Realizar una solicitud GET al backend para obtener los 6 primeros productos
@@ -495,7 +501,7 @@ async function CargarProductosRecomendados(){
     }
 }
 
-//COPIADO--METODOSVENDEDOR
+//COPIADO--GeneralMetodos
 function generarEnlacesPaginacionRec(totalPaginas) {
     const paginasContainer = document.getElementById('paginasRec');
     paginasContainer.innerHTML = ''; // Limpiar los enlaces de paginación antes de generarlos nuevamente
@@ -516,7 +522,7 @@ function generarEnlacesPaginacionRec(totalPaginas) {
         });
     }
 }
-
+//COPIADO--GENERALMETODOS
 async function cargarProductosPorPaginaRec(numeroPagina) {
     const productosPorPagina = 6;
 
@@ -539,7 +545,7 @@ async function cargarProductosPorPaginaRec(numeroPagina) {
     }
 }
 
-
+//COPIADO--GENERALMETODOS
 function mostrarProductosRecomendados(productos) {
     const container = document.querySelector('.recommended-products');
     container.innerHTML = '';
@@ -663,7 +669,7 @@ function truncate(text) {
 
 
 //FUNCIONES CLICKS
-//COPIADO
+//COPIADO--BUSQUEDA ->GENERALMETODOS
 function seleccionarProducto(productoSeleccionado) {
     // Desmarcar todos los productos seleccionados
     const selectedProducts = document.querySelectorAll('.product-card.selected');
@@ -673,7 +679,7 @@ function seleccionarProducto(productoSeleccionado) {
     productoSeleccionado.classList.add('selected');
 }
 
-//Copiado
+//Copiado--BUSQUEDA ->GENERALMETODOS
 function irAInfoProducto(productoParaInfo) {
     // Obtener el ID del producto y la categoría de los atributos de datos (data-*) de la tarjeta de producto
     const productId = productoParaInfo.querySelector('#idProducto').dataset.info;
@@ -682,7 +688,7 @@ function irAInfoProducto(productoParaInfo) {
     window.location.href = `./InfoProducto.html`;
 }
 
-//Copiado
+//Copiado--GENERALMETODOS
 function irAInfoProducto2(productoParaInfo) {
     // Redirigir a la página de InfoProducto.html con el parámetro del producto
     window.location.href = `InfoBasicaProducto.html?id=${productoParaInfo}`;
@@ -1344,6 +1350,7 @@ async function cargarProductosPorPagina(numeroPagina,idUsuarioIniciado) {
 }
 
 //Copiado
+//COPIADO--GENERALMETODOS
 function generarEnlacesPaginacion(totalPaginas,idUsuarioIniciado) {
     const paginasContainer = document.getElementById('paginas');
     paginasContainer.innerHTML = ''; // Limpiar los enlaces de paginación antes de generarlos nuevamente
@@ -2290,6 +2297,7 @@ async function agregarUsuarioVendedor(TipoUsuarioRegistrado){
 }
 
 
+
 //CODIGO CREAR CERTIFICADO ECOLÓGICO
 async function crearCertificado() {
     const response = await fetch(`${lugarDeEjecucion}/crearCertificado`, {
@@ -2299,7 +2307,7 @@ async function crearCertificado() {
         },
         body: JSON.stringify(idProductoSeleccionado)
     });
-    
+
 
     if (response.ok) {
         // Crear una URL para el blob (archivo binario)

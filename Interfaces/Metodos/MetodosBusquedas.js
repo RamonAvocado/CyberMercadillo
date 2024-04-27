@@ -137,7 +137,7 @@ function mostrarProductosCat(productos) {
 
         // Agregar evento de clic para seleccionar el producto
         productCard.addEventListener('click', (event) => {
-            seleccionarProducto(event.currentTarget);
+            GeneralMetodos.seleccionarProducto(event.currentTarget);
         });
 
         // Agregar evento de doble clic para ir a la página de información del producto
@@ -158,22 +158,25 @@ function mostrarProductosCat(productos) {
     container.insertBefore(categoriaTitle, container.firstChild);
 }
 
-function seleccionarProducto(productoSeleccionado) {
+//puesto en general por varias funciones depender de el
+/*function seleccionarProducto(productoSeleccionado) {
     // Desmarcar todos los productos seleccionados
     const selectedProducts = document.querySelectorAll('.product-card.selected');
     selectedProducts.forEach(product => product.classList.remove('selected'));
 
     // Marcar el producto actualmente seleccionado
     productoSeleccionado.classList.add('selected');
-}
+}*/
 
-function irAInfoProducto(productoParaInfo) {
+
+//puesto en general por varias funciones depender de el
+/*function irAInfoProducto(productoParaInfo) {
     // Obtener el ID del producto y la categoría de los atributos de datos (data-*) de la tarjeta de producto
     const productId = productoParaInfo.querySelector('#idProducto').dataset.info;
     localStorage.setItem('itemID', productId);
 
     window.location.href = `./InfoProducto.html`;
-}
+}*/
 
 async function buscar() {
     var searchTerm = document.getElementById('searchInput').value;

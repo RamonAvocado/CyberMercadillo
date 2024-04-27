@@ -53,7 +53,7 @@ async function CargarProductosVendedor(idUsuarioIniciado) {
     }
 }
 
-function generarEnlacesPaginacion(totalPaginas,idUsuarioIniciado) {
+/*function generarEnlacesPaginacion(totalPaginas,idUsuarioIniciado) {
 
 
     const paginasContainer = document.getElementById('paginas');
@@ -75,8 +75,10 @@ function generarEnlacesPaginacion(totalPaginas,idUsuarioIniciado) {
             (i,idUsuarioIniciado);
         });
     }
-}//CargarProductosRecomendados CargarProductosValidacion DEPENDE DE EL
-
+}*/
+//CargarProductosRecomendados CargarProductosValidacion DEPENDE DE EL
+/*en caso de que se tenga que usar este metodo tener en cuenta CargarProductosValidacion
+puesto que depende de este y estan en arhivos diferentes*/
 
 function mostrarProductosVendedor(productos) {
     //const productos = respuesta.productos.Models;
@@ -149,7 +151,7 @@ function mostrarProductosVendedor(productos) {
         container.appendChild(productCard);
     });
 }
-// NADIE LLAMA A ESTE
+
 function mostrarProductosDeVendedor(productos) {
     const container = document.getElementById('seller-products');
 
@@ -207,105 +209,21 @@ function irRegistroVendedor() {
     console.log("vendedor");
 }
 
-//PODRIA IR EN GENERAL +++++ NO DEPENDE DE NADIE- PERO DEPENDEN DE EL
-async function agregarUsuarioVendedor(TipoUsuarioRegistrado){
-    document.getElementById('agregarVendedorForm').addEventListener('submit', async (event) => {
-        event.preventDefault();
-        const formData = new FormData(event.target);
-        const nombreUsu = formData.get('nombreUsuV');
-        const telefono = formData.get('TelUsuV');
-        const correoUsu = formData.get('CorreoUsuV');
-        const contraseña = formData.get('ContraseñaUsuV');
-        const contraseñaR = formData.get('RContraseñaUsuV');
-        const direccion = formData.get('DirUsuV');
-        const telTienda = parseInt(formData.get('TelUsuT'));
-        const nombreTienda = formData.get('NomTUsu');
-        try {
-            const response = await fetch(`http://localhost:5169/AgregarVendedor`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    nombre: nombreUsu,
-                    movil: telefono,
-                    correo: correoUsu,
-                    contraseña: contraseña,
-                    direccion: direccion,
-                    CVV: cvv,
-                    fechaCaducidad: FechaCad,
-                    numeroTarjeta: numTarj,
-                    tipoUsu:TipoUsuarioRegistrado,
-                    telefonotienda: telTienda,
-                    nombretienda: nombreTienda,
-                }),
-            });
-            if (response.ok) {
-                const data = await response.json();
-                console.log('Producto creado correctamente');
-                GeneralMetodos.mostrarResultado(data.resultado);
-                window.location.reload();
-            } else {
-                console.error('Error al crear el usuario:', response.statusText);
-            }
-        } catch (error) {
-            console.error('Error inesperado:', error);
-        }
-        alert("Usuario creado correctamente")
-        window.location.reload();
-    });
-}
-
 
 
 
 //PODRIA IR EN GENERAL +++++
-async function cargarProductosPorPagina(numeroPagina,idUsuarioIniciado) {
-    const productosPorPagina = 6;
-
-    try {
-
-        console.log('ID del usuario seleccionado:', idUsuarioIniciado);
-        // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
-        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosVendedor`,{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                idusuario: idUsuarioIniciado
-            }),
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            const productos = data.productos.Models;
-
-            const inicio = (numeroPagina - 1) * productosPorPagina;
-            const fin = numeroPagina * productosPorPagina;
-            const productosPagina = productos.slice(inicio, fin);
-
-            mostrarProductosVendedor(productosPagina);
-        } else {
-            console.error('Error en la solicitud al backend:', response.statusText);
-        }
-    } catch (error) {
-        console.error('Error inesperado:', error);
-    }
-}
-
-//PODRIA IR EN GENERAL +++++
-function irAInfoProducto2(productoParaInfo) {
+/*function irAInfoProducto2(productoParaInfo) {
     // Redirigir a la página de InfoProducto.html con el parámetro del producto
     window.location.href = `InfoBasicaProducto.html?id=${productoParaInfo}`;
 
     // Ocultar el botón después de la redirección
     const historialBtn = document.getElementById('historialBtnInfoProd');
     historialBtn.style.display = 'none';
-}
+}*/
 
 //PODRIA IR EN GENERAL +++++
-async function mostrarProd(idProductoSeleccionado) {
+/*async function mostrarProd(idProductoSeleccionado) {
     try {
         console.log('ID del producto seleccionado:', idProductoSeleccionado);
         //const response = await fetch('http://localhost:5169/buscarProductoX');
@@ -397,11 +315,60 @@ async function mostrarProd(idProductoSeleccionado) {
     } catch (error) {
         console.error('Error inesperado:', error);
     }
-}
+}*/
 
 //PODRIA IR EN GENERAL +++++
-function mostrarResultado(resultado) {
+/*function mostrarResultado(resultado) {
     var resultadosDiv = document.getElementById('resultados');
     //Esto es la respuesta que a accedido al Controlador Program y lo muestra por pantalla en la Pagina Principal
     resultadosDiv.innerHTML = `<p>Resultado: ${resultado}</p>`;
-}
+}*/
+
+
+/*async function agregarUsuarioVendedor(TipoUsuarioRegistrado){
+    document.getElementById('agregarVendedorForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const nombreUsu = formData.get('nombreUsuV');
+        const telefono = formData.get('TelUsuV');
+        const correoUsu = formData.get('CorreoUsuV');
+        const contraseña = formData.get('ContraseñaUsuV');
+        const contraseñaR = formData.get('RContraseñaUsuV');
+        const direccion = formData.get('DirUsuV');
+        const telTienda = parseInt(formData.get('TelUsuT'));
+        const nombreTienda = formData.get('NomTUsu');
+        try {
+            const response = await fetch(`http://localhost:5169/AgregarVendedor`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    nombre: nombreUsu,
+                    movil: telefono,
+                    correo: correoUsu,
+                    contraseña: contraseña,
+                    direccion: direccion,
+                    CVV: cvv,
+                    fechaCaducidad: FechaCad,
+                    numeroTarjeta: numTarj,
+                    tipoUsu:TipoUsuarioRegistrado,
+                    telefonotienda: telTienda,
+                    nombretienda: nombreTienda,
+                }),
+            });
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Producto creado correctamente');
+                GeneralMetodos.mostrarResultado(data.resultado);
+                window.location.reload();
+            } else {
+                console.error('Error al crear el usuario:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error inesperado:', error);
+        }
+        alert("Usuario creado correctamente")
+        window.location.reload();
+    });
+}*/

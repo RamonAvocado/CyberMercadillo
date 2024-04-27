@@ -63,6 +63,7 @@ function mostrarVentanaEmergente() {
 
 
 function verificarCamposTarjeta() {
+    
     const numTarjetaInput = document.querySelector('.payment-info input[type="text"][placeholder="Número de tarjeta"]');
     const fechaCaducidadInput = document.querySelector('.payment-info input[type="text"][placeholder="Fecha de caducidad"]');
     const cvvInput = document.querySelector('.payment-info input[type="text"][placeholder="CVV"]');

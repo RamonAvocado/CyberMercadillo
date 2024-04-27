@@ -117,7 +117,8 @@ function iniciarSesionUser() {
     window.location.href = '../index.html';
 }
 
-
+//Se mantiene aquí pq solo user puede comprar, y no se reutiliza
+//en ningun sitio
 function irRegistroComprador() {
     // Obtener el ID del producto y la categoría de los atributos de datos (data-*) de la tarjeta de producto
 
@@ -126,7 +127,7 @@ function irRegistroComprador() {
     console.log("comprador");
 }
 
-
+/*
 async function agregarUsuarioComprador(TipoUsuarioRegistrado)
 {
         console.log('ID del usuario registrado:', TipoUsuarioRegistrado);
@@ -175,12 +176,12 @@ async function agregarUsuarioComprador(TipoUsuarioRegistrado)
             alert("Usuario creado correctamente")
             window.location.reload();
         });
-}
+}*/
 
-function irAPagianVendedor() {
+/*function irAPagianVendedor() {
     window.location.href = './PaginaVendedor.html';
-}
-
+}*/
+/*
 function irAPagianValidaciones() {
     window.location.href = './ValidarProductos.html';
-}
+}*/
