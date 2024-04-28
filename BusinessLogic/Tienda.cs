@@ -18,6 +18,7 @@ class Tienda
         get { return productos; }
         private set { productos = value; }
     }
+
     private List<Busqueda> busquedas= new List<Busqueda>();
     public List<Busqueda> Busquedas
     {
@@ -96,6 +97,98 @@ class Tienda
                 }
             }
             return producto;
+    }
+
+    public bool validarUnProducto(string idBuscado)
+    {
+        Producto producto = new Producto
+        {
+            //por si no existe ese id
+            idproducto = -1
+        };
+
+        foreach (Producto prod in Productos)
+        {
+            if (prod.idproducto.ToString() == idBuscado)
+            {
+                producto = prod;
+            }
+        }
+        if(producto.idproducto != -1 && producto.validado == false){
+            producto.validado = true;
+            return true;
+        }else return false;
+    }
+    public int MayorIDProd()
+    {
+        int mayorID = 0;
+
+        foreach (Producto prod in Productos)
+        {
+            if (prod.idproducto > mayorID)
+            {
+                mayorID = prod.idproducto;
+            }
+        }
+
+        return mayorID;
+    }
+
+    public void actualizarProd(string idbuscado,string nombreProd, string precioProd, string categoriaProd,string descripcionProd,
+                                                        string imgProd, int cantProd)
+    {
+        Producto producto = new Producto
+        {
+            //por si no existe ese id
+            idproducto = -1
+        };
+        //Buscar en la lista de productos de la tienda el id y devolver ese productos
+        foreach (Producto prod in Productos)
+            {
+                if (prod.idproducto.ToString() == idbuscado)
+                {
+                    producto = prod;
+                }
+            }
+        producto.nombreproducto = nombreProd;    
+        producto.precio = precioProd;
+        producto.categoria = categoriaProd;
+        producto.descripcion = descripcionProd;
+        producto.imagenes = imgProd;
+        producto.cantidad = cantProd;
+    }
+
+    public void eliminarProductoID(string idbuscado)
+    {
+        Producto producto = new Producto
+        {
+            //por si no existe ese id
+            idproducto = -1
+        };
+        //Buscar en la lista de productos de la tienda el id y devolver ese productos
+        foreach (Producto prod in Productos)
+            {
+                if (prod.idproducto.ToString() == idbuscado)
+                {
+                    Productos.Remove(prod);
+                }
+            }
+    }
+
+    public List<Producto> GetProductosVendedor(int idVendedor)
+    {
+            
+        List<Producto> productos = new List<Producto>();
+
+        //Buscar en la lista de productos de la tienda el id y devolver ese productos
+        foreach (Producto prod in Productos)
+            {
+                if (prod.idvendedor == idVendedor && prod.validado == true)
+                {
+                    productos.Add(prod);
+                }
+            }
+        return productos;
     }
 
     public List<Producto> GetProductosMismaCategoria(string categoriaBuscada)

@@ -7,8 +7,10 @@ using iText.Layout.Element;
 namespace CyberMercadillo.Entities
 {       
     public partial class Producto{
+        private FachadaDBB fachadaDBB;
         public Producto(){}
-        public Producto(string nombreProd, string precioProd, string categoriaProd, string descripcionProd, string imgsProd, int cantProd, int idvendedorProd, bool validadoProd, int huellaEcologica) {
+        public Producto(int idproductoProd,string nombreProd, string precioProd, string categoriaProd, string descripcionProd, string imgsProd, int cantProd, int idvendedorProd, bool validadoProd, int huellaEcologica) {
+            idproducto = idproductoProd;
             nombreproducto = nombreProd;
             precio = precioProd;
             categoria = categoriaProd;
@@ -17,7 +19,7 @@ namespace CyberMercadillo.Entities
             cantidad = cantProd;
             idvendedor = idvendedorProd;
             validado = validadoProd;
-            huellaEco = huellaEcologica;
+            huellaEco = huellaEcologica;   
         }
 
         public MemoryStream CrearPDF()
@@ -45,6 +47,20 @@ namespace CyberMercadillo.Entities
                 Console.WriteLine("Error al crear el PDF: " + ex.Message);
                 // Si ocurre un error, devuelve null o maneja el error de otra manera según sea necesario
                 return memVacio;
+            }
+        }
+
+        public async Task AgregarProductoEnSupabase()
+        {
+            try
+            {
+                // Llama a la operación de la fachada de base de datos para agregar el producto
+                await fachadaDBB.AgregarProductoBDD(this);
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier excepción que pueda ocurrir durante la inserción
+                Console.WriteLine($"Error al agregar el producto en Supabase: {ex.Message}");
             }
         }
 

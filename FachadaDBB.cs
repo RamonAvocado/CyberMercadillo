@@ -14,9 +14,9 @@ using Postgrest.Responses;
 using Newtonsoft.Json.Linq;
 
 class FachadaDBB{
-
+    private Supabase.Client client;
     public FachadaDBB(String[] args, WebApplication app, Tienda tienda){
-
+    this.client = client;
     bool TodoCargadoCargados = false;
 
 
@@ -67,6 +67,18 @@ class FachadaDBB{
         await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
     });
     app.Run();
+    }
+
+    public async Task AgregarProductoBDD(Producto prod){
+        try
+        {
+            await client.From<Producto>().Insert(new List<Producto> { prod });
+        }
+        catch (Exception ex)
+        {
+            // Manejar cualquier excepción que pueda ocurrir durante la inserción
+            Console.WriteLine($"Error al agregar el producto en la base de datos: {ex.Message}");
+        }
     }
 }
 

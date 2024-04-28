@@ -18,6 +18,40 @@ class FachadaLogica{
         return tienda.Productos;
     }
 
+    public List<Producto> GetTodosProductosVendedor(int user){
+        List<Producto> prod = tienda.GetProductosVendedor(user);
+        return prod;
+    }
+
+    public void agregarProducto(string nombreProd, string precioProd, string categoriaProd,string descripcionProd,
+                                                        string imgProd, int cantProd,int idvendedorProd,bool validProd){
+        int idProd = tienda.MayorIDProd() +1;
+        Producto product = new Producto(idProd,nombreProd,precioProd,categoriaProd,descripcionProd, imgProd, cantProd,idvendedorProd,validProd, 1234567);
+        tienda.Productos.Add(product);
+    }
+
+    public void actualizarProducto(string nombreProd, string precioProd, string categoriaProd,string descripcionProd,
+                                                        string imgProd, int cantProd,string idProducto){
+        tienda.actualizarProd(idProducto,nombreProd,precioProd,categoriaProd,descripcionProd, imgProd, cantProd);
+    }
+
+    public bool validarProducto(string idbuscado){
+            bool validado = tienda.validarUnProducto(idbuscado);
+             if(validado)
+                return true;
+             else{
+                return false;
+             }
+    }
+
+    public void eliminarProducto(string idbuscado){
+             tienda.eliminarProductoID(idbuscado);
+    }
+
+    public List<Producto> GetProductosAValidar(){
+        List<Producto> prod = tienda.Productos;
+        return prod.Where(p => p.validado == false).ToList();
+    }
     public Producto GetProductoPorID(string idbuscado){
 
             //hacer la lógica para buscar el producto

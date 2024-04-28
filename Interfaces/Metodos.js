@@ -943,11 +943,12 @@ async function CargaUnProductoBasico(){
         //pillar el id
         const urlParams = new URLSearchParams(window.location.search);
         const productId = urlParams.get('id');
-
+        console.log("id del producto es" + productId);
         const response = await fetch(`${lugarDeEjecucion}/ObtenerProductoPorID?idproducto=${productId}`);
 
         if(response.ok){
             const data = await response.json();
+            console.log(data);
             mostrarUnProductoBasico(data);
         } else{
             console.error('Error en la solicitud al backend:', response.statusText);
@@ -1245,34 +1246,53 @@ async function FinalizarCompra() {
 
 // AQUI HICE EL MERGE MANUAL YA QUE ERA IMPOSIBLE HACERLO AUTOMÁTICO
 
-//COPIADO --MetodoVendedor
-async function CargarProductosVendedor(idUsuarioIniciado) {
+//COPIADO --MetodoVendedor ----->Ver
+async function CargarProductosVendedor(idUser) {
+    console.log("Useriniciado"+idUser);
     try {
-        console.log('ID del usuario seleccionado:', idUsuarioIniciado);
-        // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
-        
+        console.log("Entra funcion cargarProductosVendedor");
         const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosVendedor`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                idusuario: idUsuarioIniciado
+                idusuario: 5
             }),
         });
-        
+/*
+        var requestBody = {
+            idusuario: idUsuarioIniciado,
+            searchTerm: searchTerm,
+            category: category
+        }; 
+        const response = await fetch(`${lugarDeEjecucion}/BuscarProductoText`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+        });
+*/
         if (response.ok) {
+                //console.log("Texto y todo intro: " + data.productos.Models);
             const data = await response.json();
-            const productos = data.productos.Models;
+            console.log(data);
+            console.log(data.productos.length);
+            const prod = data.productos;
+            console.log(prod);
             
             const productosPorPagina = 6;
-            const totalPaginas = Math.ceil(productos.length / productosPorPagina);
+            const totalPaginas = Math.ceil(prod.length / productosPorPagina);
 
             // Mostrar los productos de la primera página en la interfaz de usuario
-            mostrarProductosVendedor(productos.slice(0, productosPorPagina));
+            mostrarProductosVendedor(prod.slice(0, productosPorPagina));
 
             // Generar enlaces de paginación
-            generarEnlacesPaginacion(totalPaginas,idUsuarioIniciado);
+            
+            //mostrarProductosDestacados(productos.slice(0, productosPorPagina));
+            generarEnlacesPaginacion(totalPaginas,5);
+            //generarEnlacesPaginacionDest(totalPaginas);
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
         }
@@ -1280,25 +1300,49 @@ async function CargarProductosVendedor(idUsuarioIniciado) {
         console.error('Error inesperado:', error);
     }
 }
+/*
+async function CargarProductosDestacados() {
+    try {
+        console.log("Entra funcion cargarProductosDestacados");
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosDestacados`);
+    
+        if (response.ok) {
+            const data = await response.json();
+            const productos = data.productos;
+            
+            const productosPorPagina = 6;
+            const totalPaginas = Math.ceil(productos.length / productosPorPagina);
+
+            mostrarProductosDestacados(productos.slice(0, productosPorPagina));
+            generarEnlacesPaginacionDest(totalPaginas);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}*/
 
 //Copiado MetodosTecnico
 async function CargarProductosValidacion() {
     try {
         // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
         const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosAValidar`);
-        
         if (response.ok) {
             const data = await response.json();
-            const productos = data.productos.Models;
-            
+            //const productos = data.productos.Models;
+            const prod = data.productos;
+            console.log(prod);
             const productosPorPagina = 6;
-            const totalPaginas = Math.ceil(productos.length / productosPorPagina);
-
+            //const totalPaginas = Math.ceil(productos.length / productosPorPagina);
+            const totalPaginas = Math.ceil(prod.length / productosPorPagina);
             // Mostrar los productos de la primera página en la interfaz de usuario
-            mostrarProductosParaValidar(productos.slice(0, productosPorPagina));
+            //mostrarProductosVendedor(prod.slice(0, productosPorPagina));
+            mostrarProductosParaValidar(prod.slice(0, productosPorPagina));
 
             // Generar enlaces de paginación
-            generarEnlacesPaginacion(totalPaginas);
+            generarEnlacesPaginacionTecnico(totalPaginas);
+            //generarEnlacesPaginacion(totalPaginas);
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
         }
@@ -1307,6 +1351,29 @@ async function CargarProductosValidacion() {
     }
 }
 
+/*
+async function cargarProductosPorPaginaDest(numeroPagina) {
+    const productosPorPagina = 6;
+
+    try {
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosDestacados`);
+        if (response.ok) {
+            const data = await response.json();
+            const productos = data.productos;
+
+            const inicio = (numeroPagina - 1) * productosPorPagina;
+            const fin = numeroPagina * productosPorPagina;
+            const productosPagina = productos.slice(inicio, fin);
+
+            mostrarProductosDestacados(productosPagina);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+*/
 async function cargarProductosPorPagina(numeroPagina,idUsuarioIniciado) {
     const productosPorPagina = 6;
 
@@ -1320,13 +1387,13 @@ async function cargarProductosPorPagina(numeroPagina,idUsuarioIniciado) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                idusuario: idUsuarioIniciado
+                idusuario: 5
             }),
         });
 
         if (response.ok) {
             const data = await response.json();
-            const productos = data.productos.Models;
+            const productos = data.productos;
 
             const inicio = (numeroPagina - 1) * productosPorPagina;
             const fin = numeroPagina * productosPorPagina;
@@ -1340,6 +1407,55 @@ async function cargarProductosPorPagina(numeroPagina,idUsuarioIniciado) {
         console.error('Error inesperado:', error);
     }
 }
+
+async function cargarProductosPorPaginaTecnico(numeroPagina,idUsuarioIniciado) {
+    const productosPorPagina = 6;
+
+    try {
+
+        console.log('ID del usuario seleccionado:', idUsuarioIniciado);
+        // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosDestacados`);
+
+        if (response.ok) {
+            const data = await response.json();
+            const productos = data.productos;
+
+            const inicio = (numeroPagina - 1) * productosPorPagina;
+            const fin = numeroPagina * productosPorPagina;
+            const productosPagina = productos.slice(inicio, fin);
+
+            mostrarProductosVendedor(productosPagina);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+//ojo
+/*
+function generarEnlacesPaginacionDest(totalPaginas) {
+    const paginasContainer = document.getElementById('paginasDest');
+    paginasContainer.innerHTML = ''; // Limpiar los enlaces de paginación antes de generarlos nuevamente
+
+    for (let i = 1; i <= totalPaginas; i++) {
+        const pagina = document.createElement('li');
+        pagina.classList.add('pagina-item');
+        const enlace = document.createElement('a');
+        enlace.href = `#pagina-${i}`;
+        enlace.textContent = i;
+        pagina.appendChild(enlace);
+        paginasContainer.appendChild(pagina);
+
+        // Agregar event listener para cargar los productos de la página seleccionada
+        enlace.addEventListener('click', async function(event) {
+            event.preventDefault();
+            await cargarProductosPorPaginaDest(i);
+        });
+    }
+}*/
 
 //Copiado
 function generarEnlacesPaginacion(totalPaginas,idUsuarioIniciado) {
@@ -1363,6 +1479,52 @@ function generarEnlacesPaginacion(totalPaginas,idUsuarioIniciado) {
     }
 }
 
+function generarEnlacesPaginacionTecnico(totalPaginas) {
+    const paginasContainer = document.getElementById('paginas');
+    paginasContainer.innerHTML = ''; // Limpiar los enlaces de paginación antes de generarlos nuevamente
+
+    for (let i = 1; i <= totalPaginas; i++) {
+        const pagina = document.createElement('li');
+        pagina.classList.add('pagina-item');
+        const enlace = document.createElement('a');
+        enlace.href = `#pagina-${i}`;
+        enlace.textContent = i;
+        pagina.appendChild(enlace);
+        paginasContainer.appendChild(pagina);
+
+        // Agregar event listener para cargar los productos de la página seleccionada
+        enlace.addEventListener('click', async function(event) {
+            event.preventDefault();
+            await cargarProductosPorPaginaTecnico(i);
+        });
+    }
+}
+
+async function cargarProductosPorPaginaTecnico(numeroPagina) {
+    const productosPorPagina = 6;
+
+    try {
+
+        console.log('ID del usuario seleccionado:', idUsuarioIniciado);
+        // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosAValidar`);
+
+        if (response.ok) {
+            const data = await response.json();
+            const productos = data.productos;
+
+            const inicio = (numeroPagina - 1) * productosPorPagina;
+            const fin = numeroPagina * productosPorPagina;
+            const productosPagina = productos.slice(inicio, fin);
+
+            mostrarProductosParaValidar(productosPagina);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
 //COPIADO --MetodoVendedor
 function mostrarProductosVendedor(productos) {
     //const productos = respuesta.productos.Models;
@@ -1620,17 +1782,7 @@ async function agregarProd()
                     const data = await response.json();
                     console.log('Producto creado correctamente');
                     mostrarResultado(data.resultado); 
-
-                    // Aquí podrías mostrar un mensaje de éxito o redirigir a otra página
-                    // Borra los campos del formulario
                     window.location.reload();
-                   /* document.getElementById('nombreProd').value = '';
-                    document.getElementById('precioProd').value = '';
-                    document.getElementById('categoriaProd').value = '';
-                    document.getElementById('descripcionProd').value = '';
-                    document.getElementById('imgProd').value = '';
-                    document.getElementById('cantProd').value = '';
-                    */
                 } else {
                     console.error('Error al crear el producto:', response.statusText);
                 }
@@ -1641,27 +1793,38 @@ async function agregarProd()
 }
 
 //Copiado
-/*
+
 async function agregarProducto(idUsuarioIniciado)
 {
         document.getElementById('agregarProductoForm2').addEventListener('submit', async (event) => {
             event.preventDefault();
 
             const formData = new FormData(event.target);
-            const nombre = formData.get('nombreProd');
-            console.log(formData.get('nombreProd'));
-            const precio = formData.get('precioProd');
-            const categoria = formData.get('categoriaProd');
-            const descripcion = formData.get('descripcionProd');
-            const img = formData.get('imgProd');
-            const cantidad = parseInt(formData.get('cantProd'));
-
+            var requestBody = {
+                nombre: formData.get('nombreProd'),
+                precio: formData.get('precioProd'),
+                categoria: formData.get('categoriaProd'),
+                descripcion: formData.get('descripcionProd'),
+                img: formData.get('imgProd'),
+                cantidad: parseInt(formData.get('cantProd')),
+                idvendedor: 5,
+                validado: false,
+            };
 
             console.log('ID del usuario seleccionado:', idUsuarioIniciado);
             // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
             
 
             try {
+
+                const response = await fetch(`${lugarDeEjecucion}/AgregarProducto`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+                /*
                 const response = await fetch(`${lugarDeEjecucion}/AgregarProducto`, {
                     method: 'POST',
                     headers: {
@@ -1674,15 +1837,16 @@ async function agregarProducto(idUsuarioIniciado)
                         descripcion: descripcion,
                         imagenes: img,
                         cantidad: cantidad,
-                        idvendedor: idUsuarioIniciado,
+                        idvendedor: 4,
                         validado: false,
                     }),
                 });
+                */
         
                 if (response.ok) {
-                    const data = await response.json();
+                    //const data = await response.json();
                     console.log('Producto creado correctamente');
-                    mostrarResultado(data.resultado); 
+                    //mostrarResultado(data.resultado); 
                     window.location.reload();
                 } else {
                     console.error('Error al crear el producto:', response.statusText);
@@ -1690,11 +1854,11 @@ async function agregarProducto(idUsuarioIniciado)
             } catch (error) {
                 console.error('Error inesperado:', error);
             }
-            alert("Producto creado correctamente")
-            window.location.reload();
+            //alert("Error crear Producto")
+            //window.location.reload();
         });
 }
-*/
+
 
 //creo que no se usa
 /*
@@ -1751,7 +1915,7 @@ async function mostrarProd(idProductoSeleccionado) {
         //const response = await fetch('http://localhost:5169/buscarProductoX');
 
         //const response = await fetch(`http://localhost:5169/buscarProductoX?idProductoSeleccionado=${idProductoSeleccionado}`);
-        const response = await fetch(`${lugarDeEjecucion}/buscarProductoX`,{
+        const response = await fetch(`${lugarDeEjecucion}/buscarProductoSeleccionado`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1769,16 +1933,17 @@ async function mostrarProd(idProductoSeleccionado) {
             const nombreProducto = 'Producto de ejemplo24';
             nombreInput.value = nombreProducto;
 
-            const productos = data.result.Models;
-            console.log(productos);
-            if (productos.length > 0) {
-                const primerProducto = productos[0]; // Obtener el primer producto (suponiendo que hay al menos uno)
+            //const productos = data.result.Models;
+            const prod = data.producto;
+            console.log(prod);
+            //if (prod.length > 0) {
+                //const primerProducto = prod[0]; // Obtener el primer producto (suponiendo que hay al menos uno)
                 // Separar las URL de las imágenes
                 
                 
                 const container = document.querySelector('.recommended-products');
 
-                const imagenes = primerProducto.imagenes.split(' ');
+                const imagenes = prod.imagenes.split(' ');
                 const primeraImagen = imagenes[0];
 
                 // Crear elementos para mostrar el producto
@@ -1788,7 +1953,7 @@ async function mostrarProd(idProductoSeleccionado) {
                 // Agregar la imagen principal del producto
                 const imagenPrincipal = document.createElement('img');
                 imagenPrincipal.src = primeraImagen;
-                imagenPrincipal.alt = primerProducto.nombreproducto;
+                imagenPrincipal.alt = prod.nombreproducto;
                 imagenPrincipal.style.width = '200px';
                 imagenPrincipal.style.height = '240px';
                 productCard.appendChild(imagenPrincipal);
@@ -1821,13 +1986,13 @@ async function mostrarProd(idProductoSeleccionado) {
                 }
                 container.appendChild(productCard);
 
-                document.getElementById('nombre').value = primerProducto.nombreproducto;
-                document.getElementById('precio').value = primerProducto.precio;
-                document.getElementById('categoria').value = primerProducto.categoria;
-                document.getElementById('descripcion').value = primerProducto.descripcion;
-                document.getElementById('cantidad').value = primerProducto.cantidad;
-                document.getElementById('nuevo-url-imagen').value = primerProducto.imagenes;             
-            }
+                document.getElementById('nombre').value = prod.nombreproducto;
+                document.getElementById('precio').value = prod.precio;
+                document.getElementById('categoria').value = prod.categoria;
+                document.getElementById('descripcion').value = prod.descripcion;
+                document.getElementById('cantidad').value = prod.cantidad;
+                document.getElementById('nuevo-url-imagen').value = prod.imagenes;             
+            //}
         } else {
             console.error('Error al obtener los detalles del producto:', response.statusText);
             const nombreInput = document.getElementById('nombre');
@@ -1842,11 +2007,11 @@ async function mostrarProd(idProductoSeleccionado) {
 //Copiado MetodosTecnico
 async function validarProd() {
     try {
-        console.log('ID del producto seleccionado:', idProductoSeleccionado);
+        console.log('ID del producto seleccionado :', idProductoSeleccionado);
         //const response = await fetch('http://localhost:5169/buscarProductoX');
 
         //const response = await fetch(`http://localhost:5169/buscarProductoX?idProductoSeleccionado=${idProductoSeleccionado}`);
-        const response = await fetch(`${lugarDeEjecucion}/validarProductoX`,{
+        const response = await fetch(`${lugarDeEjecucion}/validarProductoSeleccionado`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1884,7 +2049,7 @@ async function eliminarProd() {
         //const response = await fetch('http://localhost:5169/buscarProductoX');
 
         //const response = await fetch(`http://localhost:5169/buscarProductoX?idProductoSeleccionado=${idProductoSeleccionado}`);
-        const response = await fetch(`${lugarDeEjecucion}/eliminarProductoX`,{
+        const response = await fetch(`${lugarDeEjecucion}/eliminarProductoSeleccionado`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1907,16 +2072,26 @@ async function ActualizarProducto(idProductoSeleccionado,idUsuarioIniciado)
             event.preventDefault();
 
             const formData = new FormData(event.target);
-            const nombre = formData.get('nombre');
+            /*const nombre = formData.get('nombre');
             console.log(formData.get('nombre'));
             const precio = formData.get('precio');
             const categoria = formData.get('categoria');
             const descripcion = formData.get('descripcion');
             const img = formData.get('nuevo-url-imagen') ?? formData.get('imagenProducto');
-            const cantidad = parseInt(formData.get('cantidad'));
+            const cantidad = parseInt(formData.get('cantidad'));*/
+            
+            var requestBody = {
+                nombre: formData.get('nombre'),
+                precio: formData.get('precio'),
+                categoria: formData.get('categoria'),
+                descripcion: formData.get('descripcion'),
+                img: formData.get('nuevo-url-imagen') ?? formData.get('imagenProducto'),
+                cantidad: parseInt(formData.get('cantidad')),
+                idproducto: idProductoSeleccionado,
+            };
 
             try {
-                const response = await fetch(`${lugarDeEjecucion}/ActualizarProducto`, {
+                /*const response = await fetch(`${lugarDeEjecucion}/ActualizarProducto`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1928,33 +2103,31 @@ async function ActualizarProducto(idProductoSeleccionado,idUsuarioIniciado)
                         descripcion: descripcion,
                         imagenes: img,
                         cantidad: cantidad,
-                        idvendedor: idUsuarioIniciado,
+                        idvendedor: 5,
                         idproducto:idProductoSeleccionado,
                     }),
+                });*/
+                const response = await fetch(`${lugarDeEjecucion}/ActualizarProducto`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestBody)
                 });
         
                 if (response.ok) {
-                    const data = await response.json();
-                    console.log('Producto creado correctamente');
-                    mostrarResultado(data.resultado); 
+                    //const data = await response.json();
+                    console.log('Producto actualizado correctamente');
+                    //mostrarResultado(data.resultado); 
 
-                    // Aquí podrías mostrar un mensaje de éxito o redirigir a otra página
-                    // Borra los campos del formulario
                     window.location.reload();
-                   /* document.getElementById('nombreProd').value = '';
-                    document.getElementById('precioProd').value = '';
-                    document.getElementById('categoriaProd').value = '';
-                    document.getElementById('descripcionProd').value = '';
-                    document.getElementById('imgProd').value = '';
-                    document.getElementById('cantProd').value = '';
-                    */
                 } else {
                     console.error('Error al actualizar el producto:', response.statusText);
                 }
             } catch (error) {
                 console.error('Error inesperado:', error);
             }
-            alert("Producto creado correctamente")
+            alert("Producto actualizado correctamente")
             window.location.reload();
         });
 }
@@ -2000,21 +2173,23 @@ async function IniciarSesion(){
             console.log("El usuario ha iniciado sesión");
             const data = await response.json();
             idUsuarioIniciado = data.Id;
-            localStorage.setItem('UsuarioID', idUsuarioIniciado);
+            console.log("User Iniciado" + idUsuarioIniciado);
+            localStorage.setItem('UsuarioID', data.Id);
             
             // Determinar el tipo de usuario
             let tipoUsuario;
             console.log(data.TipoUsuario);
+            console.log(data.Nombre);
             
             if (data.TipoUsuario === "Vendedor") {
                 tipoUsuario = "vendedor";
-                window.location.href = `./Interfaces/PaginaVendedor.html`;
+               // window.location.href = `./Interfaces/PaginaVendedor.html`;
             } else if (data.TipoUsuario === "Técnico") {
                 tipoUsuario = "tecnico";
-                window.location.href = `./Interfaces/ValidarProductos.html`;
+               /// window.location.href = `./Interfaces/ValidarProductos.html`;
             } else {
                 tipoUsuario = "usuario";
-                window.location.href = `./Interfaces/NewPaginaPrincipal.html`;
+                //window.location.href = `./Interfaces/NewPaginaPrincipal.html`;
             }
             
             localStorage.setItem('tipoUserID', tipoUsuario);
