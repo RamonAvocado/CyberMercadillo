@@ -1707,29 +1707,36 @@ function mostrarProductosDeVendedor(productos) {
 }
 
 //Ir a la página de búsqueda
+//COPIADO --METODOSNAVEGACION
 function IrABuquedaProducto(){
 
     window.location.href = `./ResultadoBusqueda.html`
 }
 
 //boton para redirigir a la página de Búsqueda
+//COPIADO --METODDOSNAVEGACION
 function redirigirABusqueda(){
     window.location.href = `./NewPaginaPrincipal.html`
 }
 
 
 //Boton para volver a at´ras
+//COPIADO --METODDOSNAVEGACION
+
 function volverPaginaAnterior(){
     window.history.back();
 }
 
 //Boton para ir al historial de Busqueda
+//COPIADO --METODDOSNAVEGACION
 function irAHistorialDeBúsqueda(){
     //localStorage.setItem('itemID', idProductoSeleccionado);
     //localStorage.setItem('UsuarioID', idUsuarioIniciado);
     window.location.href = `./HistorialDeBusqueda.html`
 }
 
+
+//COPIADO --METODDOSNAVEGACION
 function irANuevoProducto(){
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get('idUser');
@@ -1737,6 +1744,7 @@ function irANuevoProducto(){
     window.location.href = `./NuevoProducto.html?idUser=${userId}`
 }
 
+//COPIADO --METODDOSNAVEGACION
 function irAEditarProducto(){
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get('idUser');
@@ -1744,6 +1752,7 @@ function irAEditarProducto(){
     window.location.href = `./EditarProducto.html?idUser=${userId}`
 }
 
+//COPIADO --METODDOSNAVEGACION
 function irALogin(){
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get('idUser');
