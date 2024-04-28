@@ -140,3 +140,527 @@ function irAInfoProducto2(productoParaInfo) {
     const historialBtn = document.getElementById('historialBtnInfoProd');
     historialBtn.style.display = 'none';
 }
+
+async function agregarUsuarioVendedor(TipoUsuarioRegistrado){
+    document.getElementById('agregarVendedorForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const nombreUsu = formData.get('nombreUsuV');
+        const telefono = formData.get('TelUsuV');
+        const correoUsu = formData.get('CorreoUsuV');
+        const contraseña = formData.get('ContraseñaUsuV');
+        const contraseñaR = formData.get('RContraseñaUsuV');
+        const direccion = formData.get('DirUsuV');
+        const telTienda = parseInt(formData.get('TelUsuT'));
+        const nombreTienda = formData.get('NomTUsu');
+        try {
+            const response = await fetch(`http://localhost:5169/AgregarVendedor`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    nombre: nombreUsu,
+                    movil: telefono,
+                    correo: correoUsu,
+                    contraseña: contraseña,
+                    direccion: direccion,
+                    CVV: cvv,
+                    fechaCaducidad: FechaCad,
+                    numeroTarjeta: numTarj,
+                    tipoUsu:TipoUsuarioRegistrado,
+                    telefonotienda: telTienda,
+                    nombretienda: nombreTienda,
+                }),
+            });
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Producto creado correctamente');
+                mostrarResultado(data.resultado);
+                window.location.reload();
+            } else {
+                console.error('Error al crear el usuario:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error inesperado:', error);
+        }
+        alert("Usuario creado correctamente")
+        window.location.reload();
+    });
+}
+
+async function agregarUsuarioComprador(TipoUsuarioRegistrado)
+{
+        console.log('ID del usuario registrado:', TipoUsuarioRegistrado);
+        document.getElementById('agregarCompradorForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const nombreUsu = formData.get('nombreUsuC');
+            const telefono = formData.get('TelUsuC');
+            const correoUsu = formData.get('CorreoUsuC');
+            const contraseña = formData.get('ContraseñaUsuC');
+            const contraseñaR = formData.get('RContraseñaUsuC');
+            const direccion = formData.get('DirUsuC');
+            const cvv = parseInt(formData.get('CVV'));
+            const numTarj = parseInt(formData.get('NumTarj'));
+            const FechaCad = formData.get('FechaCad');
+
+            try {
+                const response = await fetch(`http://localhost:5169/AgregarComprador`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        nombre: nombreUsu,
+                        movil: telefono,
+                        correo: correoUsu,
+                        contraseña: contraseña,
+                        direccion: direccion,
+                        CVV: cvv,
+                        fechaCaducidad: FechaCad,
+                        numeroTarjeta: numTarj,
+                        tipoUsu:TipoUsuarioRegistrado,
+                    }),
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Producto creado correctamente');
+                    GeneralMetodos.mostrarResultado(data.resultado);
+                    window.location.reload();
+                } else {
+                    console.error('Error al crear el usuario:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error inesperado:', error);
+            }
+            alert("Usuario creado correctamente")
+            window.location.reload();
+        });
+}
+
+function irAPagianValidaciones() {
+    window.location.href = './ValidarProductos.html';
+}
+
+function irAPagianVendedor() {
+    window.location.href = './PaginaVendedor.html';
+}
+
+
+//INICIO METODOS CARGA/MUESTRA PRODUCTOS
+async function CargarProductosRecomendados(){
+    try {
+        // Realizar una solicitud GET al backend para obtener los 6 primeros productos
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosRecomendados`);
+        if (response.ok) {
+            const data = await response.json();
+            const productos = data.productos;
+
+            const productosPorPagina = 6;
+            const totalPaginas = Math.ceil(productos.length / productosPorPagina);
+
+            // Mostrar los productos de la primera página en la interfaz de usuario
+            mostrarProductosRecomendados(productos.slice(0, productosPorPagina));
+
+            // Generar enlaces de paginación
+            generarEnlacesPaginacionRec(totalPaginas);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+async function cargarProductosPorPaginaRec(numeroPagina) {
+    const productosPorPagina = 6;
+
+    try {
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosRecomendados`);
+        if (response.ok) {
+            const data = await response.json();
+            const productos = data.productos;
+
+            const inicio = (numeroPagina - 1) * productosPorPagina;
+            const fin = numeroPagina * productosPorPagina;
+            const productosPagina = productos.slice(inicio, fin);
+
+            mostrarProductosRecomendados(productosPagina);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+async function cargarProductosPorPagina(numeroPagina,idUsuarioIniciado) {
+    const productosPorPagina = 6;
+
+    try {
+
+        console.log('ID del usuario seleccionado:', idUsuarioIniciado);
+        // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosVendedor`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                idusuario: idUsuarioIniciado
+            }),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            const productos = data.productos.Models;
+
+            const inicio = (numeroPagina - 1) * productosPorPagina;
+            const fin = numeroPagina * productosPorPagina;
+            const productosPagina = productos.slice(inicio, fin);
+
+            mostrarProductosVendedor(productosPagina);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+async function cargarProductosPorPaginaDest(numeroPagina) {
+    const productosPorPagina = 6;
+
+    try {
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosDestacados`);
+        if (response.ok) {
+            const data = await response.json();
+            const productos = data.productos;
+
+            const inicio = (numeroPagina - 1) * productosPorPagina;
+            const fin = numeroPagina * productosPorPagina;
+            const productosPagina = productos.slice(inicio, fin);
+
+            mostrarProductosDestacados(productosPagina);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+function mostrarProductosRecomendados(productos) {
+    const container = document.querySelector('.recommended-products');
+    container.innerHTML = '';
+
+    // Itera sobre los productos y crea elementos para mostrarlos
+    productos.forEach((producto) => {
+        const productCard = document.createElement('div');
+        productCard.classList.add('product-card');
+        //imagenes de cada producto
+        const imagenes = producto.imagenes.split(' ');
+        const primeraImagen = imagenes[0];
+
+        // Agrega la imagen, nombre y precio del producto dentro de un enlace       
+        productCard.innerHTML = `
+            <button class="favorite-btn"></button> <!-- Botón de favoritos -->
+            <img src="${primeraImagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
+            <h3>${truncate(producto.nombreproducto)}</h3>
+            <p class="price">${producto.precio} €</p>
+            <p class="description">${truncate(producto.descripcion)}</p>
+            <div hidden>
+                <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
+                <div id="idProducto" data-info="${producto.idproducto}"> </div>
+            </div>
+        `;
+
+        // Agregar evento de clic para seleccionar el producto
+        productCard.addEventListener('click', (event) => {
+            seleccionarProducto(event.currentTarget);
+        });
+
+        // Agregar evento de doble clic para ir a la página de información del producto
+        productCard.addEventListener('dblclick', (event) => {
+            irAInfoProducto(event.currentTarget);
+        });
+
+        container.appendChild(productCard);
+    });
+}
+
+function generarEnlacesPaginacionRec(totalPaginas) {
+    const paginasContainer = document.getElementById('paginasRec');
+    paginasContainer.innerHTML = ''; // Limpiar los enlaces de paginación antes de generarlos nuevamente
+
+    for (let i = 1; i <= totalPaginas; i++) {
+        const pagina = document.createElement('li');
+        pagina.classList.add('pagina-item');
+        const enlace = document.createElement('a');
+        enlace.href = `#pagina-${i}`;
+        enlace.textContent = i;
+        pagina.appendChild(enlace);
+        paginasContainer.appendChild(pagina);
+
+        // Agregar event listener para cargar los productos de la página seleccionada
+        enlace.addEventListener('click', async function(event) {
+            event.preventDefault();
+            await cargarProductosPorPaginaRec(i);
+        });
+    }
+}
+
+function generarEnlacesPaginacion(totalPaginas,idUsuarioIniciado) {
+    const paginasContainer = document.getElementById('paginas');
+    paginasContainer.innerHTML = ''; // Limpiar los enlaces de paginación antes de generarlos nuevamente
+
+    for (let i = 1; i <= totalPaginas; i++) {
+        const pagina = document.createElement('li');
+        pagina.classList.add('pagina-item');
+        const enlace = document.createElement('a');
+        enlace.href = `#pagina-${i}`;
+        enlace.textContent = i;
+        pagina.appendChild(enlace);
+        paginasContainer.appendChild(pagina);
+
+        // Agregar event listener para cargar los productos de la página seleccionada
+        enlace.addEventListener('click', async function(event) {
+            event.preventDefault();
+            await cargarProductosPorPagina(i,idUsuarioIniciado);
+        });
+    }
+}
+
+async function InicializarProductos() {
+    try {
+        console.log("Entra funcion InicializarProductos");
+        
+        const response = await fetch(`${lugarDeEjecucion}/inicializar`);
+    
+        if (response.ok) {
+            const data = await response.json();
+            CargarProductosDestacados();
+            CargarProductosRecomendados();
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+async function CargarProductosDestacados() {
+    try {
+        console.log("Entra funcion cargarProductosDestacados");
+        // Realizar una solicitud GET al archvo SERVICIOS para obtener los productos del archivo de fachada logica y luego de tienda
+        //await fetch(`${lugarDeEjecucion}/inicializar`);
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosDestacados`);
+    
+        if (response.ok) {
+            const data = await response.json();
+
+            //comprobar desde f12 consola que salen todos los productos
+            /*
+            data.productos.forEach((prod) => {
+                console.log(`Nombre: ${prod.nombreproducto}, Precio: ${prod.precio}`);
+            });*/
+        
+            const productos = data.productos;
+            
+            const productosPorPagina = 6;
+            const totalPaginas = Math.ceil(productos.length / productosPorPagina);
+
+            // Mostrar los productos de la primera página en la interfaz de usuario
+            mostrarProductosDestacados(productos.slice(0, productosPorPagina));
+
+            // Generar enlaces de paginación
+            generarEnlacesPaginacionDest(totalPaginas);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+
+function mostrarProductosDestacados(productos) {
+    const container = document.querySelector('.featured-products');
+    container.innerHTML = '';
+
+
+    // Itera sobre los productos y crea elementos para mostrarlos
+    productos.forEach((producto) => {
+        const productCard = document.createElement('div');
+        productCard.classList.add('product-card');
+        //imagenes de cada producto
+        const imagenes = producto.imagenes.split(' ');
+        const primeraImagen = imagenes[0];
+
+        // Agrega la imagen, nombre y precio del producto dentro de un enlace
+        productCard.innerHTML = `
+            <button class="favorite-btn"></button> <!-- Botón de favoritos -->
+            <img src="${primeraImagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
+            <h3>${truncate(producto.nombreproducto)}</h3>
+            <p class="price">${producto.precio} €</p>
+            <p class="description">${truncate(producto.descripcion)}</p>
+            <div hidden>
+                <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
+                <div id="idProducto" data-info="${producto.idproducto}"> </div>
+            </div>
+        `;
+
+        // Agregar evento de clic para seleccionar el producto
+        productCard.addEventListener('click', (event) => {
+            seleccionarProducto(event.currentTarget);
+        });
+
+        // Agregar evento de doble clic para ir a la página de información del producto
+        productCard.addEventListener('dblclick', (event) => {
+            irAInfoProducto(event.currentTarget);
+        });
+        container.appendChild(productCard);
+    });
+}
+
+
+function generarEnlacesPaginacionDest(totalPaginas) {
+    const paginasContainer = document.getElementById('paginasDest');
+    paginasContainer.innerHTML = ''; // Limpiar los enlaces de paginación antes de generarlos nuevamente
+
+    for (let i = 1; i <= totalPaginas; i++) {
+        const pagina = document.createElement('li');
+        pagina.classList.add('pagina-item');
+        const enlace = document.createElement('a');
+        enlace.href = `#pagina-${i}`;
+        enlace.textContent = i;
+        pagina.appendChild(enlace);
+        paginasContainer.appendChild(pagina);
+
+        // Agregar event listener para cargar los productos de la página seleccionada
+        enlace.addEventListener('click', async function(event) {
+            event.preventDefault();
+            await cargarProductosPorPaginaDest(i);
+        });
+    }
+}
+
+function seleccionarProducto(productoSeleccionado) {
+    // Desmarcar todos los productos seleccionados
+    const selectedProducts = document.querySelectorAll('.product-card.selected');
+    selectedProducts.forEach(product => product.classList.remove('selected'));
+
+    // Marcar el producto actualmente seleccionado
+    productoSeleccionado.classList.add('selected');
+}
+
+
+function irAInfoProducto(productoParaInfo) {
+    // Obtener el ID del producto y la categoría de los atributos de datos (data-*) de la tarjeta de producto
+    const productId = productoParaInfo.querySelector('#idProducto').dataset.info;
+    localStorage.setItem('itemID', productId);
+
+    window.location.href = `./InfoProducto.html`;
+}
+
+function mostrarTodosProductos(productos) {
+    const container = document.querySelector('.resultado-busqueda');
+
+    // Limpia el contenedor antes de agregar nuevos productos
+    container.innerHTML = '';
+    
+    // Agregar el botón "Añadir al Carrito de Compra" fuera del bucle
+    const cartButtonContainer = document.createElement('div');
+    cartButtonContainer.classList.add('cart-button-container');
+    const cartButton = document.createElement('button');
+    cartButton.classList.add('cart-btn');
+    cartButton.textContent = 'Añadir al Carrito de Compra';
+    cartButtonContainer.appendChild(cartButton);
+    container.appendChild(cartButtonContainer);
+
+    // Itera sobre los productos y crea elementos para mostrarlos
+    productos.forEach((producto) => {
+        const productCard = document.createElement('div');
+        productCard.classList.add('product-card');
+        //imagenes de cada producto
+        const imagenes = producto.imagenes.split(' ');
+        const primeraImagen = imagenes[0];
+        // Agrega la imagen, nombre y precio del producto dentro de la tarjeta
+        productCard.innerHTML = `
+            <button class="favorite-btn"></button> <!-- Botón de favoritos -->
+            <img src="${primeraImagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
+            <h3>${truncate(producto.nombreproducto)}</h3>
+            <p class="price">${producto.precio} €</p>
+            <p class="description">${truncate(producto.descripcion)}</p>
+            <div hidden>
+                <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
+                <div id="idProducto" data-info="${producto.idproducto}"> </div>
+            </div>
+        `;
+
+        // Agregar evento de clic para seleccionar el producto
+        productCard.addEventListener('click', (event) => {
+            seleccionarProducto(event.currentTarget);
+        });
+
+        // Agregar evento de doble clic para ir a la página de información del producto
+        productCard.addEventListener('dblclick', (event) => {
+            irAInfoProducto(event.currentTarget);
+        });
+
+        container.appendChild(productCard);
+    });
+}
+
+
+// Función para truncar el texto si supera el tamaño máximo
+function truncate(text) {
+    const maxLength = 50; // Establece el tamaño máximo
+    return text.length > maxLength ? text.substring(0, maxLength - 3) + '...' : text;
+}
+
+async function getID() {
+    try {
+        const response = await fetch(`${lugarDeEjecucion}/getID`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+        if (response.ok) {
+            const responseBody = await response.json(); // Guarda el cuerpo de la respuesta en una variable
+            return(responseBody.ID_USUARIO);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+async function crearCertificado() {
+    const response = await fetch(`${lugarDeEjecucion}/crearCertificado`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(idProductoSeleccionado)
+    });
+
+
+    if (response.ok) {
+        // Crear una URL para el blob (archivo binario)
+        const blobUrl = URL.createObjectURL(await response.blob());
+
+        // Crear un enlace <a> para descargar el archivo
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.setAttribute('download', 'certificado.pdf');
+
+        // Simular clic en el enlace para iniciar la descarga
+        link.click();
+    } else {
+        console.error('Error al crear el certificado');
+    }
+}

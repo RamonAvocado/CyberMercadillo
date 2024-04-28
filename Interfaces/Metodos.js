@@ -305,6 +305,7 @@ function mostrarProductosCat(productos) {
 //  INICIO PRODUCTOS DESTACADOS
 
 //cargar todos los productos de la base de datos
+//COPIADO--GENERALMETODOS
 async function InicializarProductos() {
     try {
         console.log("Entra funcion InicializarProductos");
@@ -324,6 +325,7 @@ async function InicializarProductos() {
 }
 
 //NUEVO CARGAR PRODUCTOS CON LA NUEVA  ARQUITECTURA
+//COPIADO--GENERALMETODOS
 async function CargarProductosDestacados() {
     try {
         console.log("Entra funcion cargarProductosDestacados");
@@ -357,9 +359,9 @@ async function CargarProductosDestacados() {
         console.error('Error inesperado:', error);
     }
 }
-//
 
 
+//COPIADO--GENERALMETODOS
 function generarEnlacesPaginacionDest(totalPaginas) {
     const paginasContainer = document.getElementById('paginasDest');
     paginasContainer.innerHTML = ''; // Limpiar los enlaces de paginación antes de generarlos nuevamente
@@ -381,6 +383,7 @@ function generarEnlacesPaginacionDest(totalPaginas) {
     }
 }
 
+//COPIADO--GENERALMETODOS
 async function cargarProductosPorPaginaDest(numeroPagina) {
     const productosPorPagina = 6;
 
@@ -403,6 +406,7 @@ async function cargarProductosPorPaginaDest(numeroPagina) {
     }
 }
 
+//COPIADO--GENERALMETODOS
 function mostrarProductosDestacados(productos) {
     const container = document.querySelector('.featured-products');
     container.innerHTML = '';
@@ -447,6 +451,7 @@ function mostrarProductosDestacados(productos) {
 //  INICIO PRODUCTOS RECOMENDADOS
 
 //FUNCION PARA MOSTRAR 2 PRODUCTOS RECOMENDADOS EN LA PAGINA DE LA INFORMACIÓN DE PRODUCTO
+//COPIADO-- METODOSPRODUCTO
 async function CargarProductosRecomendadosInfoProd(){
     try {
         // Realizar una solicitud GET al backend para obtener los 6 primeros productos
@@ -471,6 +476,7 @@ async function CargarProductosRecomendadosInfoProd(){
 
 //carga los productos de la base de datos, deberían de ser los productos Recomendados por búsquedas
 //pero todavía no tenemos Recomendaciones
+//COPIADO--GENERALMETODOS
 async function CargarProductosRecomendados(){
     try {
         // Realizar una solicitud GET al backend para obtener los 6 primeros productos
@@ -495,7 +501,7 @@ async function CargarProductosRecomendados(){
     }
 }
 
-
+//COPIADO--GeneralMetodos
 function generarEnlacesPaginacionRec(totalPaginas) {
     const paginasContainer = document.getElementById('paginasRec');
     paginasContainer.innerHTML = ''; // Limpiar los enlaces de paginación antes de generarlos nuevamente
@@ -516,7 +522,7 @@ function generarEnlacesPaginacionRec(totalPaginas) {
         });
     }
 }
-
+//COPIADO--GENERALMETODOS
 async function cargarProductosPorPaginaRec(numeroPagina) {
     const productosPorPagina = 6;
 
@@ -539,7 +545,7 @@ async function cargarProductosPorPaginaRec(numeroPagina) {
     }
 }
 
-
+//COPIADO--GENERALMETODOS
 function mostrarProductosRecomendados(productos) {
     const container = document.querySelector('.recommended-products');
     container.innerHTML = '';
@@ -605,7 +611,7 @@ async function CargaTodosProductos(valor){
         console.error('Error inesperado:', error);
     }
 }
-
+//COPIADO--GENERALMETODOS //posible productos
 function mostrarTodosProductos(productos) {
     const container = document.querySelector('.resultado-busqueda');
 
@@ -656,6 +662,7 @@ function mostrarTodosProductos(productos) {
 }
 
 // Función para truncar el texto si supera el tamaño máximo
+//COPIADO -- GENERALMETODOS
 function truncate(text) {
     const maxLength = 50; // Establece el tamaño máximo
     return text.length > maxLength ? text.substring(0, maxLength - 3) + '...' : text;
@@ -663,7 +670,7 @@ function truncate(text) {
 
 
 //FUNCIONES CLICKS
-//COPIADO
+//COPIADO--BUSQUEDA ->GENERALMETODOS
 function seleccionarProducto(productoSeleccionado) {
     // Desmarcar todos los productos seleccionados
     const selectedProducts = document.querySelectorAll('.product-card.selected');
@@ -673,7 +680,7 @@ function seleccionarProducto(productoSeleccionado) {
     productoSeleccionado.classList.add('selected');
 }
 
-//Copiado
+//Copiado--BUSQUEDA ->GENERALMETODOS
 function irAInfoProducto(productoParaInfo) {
     // Obtener el ID del producto y la categoría de los atributos de datos (data-*) de la tarjeta de producto
     const productId = productoParaInfo.querySelector('#idProducto').dataset.info;
@@ -682,7 +689,7 @@ function irAInfoProducto(productoParaInfo) {
     window.location.href = `./InfoProducto.html`;
 }
 
-//Copiado
+//Copiado--GENERALMETODOS
 function irAInfoProducto2(productoParaInfo) {
     // Redirigir a la página de InfoProducto.html con el parámetro del producto
     window.location.href = `InfoBasicaProducto.html?id=${productoParaInfo}`;
@@ -1114,7 +1121,7 @@ function mostrarUnProductoCompra(producto, usuario) {
 }
 
 // Función para verificar si los campos de la tarjeta están rellenados
-//COPIADO -- MetodosUser
+//COPIADO -- MetodosCompra
 function verificarCamposTarjeta() {
     const numTarjetaInput = document.querySelector('.payment-info input[type="text"][placeholder="Número de tarjeta"]');
     const fechaCaducidadInput = document.querySelector('.payment-info input[type="text"][placeholder="Fecha de caducidad"]');
@@ -1155,7 +1162,7 @@ function verificarCamposTarjeta() {
     }*/
     return true;
 }
-//COPIADO --MetodoUser
+//COPIADO --MetodoCompra
 function validarFormatoFecha(fechaCaducidadInput) {
     //es un formato año, mes, dia
     const regex = /^\d{4}-\d{2}-\d{2}$/;
@@ -1164,7 +1171,7 @@ function validarFormatoFecha(fechaCaducidadInput) {
 
 
 // Función para mostrar una ventana emergente para guardar los datos de la tarjeta
-//COPIADO --MetodoUser
+//COPIADO --MetodoCompra
 function mostrarVentanaEmergente() {
     const confirmacion = confirm('¿Desea guardar los datos de su tarjeta para futuras compras?');
 
@@ -1201,7 +1208,7 @@ function mostrarVentanaEmergente() {
 }
 
 // Función para finalizar la compra
-//Copiado
+//Copiado--MetodoCompra
 async function FinalizarCompra() {
     // Verificar si los campos de la tarjeta están rellenados
     const camposRellenados = verificarCamposTarjeta();
@@ -1458,6 +1465,7 @@ function generarEnlacesPaginacionDest(totalPaginas) {
 }*/
 
 //Copiado
+//COPIADO--GENERALMETODOS
 function generarEnlacesPaginacion(totalPaginas,idUsuarioIniciado) {
     const paginasContainer = document.getElementById('paginas');
     paginasContainer.innerHTML = ''; // Limpiar los enlaces de paginación antes de generarlos nuevamente
@@ -2206,6 +2214,7 @@ async function IniciarSesion(){
     }
 }
 
+//COPIADO -- METODOSBUSQUEDAS
 async function getBusquedas() {
     
     try {
@@ -2263,7 +2272,7 @@ async function getBusquedas() {
 
 
 
-
+//COPIADO -- GENERALMETODOS
 async function getID() {
     try {
         const response = await fetch(`${lugarDeEjecucion}/getID`, {
@@ -2351,7 +2360,7 @@ function irRegistroVendedor() {
     window.location.href = `./NuevoUsuarioVendedor.html`;
     localStorage.setItem('tipoUsuRegistro', "vendedor");
     console.log("vendedor");
-}"vendedor"
+}
 
 //COPIADO --MetodoUser
 function irRegistroComprador() {
@@ -2463,7 +2472,9 @@ async function agregarUsuarioVendedor(TipoUsuarioRegistrado){
 }
 
 
+
 //CODIGO CREAR CERTIFICADO ECOLÓGICO
+//COPIADO--GENERALMETODOS
 async function crearCertificado() {
     const response = await fetch(`${lugarDeEjecucion}/crearCertificado`, {
         method: 'POST',
@@ -2472,6 +2483,7 @@ async function crearCertificado() {
         },
         body: JSON.stringify(idProductoSeleccionado)
     });
+
 
     if (response.ok) {
         // Crear una URL para el blob (archivo binario)
