@@ -1,4 +1,4 @@
-import GeneralMetodos from './GeneralMetodos.js';
+
 var idProductoSeleccionado;
 var idUsuarioIniciado;//guardo esto aquí para poder acceder en todas las páginas
 var idProductoCantidadSelec;//cantidad de producto seleccionada
@@ -68,7 +68,7 @@ async function agregarProducto(idUsuarioIniciado)
                 if (response.ok) {
                     const data = await response.json();
                     console.log('Producto creado correctamente');
-                    GeneralMetodos.mostrarResultado(data.resultado);
+                    mostrarResultado(data.resultado);
                     window.location.reload();
                 } else {
                     console.error('Error al crear el producto:', response.statusText);
@@ -115,7 +115,7 @@ async function agregarProd()
                 if (response.ok) {
                     const data = await response.json();
                     console.log('Producto creado correctamente');
-                    GeneralMetodos.mostrarResultado(data.resultado);
+                    mostrarResultado(data.resultado);
 
                     // Aquí podrías mostrar un mensaje de éxito o redirigir a otra página
                     // Borra los campos del formulario
@@ -137,19 +137,22 @@ async function agregarProd()
 }
 
 
-async function ActualizarProducto(idProductoSeleccionado,idUsuarioIniciado)
+export async function ActualizarProducto(idProductoSeleccionado,idUsuarioIniciado)
 {
         document.getElementById('agregarProductoForm7').addEventListener('submit', async (event) => {
             event.preventDefault();
 
             const formData = new FormData(event.target);
-            const nombre = formData.get('nombre');
-            console.log(formData.get('nombre'));
-            const precio = formData.get('precio');
-            const categoria = formData.get('categoria');
-            const descripcion = formData.get('descripcion');
-            const img = formData.get('nuevo-url-imagen') ?? formData.get('imagenProducto');
-            const cantidad = parseInt(formData.get('cantidad'));
+            
+            var requestBody = {
+                nombre: formData.get('nombre'),
+                precio: formData.get('precio'),
+                categoria: formData.get('categoria'),
+                descripcion: formData.get('descripcion'),
+                img: formData.get('nuevo-url-imagen') ?? formData.get('imagenProducto'),
+                cantidad: parseInt(formData.get('cantidad')),
+                idproducto: idProductoSeleccionado,
+            };
 
             try {
                 const response = await fetch(`${lugarDeEjecucion}/ActualizarProducto`, {
@@ -157,41 +160,23 @@ async function ActualizarProducto(idProductoSeleccionado,idUsuarioIniciado)
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({
-                        nombreproducto: nombre,
-                        precio: precio,
-                        categoria: categoria,
-                        descripcion: descripcion,
-                        imagenes: img,
-                        cantidad: cantidad,
-                        idvendedor: idUsuarioIniciado,
-                        idproducto:idProductoSeleccionado,
-                    }),
+                    body: JSON.stringify(requestBody)
                 });
         
                 if (response.ok) {
-                    const data = await response.json();
-                    console.log('Producto creado correctamente');
-                    GeneralMetodos.mostrarResultado(data.resultado);
+                    //const data = await response.json();
+                    console.log('Producto actualizado correctamente');
+                    //mostrarResultado(data.resultado); 
 
-                    // Aquí podrías mostrar un mensaje de éxito o redirigir a otra página
-                    // Borra los campos del formulario
-                    window.location.reload();
-                   /* document.getElementById('nombreProd').value = '';
-                    document.getElementById('precioProd').value = '';
-                    document.getElementById('categoriaProd').value = '';
-                    document.getElementById('descripcionProd').value = '';
-                    document.getElementById('imgProd').value = '';
-                    document.getElementById('cantProd').value = '';
-                    */
+                    //window.location.reload();
                 } else {
                     console.error('Error al actualizar el producto:', response.statusText);
                 }
             } catch (error) {
                 console.error('Error inesperado:', error);
             }
-            alert("Producto creado correctamente")
-            window.location.reload();
+            alert("Producto actualizado correctamente")
+            //window.location.reload();
         });
 }
 
@@ -600,15 +585,6 @@ function mostrarUnProductoBasico(respuesta) {
     }
 
     productCard.dataset.productId = producto.idproducto;
-
-    // Agregar evento de clic al botón de comprar
-    comprarButton.addEventListener('click', function() {
-        // Obtener el ID del producto desde el atributo de datos del contenedor del producto
-        const productId = productCard.dataset.productId;
-        // Redirigir a la página de compra del producto con el ID del producto en la URI
-        window.location.href = `./CompraProducto.html?id=${productId}`;
-    });
-
 }
 
 //RECOMENDACION DE PRODUCTOS DENTRO DE INFO DE UN PRODUCTO
@@ -625,7 +601,7 @@ async function CargarProductosRecomendadosInfoProd(){
             const totalPaginas = Math.ceil(productos.length / productosPorPagina);
 
             // Mostrar los productos de la primera página en la interfaz de usuario
-            GeneralMetodos.mostrarProductosRecomendados(productos.slice(0, productosPorPagina));
+            mostrarProductosRecomendados(productos.slice(0, productosPorPagina));
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
         }
@@ -633,7 +609,7 @@ async function CargarProductosRecomendadosInfoProd(){
         console.error('Error inesperado:', error);
     }
 }
-
+export { CargaUnProductoBasico };
 /*function mostrarProductosRecomendados(productos) {
     const container = document.querySelector('.recommended-products');
     container.innerHTML = '';

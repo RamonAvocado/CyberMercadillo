@@ -1,4 +1,3 @@
-import GeneralMetodos from './GeneralMetodos.js';
 var idProductoSeleccionado;
 var idUsuarioIniciado;//guardo esto aquí para poder acceder en todas las páginas
 var idProductoCantidadSelec;//cantidad de producto seleccionada
