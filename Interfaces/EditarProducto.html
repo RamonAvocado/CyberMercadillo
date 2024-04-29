@@ -142,6 +142,8 @@
     <script src="./Metodos/MetodosVendedor.js"></script>
     <script src="./Metodos/MetodosUser.js"></script>
     <script src="./Metodos/MetodosNavegacion.js"></script>
+    <script src="./Metodos/GeneralMetodos.js"></script>
+
     <script>
         // Llama a la función buscar cuando la página se cargue
         //window.addEventListener('load', mostrarProd);
@@ -149,6 +151,7 @@
     <script>
         // Llama a la función agregarProd() para que se ejecute tu código JavaScript
         mostrarProd(localStorage.getItem('itemID'));
+        window.addEventListener('unload', GuardarBDD);
     </script>
     <script>
         // Llamar a la función para agregar el enlace de Iniciar Sesión o Cerrar Sesión

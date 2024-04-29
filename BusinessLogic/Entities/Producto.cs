@@ -8,18 +8,33 @@ namespace CyberMercadillo.Entities
 {       
     public partial class Producto{
         private FachadaDBB fachadaDBB;
-        public Producto(){}
-        public Producto(int idproductoProd,string nombreProd, string precioProd, string categoriaProd, string descripcionProd, string imgsProd, int cantProd, int idvendedorProd, bool validadoProd, int huellaEcologica) {
-            idproducto = idproductoProd;
-            nombreproducto = nombreProd;
-            precio = precioProd;
-            categoria = categoriaProd;
-            descripcion = descripcionProd;
-            imagenes = imgsProd;
-            cantidad = cantProd;
-            idvendedor = idvendedorProd;
-            validado = validadoProd;
-            huellaEco = huellaEcologica;   
+        public Producto() {
+            idproducto = 0;
+            nombreproducto = "ProductoDefecto";
+            precio = "0";
+            categoria = "CategoriaPorDefecto";
+            descripcion = "DescripcionPorDefecto";
+            imagenes = "ImagenPorDefecto";
+            cantidad = 0;
+            idvendedor = 0;
+            validado = false;
+            huellaEco = 0;   
+        }
+
+        public Producto(int? idproductoProd,string? nombreProd, string? precioProd, string? categoriaProd, string? descripcionProd, string? imgsProd, int? cantProd, int? idvendedorProd, bool? validadoProd, int? huellaEcologica) {
+            idproducto = idproductoProd ?? 0;
+            nombreproducto = nombreProd ?? "ProductoDefecto";
+            precio = precioProd ?? "0";
+            categoria = categoriaProd ?? "CategoriaPorDefecto";
+            descripcion = descripcionProd ?? "DescripcionPorDefecto";
+            imagenes = imgsProd ?? "ImagenPorDefecto";
+            cantidad = cantProd ?? 0;
+            idvendedor = idvendedorProd ?? 0;
+            validado = validadoProd ?? false;
+            MemoryStream memoryStream = new MemoryStream();
+            using (PdfWriter escritor = new PdfWriter(memoryStream))
+            using (PdfDocument pdf = new PdfDocument(escritor))
+            huellaEco = huellaEcologica ?? 0;   
         }
 
         public MemoryStream CrearPDF()

@@ -122,8 +122,12 @@
         </div>
     </footer>
     <script src="Metodos.js"></script>
+    <script src="./Metodos/GeneralMetodos.js"></script>
+
     <script>
         window.addEventListener('load', CargaUnProducto);
+        window.addEventListener('unload', GuardarBDD);
+
         //CargaUnProducto(localStorage.getItem('UsuarioID'));
     </script>
     <script>

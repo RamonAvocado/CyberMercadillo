@@ -16,24 +16,20 @@ using Newtonsoft.Json.Linq;
 class FachadaDBB{
     private Supabase.Client client;
     public FachadaDBB(String[] args, WebApplication app, Tienda tienda){
-    this.client = client;
     bool TodoCargadoCargados = false;
 
 
     //EL BOTON INICIAR SESION DEBERÁ LLAMAR TAMBIÉN A ESTA FUNCION
-    app.MapGet("/inicializar", async (HttpContext context, Supabase.Client client) =>
+    app.MapGet("/inicializar", async (HttpContext context, Supabase.Client supabase) =>
     { 
         if(!TodoCargadoCargados){
 
-        
-        var productos = await client.From<Producto>().Get();
-        var busquedas = await client.From<Busqueda>().Get();
-        var compradores = await client.From<Comprador>().Get();
-        var vendedores = await client.From<Vendedor>().Get();
-        var tecnicos = await client.From<Tecnico>().Get();
-        var compras = await client.From<Compra>().Get();
-        
-
+        var productos = await supabase.From<Producto>().Get();
+        var busquedas = await supabase.From<Busqueda>().Get();
+        var compradores = await supabase.From<Comprador>().Get();
+        var vendedores = await supabase.From<Vendedor>().Get();
+        var tecnicos = await supabase.From<Tecnico>().Get();
+        var compras = await supabase.From<Compra>().Get();
 
         foreach (var producto in productos.Models){
             tienda.Productos.Add(producto);
@@ -60,11 +56,34 @@ class FachadaDBB{
         else{
             Console.WriteLine("Ya has cargado todo lo de la base de datos, y no puedes volver a cargarlo  :p");
         }
+    });
 
-        //para cargar los productos al iniciar
-        var jsonResponse = new {};
-        context.Response.ContentType = "application/json";
-        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+
+    app.MapGet("/guardarBDD", async (HttpContext context, Supabase.Client supabase) =>
+    { 
+        var productos = tienda.Productos;
+        var busquedas = tienda.Busquedas;
+        var compradores = tienda.Compradores;
+        var vendedores = tienda.Vendedores;
+        var tecnicos = tienda.Tecnicos;
+        var compras = tienda.Compras;
+
+        Busqueda b1 = new Busqueda {
+            texto = "Smart",
+            fecha = DateTime.Now,
+            idusuario = 2,
+            categoria = "Todas las categorias",
+        };
+
+        busquedas.Add(b1);
+        
+        //Añade 10
+
+        await supabase.From<Busqueda>().Where(x => x.idbusqueda != 0).Delete();
+        await supabase.From<Busqueda>().Insert(busquedas);
+
+        Console.WriteLine("Ha actualizado las tablas");
+
     });
     app.Run();
     }

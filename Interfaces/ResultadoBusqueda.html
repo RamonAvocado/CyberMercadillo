@@ -74,6 +74,7 @@
         </div>
     </footer>
     <script src="Metodos.js"></script>
+    <script src="./Metodos/GeneralMetodos.js"></script>
     <script>
         if(getPaginaAnt() != "HistorialDeBusqueda.html"){
             window.addEventListener('DOMContentLoaded', CargaTodosProductos(1));
@@ -83,6 +84,8 @@
             localStorage.setItem('paginaAnterior', "null");
             localStorage.setItem('category', "Todas las categorias");
         }
+
+        window.addEventListener('unload', GuardarBDD);
     </script>
     <script>
         // Llamar a la función para agregar el enlace de Iniciar Sesión o Cerrar Sesión

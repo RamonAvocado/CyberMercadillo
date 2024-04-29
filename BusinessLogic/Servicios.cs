@@ -211,7 +211,7 @@ class Servicios{
                                             .Where(p => p.idproducto == productoData.idproducto)
                                             .Select("precio, cantidad, categoria, descripcion, imagenes, nombreproducto")
                                             .Get(); */
-                    var producto = fachadaLogica.GetProductoPorID(idProductoBuscado);
+                    var producto = fachadaLogica.GetProductoPorID(idProductoBuscado ?? "0");
                     // Devolver los productos al frontend
                     var jsonResponse = new { producto };
                     context.Response.ContentType = "application/json";
@@ -259,7 +259,7 @@ class Servicios{
                                                    descripcionP ?? "Este artículo es el predeterminado por si llega un null a esta función",
                                                    imgP ?? "/rutaPrueba",
                                                    cantidadP,                                       
-                                                   idproductoP);
+                                                   idproductoP ?? "0");
                     Console.WriteLine("pedido");
 
                     // Devuelve una respuesta al frontend (opcional)
@@ -285,7 +285,7 @@ class Servicios{
                     /*await client.From<Producto>()
                                             .Where(p => p.idproducto == productoData.idproducto)
                                             .Delete();*/
-                    fachadaLogica.eliminarProducto(idproductoSeleccionado);
+                    fachadaLogica.eliminarProducto(idproductoSeleccionado ?? "0");
                 }
                 catch (Exception ex)
                 {
@@ -301,7 +301,7 @@ class Servicios{
                     var requestBody = await reader.ReadToEndAsync();
                     var productoData = JsonConvert.DeserializeObject<JObject>(requestBody);
                     var idproductoSeleccionado = productoData["idproducto"].ToObject<string>();
-                    bool validado = fachadaLogica.validarProducto(idproductoSeleccionado);
+                    bool validado = fachadaLogica.validarProducto(idproductoSeleccionado ?? "0");
 /*
                     var result = await client.From<Producto>()
                                             .Where(p => p.idproducto == productoData.idproducto && p.validado == true)
@@ -395,6 +395,7 @@ class Servicios{
 
                 //guardo la búsqueda en local, pero aun no en base de datos
                 fachadaLogica.GuardarBusqueda(category??"Todas las categorias", searchTerm??"", idBuscado);
+
                 //recupero los productos con esta categoría
                 var productos = fachadaLogica.GetProductosBusqueda(category??"Todas las categorias", searchTermLower, idBuscado);
                 

@@ -664,3 +664,7 @@ async function crearCertificado() {
         console.error('Error al crear el certificado');
     }
 }
+
+async function GuardarBDD(){
+    await fetch(`${lugarDeEjecucion}/guardarBDD`);
+}
