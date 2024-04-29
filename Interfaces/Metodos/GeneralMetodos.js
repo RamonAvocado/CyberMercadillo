@@ -37,7 +37,7 @@ function mostrarResultado(resultado) {
     //Esto es la respuesta que a accedido al Controlador Program y lo muestra por pantalla en la Pagina Principal
     resultadosDiv.innerHTML = `<p>Resultado: ${resultado}</p>`;
 }
-
+/*
 async function mostrarProd(idProductoSeleccionado) {
     try {
         console.log('ID del producto seleccionado:', idProductoSeleccionado);
@@ -140,7 +140,7 @@ function irAInfoProducto2(productoParaInfo) {
     const historialBtn = document.getElementById('historialBtnInfoProd');
     historialBtn.style.display = 'none';
 }
-
+*/
 async function agregarUsuarioVendedor(TipoUsuarioRegistrado){
     document.getElementById('agregarVendedorForm').addEventListener('submit', async (event) => {
         event.preventDefault();

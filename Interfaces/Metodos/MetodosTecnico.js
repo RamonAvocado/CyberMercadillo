@@ -21,19 +21,68 @@ async function CargarProductosValidacion() {
     try {
         // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
         const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosAValidar`);
-        
         if (response.ok) {
             const data = await response.json();
-            const productos = data.productos.Models;
-            
+            //const productos = data.productos.Models;
+            const prod = data.productos;
+            console.log(prod);
             const productosPorPagina = 6;
-            const totalPaginas = Math.ceil(productos.length / productosPorPagina);
-
+            //const totalPaginas = Math.ceil(productos.length / productosPorPagina);
+            const totalPaginas = Math.ceil(prod.length / productosPorPagina);
             // Mostrar los productos de la primera página en la interfaz de usuario
-            mostrarProductosParaValidar(productos.slice(0, productosPorPagina));
+            //mostrarProductosVendedor(prod.slice(0, productosPorPagina));
+            mostrarProductosParaValidar(prod.slice(0, productosPorPagina));
 
             // Generar enlaces de paginación
-            GeneralMetodos.generarEnlacesPaginacion(totalPaginas);
+            generarEnlacesPaginacionTecnico(totalPaginas);
+            //generarEnlacesPaginacion(totalPaginas);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+function generarEnlacesPaginacionTecnico(totalPaginas) {
+    const paginasContainer = document.getElementById('paginas');
+    paginasContainer.innerHTML = ''; // Limpiar los enlaces de paginación antes de generarlos nuevamente
+
+    for (let i = 1; i <= totalPaginas; i++) {
+        const pagina = document.createElement('li');
+        pagina.classList.add('pagina-item');
+        const enlace = document.createElement('a');
+        enlace.href = `#pagina-${i}`;
+        enlace.textContent = i;
+        pagina.appendChild(enlace);
+        paginasContainer.appendChild(pagina);
+
+        // Agregar event listener para cargar los productos de la página seleccionada
+        enlace.addEventListener('click', async function(event) {
+            event.preventDefault();
+            await cargarProductosPorPaginaTecnico(i);
+        });
+    }
+}
+
+async function cargarProductosPorPaginaTecnico(numeroPagina,idUsuarioIniciado) {
+    const productosPorPagina = 6;
+
+    try {
+
+        console.log('ID del usuario seleccionado:', idUsuarioIniciado);
+        // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosAValidar`);
+
+        if (response.ok) {
+            const data = await response.json();
+            const productos = data.productos;
+
+            const inicio = (numeroPagina - 1) * productosPorPagina;
+            const fin = numeroPagina * productosPorPagina;
+            const productosPagina = productos.slice(inicio, fin);
+
+            mostrarProductosParaValidar(productosPagina);
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
         }
@@ -88,7 +137,7 @@ function mostrarProductosParaValidar(productos) {
         `;
 
         productCard.addEventListener('dblclick', (event) => {
-            GeneralMetodos.irAInfoProducto2(producto.idproducto);
+            irAInfoProducto2(producto.idproducto);
         });
 
         productCard.addEventListener('click', (event) => {
@@ -133,14 +182,22 @@ function mostrarProductosParaValidar(productos) {
     });
 }
 
+function irAInfoProducto2(productoParaInfo) {
+    // Redirigir a la página de InfoProducto.html con el parámetro del producto
+    window.location.href = `InfoBasicaProducto.html?id=${productoParaInfo}`;
+
+    // Ocultar el botón después de la redirección
+    const historialBtn = document.getElementById('historialBtnInfoProd');
+    historialBtn.style.display = 'none';
+}
 
 async function validarProd() {
     try {
-        console.log('ID del producto seleccionado:', idProductoSeleccionado);
+        console.log('ID del producto seleccionado :', idProductoSeleccionado);
         //const response = await fetch('http://localhost:5169/buscarProductoX');
 
         //const response = await fetch(`http://localhost:5169/buscarProductoX?idProductoSeleccionado=${idProductoSeleccionado}`);
-        const response = await fetch(`${lugarDeEjecucion}/validarProductoX`,{
+        const response = await fetch(`${lugarDeEjecucion}/validarProductoSeleccionado`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

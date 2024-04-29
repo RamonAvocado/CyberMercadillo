@@ -1035,14 +1035,6 @@ function mostrarUnProductoBasico(respuesta) {
 
     productCard.dataset.productId = producto.idproducto;
 
-    // Agregar evento de clic al botón de comprar
-    comprarButton.addEventListener('click', function() {
-        // Obtener el ID del producto desde el atributo de datos del contenedor del producto
-        const productId = productCard.dataset.productId;
-        // Redirigir a la página de compra del producto con el ID del producto en la URI
-        window.location.href = `./CompraProducto.html?id=${productId}`;
-    });
-
 }
 
 // INICIO FUNCIONES PARA LA COMPRA DE UN PRODUCTO
