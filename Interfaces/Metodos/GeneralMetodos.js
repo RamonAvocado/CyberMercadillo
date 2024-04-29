@@ -249,8 +249,28 @@ function irAPagianVendedor() {
 
 
 //INICIO METODOS CARGA/MUESTRA PRODUCTOS
+
+async function InicializarProductos() {
+    try {
+        console.log("Entra funcion InicializarProductos");
+        
+        const response = await fetch(`${lugarDeEjecucion}/inicializar`);
+    
+        if (response.ok) {
+            const data = await response.json();
+            CargarProductosDestacados();
+            CargarProductosRecomendados();
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
 async function CargarProductosRecomendados(){
     try {
+        console.log("Entra funcion cargarProductosRecomendados");
         // Realizar una solicitud GET al backend para obtener los 6 primeros productos
         const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosRecomendados`);
         if (response.ok) {
@@ -432,23 +452,6 @@ function generarEnlacesPaginacion(totalPaginas,idUsuarioIniciado) {
     }
 }
 
-async function InicializarProductos() {
-    try {
-        console.log("Entra funcion InicializarProductos");
-        
-        const response = await fetch(`${lugarDeEjecucion}/inicializar`);
-    
-        if (response.ok) {
-            const data = await response.json();
-            CargarProductosDestacados();
-            CargarProductosRecomendados();
-        } else {
-            console.error('Error en la solicitud al backend:', response.statusText);
-        }
-    } catch (error) {
-        console.error('Error inesperado:', error);
-    }
-}
 
 async function CargarProductosDestacados() {
     try {
@@ -613,6 +616,7 @@ function mostrarTodosProductos(productos) {
     });
 }
 
+//fin funciones de mostrar/cargar productos
 
 // Función para truncar el texto si supera el tamaño máximo
 function truncate(text) {

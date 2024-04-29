@@ -225,22 +225,6 @@ class Tienda
         return productos;
     }
 
-    public List<Producto> GetProductosMismaCategoria(string categoriaBuscada)
-    {
-            
-        List<Producto> productos = new List<Producto>();
-
-        //Buscar en la lista de productos de la tienda el id y devolver ese productos
-        foreach (Producto prod in Productos)
-            {
-                if (prod.categoria == categoriaBuscada)
-                {
-                    productos.Add(prod);
-                }
-            }
-    return productos;
-    }
-
     public void GuardarBusqueda(string categoriaBuscada, string searchTerm, int idBuscado)
     {
 
@@ -251,11 +235,9 @@ class Tienda
             fecha = DateTime.Now,
             idusuario = idBuscado,
         };
-            Console.WriteLine("Hay un total de búsquedas: "+ Busquedas.Count);
-
             Busquedas.Add(busqueda);
             //FALTA GUARDARLA EN LA BASE DE DATOS
-            Console.WriteLine("La busqueda es: "+ busqueda);
+            Console.WriteLine("La busqueda es: "+ busqueda.texto);
             Console.WriteLine("Hay un total de búsquedas: "+ Busquedas.Count);
             
     }
@@ -274,17 +256,45 @@ class Tienda
     {
             
         List<Producto> productos = new List<Producto>();
+            Console.WriteLine("categoriaBuscada: "+ categoriaBuscada);
+            Console.WriteLine("searchTermLower: "+ searchTermLower);
 
         //Buscar en la lista de productos de la tienda el id y devolver ese productos
         foreach (Producto prod in Productos)
             {
-                if (prod.categoria == categoriaBuscada && prod.Equals(searchTermLower))
+                if (prod.categoria == categoriaBuscada && prod.nombreproducto.IndexOf(searchTermLower, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     productos.Add(prod);
+                    Console.WriteLine("prod: " + prod.nombreproducto);
                 }
             }
+            
+            Console.WriteLine("total: "+ productos.Count());
         //guardo la búsqueda
         GuardarBusqueda(categoriaBuscada,searchTermLower,idBuscado);
+
+    return productos;
+    } 
+
+    public List<Producto> GetProductosSoloText(string categoriaBuscada, string searchTermLower, int idBuscado)
+    {
+            
+        List<Producto> productos = new List<Producto>();
+
+        //Buscar en la lista de productos de la tienda el id y devolver ese productos
+        foreach (Producto prod in Productos)
+            {
+                if (prod.nombreproducto.IndexOf(searchTermLower, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    productos.Add(prod);
+                    Console.WriteLine("prod: " + prod.nombreproducto);
+                }
+            }
+            
+            Console.WriteLine("total: "+ productos.Count());
+        //guardo la búsqueda
+        GuardarBusqueda(categoriaBuscada,searchTermLower,idBuscado);
+
     return productos;
     } 
 

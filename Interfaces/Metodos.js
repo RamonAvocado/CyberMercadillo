@@ -61,7 +61,7 @@ async function buscar() {
     buscarProd(searchTerm,category);
 }
 
-//Copiado
+//Copiado metodos busquedas
 async function buscarProd(searchTerm, category) {
     // Realizar una solicitud POST al backend con la información de búsqueda
     idUsuarioIniciado = localStorage.getItem("UsuarioID");
@@ -163,7 +163,7 @@ async function CargaCategorias() {
     }
 }
 
-//copiado
+//copiado metodosbusquedas
 function mostrarCategorias(array) {
     const selectElement = document.getElementById('categorySelect');
     //console.log(selectElement.options);
@@ -196,7 +196,7 @@ function mostrarCategorias(array) {
     });
 }
 
-//copiado
+//copiado metodosbusquedas
 async function buscarPorCategoria() {
     categoriaSelect = localStorage.getItem("categoriaSeleccionada");
     idUsuarioIniciado = localStorage.getItem("UsuarioID");
@@ -337,10 +337,10 @@ async function CargarProductosDestacados() {
             const data = await response.json();
 
             //comprobar desde f12 consola que salen todos los productos
-            /*
+            
             data.productos.forEach((prod) => {
                 console.log(`Nombre: ${prod.nombreproducto}, Precio: ${prod.precio}`);
-            });*/
+            });
         
             const productos = data.productos;
             

@@ -476,9 +476,46 @@ class Servicios{
                 fachadaLogica.GuardarBusqueda(category??"Todas las categorias", searchTerm??"", idBuscado);
 
                 //recupero los productos con esta categoría
-                var productos = fachadaLogica.GetProductosBusqueda(category??"Todas las categorias", searchTermLower, idBuscado);
-                
+                var productos = fachadaLogica.GetProductosSoloText(category??"Todas las categorias", searchTermLower, idBuscado);
+                //var productos = fachadaLogica.GetProductos();
+
+
                 var jsonResponse = new { productos };
+
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier error y devolver una respuesta de error al cliente
+                errorDefault(context, ex);
+            }
+        });
+        
+        app.MapPost("/BuscarProductoTodo", async (HttpContext context) =>
+        {
+            // Leer el cuerpo de la solicitud para obtener la información de búsqueda
+            using var reader = new StreamReader(context.Request.Body);
+            try
+            {
+                var requestBody = await reader.ReadToEndAsync();
+                var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
+
+                var idBuscado = searchData["idusuario"].ToObject<int>();
+                var searchTerm = searchData["searchTerm"].ToObject<string>();
+                var category = searchData["category"].ToObject<string>();
+
+                var searchTermLower = searchTerm.ToLowerInvariant();
+
+                //guardo la búsqueda en local, pero aun no en base de datos
+                fachadaLogica.GuardarBusqueda(category??"Todas las categorias", searchTerm??"", idBuscado);
+
+                //recupero los productos con esta categoría
+                var productos = fachadaLogica.GetProductosBusqueda(category??"Todas las categorias", searchTermLower, idBuscado);
+
+                var jsonResponse = new { productos };
+
                 context.Response.ContentType = "application/json";
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
                 
@@ -490,36 +527,6 @@ class Servicios{
             }
         });
 
-        app.MapPost("/BuscarPorCategoria", async (HttpContext context, Supabase.Client client) =>
-        {
-            using var reader = new StreamReader(context.Request.Body);
-            try
-            {  
-                var requestBody = await reader.ReadToEndAsync();
-                var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
-
-                var idBuscado = searchData["idusuario"].ToObject<int>();
-                var searchTerm = searchData["searchTerm"].ToObject<string>();
-                var category = searchData["category"].ToObject<string>();
-                var text = "Buscando solo con la categoría: " + category;
-            
-                //guardo la búsqueda en local, pero aun no en base de datos
-                fachadaLogica.GuardarBusqueda(category??"Todas las categorias", searchTerm??"", idBuscado);
-                //recupero los productos con esta categoría
-                var ProductosXCat = fachadaLogica.GetProductosMismaCategoria(category??"Todas las categorias");
-
-
-                var jsonResponse = new { ProductosXCat };
-
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-            }
-            catch (Exception ex)
-            {
-                // Manejar cualquier error y devolver una respuesta de error al cliente
-                errorDefault(context,ex);
-            }
-        });
 
         app.MapPost("/crearCertificado", async (HttpContext context, Supabase.Client client) =>
         {

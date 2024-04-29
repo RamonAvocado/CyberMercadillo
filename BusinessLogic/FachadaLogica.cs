@@ -99,14 +99,14 @@ class FachadaLogica{
         return categoriasUnicas;
     }
 
-    public List<Producto> GetProductosMismaCategoria(string categoriaBuscada){
-        return tienda.GetProductosMismaCategoria(categoriaBuscada);
-    }
     public void GuardarBusqueda(string categoriaBuscada, string searchTerm, int idBuscado){
         tienda.GuardarBusqueda(categoriaBuscada, searchTerm, idBuscado);
     }
     public List<Producto> GetProductosBusqueda(string categoriaBuscada, string searchTermLower, int idBuscado){
         return tienda.GetProductosBusqueda(categoriaBuscada, searchTermLower, idBuscado);
     }
-    
+
+    public List<Producto> GetProductosSoloText(string categoriaBuscada, string searchTermLower, int idBuscado){
+        return tienda.GetProductosSoloText(categoriaBuscada, searchTermLower, idBuscado);
+    }
 }

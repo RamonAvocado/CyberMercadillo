@@ -16,6 +16,7 @@ using Newtonsoft.Json.Linq;
 class FachadaDBB{
     private Supabase.Client client;
     public FachadaDBB(String[] args, WebApplication app, Tienda tienda){
+
     bool TodoCargadoCargados = false;
 
 
@@ -56,6 +57,12 @@ class FachadaDBB{
         else{
             Console.WriteLine("Ya has cargado todo lo de la base de datos, y no puedes volver a cargarlo  :p");
         }
+
+        //dejad la respuesta del json, es para poder comprobar el GeneralMetodos que se han cargado los productos
+        var jsonResponse = new {};
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+    
     });
 
 

@@ -21,7 +21,6 @@
                 <select id="categorySelect">
                     <option value="Todas las categorías">Todas las categorías</option>
                 </select>
-                <button onclick="buscarPorCategoria()">Buscar por categoría</button>
                 <button onclick = "buscar()">Buscar</button>
             </div>
         </div>
@@ -73,8 +72,9 @@
             </div>
         </div>
     </footer>
-    <script src="Metodos.js"></script>
     <script src="./Metodos/GeneralMetodos.js"></script>
+    <script src="./Metodos/MetodosBusquedas.js"></script>
+    <script src="./Metodos/MetodosUser.js"></script>
     <script>
         if(getPaginaAnt() != "HistorialDeBusqueda.html"){
             window.addEventListener('DOMContentLoaded', CargaTodosProductos(1));
