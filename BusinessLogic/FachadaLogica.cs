@@ -78,6 +78,12 @@ class FachadaLogica{
             return tienda.buscarID(idbuscado);
     }
 
+    public Producto GetProductoPorIDTodos(string idbuscado){
+
+            //hacer la lógica para buscar el producto
+            return tienda.buscarIDTodos(idbuscado);
+    }
+
 //no se si la lógica tiene que estar aquí
     public List<String> GetCategorías(){
 

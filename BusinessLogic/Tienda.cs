@@ -105,6 +105,34 @@ class Tienda
             return producto;
     }
 
+    public Producto buscarIDTodos(string idbuscado)
+    {
+        Producto producto = new Producto
+        {
+            //por si no existe ese id
+            idproducto = -1
+        };
+        //Buscar en la lista de productos de la tienda el id y devolver ese productos
+        foreach (Producto prod in Productos)
+            {
+                if (prod.idproducto.ToString() == idbuscado)
+                {
+                    producto = prod;
+                }
+            }
+        if(producto.idproducto == -1){
+            foreach (Producto prod in ProductosGuardados)
+            {
+                if (prod.idproducto.ToString() == idbuscado)
+                {
+                    producto = prod;
+                }
+            }
+        }  
+
+        return producto;
+    }
+
     public bool validarUnProducto(string idBuscado)
     {
         Producto producto = new Producto

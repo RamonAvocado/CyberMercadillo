@@ -519,7 +519,6 @@ async function mostrarProd(idProductoSeleccionado) {
     }
 }
 
-
 function mostrarProductosDeVendedor(productos) {
     const container = document.getElementById('seller-products');
 

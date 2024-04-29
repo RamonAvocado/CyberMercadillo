@@ -75,7 +75,7 @@ class Servicios{
             {
                 var idBuscado = context.Request.Query["idproducto"].ToString();
 
-                var producto = fachadaLogica.GetProductoPorID(idBuscado);
+                var producto = fachadaLogica.GetProductoPorIDTodos(idBuscado);
                 // Devolver los productos al frontend
                 
                 var jsonResponse = new { producto };
@@ -271,8 +271,27 @@ class Servicios{
                                             .Where(p => p.idproducto == productoData.idproducto)
                                             .Select("precio, cantidad, categoria, descripcion, imagenes, nombreproducto")
                                             .Get(); */
-                    var producto = fachadaLogica.GetProductoPorID(idProductoBuscado ?? "0");
+                    var producto = fachadaLogica.GetProductoPorIDTodos(idProductoBuscado ?? "0");
                     // Devolver los productos al frontend
+                    var jsonResponse = new { producto };
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                }
+                catch (Exception ex)
+                {
+                    // Manejar cualquier error y devolver una respuesta de error al cliente
+                    errorDefault(context,ex);
+                }
+        });
+
+        app.MapPost("/buscarProductoSelec", async (HttpContext context, Supabase.Client client) =>
+        {
+            using var reader = new StreamReader(context.Request.Body);
+                try{
+                    var requestBody = await reader.ReadToEndAsync();
+                    var productoData = JsonConvert.DeserializeObject<JObject>(requestBody);
+                    var idProductoBuscado = productoData["idproducto"].ToObject<string>();
+                    var producto = fachadaLogica.GetProductoPorID(idProductoBuscado ?? "0");
                     var jsonResponse = new { producto };
                     context.Response.ContentType = "application/json";
                     await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
