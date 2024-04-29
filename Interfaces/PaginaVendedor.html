@@ -74,9 +74,8 @@
             #eliminarBtn:enabled {
                 background-color: #f39c12;
                 color: rgb(0, 0, 0);
-                padding: 10px 56px;
-                border-radius: 20px;
-                font-size: 24px;
+                font-size: 20px;
+                padding: 10px 15px;
                 border: none;
                 cursor: pointer; /* Color del texto del botón cuando está habilitado */
             }
@@ -84,6 +83,17 @@
             .pagina-item {
                 display: inline-block;
                 margin-right: 20px; /* Espacio entre los números de página */
+            }
+
+            .small-button {
+                color: rgb(0, 0, 0);
+                font-size: 20px; /* Tamaño de la fuente más pequeño */
+                padding: 10px 15px; /* Reducir el espacio interno del botón */
+                display: flex;
+                justify-content: flex-end; /* Alinea el botón a la derecha */
+                margin-left: auto;
+                border: none;
+                cursor: pointer; 
             }
         </style>
     </header>
@@ -112,15 +122,20 @@
     <div class="featured-products-container">
         <div class="seller-products">
         </div>
-        <!--
-        <div class = "num-pagina">
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-        </div>-->
         <div class="num-pagina">
             <ul id="paginas"></ul>
         </div>
+    </div>
+    <div class = "texto-titulo">
+        <h2>Productos Guardados</h2>
+    </div>
+    <div class="featured-products-container">
+        <div class="saved-product-seller">
+        </div>
+        <div class="num-pagina">
+            <ul id="paginas-guardado"></ul>
+        </div>
+        <button onclick = "eliminarProd()" class="search-history-btn small-button" id="eliminarBtn" disabled>Eliminar Producto</button>
     </div>
     <div class="botones-vendedor">
         <div class="izquierda">
@@ -130,7 +145,7 @@
         <div class="derecha">
             <button onclick = "irAEditarProducto()" class="search-history-btn" id="editarBtn" disabled>Editar Producto</button>
 
-            <button onclick = "eliminarProd()" class="search-history-btn" id="eliminarBtn" disabled>Eliminar Producto</button>
+            <!--<button onclick = "eliminarProd()" class="search-history-btn" id="eliminarBtn" disabled>Eliminar Producto</button>--> 
             
         </div>
     </div>     
@@ -142,12 +157,13 @@
     <script src="./Metodos/MetodosVendedor.js"></script>
     <script src="./Metodos/MetodosUser.js"></script>
     <script src="./Metodos/MetodosNavegacion.js"></script>
-    <script src="./Metodos/GeneralMetodos.js"></script>
+    <!--<script src="./Metodos/GeneralMetodos.js"></script>-->
     
     <script>
         // Llama a la función agregarProd() para que se ejecute tu código JavaScript
         CargarProductosVendedor(localStorage.getItem('UsuarioID'));
-        window.addEventListener('unload', GuardarBDD);
+        CargarProductosVendedorGuardados(localStorage.getItem('UsuarioID'));
+        //window.addEventListener('unload', GuardarBDD);
     </script>
     <script>
         // Llamar a la función para agregar el enlace de Iniciar Sesión o Cerrar Sesión

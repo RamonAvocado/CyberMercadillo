@@ -74,6 +74,50 @@ async function agregarProducto(idUsuarioIniciado)
         });
 }
 
+async function guardarProducto(idUsuarioIniciado)
+{
+        document.getElementById('agregarProductoForm2').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+            var requestBody = {
+                nombre: formData.get('nombreProd'),
+                precio: formData.get('precioProd'),
+                categoria: formData.get('categoriaProd'),
+                descripcion: formData.get('descripcionProd'),
+                img: formData.get('imgProd'),
+                cantidad: parseInt(formData.get('cantProd')),
+                idvendedor: 5,
+                validado: false,
+            };
+            // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
+            
+            try {
+
+                const response = await fetch(`${lugarDeEjecucion}/GuardarProducto`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+        
+                if (response.ok) {
+                    //const data = await response.json();
+                    console.log('Producto guardado correctamente');
+                    //mostrarResultado(data.resultado); 
+                    window.location.reload();
+                } else {
+                    console.error('Error al guardar el producto:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error inesperado:', error);
+            }
+            //alert("Error crear Producto")
+            //window.location.reload();
+        });
+}
+
 async function agregarProd()
 {
         document.getElementById('agregarProductoForm').addEventListener('submit', async (event) => {

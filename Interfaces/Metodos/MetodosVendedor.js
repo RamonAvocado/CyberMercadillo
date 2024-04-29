@@ -48,11 +48,46 @@ async function CargarProductosVendedor(idUser) {
 
             // Mostrar los productos de la primera página en la interfaz de usuario
             mostrarProductosVendedor(prod.slice(0, productosPorPagina));
-
-            // Generar enlaces de paginación
             
             //mostrarProductosDestacados(productos.slice(0, productosPorPagina));
             generarEnlacesPaginacion(totalPaginas,5);
+            //generarEnlacesPaginacionDest(totalPaginas);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+async function CargarProductosVendedorGuardados(idUser) {
+    console.log("Useriniciado"+idUser);
+    try {
+        console.log("Entra funcion cargarProductosVendedor");
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosVendedorGuardados`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                idusuario: 5
+            }),
+        });
+        if (response.ok) {
+                //console.log("Texto y todo intro: " + data.productos.Models);
+            const data = await response.json();
+            console.log(data);
+            console.log(data.productos.length);
+            const prod = data.productos;
+            console.log(prod);
+
+            const productosPorPaginaGuardados = 4;
+            const totalPaginasGuardados = Math.ceil(prod.length / productosPorPaginaGuardados);
+
+            mostrarProductosGuardadosVendedor(prod.slice(0, productosPorPaginaGuardados))
+            // Generar enlaces de paginación
+            
+            generarEnlacesPaginacionGuardados(totalPaginasGuardados,5);
             //generarEnlacesPaginacionDest(totalPaginas);
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
@@ -79,6 +114,27 @@ function generarEnlacesPaginacion(totalPaginas,idUsuarioIniciado) {
         enlace.addEventListener('click', async function(event) {
             event.preventDefault();
             await cargarProductosPorPagina(i,idUsuarioIniciado);
+        });
+    }
+}
+
+function generarEnlacesPaginacionGuardados(totalPaginas,idUsuarioIniciado) {
+    const paginasContainer = document.getElementById('paginas-guardado');
+    paginasContainer.innerHTML = ''; // Limpiar los enlaces de paginación antes de generarlos nuevamente
+
+    for (let i = 1; i <= totalPaginas; i++) {
+        const pagina = document.createElement('li');
+        pagina.classList.add('pagina-item');
+        const enlace = document.createElement('a');
+        enlace.href = `#pagina-${i}`;
+        enlace.textContent = i;
+        pagina.appendChild(enlace);
+        paginasContainer.appendChild(pagina);
+
+        // Agregar event listener para cargar los productos de la página seleccionada
+        enlace.addEventListener('click', async function(event) {
+            event.preventDefault();
+            await cargarProductosPorPaginaGuardados(i,idUsuarioIniciado);
         });
     }
 }
@@ -117,6 +173,39 @@ async function cargarProductosPorPagina(numeroPagina,idUsuarioIniciado) {
     }
 }
 
+async function cargarProductosPorPaginaGuardados(numeroPagina,idUsuarioIniciado) {
+    const productosPorPagina = 4;
+
+    try {
+
+        console.log('ID del usuario seleccionado:', idUsuarioIniciado);
+        // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosVendedorGuardados`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                idusuario: 5
+            }),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            const productos = data.productos;
+
+            const inicio = (numeroPagina - 1) * productosPorPagina;
+            const fin = numeroPagina * productosPorPagina;
+            const productosPagina = productos.slice(inicio, fin);
+
+            mostrarProductosGuardadosVendedor(productosPagina);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
 async function eliminarProd() {
     try {
         console.log('ID del producto seleccionado:', idProductoSeleccionado);
@@ -195,6 +284,19 @@ function mostrarProductosVendedor(productos) {
             irAInfoProducto2(producto.idproducto);
         });
         
+        document.addEventListener('click', (event) => {
+            const editarBtn = document.getElementById('editarBtn');
+            const allProductCards = document.querySelectorAll('.product-card');
+            const selectedProductCard = document.querySelector('.product-card.selected');
+
+            // Si se hace clic fuera de la tarjeta de producto seleccionada
+            if (selectedProductCard && !selectedProductCard.contains(event.target)) {
+                selectedProductCard.classList.remove('selected');
+                editarBtn.disabled = true;
+                editarBtn.classList.remove('enabled');
+            }
+        });
+
         productCard.addEventListener('click', (event) => {
             // Aquí puedes acceder al ID del producto seleccionado (producto.idproducto)
             // Puedes hacer lo que quieras con el ID del producto seleccionado aquí
@@ -204,10 +306,6 @@ function mostrarProductosVendedor(productos) {
             const editarBtn = document.getElementById('editarBtn');
             editarBtn.disabled = false;
             editarBtn.classList.add('enabled');
-
-            const eliminarBtn = document.getElementById('eliminarBtn');
-            eliminarBtn.disabled = false;
-            eliminarBtn.classList.add('enabled');
 
             const allProductCards = document.querySelectorAll('.product-card');
             allProductCards.forEach(card => card.classList.remove('selected'));
@@ -225,16 +323,94 @@ function mostrarProductosVendedor(productos) {
                 localStorage.setItem('itemID', idProductoSeleccionado);
                 mostrarProd(idProductoSeleccionado);
             });
+        });
+        
+        container.appendChild(productCard);
+    });
+}
 
+function mostrarProductosGuardadosVendedor(productos) {
+    //const productos = respuesta.productos.Models;
+    const container = document.querySelector('.saved-product-seller');
+    container.innerHTML = '';
+    // Itera sobre los productos y crea elementos para mostrarlos
+    productos.forEach((producto) => {
+        console.log(producto);
+        const productCard = document.createElement('div');
+        productCard.classList.add('product-card');
+
+        //imagenes de cada producto
+        const imagenes = producto.imagenes.split(' ');
+        const primeraImagen = imagenes[0];
+
+        // Agrega la imagen, nombre y precio del producto
+        // <img src="${producto.imagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
+        productCard.innerHTML = `
+            <button class="favorite-btn"></button> 
+            <img src="${primeraImagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
+            <h3>${truncate(producto.nombreproducto)}</h3>
+            <p>${producto.precio} €</p>
+            <p>${truncate(producto.descripcion)}</p>
+        `;
+
+        productCard.addEventListener('dblclick', (event) => {
+            irAInfoProducto2(producto.idproducto);
+        });
+
+        document.addEventListener('click', function(event) {
+            const productCard = document.querySelector('.product-card');
+            const editarBtn = document.getElementById('editarBtn');
+            const eliminarBtn = document.getElementById('eliminarBtn');
+        
+            // Verificar si se hizo clic fuera de la tarjeta del producto
+            if (!productCard.contains(event.target) && event.target !== editarBtn && event.target !== eliminarBtn) {
+                // Deseleccionar la tarjeta del producto y deshabilitar los botones de editar y eliminar
+                productCard.classList.remove('selected');
+                editarBtn.disabled = true;
+                editarBtn.classList.remove('enabled');
+                eliminarBtn.disabled = true;
+                eliminarBtn.classList.remove('enabled');
+            }
+        });
+
+        productCard.addEventListener('click', (event) => {
+            // Aquí puedes acceder al ID del producto seleccionado (producto.idproducto)
+            // Puedes hacer lo que quieras con el ID del producto seleccionado aquí
+            idProductoSeleccionado = producto.idproducto;
+            console.log('ID del producto seleccionado:', idProductoSeleccionado);
+            
+            const editarBtn = document.getElementById('editarBtn');
+            editarBtn.disabled = false;
+            editarBtn.classList.add('enabled');
+        
+            const eliminarBtn = document.getElementById('eliminarBtn');
+            eliminarBtn.disabled = false;
+            eliminarBtn.classList.add('enabled');
+        
+            const allProductCards = document.querySelectorAll('.product-card');
+            allProductCards.forEach(card => card.classList.remove('selected'));
+        
+            // Agrega la clase 'selected' al elemento seleccionado
+            productCard.classList.add('selected');
+            event.stopPropagation();
+        
+            document.getElementById('editarBtn').addEventListener('click', () => {
+                const editarBtn = document.getElementById('editarBtn');
+                if (editarBtn.disabled) {
+                    editarBtn.classList.remove('enabled'); // Quita la clase 'enabled' para desactivar el nuevo estilo
+                }
+                console.log('ID del producto seleccionado al clicar:', idProductoSeleccionado);
+                localStorage.setItem('itemID', idProductoSeleccionado);
+                mostrarProd(idProductoSeleccionado);
+            });
+        
             document.getElementById('eliminarBtn').addEventListener('click', () => {
                 const eliminarBtn = document.getElementById('eliminarBtn');
                 if (eliminarBtn.disabled) {
                     eliminarBtn.classList.remove('enabled'); // Quita la clase 'enabled' para desactivar el nuevo estilo
                 }
             });
-        });
-
-        
+        }); 
         container.appendChild(productCard);
     });
 }

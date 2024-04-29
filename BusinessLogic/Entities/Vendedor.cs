@@ -19,5 +19,25 @@ namespace CyberMercadillo.Entities
             this.nombretienda = nombretienda;
             this.telefonotienda = telefonotienda;
         }
+
+        private List<Producto> productosGuardados = new List<Producto>();
+        public List<Producto> ProductosGuardados
+        {
+            get { return productosGuardados; }
+            private set { productosGuardados = value; }
+        }
+
+        public List<Producto> GetProductosVendedorG(){
+            
+            List<Producto> productos = new List<Producto>();
+
+            //Buscar en la lista de productos de la tienda el id y devolver ese productos
+            foreach (Producto prod in ProductosGuardados)
+                {
+                    productos.Add(prod);
+                }
+            return productos;
+        }
+
     }
 }

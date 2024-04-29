@@ -18,6 +18,12 @@ class Tienda
         get { return productos; }
         private set { productos = value; }
     }
+    private List<Producto> productosGuardados = new List<Producto>();
+    public List<Producto> ProductosGuardados
+    {
+        get { return productosGuardados; }
+        private set { productosGuardados = value; }
+    }
 
     private List<Busqueda> busquedas= new List<Busqueda>();
     public List<Busqueda> Busquedas
@@ -253,5 +259,20 @@ class Tienda
         GuardarBusqueda(categoriaBuscada,searchTermLower,idBuscado);
     return productos;
     } 
+
+    public List<Producto> GetProductosVendedorG(int idVendedor){
+            
+            List<Producto> productos = new List<Producto>();
+
+        //Buscar en la lista de productos de la tienda el id y devolver ese productos
+        foreach (Producto prod in ProductosGuardados)
+            {
+                if (prod.idvendedor == idVendedor)
+                {
+                    productos.Add(prod);
+                }
+            }
+        return productos;
+    }
 }
     

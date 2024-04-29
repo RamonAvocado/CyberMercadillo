@@ -92,7 +92,6 @@ async function agregarCerrarSesion() {
     var tipoUsuarioLogueado = localStorage.getItem('tipoUserID');
     var sesionLink = document.getElementById('sesion-link');
     var sesionSUserLink = document.getElementById('sesion-user-link');
-    console.log(tipoUsuarioLogueado);
     if (!usuarioLogueado) {
         sesionLink.innerHTML = '<a href="../index.html">Iniciar Sesión</a>';
     } else {

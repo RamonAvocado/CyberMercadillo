@@ -136,6 +136,27 @@ class Servicios{
                 }
         });
 
+        app.MapPost("/ObtenerProductosVendedorGuardados", async (HttpContext context, Supabase.Client client) =>
+        {
+            using var reader = new StreamReader(context.Request.Body);
+                try
+                {      
+                    var requestBody = await reader.ReadToEndAsync();
+                    var usuarioData = JsonConvert.DeserializeObject<JObject>(requestBody);
+                    var idBuscado = usuarioData["idusuario"].ToObject<int>();
+                    
+                    var productos = fachadaLogica.GetProductosVendedorGuardados(idBuscado);
+                    var jsonResponse = new { productos };
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                }
+                catch (Exception ex)
+                {
+                    // Manejar cualquier error y devolver una respuesta de error al cliente
+                    errorDefault(context,ex);
+                }
+        });
+
         app.MapGet("/ObtenerProductosAValidar", async (HttpContext context, Supabase.Client client) =>
         {
             try
@@ -177,6 +198,45 @@ class Servicios{
 
                     // Utiliza los datos recibidos para crear un nuevo producto
                     fachadaLogica.agregarProducto(nombreP ?? "Producto de Serie Creación",
+                                                   precioP ?? "-1",
+                                                   categoriaP ?? "CatPrueba",
+                                                   descripcionP ?? "Este artículo es el predeterminado por si llega un null a esta función",
+                                                   imgP ?? "/rutaPrueba",
+                                                   cantidadP,
+                                                   idvendedorP,
+                                                   validadoP);
+                    // Inserta el nuevo producto en la base de datos
+                   // await client.From<Producto>().Insert(new List<Producto> { nuevoProducto });
+
+                    // Devuelve una respuesta al frontend (opcional)
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsync("Producto creado exitosamente");
+                } catch (Exception ex)
+                {
+                    // Manejar cualquier error y devolver una respuesta de error al cliente
+                    errorDefault(context,ex);
+                }
+            return Results.Ok("Producto created successfully"); 
+        });
+
+        app.MapPost("/GuardarProducto", async (HttpContext context,Supabase.Client client) =>
+        {
+            // Leer el cuerpo de la solicitud para obtener la información de búsqueda
+             using var reader = new StreamReader(context.Request.Body);
+                try{
+                    var requestBody = await reader.ReadToEndAsync();
+                    var productoData = JsonConvert.DeserializeObject<JObject>(requestBody);
+                    var nombreP = productoData["nombre"].ToObject<string>();
+                    var precioP = productoData["precio"].ToObject<string>();
+                    var categoriaP = productoData["categoria"].ToObject<string>();
+                    var descripcionP = productoData["descripcion"].ToObject<string>();
+                    var imgP = productoData["img"].ToObject<string>();
+                    var cantidadP = productoData["cantidad"].ToObject<int>();
+                    var idvendedorP = productoData["idvendedor"].ToObject<int>();
+                    var validadoP = productoData["validado"].ToObject<bool>();
+
+                    // Utiliza los datos recibidos para crear un nuevo producto
+                    fachadaLogica.guardarProducto(nombreP ?? "Producto de Serie Creación",
                                                    precioP ?? "-1",
                                                    categoriaP ?? "CatPrueba",
                                                    descripcionP ?? "Este artículo es el predeterminado por si llega un null a esta función",

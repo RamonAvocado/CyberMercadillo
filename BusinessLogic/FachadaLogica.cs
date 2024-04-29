@@ -23,12 +23,32 @@ class FachadaLogica{
         return prod;
     }
 
+    public List<Producto> GetProductosVendedorGuardados(int user){
+        //Vendedor seller = tienda.Vendedores.FirstOrDefault(v => v.idusuario == user);
+        //return seller.GetProductosVendedorG();
+        List<Producto> prod = tienda.GetProductosVendedorG(user);
+        return prod;
+    }
+
     public void agregarProducto(string nombreProd, string precioProd, string categoriaProd,string descripcionProd,
                                                         string imgProd, int cantProd,int idvendedorProd,bool validProd){
         int idProd = tienda.MayorIDProd() +1;
         Producto product = new Producto(idProd,nombreProd,precioProd,categoriaProd,descripcionProd, imgProd, cantProd,idvendedorProd,validProd, 1234567);
         tienda.Productos.Add(product);
     }
+
+    public void guardarProducto(string nombreProd, string precioProd, string categoriaProd,string descripcionProd,
+                                                        string imgProd, int cantProd,int idvendedorProd,bool validProd){
+        int idProd = tienda.MayorIDProd() +1;
+        Producto product = new Producto(idProd,nombreProd,precioProd,categoriaProd,descripcionProd, imgProd, cantProd,idvendedorProd,validProd, 1234567);
+        /*Vendedor seller = tienda.Vendedores.FirstOrDefault(v => v.idusuario == idvendedorProd);
+        if (seller != null)
+        {
+            seller.ProductosGuardados.Add(product);
+        }*/
+        tienda.ProductosGuardados.Add(product);
+    }
+
 
     public void actualizarProducto(string nombreProd, string precioProd, string categoriaProd,string descripcionProd,
                                                         string imgProd, int cantProd,string idProducto){
