@@ -333,3 +333,16 @@ C:\Users\2003h\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\itext
 C:\Users\2003h\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\Microsoft.DotNet.PlatformAbstractions.dll
 C:\Users\2003h\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
 C:\Users\2003h\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\BouncyCastle.Crypto.dll
+c:\Users\Jordi\Documents\GitHub\CyberMercadillo\bin\Debug\net7.0\itext.barcodes.dll
+c:\Users\Jordi\Documents\GitHub\CyberMercadillo\bin\Debug\net7.0\itext.forms.dll
+c:\Users\Jordi\Documents\GitHub\CyberMercadillo\bin\Debug\net7.0\itext.io.dll
+c:\Users\Jordi\Documents\GitHub\CyberMercadillo\bin\Debug\net7.0\itext.kernel.dll
+c:\Users\Jordi\Documents\GitHub\CyberMercadillo\bin\Debug\net7.0\itext.layout.dll
+c:\Users\Jordi\Documents\GitHub\CyberMercadillo\bin\Debug\net7.0\itext.pdfa.dll
+c:\Users\Jordi\Documents\GitHub\CyberMercadillo\bin\Debug\net7.0\itext.sign.dll
+c:\Users\Jordi\Documents\GitHub\CyberMercadillo\bin\Debug\net7.0\itext.styledxmlparser.dll
+c:\Users\Jordi\Documents\GitHub\CyberMercadillo\bin\Debug\net7.0\itext.svg.dll
+c:\Users\Jordi\Documents\GitHub\CyberMercadillo\bin\Debug\net7.0\itext.commons.dll
+c:\Users\Jordi\Documents\GitHub\CyberMercadillo\bin\Debug\net7.0\Microsoft.DotNet.PlatformAbstractions.dll
+c:\Users\Jordi\Documents\GitHub\CyberMercadillo\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
+c:\Users\Jordi\Documents\GitHub\CyberMercadillo\bin\Debug\net7.0\BouncyCastle.Crypto.dll
