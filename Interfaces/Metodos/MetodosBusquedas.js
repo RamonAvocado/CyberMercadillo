@@ -151,7 +151,7 @@ function mostrarProductosCat(productos) {
 
         // Agregar evento de clic para seleccionar el producto
         productCard.addEventListener('click', (event) => {
-            GeneralMetodos.seleccionarProducto(event.currentTarget);
+            seleccionarProducto(event.currentTarget);
         });
 
         // Agregar evento de doble clic para ir a la página de información del producto
@@ -159,7 +159,7 @@ function mostrarProductosCat(productos) {
             localStorage.setItem('itemID', productCard.idproducto);
             idProductoSeleccionado = localStorage.getItem('itemID');
             console.log(idProductoSeleccionado);
-            GeneralMetodos.irAInfoProducto(event.currentTarget);
+            irAInfoProducto(event.currentTarget);
         });
         container.appendChild(productCard);
     });
