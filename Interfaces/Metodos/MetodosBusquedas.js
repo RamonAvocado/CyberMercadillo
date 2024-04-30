@@ -30,6 +30,8 @@ async function buscar() {
     limpiarResult.innerHTML = `<p></p>`;
 
     buscarProd(searchTerm,category);
+    //NUEVO+++++++++++
+    CargaTodosProductos();
 }
 
 async function buscarProd(searchTerm, category) {
@@ -254,27 +256,6 @@ async function CargaTodosProductos(valor){
             }
             else{
                 mostrarTodosProductos(productos);// Llama a una función para mostrar los productos en la página
-            }
-        } else {
-            console.error('Error en la solicitud al backend:', response.statusText);
-        }
-    } catch (error) {
-        console.error('Error inesperado:', error);
-    }
-}
-async function CargaTodosProductos(valor){
-    try {
-        // Realizar una solicitud GET al backend para obtener los 6 primeros productos
-        CargaCategorias();
-        const response = await fetch(`${lugarDeEjecucion}/ObtenerTodosProductos`);
-        if (response.ok) {
-            const data = await response.json();
-            const productos = data.productos;
-            if(valor ==  1){
-                mostrarProductosCat(productos);
-            }
-            else{
-                GeneralMetodos.mostrarTodosProductos(productos);// Llama a una función para mostrar los productos en la página
             }
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);

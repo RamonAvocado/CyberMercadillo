@@ -410,3 +410,10 @@ button[type="submit"]:hover {
 #sesion-link {
     margin-left: auto; /* Mover el elemento de cierre de sesión a la derecha */
 }
+
+
+#fileInput {
+    font-size: 17px; /* Ajusta el tamaño de la fuente */
+    padding: 12px 22px; /* Ajusta el relleno (10px arriba/abajo, 20px izquierda/derecha) */
+    margin: 5px; /* Ajusta el margen alrededor del botón */
+}

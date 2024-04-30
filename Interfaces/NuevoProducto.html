@@ -114,6 +114,8 @@
                         <label for="descripcionProd">Descripción:</label>
                         <textarea id="descripcionProd" name="descripcionProd" rows="4" cols="50" required></textarea><br>
                     </div>
+                    <input type="file" id="fileInput" name="fileInput" onchange="handleFileSelect(event)">
+                    <br><br>
                     <button onclick = "guardarProducto(localStorage.getItem('UsuarioID'))" class="search-history-btn">Guardar</button>
                     <button onclick = "agregarProducto(localStorage.getItem('UsuarioID'))" class="search-history-btn">Validar</button>
                 </form>
@@ -135,6 +137,18 @@
     <script src="./Metodos/MetodosUser.js"></script>
     <script src="./Metodos/MetodosProducto.js"></script>
     <script src="./Metodos/GeneralMetodos.js"></script>
+    
+    <script>
+        // Llama a la función buscar cuando la página se cargue
+        //window.addEventListener('load', mostrarProd);
+        function handleFileSelect(event) {
+            const fileInput = event.target;
+            const selectedFiles = fileInput.files; // Accede a la lista de archivos seleccionados
+            
+            // Aquí puedes hacer lo que quieras con los archivos seleccionados, como leer su contenido, enviarlos al servidor, etc.
+            console.log("Archivos seleccionados:", selectedFiles);
+        }
+    </script>
     <script>
         // Llama a la función buscar cuando la página se cargue
         //window.addEventListener('load', CargarProductosVendedor);

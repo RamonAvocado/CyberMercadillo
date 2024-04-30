@@ -121,7 +121,9 @@
                             <!-- Aquí se mostrarán los productos recomendados -->
                         </div>
                         <input type="text" id="nuevo-url-imagen" name="nuevo-url-imagen" placeholder="Nuevo URL de Imagen" disabled>
-                        <br><br><br><br><br><br>                 
+                        <br>
+                        <input type="file" id="fileInput" name="fileInput" onchange="handleFileSelect(event)">
+                        <br><br><br>                
                         <!--<button onclick="cambiarImagen()">Cambiar Imagen</button><br><br><br><br><br><br><br><br>-->
                         
                     </div>
@@ -151,6 +153,13 @@
     <script>
         // Llama a la función buscar cuando la página se cargue
         //window.addEventListener('load', mostrarProd);
+        function handleFileSelect(event) {
+            const fileInput = event.target;
+            const selectedFiles = fileInput.files; // Accede a la lista de archivos seleccionados
+            
+            // Aquí puedes hacer lo que quieras con los archivos seleccionados, como leer su contenido, enviarlos al servidor, etc.
+            console.log("Archivos seleccionados:", selectedFiles);
+        }
     </script>
     <script>
         // Llama a la función agregarProd() para que se ejecute tu código JavaScript

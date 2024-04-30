@@ -43,6 +43,7 @@ async function agregarProducto(idUsuarioIniciado)
                 cantidad: parseInt(formData.get('cantProd')),
                 idvendedor: 5,
                 validado: false,
+                guardado: false,
             };
 
             console.log('ID del usuario seleccionado:', idUsuarioIniciado);
@@ -119,12 +120,13 @@ async function guardarProducto(idUsuarioIniciado)
                 cantidad: parseInt(formData.get('cantProd')),
                 idvendedor: 5,
                 validado: false,
+                guardado: true,
             };
             // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
             
             try {
 
-                const response = await fetch(`${lugarDeEjecucion}/GuardarProducto`, {
+                const response = await fetch(`${lugarDeEjecucion}/AgregarProducto`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -147,6 +149,7 @@ async function guardarProducto(idUsuarioIniciado)
             //window.location.reload();
         });
 }
+
 
 async function agregarProd()
 {

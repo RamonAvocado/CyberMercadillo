@@ -195,6 +195,7 @@ class Servicios{
                     var cantidadP = productoData["cantidad"].ToObject<int>();
                     var idvendedorP = productoData["idvendedor"].ToObject<int>();
                     var validadoP = productoData["validado"].ToObject<bool>();
+                    var guardadoP = productoData["guardado"].ToObject<bool>();
 
                     // Utiliza los datos recibidos para crear un nuevo producto
                     fachadaLogica.agregarProducto(nombreP ?? "Producto de Serie Creación",
@@ -204,7 +205,8 @@ class Servicios{
                                                    imgP ?? "/rutaPrueba",
                                                    cantidadP,
                                                    idvendedorP,
-                                                   validadoP);
+                                                   validadoP,
+                                                   guardadoP);
                     // Inserta el nuevo producto en la base de datos
                    // await client.From<Producto>().Insert(new List<Producto> { nuevoProducto });
 
@@ -218,7 +220,7 @@ class Servicios{
                 }
             return Results.Ok("Producto created successfully"); 
         });
-
+/*
         app.MapPost("/GuardarProducto", async (HttpContext context,Supabase.Client client) =>
         {
             // Leer el cuerpo de la solicitud para obtener la información de búsqueda
@@ -233,6 +235,7 @@ class Servicios{
                     var imgP = productoData["img"].ToObject<string>();
                     var cantidadP = productoData["cantidad"].ToObject<int>();
                     var idvendedorP = productoData["idvendedor"].ToObject<int>();
+                    var validadoP = productoData["validado"].ToObject<bool>();
                     var validadoP = productoData["validado"].ToObject<bool>();
 
                     // Utiliza los datos recibidos para crear un nuevo producto
@@ -257,7 +260,7 @@ class Servicios{
                 }
             return Results.Ok("Producto created successfully"); 
         });
-
+*/
         app.MapPost("/buscarProductoSeleccionado", async (HttpContext context, Supabase.Client client) =>
         {
             using var reader = new StreamReader(context.Request.Body);

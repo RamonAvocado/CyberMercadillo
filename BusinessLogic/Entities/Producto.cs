@@ -18,10 +18,11 @@ namespace CyberMercadillo.Entities
             cantidad = 0;
             idvendedor = 0;
             validado = false;
+            guardado = false;
             huellaEco = 0;   
         }
 
-        public Producto(int? idproductoProd,string? nombreProd, string? precioProd, string? categoriaProd, string? descripcionProd, string? imgsProd, int? cantProd, int? idvendedorProd, bool? validadoProd, int? huellaEcologica) {
+        public Producto(int? idproductoProd,string? nombreProd, string? precioProd, string? categoriaProd, string? descripcionProd, string? imgsProd, int? cantProd, int? idvendedorProd, bool? validadoProd,bool? guardadoProd, int? huellaEcologica) {
             idproducto = idproductoProd ?? 0;
             nombreproducto = nombreProd ?? "ProductoDefecto";
             precio = precioProd ?? "0";
@@ -31,6 +32,7 @@ namespace CyberMercadillo.Entities
             cantidad = cantProd ?? 0;
             idvendedor = idvendedorProd ?? 0;
             validado = validadoProd ?? false;
+            guardado = guardadoProd ?? false;
             MemoryStream memoryStream = new MemoryStream();
             using (PdfWriter escritor = new PdfWriter(memoryStream))
             using (PdfDocument pdf = new PdfDocument(escritor))

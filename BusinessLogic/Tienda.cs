@@ -163,12 +163,11 @@ class Tienda
             idproducto = -1
         };
 
-        foreach (Producto prod in ProductosGuardados)
+        foreach (Producto prod in Productos)
         {
             if (prod.idproducto.ToString() == idBuscado)
             {
-                ProductosGuardados.Remove(prod);
-                Productos.Add(prod);
+                prod.guardado = false;
             }
         }
         if(producto.idproducto != -1 && producto.validado == false){
@@ -201,7 +200,7 @@ class Tienda
             idproducto = -1
         };
         //Buscar en la lista de productos de la tienda el id y devolver ese productos
-        foreach (Producto prod in ProductosGuardados)
+        foreach (Producto prod in Productos)
             {
                 if (prod.idproducto.ToString() == idbuscado)
                 {
@@ -354,9 +353,9 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
             List<Producto> productos = new List<Producto>();
 
         //Buscar en la lista de productos de la tienda el id y devolver ese productos
-        foreach (Producto prod in ProductosGuardados)
+        foreach (Producto prod in Productos)
             {
-                if (prod.idvendedor == idVendedor)
+                if (prod.idvendedor == idVendedor && prod.guardado == true)
                 {
                     productos.Add(prod);
                 }
