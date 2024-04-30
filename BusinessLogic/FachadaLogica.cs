@@ -50,9 +50,12 @@ class FachadaLogica{
     }
 
 
-    public void actualizarProducto(string nombreProd, string precioProd, string categoriaProd,string descripcionProd,
-                                                        string imgProd, int cantProd,string idProducto){
-        tienda.actualizarProd(idProducto,nombreProd,precioProd,categoriaProd,descripcionProd, imgProd, cantProd);
+    public void actualizarProducto(string precioProd,string descripcionProd, int cantProd,string idProducto){
+        tienda.actualizarProd(idProducto,precioProd,descripcionProd, cantProd);
+    }
+
+    public void actualizarProductoGuardado(string nombreProd, string precioProd, string categoriaProd,string descripcionProd,                                                  string imgProd, int cantProd,string idProducto){
+        tienda.actualizarProdGuardado(idProducto,nombreProd,precioProd,categoriaProd,descripcionProd, imgProd, cantProd);
     }
 
     public bool validarProducto(string idbuscado){
@@ -64,6 +67,14 @@ class FachadaLogica{
              }
     }
 
+    public bool validarProdGuardado(string idbuscado){
+            bool validado = tienda.validarProductoGuardado(idbuscado);
+             if(validado)
+                return true;
+             else{
+                return false;
+             }
+    }
     public void eliminarProducto(string idbuscado){
              tienda.eliminarProductoID(idbuscado);
     }

@@ -78,8 +78,6 @@ async function irAEditarProducto(idProductoSeleccionado){
                 const nombreProducto = 'Producto de ejemplo233';
                 nombreInput.value = nombreProducto;
             }
-            //window.location.href = `./EditarProducto.html?idUser=${userId}`
-
         } catch (error) {
             console.error('Error inesperado:', error);
         }

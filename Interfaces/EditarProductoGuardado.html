@@ -52,6 +52,12 @@
                 margin-left: 10px;  /* Espacio entre los botones */
                 gap: 10px;
             }
+            .small-button {
+                font-size: 25px; /* Tamaño de fuente más pequeño */
+                padding: 15px 20px; /* Ajuste de espaciado interno */
+                margin-right: 15px; /* Espacio entre los botones */
+                display: inline-block; /* Para que estén uno al lado del otro */
+            }
         </style>
     </header>
     <div class = "grupo-nav-list">
@@ -122,8 +128,8 @@
                         <input type="text" id="nuevo-url-imagen" name="nuevo-url-imagen" placeholder="Nuevo URL de Imagen"><br><br><br><br><br><br>                 
                         <!--<button onclick="cambiarImagen()">Cambiar Imagen</button><br><br><br><br><br><br><br><br>-->
                     </div>
-                    <button onclick = "ActualizarProducto(localStorage.getItem('itemID'),localStorage.getItem('UsuarioID'))" class="search-history-btn">Confirmar</button>
-                    <button onclick = "ActualizarProducto(localStorage.getItem('itemID'),localStorage.getItem('UsuarioID'))" class="search-history-btn">Validar</button>
+                    <button onclick = "ActualizarProductoGuardado(localStorage.getItem('itemID'),localStorage.getItem('UsuarioID'))" class="search-history-btn small-button">Guardar</button>
+                    <button onclick = "validarProductoGuardado(localStorage.getItem('itemID'))" class="search-history-btn small-button">Validar</button>
                 </div>
         </div>
     </form>

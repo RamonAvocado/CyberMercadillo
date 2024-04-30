@@ -153,6 +153,30 @@ class Tienda
             return true;
         }else return false;
     }
+
+
+    public bool validarProductoGuardado(string idBuscado)
+    {
+        Producto producto = new Producto
+        {
+            //por si no existe ese id
+            idproducto = -1
+        };
+
+        foreach (Producto prod in ProductosGuardados)
+        {
+            if (prod.idproducto.ToString() == idBuscado)
+            {
+                ProductosGuardados.Remove(prod);
+                Productos.Add(prod);
+            }
+        }
+        if(producto.idproducto != -1 && producto.validado == false){
+            return true;
+        }else return false;
+    }
+
+
     public int MayorIDProd()
     {
         int mayorID = 0;
@@ -168,8 +192,31 @@ class Tienda
         return mayorID;
     }
 
-    public void actualizarProd(string idbuscado,string nombreProd, string precioProd, string categoriaProd,string descripcionProd,
+    public void actualizarProdGuardado(string idbuscado,string nombreProd, string precioProd, string categoriaProd,string descripcionProd,
                                                         string imgProd, int cantProd)
+    {
+        Producto producto = new Producto
+        {
+            //por si no existe ese id
+            idproducto = -1
+        };
+        //Buscar en la lista de productos de la tienda el id y devolver ese productos
+        foreach (Producto prod in ProductosGuardados)
+            {
+                if (prod.idproducto.ToString() == idbuscado)
+                {
+                    producto = prod;
+                }
+            }
+        producto.nombreproducto = nombreProd;    
+        producto.precio = precioProd;
+        producto.categoria = categoriaProd;
+        producto.descripcion = descripcionProd;
+        producto.imagenes = imgProd;
+        producto.cantidad = cantProd;
+    }
+
+public void actualizarProd(string idbuscado, string precioProd,string descripcionProd, int cantProd)
     {
         Producto producto = new Producto
         {
@@ -183,12 +230,9 @@ class Tienda
                 {
                     producto = prod;
                 }
-            }
-        producto.nombreproducto = nombreProd;    
+            }   
         producto.precio = precioProd;
-        producto.categoria = categoriaProd;
         producto.descripcion = descripcionProd;
-        producto.imagenes = imgProd;
         producto.cantidad = cantProd;
     }
 
@@ -205,6 +249,13 @@ class Tienda
                 if (prod.idproducto.ToString() == idbuscado)
                 {
                     Productos.Remove(prod);
+                }
+            }
+        foreach (Producto prod in ProductosGuardados)
+            {
+                if (prod.idproducto.ToString() == idbuscado)
+                {
+                    ProductosGuardados.Remove(prod);
                 }
             }
     }

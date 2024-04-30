@@ -284,6 +284,32 @@ class Servicios{
                 }
         });
 
+        app.MapPost("/validarProductoGuardado", async (HttpContext context, Supabase.Client client) =>
+        {
+            using var reader = new StreamReader(context.Request.Body);
+                try{
+                    var requestBody = await reader.ReadToEndAsync();
+                    var productoData = JsonConvert.DeserializeObject<JObject>(requestBody);
+                    var idProductoBuscado = productoData["idproducto"].ToObject<string>();
+
+                    bool validado = fachadaLogica.validarProdGuardado(idProductoBuscado ?? "0");
+                    if(validado){
+                        var jsonResponse = new { mensaje = "El producto fue mandado a validar", existe = false };
+                        context.Response.ContentType = "application/json";
+                        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                    }else{
+                        var jsonResponse = new { mensaje = "El producto no pudo ser mandado a validar", existe = true };
+                        context.Response.ContentType = "application/json";
+                        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Manejar cualquier error y devolver una respuesta de error al cliente
+                    errorDefault(context,ex);
+                }
+        });
+/*
         app.MapPost("/buscarProductoSelec", async (HttpContext context, Supabase.Client client) =>
         {
             using var reader = new StreamReader(context.Request.Body);
@@ -302,8 +328,38 @@ class Servicios{
                     errorDefault(context,ex);
                 }
         });
-
+*/
         app.MapPost("/ActualizarProducto", async (HttpContext context,Supabase.Client client) =>
+        {
+            // Leer el cuerpo de la solicitud para obtener la información de búsqueda
+            using var reader = new StreamReader(context.Request.Body);
+            
+                try{
+
+                    var requestBody = await reader.ReadToEndAsync();
+                    var productoData = JsonConvert.DeserializeObject<JObject>(requestBody);
+                    var precioP = productoData["precio"].ToObject<string>();
+                    var descripcionP = productoData["descripcion"].ToObject<string>();
+                    var cantidadP = productoData["cantidad"].ToObject<int>();
+                    var idproductoP = productoData["idproducto"].ToObject<string>();
+                    fachadaLogica.actualizarProducto(precioP ?? "-1",
+                                                   descripcionP ?? "Este artículo es el predeterminado por si llega un null a esta función",
+                                                   cantidadP,                                       
+                                                   idproductoP ?? "0");
+                    Console.WriteLine("pedido");
+
+                    // Devuelve una respuesta al frontend (opcional)
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsync("Producto creado exitosamente");
+                } catch (Exception ex)
+                {
+                    // Manejar cualquier error y devolver una respuesta de error al cliente
+                    errorDefault(context,ex);
+                }
+            return Results.Ok("Producto created successfully"); 
+        });
+
+        app.MapPost("/ActualizarProductoGuardado", async (HttpContext context,Supabase.Client client) =>
         {
             // Leer el cuerpo de la solicitud para obtener la información de búsqueda
             using var reader = new StreamReader(context.Request.Body);
@@ -319,20 +375,7 @@ class Servicios{
                     var imgP = productoData["img"].ToObject<string>();
                     var cantidadP = productoData["cantidad"].ToObject<int>();
                     var idproductoP = productoData["idproducto"].ToObject<string>();
-
-                    /*var result2 = await client.From<Producto>()
-                            .Where(p => p.idproducto == productoData.idproducto)
-                            .Single();*/
-                            // Use supabase.eq for comparison
-                    /*result2.nombreproducto = productoData.nombreproducto ?? "Producto de Serie Creación";          
-                    result2.cantidad = productoData.cantidad ?? -1;
-                    result2.precio = productoData.precio ?? "-1";
-                    result2.categoria = productoData.categoria ?? "CatPrueba";
-                    result2.descripcion = productoData.descripcion ?? "Este articulo es el predeterminado por si llega un null a esta funcion";
-                    result2.imagenes = productoData.imagenes ?? "/rutaPrueba";*/
-                    
-                    //await result2.Update<Producto>();
-                    fachadaLogica.actualizarProducto(nombreP ?? "Producto de Serie Creación",
+                    fachadaLogica.actualizarProductoGuardado(nombreP ?? "Producto de Serie Creación",
                                                    precioP ?? "-1",
                                                    categoriaP ?? "CatPrueba",
                                                    descripcionP ?? "Este artículo es el predeterminado por si llega un null a esta función",
@@ -351,6 +394,7 @@ class Servicios{
                 }
             return Results.Ok("Producto created successfully"); 
         });
+
 
         app.MapPost("/eliminarProductoSeleccionado", async (HttpContext context, Supabase.Client client) =>
         {
