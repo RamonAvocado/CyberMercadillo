@@ -49,13 +49,11 @@ async function irAEditarProducto(idProductoSeleccionado){
         try {
             const urlParams = new URLSearchParams(window.location.search);
             const userId = urlParams.get('idUser');
-            //const response = await fetch('http://localhost:5169/buscarProductoX');
-    
-            //const response = await fetch(`http://localhost:5169/buscarProductoX?idProductoSeleccionado=${idProductoSeleccionado}`);
-            const response = await fetch(`${lugarDeEjecucion}/buscarProductoSelec`,{
+            const response = await fetch(`${lugarDeEjecucion}/buscarProductoSeleccionado`,{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Cache-Control': 'no-cache'
                 },
                 body: JSON.stringify({
                     idproducto: idProductoSeleccionado
@@ -64,19 +62,24 @@ async function irAEditarProducto(idProductoSeleccionado){
     
             if (response.ok) {
                 const data = await response.json();
-                const prod = data.producto;
-                console.log(prod);
-                if(prod.idproducto == -1){
-                    window.location.href = `./EditarProductoGuardado.html?idUser=${userId}`
-                }else
-                    window.location.href = `./EditarProducto.html?idUser=${userId}`        
-    
+                console.log("dfvndfnv"+data.producto.idproducto);
+                console.log(data.producto);
+                var validado = data.producto.validado;
+                console.log(validado);
+                if (validado == false) {
+                    window.location.href = `./EditarProductoGuardado.html?idUser=${userId}`;
+                }
+                if (validado == true) {
+                    window.location.href = `./EditarProducto.html?idUser=${userId}`;
+                }
             } else {
                 console.error('Error al obtener los detalles del producto:', response.statusText);
                 const nombreInput = document.getElementById('nombre');
                 const nombreProducto = 'Producto de ejemplo233';
                 nombreInput.value = nombreProducto;
             }
+            //window.location.href = `./EditarProducto.html?idUser=${userId}`
+
         } catch (error) {
             console.error('Error inesperado:', error);
         }

@@ -302,7 +302,7 @@ function mostrarProductosVendedor(productos) {
             // Puedes hacer lo que quieras con el ID del producto seleccionado aquí
             idProductoSeleccionado = producto.idproducto;
             console.log('ID del producto seleccionado:', idProductoSeleccionado);
-            
+            localStorage.setItem('itemID', idProductoSeleccionado);
             const editarBtn = document.getElementById('editarBtn');
             editarBtn.disabled = false;
             editarBtn.classList.add('enabled');
@@ -377,8 +377,8 @@ function mostrarProductosGuardadosVendedor(productos) {
             // Aquí puedes acceder al ID del producto seleccionado (producto.idproducto)
             // Puedes hacer lo que quieras con el ID del producto seleccionado aquí
             idProductoSeleccionado = producto.idproducto;
-            console.log('ID del producto seleccionado:', idProductoSeleccionado);
-            
+            console.log('ID del producto seleccionado >3:', idProductoSeleccionado);
+            localStorage.setItem('itemID', idProductoSeleccionado);
             const editarBtn = document.getElementById('editarBtn');
             editarBtn.disabled = false;
             editarBtn.classList.add('enabled');
@@ -443,11 +443,6 @@ async function mostrarProd(idProductoSeleccionado) {
         if (response.ok) {
             const data = await response.json();
             console.log(data);
-
-            const nombreInput = document.getElementById('nombre');
-            const nombreProducto = 'Producto de ejemplo24';
-            nombreInput.value = nombreProducto;
-
             //const productos = data.result.Models;
             const prod = data.producto;
             console.log(prod);
