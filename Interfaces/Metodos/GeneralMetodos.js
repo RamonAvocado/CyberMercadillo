@@ -314,7 +314,7 @@ async function cargarProductosPorPaginaRec(numeroPagina) {
         console.error('Error inesperado:', error);
     }
 }
-
+/*
 async function cargarProductosPorPagina(numeroPagina,idUsuarioIniciado) {
     const productosPorPagina = 6;
 
@@ -348,7 +348,7 @@ async function cargarProductosPorPagina(numeroPagina,idUsuarioIniciado) {
         console.error('Error inesperado:', error);
     }
 }
-
+*/
 async function cargarProductosPorPaginaDest(numeroPagina) {
     const productosPorPagina = 6;
 
@@ -430,7 +430,7 @@ function generarEnlacesPaginacionRec(totalPaginas) {
         });
     }
 }
-
+/*
 function generarEnlacesPaginacion(totalPaginas,idUsuarioIniciado) {
     const paginasContainer = document.getElementById('paginas');
     paginasContainer.innerHTML = ''; // Limpiar los enlaces de paginación antes de generarlos nuevamente
@@ -451,7 +451,7 @@ function generarEnlacesPaginacion(totalPaginas,idUsuarioIniciado) {
         });
     }
 }
-
+*/
 
 async function CargarProductosDestacados() {
     try {

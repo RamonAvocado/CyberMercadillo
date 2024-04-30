@@ -81,7 +81,7 @@ class FachadaLogica{
 
     public List<Producto> GetProductosAValidar(){
         List<Producto> prod = tienda.Productos;
-        return prod.Where(p => p.validado == false).ToList();
+        return prod.Where(p => p.validado == false && p.guardado == false).ToList();
     }
     public Producto GetProductoPorID(string idbuscado){
 
