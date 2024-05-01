@@ -51,7 +51,6 @@ async function IniciarSesion(){
             const data = await response.json();
             idUsuarioIniciado = data.Id;
             localStorage.setItem('UsuarioID', idUsuarioIniciado);
-            
             // Determinar el tipo de usuario
             let tipoUsuario;
             console.log(data.TipoUsuario);
@@ -59,7 +58,7 @@ async function IniciarSesion(){
             if (data.TipoUsuario === "Vendedor") {
                 tipoUsuario = "vendedor";
                 window.location.href = `./Interfaces/PaginaVendedor.html`;
-            } else if (data.TipoUsuario === "Técnico") {
+            } else if (data.TipoUsuario === "Tecnico") {
                 tipoUsuario = "tecnico";
                 window.location.href = `./Interfaces/ValidarProductos.html`;
             } else {
@@ -100,7 +99,10 @@ async function agregarCerrarSesion() {
             sesionSUserLink.innerHTML = '<a href="./PaginaVendedor.html">Productos</a>';
         }else if(tipoUsuarioLogueado == "tecnico"){
             sesionSUserLink.innerHTML = '<a onclick="irAPagianValidaciones()">Validaciones</a>';
-        }else sesionSUserLink.innerHTML = '<a href="./ListaDeseados.html">Lista Deseados</a>';        
+        }else{ 
+            sesionSUserLink.innerHTML += '<a href="./ListaDeseados.html">Lista Deseados</a>';
+            sesionSUserLink.innerHTML += '<a href="./CarritoDeCompra.html"> Carrito De Compra</a>';   
+        }      
     }
 }
 

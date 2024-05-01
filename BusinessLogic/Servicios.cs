@@ -490,7 +490,7 @@ class Servicios{
                         { "Id", user.idusuario }, // Asumiendo que idusuario no puede ser nulo, pero ajusta esto según tus requisitos
                         { "Nombre", user.nombre ?? "UsuarioPorDefecto" }, // Si nombre es nullable, usa el operador de coalescencia nula para proporcionar un valor predeterminado en caso de que sea nulo
                         { "Correo", user.correo ?? "CorreoPorDefecto" },
-                        { "TipoUsuario", user.tipoUsuario ?? "TipoUusarioPorDefecto" }
+                        { "TipoUsuario", user.tipoUsuario ?? "TipoUsuarioPorDefecto" }
                     }; 
                     
             context.Response.StatusCode = 200;
