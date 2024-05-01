@@ -36,6 +36,8 @@ class FachadaLogica{
         Producto product = new Producto(idProd,nombreProd,precioProd,categoriaProd,descripcionProd, imgProd, cantProd,idvendedorProd,validProd,saveProd, 1234567, "pdf");
         tienda.Productos.Add(product);
     }
+
+    
 /*
     public void guardarProducto(string nombreProd, string precioProd, string categoriaProd,string descripcionProd,
                                                         string imgProd, int cantProd,int idvendedorProd,bool validProd,bool saveProd){

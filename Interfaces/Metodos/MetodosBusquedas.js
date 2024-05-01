@@ -281,7 +281,7 @@ async function getBusquedas() {
         .then(response => response.json())
         .then(data => {
         
-        const models = data.result.Models;
+        const models = data.busquedas;
 
         // Selecciona el elemento con la clase "historial"
         const historialDiv = document.querySelector('.historial');

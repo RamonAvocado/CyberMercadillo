@@ -70,6 +70,13 @@ class Tienda
         get { return carritos; }
         private set { carritos = value; }
     }
+    
+    private Usuario usuarioRegistrado = new Comprador("x", 1, "x", "x", "x", 1, "x", 1, "x");
+    public Usuario UsuarioRegistrado
+    {
+        get { return usuarioRegistrado;}
+        private set { usuarioRegistrado = value; }
+    }
 
     public void pregunta()
     {
@@ -311,26 +318,33 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
 
             usuarioEncontrado = Compradores.Find(u => u.correo == correo && u.contraseña == password) ?? usuarioFalso;
             if(usuarioEncontrado.correo == correo && usuarioEncontrado.contraseña == password){
-            Console.WriteLine("usuario encontrado "+ usuarioEncontrado.correo);
-
+                UsuarioRegistrado = usuarioEncontrado;
                 return usuarioEncontrado;
             }
 
             usuarioEncontrado = Vendedores.Find(u => u.correo == correo && u.contraseña == password) ?? usuarioFalso;
             if(usuarioEncontrado.correo == correo && usuarioEncontrado.contraseña == password){
-            Console.WriteLine("usuario encontrado "+ usuarioEncontrado.correo);
-
+                UsuarioRegistrado = usuarioEncontrado;
                 return usuarioEncontrado;
             }
 
             usuarioEncontrado = Tecnicos.Find(u => u.correo == correo && u.contraseña == password) ?? usuarioFalso;
             if(usuarioEncontrado.correo == correo && usuarioEncontrado.contraseña == password){
-            Console.WriteLine("usuario encontrado "+ usuarioEncontrado.correo);
-
+                UsuarioRegistrado = usuarioEncontrado;
                 return usuarioEncontrado;
             }
 
             else{return usuarioFalso;}
+    }
+
+    public List<Busqueda> getBusquedasUsuario(Usuario user){
+        List<Busqueda> busquedasUsuario = new List<Busqueda>();
+        foreach(var busqueda in Busquedas){
+            if(busqueda.idusuario == user.idusuario){
+                busquedasUsuario.Add(busqueda);
+            }
+        }
+        return busquedasUsuario;
     }
        
     public List<Producto> GetProductosBusqueda(string categoriaBuscada, string searchTermLower, int idBuscado)
