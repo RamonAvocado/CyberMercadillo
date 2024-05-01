@@ -85,8 +85,6 @@ class FachadaDBB{
             idusuario = 2,
             categoria = "Todas las categorias",
         };
-
-        busquedas.Add(b1);
         
         //Añade 10
 
