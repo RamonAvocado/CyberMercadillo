@@ -296,7 +296,6 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
 
     public void GuardarBusqueda(string categoriaBuscada, string searchTerm, int idBuscado)
     {
-
         Busqueda busqueda = new Busqueda
         {
             texto = searchTerm,
@@ -304,11 +303,7 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
             fecha = DateTime.Now,
             idusuario = idBuscado,
         };
-            Busquedas.Add(busqueda);
-            //FALTA GUARDARLA EN LA BASE DE DATOS
-            Console.WriteLine("La busqueda es: "+ busqueda.texto);
-            Console.WriteLine("Hay un total de búsquedas: "+ Busquedas.Count);
-            
+            Busquedas.Add(busqueda);         
     }
 
     public Usuario buscarUsuario(String correo, String password)
@@ -347,13 +342,14 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
         return busquedasUsuario;
     }
        
-    public List<Producto> GetProductosBusqueda(string categoriaBuscada, string searchTermLower, int idBuscado)
+    public List<Producto> GetProductosBusqueda(string categoriaBuscada, string searchTerm, int idBuscado)
     {
             
         List<Producto> productos = new List<Producto>();
             Console.WriteLine("categoriaBuscada: "+ categoriaBuscada);
-            Console.WriteLine("searchTermLower: "+ searchTermLower);
+            Console.WriteLine("searchTermLower: "+ searchTerm);
 
+        var searchTermLower = searchTerm.ToLowerInvariant();
         //Buscar en la lista de productos de la tienda el id y devolver ese productos
         foreach (Producto prod in Productos)
             {
@@ -367,15 +363,17 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
             
             Console.WriteLine("total: "+ productos.Count());
         //guardo la búsqueda
-        GuardarBusqueda(categoriaBuscada,searchTermLower,idBuscado);
+        GuardarBusqueda(categoriaBuscada,searchTerm,idBuscado);
 
     return productos;
     } 
 
-    public List<Producto> GetProductosSoloText(string categoriaBuscada, string searchTermLower, int idBuscado)
+    public List<Producto> GetProductosSoloText(string categoriaBuscada, string searchTerm, int idBuscado)
     {
             
         List<Producto> productos = new List<Producto>();
+
+        var searchTermLower = searchTerm.ToLowerInvariant();
 
         //Buscar en la lista de productos de la tienda el id y devolver ese productos
         foreach (Producto prod in Productos)
@@ -389,7 +387,7 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
             
             Console.WriteLine("total: "+ productos.Count());
         //guardo la búsqueda
-        GuardarBusqueda(categoriaBuscada,searchTermLower,idBuscado);
+        GuardarBusqueda(categoriaBuscada,searchTerm,idBuscado);
 
     return productos;
     } 
