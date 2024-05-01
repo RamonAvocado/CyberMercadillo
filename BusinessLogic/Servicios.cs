@@ -613,22 +613,6 @@ class Servicios{
                             context.Response.ContentType = "application/json";
                             await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
                         }
-
-                        
-                Console.WriteLine("Desde el backend, el id: "+ ID_USUARIO);
-                // Leer el cuerpo de la solicitud para obtener los datos del producto
-                using (var reader = new StreamReader(context.Request.Body))
-                {
-                    var result = await client.From<Busqueda>()
-                                    .Where(x => x.idusuario == ID_USUARIO)
-                                    .Select("*")
-                                    .Get();
-
-                    // Devolver los productos al frontend
-                    var jsonResponse = new { result };
-                    context.Response.ContentType = "application/json";
-                    await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-                }
             }
             catch (Exception ex)
             {
