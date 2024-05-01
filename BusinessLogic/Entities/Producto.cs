@@ -19,10 +19,12 @@ namespace CyberMercadillo.Entities
             idvendedor = 0;
             validado = false;
             guardado = false;
-            huellaEco = 0;   
+            puntuacionEco = 0;  
+            certificadoEco = "pdf"; 
         }
 
-        public Producto(int? idproductoProd,string? nombreProd, string? precioProd, string? categoriaProd, string? descripcionProd, string? imgsProd, int? cantProd, int? idvendedorProd, bool? validadoProd,bool? guardadoProd, int? huellaEcologica) {
+        public Producto(int? idproductoProd,string? nombreProd, string? precioProd, string? categoriaProd, string? descripcionProd, string? imgsProd, int? cantProd, 
+                        int? idvendedorProd, bool? validadoProd, bool? guardadoProd, int? puntuacionHuella, string? pdfCertificado) {
             idproducto = idproductoProd ?? 0;
             nombreproducto = nombreProd ?? "ProductoDefecto";
             precio = precioProd ?? "0";
@@ -36,48 +38,19 @@ namespace CyberMercadillo.Entities
             MemoryStream memoryStream = new MemoryStream();
             using (PdfWriter escritor = new PdfWriter(memoryStream))
             using (PdfDocument pdf = new PdfDocument(escritor))
-            huellaEco = huellaEcologica ?? 0;   
+            //Si es -1 no tiene huella ecologica debe aparecer QUIERE SUBIR EL CERTIFICADO ECOLÓGICO
+            //Si es 0-5 tiene huella ecologica debe aparecer ESTE PRODUCTO YA TIENE CERTIFICADO
+            puntuacionEco = puntuacionHuella ?? -1;   
+            certificadoEco = pdfCertificado ?? "pdf";
         }
 
-        public MemoryStream CrearPDF()
-        {
-            MemoryStream memoryStream = new MemoryStream();
-            try
-            {
-                using (PdfWriter escritor = new PdfWriter(memoryStream))
-                {
-                    using (PdfDocument pdf = new PdfDocument(escritor))
-                    {
-                        Document documento = new Document(pdf);
-                        documento.Add(new Paragraph("¡Hola, mundo!"));
-                        documento.Close();
-                        Console.WriteLine("PDF creado exitosamente.");
-                    }
-                }
+        
 
-                // Es importante volver al principio del MemoryStream antes de devolverlo
-                return memoryStream;
-            }
-            catch (Exception ex)
-            {
-                MemoryStream memVacio = new MemoryStream();
-                Console.WriteLine("Error al crear el PDF: " + ex.Message);
-                // Si ocurre un error, devuelve null o maneja el error de otra manera según sea necesario
-                return memVacio;
-            }
-        }
-
-        public async Task AgregarProductoEnSupabase()
-        {
-            try
-            {
-                // Llama a la operación de la fachada de base de datos para agregar el producto
-                await fachadaDBB.AgregarProductoBDD(this);
-            }
-            catch (Exception ex)
-            {
-                // Manejar cualquier excepción que pueda ocurrir durante la inserción
-                Console.WriteLine($"Error al agregar el producto en Supabase: {ex.Message}");
+        public bool estaCertificado(){
+            if (puntuacionEco > 0){
+                return false;
+            } else {
+                return true;
             }
         }
 

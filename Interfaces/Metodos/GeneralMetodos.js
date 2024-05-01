@@ -281,7 +281,7 @@ async function CargarProductosRecomendados(){
             const totalPaginas = Math.ceil(productos.length / productosPorPagina);
 
             // Mostrar los productos de la primera página en la interfaz de usuario
-            mostrarProductosRecomendados(productos.slice(0, productosPorPagina));
+            mostrarProductosRecomendados(productos, "Todas las categorias", productosPorPagina);
 
             // Generar enlaces de paginación
             generarEnlacesPaginacionRec(totalPaginas);
@@ -295,7 +295,6 @@ async function CargarProductosRecomendados(){
 
 async function cargarProductosPorPaginaRec(numeroPagina) {
     const productosPorPagina = 6;
-
     try {
         const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosRecomendados`);
         if (response.ok) {
@@ -306,7 +305,7 @@ async function cargarProductosPorPaginaRec(numeroPagina) {
             const fin = numeroPagina * productosPorPagina;
             const productosPagina = productos.slice(inicio, fin);
 
-            mostrarProductosRecomendados(productosPagina);
+            mostrarProductosRecomendados(productos, "Todas las categorias", productosPorPagina);
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
         }
@@ -371,42 +370,48 @@ async function cargarProductosPorPaginaDest(numeroPagina) {
     }
 }
 
-function mostrarProductosRecomendados(productos) {
+function mostrarProductosRecomendados(productos, categoria, cantidad) {
+    var cant = 0;
     const container = document.querySelector('.recommended-products');
     container.innerHTML = '';
-
+    console.log("HAY TANTOS PRODUCTOS : " + productos.length);
+    console.log("CATEGORIA PRODUCTO SELEC : " + cantidad);
     // Itera sobre los productos y crea elementos para mostrarlos
     productos.forEach((producto) => {
-        const productCard = document.createElement('div');
-        productCard.classList.add('product-card');
-        //imagenes de cada producto
-        const imagenes = producto.imagenes.split(' ');
-        const primeraImagen = imagenes[0];
+        if(producto.categoria == categoria && cant < cantidad && producto.idproducto != localStorage.getItem("itemID")){
+            const productCard = document.createElement('div');
+            productCard.classList.add('product-card');
+            //imagenes de cada producto
+            const imagenes = producto.imagenes.split(' ');
+            const primeraImagen = imagenes[0];
+            cant++;
 
-        // Agrega la imagen, nombre y precio del producto dentro de un enlace       
-        productCard.innerHTML = `
-            <button class="favorite-btn"></button> <!-- Botón de favoritos -->
-            <img src="${primeraImagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
-            <h3>${truncate(producto.nombreproducto)}</h3>
-            <p class="price">${producto.precio} €</p>
-            <p class="description">${truncate(producto.descripcion)}</p>
-            <div hidden>
-                <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
-                <div id="idProducto" data-info="${producto.idproducto}"> </div>
-            </div>
-        `;
+            // Agrega la imagen, nombre y precio del producto dentro de un enlace       
+            productCard.innerHTML = `
+                <button class="favorite-btn"></button> <!-- Botón de favoritos -->
+                <img src="${primeraImagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
+                <h3>${truncate(producto.nombreproducto)}</h3>
+                <p class="price">${producto.precio} €</p>
+                <p class="description">${truncate(producto.descripcion)}</p>
+                <div hidden>
+                    <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
+                    <div id="idProducto" data-info="${producto.idproducto}"> </div>
+                    <div id="categoriaProducto" data-info="${producto.categoria}"> </div>
+                </div>
+            `;
 
-        // Agregar evento de clic para seleccionar el producto
-        productCard.addEventListener('click', (event) => {
-            seleccionarProducto(event.currentTarget);
-        });
+            // Agregar evento de clic para seleccionar el producto
+            productCard.addEventListener('click', (event) => {
+                seleccionarProducto(event.currentTarget);
+            });
 
-        // Agregar evento de doble clic para ir a la página de información del producto
-        productCard.addEventListener('dblclick', (event) => {
-            irAInfoProducto(event.currentTarget);
-        });
+            // Agregar evento de doble clic para ir a la página de información del producto
+            productCard.addEventListener('dblclick', (event) => {
+                irAInfoProducto(event.currentTarget);
+            });
 
-        container.appendChild(productCard);
+            container.appendChild(productCard);
+            }
     });
 }
 
@@ -511,6 +516,7 @@ function mostrarProductosDestacados(productos) {
             <div hidden>
                 <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
                 <div id="idProducto" data-info="${producto.idproducto}"> </div>
+                <div id="categoriaProducto" data-info="${producto.categoria}"> </div>
             </div>
         `;
 
@@ -562,7 +568,9 @@ function seleccionarProducto(productoSeleccionado) {
 function irAInfoProducto(productoParaInfo) {
     // Obtener el ID del producto y la categoría de los atributos de datos (data-*) de la tarjeta de producto
     const productId = productoParaInfo.querySelector('#idProducto').dataset.info;
+    const productoCategoria = productoParaInfo.querySelector('#categoriaProducto').dataset.info;
     localStorage.setItem('itemID', productId);
+    localStorage.setItem('categoria', productoCategoria);
 
     window.location.href = `./InfoProducto.html`;
 }
@@ -599,6 +607,7 @@ function mostrarTodosProductos(productos) {
             <div hidden>
                 <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
                 <div id="idProducto" data-info="${producto.idproducto}"> </div>
+                <div id="categoriaProducto" data-info="${producto.categoria}"> </div>
             </div>
         `;
 
@@ -651,22 +660,6 @@ async function crearCertificado() {
         },
         body: JSON.stringify(idProductoSeleccionado)
     });
-
-
-    if (response.ok) {
-        // Crear una URL para el blob (archivo binario)
-        const blobUrl = URL.createObjectURL(await response.blob());
-
-        // Crear un enlace <a> para descargar el archivo
-        const link = document.createElement('a');
-        link.href = blobUrl;
-        link.setAttribute('download', 'certificado.pdf');
-
-        // Simular clic en el enlace para iniciar la descarga
-        link.click();
-    } else {
-        console.error('Error al crear el certificado');
-    }
 }
 
 async function GuardarBDD(){

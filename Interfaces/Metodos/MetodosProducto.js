@@ -688,11 +688,11 @@ async function CargarProductosRecomendadosInfoProd(){
             const data = await response.json();
             const productos = data.productos;
 
-            const productosPorPagina = 2;
+            const productosPorPagina = 8;
             const totalPaginas = Math.ceil(productos.length / productosPorPagina);
 
             // Mostrar los productos de la primera página en la interfaz de usuario
-            mostrarProductosRecomendados(productos.slice(0, productosPorPagina));
+            mostrarProductosRecomendados(productos, localStorage.getItem('categoria'), productosPorPagina);
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
         }
@@ -700,41 +700,3 @@ async function CargarProductosRecomendadosInfoProd(){
         console.error('Error inesperado:', error);
     }
 }
-/*function mostrarProductosRecomendados(productos) {
-    const container = document.querySelector('.recommended-products');
-    container.innerHTML = '';
-
-    // Itera sobre los productos y crea elementos para mostrarlos
-    productos.forEach((producto) => {
-        const productCard = document.createElement('div');
-        productCard.classList.add('product-card');
-        //imagenes de cada producto
-        const imagenes = producto.imagenes.split(' ');
-        const primeraImagen = imagenes[0];
-
-        // Agrega la imagen, nombre y precio del producto dentro de un enlace       
-        productCard.innerHTML = `
-            <button class="favorite-btn"></button> <!-- Botón de favoritos -->
-            <img src="${primeraImagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
-            <h3>${truncate(producto.nombreproducto)}</h3>
-            <p class="price">${producto.precio} €</p>
-            <p class="description">${truncate(producto.descripcion)}</p>
-            <div hidden>
-                <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
-                <div id="idProducto" data-info="${producto.idproducto}"> </div>
-            </div>
-        `;
-
-        // Agregar evento de clic para seleccionar el producto
-        productCard.addEventListener('click', (event) => {
-            seleccionarProducto(event.currentTarget);
-        });
-
-        // Agregar evento de doble clic para ir a la página de información del producto
-        productCard.addEventListener('dblclick', (event) => {
-            irAInfoProducto(event.currentTarget);
-        });
-
-        container.appendChild(productCard);
-    });
-}*/

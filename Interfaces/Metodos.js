@@ -274,6 +274,7 @@ function mostrarProductosCat(productos) {
             <div hidden>
                 <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
                 <div id="idProducto" data-info="${producto.idproducto}"> </div>
+                <div id="categoriaProducto" data-info="${producto.categoria}"> </div>
             </div>
         `;
 
@@ -430,6 +431,7 @@ function mostrarProductosDestacados(productos) {
             <div hidden>
                 <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
                 <div id="idProducto" data-info="${producto.idproducto}"> </div>
+                <div id="categoriaProducto" data-info="${producto.categoria}"> </div>
             </div>
         `;
 
@@ -568,6 +570,7 @@ function mostrarProductosRecomendados(productos) {
             <div hidden>
                 <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
                 <div id="idProducto" data-info="${producto.idproducto}"> </div>
+                <div id="categoriaProducto" data-info="${producto.categoria}"> </div>
             </div>
         `;
 
@@ -644,6 +647,7 @@ function mostrarTodosProductos(productos) {
             <div hidden>
                 <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
                 <div id="idProducto" data-info="${producto.idproducto}"> </div>
+                <div id="categoriaProducto" data-info="${producto.categoria}"> </div>
             </div>
         `;
 

@@ -586,15 +586,11 @@ class Servicios{
 
                 //Crear PDF
                 var producto = fachadaLogica.GetProductoPorID(idProductoSeleccionado.ToString() ?? "0");
-                var pdf = producto.CrearPDF();
                 
                 //Devolver PDF
                 context.Response.ContentType = "application/pdf";
                 context.Response.Headers.Add("Content-Disposition", "attachment; filename=certificado.pdf");
 
-                // Escribir el contenido del PDF en la respuesta HTTP
-                pdf.Position = 0; // Asegurar que estamos al principio del MemoryStream
-                await pdf.CopyToAsync(context.Response.Body);
             }
             catch (Exception ex)
             {

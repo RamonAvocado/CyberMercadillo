@@ -69,6 +69,9 @@ class Tienda
             Console.WriteLine("Hay " + Productos.Count + " productos ");
             Console.WriteLine("Hay " + Compradores.Count + " Compradores ");
             Console.WriteLine("Hay " + Vendedores.Count + " Vendedores ");
+            foreach(var tecnico in tecnicos){
+                Console.WriteLine("Nombre tecnico" + tecnico.nombre);
+            }
             Console.WriteLine("Hay " + Tecnicos.Count + " Tecnicos ");
             Console.WriteLine("Hay " + Usuarios.Count + " Usuarios ");
             
@@ -184,7 +187,7 @@ class Tienda
         {
             if (prod.idproducto > mayorID)
             {
-                mayorID = prod.idproducto;
+                mayorID = prod.idproducto ?? 0;
             }
         }
 
@@ -294,11 +297,30 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
 
     public Usuario buscarUsuario(String correo, String password)
     {
-            Tecnico usuarioFalso = new Tecnico("Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se", "Tecnico");
-            Usuario usuarioEncontrado = usuarios.Find(u => u.correo == correo && u.contraseña == password) ?? usuarioFalso;
+            Usuario usuarioFalso = new Tecnico("Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se", "Tecnico");
+            Usuario usuarioEncontrado;
+
+            usuarioEncontrado = compradores.Find(u => u.correo == correo && u.contraseña == password) ?? usuarioFalso;
+            if(usuarioEncontrado.correo == correo && usuarioEncontrado.contraseña == password){
             Console.WriteLine("usuario encontrado "+ usuarioEncontrado.correo);
-            if (usuarioEncontrado != null && usuarioEncontrado.contraseña == password)
-            {return usuarioEncontrado;}
+
+                return usuarioEncontrado;
+            }
+
+            usuarioEncontrado = vendedores.Find(u => u.correo == correo && u.contraseña == password) ?? usuarioFalso;
+            if(usuarioEncontrado.correo == correo && usuarioEncontrado.contraseña == password){
+            Console.WriteLine("usuario encontrado "+ usuarioEncontrado.correo);
+
+                return usuarioEncontrado;
+            }
+
+            usuarioEncontrado = tecnicos.Find(u => u.correo == correo && u.contraseña == password) ?? usuarioFalso;
+            if(usuarioEncontrado.correo == correo && usuarioEncontrado.contraseña == password){
+            Console.WriteLine("usuario encontrado "+ usuarioEncontrado.correo);
+
+                return usuarioEncontrado;
+            }
+
             else{return usuarioFalso;}
     }
        

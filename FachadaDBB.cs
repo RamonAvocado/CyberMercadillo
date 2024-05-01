@@ -19,7 +19,6 @@ class FachadaDBB{
 
     bool TodoCargadoCargados = false;
 
-
     //EL BOTON INICIAR SESION DEBERÁ LLAMAR TAMBIÉN A ESTA FUNCION
     app.MapGet("/inicializar", async (HttpContext context, Supabase.Client supabase) =>
     { 

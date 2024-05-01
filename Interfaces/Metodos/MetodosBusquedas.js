@@ -148,6 +148,7 @@ function mostrarProductosCat(productos) {
             <div hidden>
                 <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
                 <div id="idProducto" data-info="${producto.idproducto}"> </div>
+                <div id="categoriaProducto" data-info="${producto.categoria}"> </div>
             </div>
         `;
 

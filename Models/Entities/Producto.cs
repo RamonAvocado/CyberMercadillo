@@ -13,7 +13,7 @@ namespace CyberMercadillo.Entities
     public partial class Producto : BaseModel
     {
         [PrimaryKey("idproducto", false)]
-        public int idproducto { get; set; }
+        public int? idproducto { get; set; }
 
         [Column("nombreproducto")]
         public string? nombreproducto { get; set; }
@@ -42,8 +42,11 @@ namespace CyberMercadillo.Entities
         [Column("guardado")]
         public bool? guardado { get; set; }
 
-        [Column("huellaEco")]
-        public int? huellaEco { get; set; }
+        [Column("puntuacionEco")]
+        public int? puntuacionEco { get; set; }
+
+        [Column("certificadoEco")]
+        public string? certificadoEco { get; set; }
     }
 
 }
