@@ -446,15 +446,15 @@ function mostrarUnProducto(respuesta) {
     const productButtons = document.createElement('div');
     productButtons.classList.add('product-buttons');
 
-    // Agregar botones y select al contenedor de botones
+    /* Agregar botones y select al contenedor de botones
     const comprarButton = document.createElement('button');
     comprarButton.classList.add('comprarButton');
     comprarButton.textContent = 'Comprar';
-    productButtons.appendChild(comprarButton);
+    productButtons.appendChild(comprarButton);*/
 
     const carritoButton = document.createElement('button');
     carritoButton.classList.add('carritoButton');
-    carritoButton.textContent = 'Carrito de Compra';
+    carritoButton.textContent = 'Añadir al Carrito de Compra';
     productButtons.appendChild(carritoButton);
 
     const cantidadLabel = document.createElement('label');
@@ -498,12 +498,12 @@ function mostrarUnProducto(respuesta) {
 
     productCard.dataset.productId = producto.idproducto;
 
-    // Agregar evento de clic al botón de comprar
-    comprarButton.addEventListener('click', function() {
+    // Agregar el producto al carrito de la compra
+    carritoButton.addEventListener('click', function() {
+        // Voy a añadir al carrito de compra por el id del usuario y el id del producto
 
-        // Redirigir a la página de compra del producto con el ID del producto en la URI
-        window.location.href = `./CompraProducto.html`;
     });
+
 
     selectCantidad.addEventListener('change', function() {
         const cantidadSeleccionada = parseInt(selectCantidad.value);

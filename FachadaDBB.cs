@@ -15,6 +15,7 @@ using Newtonsoft.Json.Linq;
 
 class FachadaDBB{
     private Supabase.Client client;
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public FachadaDBB(String[] args, WebApplication app, Tienda tienda){
 
     bool TodoCargadoCargados = false;
@@ -97,6 +98,7 @@ class FachadaDBB{
     });
     app.Run();
     }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
     public async Task AgregarProductoBDD(Producto prod){
         try
