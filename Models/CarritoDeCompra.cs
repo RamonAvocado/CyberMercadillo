@@ -15,8 +15,11 @@ namespace CyberMercadillo.Entities
         [PrimaryKey("idusuario", false)]
         public int idusuario { get; set; }
 
-        [Column("ListaProductos")]
-        public String? listaProductos { get; set; }
+        [PrimaryKey("idproducto", false)]
+        public int idproducto { get; set; }
+
+        [Column("cantidad")]
+        public int? cantidad { get; set; }
 
     }
 

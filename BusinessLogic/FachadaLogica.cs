@@ -36,8 +36,6 @@ class FachadaLogica{
         Producto product = new Producto(idProd,nombreProd,precioProd,categoriaProd,descripcionProd, imgProd, cantProd,idvendedorProd,validProd,saveProd, 1234567, "pdf");
         tienda.Productos.Add(product);
     }
-
-    
 /*
     public void guardarProducto(string nombreProd, string precioProd, string categoriaProd,string descripcionProd,
                                                         string imgProd, int cantProd,int idvendedorProd,bool validProd,bool saveProd){
@@ -95,31 +93,5 @@ class FachadaLogica{
 
             //hacer la lógica para buscar el producto
             return tienda.buscarIDTodos(idbuscado);
-    }
-
-//no se si la lógica tiene que estar aquí
-    public List<String> GetCategorías(){
-
-        List<string> categoriasUnicas = new List<string>();
-
-        foreach (Producto prod in tienda.Productos){
-
-            if (!categoriasUnicas.Contains(prod.categoria??"va mal en cargacat fachada"))
-            {
-                categoriasUnicas.Add(prod.categoria??"va mal en cargacat fachada");
-            }
-        }
-        return categoriasUnicas;
-    }
-
-    public void GuardarBusqueda(string categoriaBuscada, string searchTerm, int idBuscado){
-        tienda.GuardarBusqueda(categoriaBuscada, searchTerm, idBuscado);
-    }
-    public List<Producto> GetProductosBusqueda(string categoriaBuscada, string searchTermLower, int idBuscado){
-        return tienda.GetProductosBusqueda(categoriaBuscada, searchTermLower, idBuscado);
-    }
-
-    public List<Producto> GetProductosSoloText(string categoriaBuscada, string searchTermLower, int idBuscado){
-        return tienda.GetProductosSoloText(categoriaBuscada, searchTermLower, idBuscado);
     }
 }

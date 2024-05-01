@@ -8,6 +8,7 @@ namespace CyberMercadillo.Entities
 {       
     public partial class Producto{
         private FachadaDBB fachadaDBB;
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public Producto() {
             idproducto = 0;
             nombreproducto = "ProductoDefecto";
@@ -22,8 +23,11 @@ namespace CyberMercadillo.Entities
             puntuacionEco = 0;  
             certificadoEco = "pdf"; 
         }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-        public Producto(int? idproductoProd,string? nombreProd, string? precioProd, string? categoriaProd, string? descripcionProd, string? imgsProd, int? cantProd, 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        public Producto(int? idproductoProd,string? nombreProd, string? precioProd, string? categoriaProd, string? descripcionProd, string? imgsProd, int? cantProd,
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
                         int? idvendedorProd, bool? validadoProd, bool? guardadoProd, int? puntuacionHuella, string? pdfCertificado) {
             idproducto = idproductoProd ?? 0;
             nombreproducto = nombreProd ?? "ProductoDefecto";

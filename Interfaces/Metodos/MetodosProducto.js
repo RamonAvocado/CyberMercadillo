@@ -501,7 +501,16 @@ function mostrarUnProducto(respuesta) {
     // Agregar el producto al carrito de la compra
     carritoButton.addEventListener('click', function() {
         // Voy a añadir al carrito de compra por el id del usuario y el id del producto
+        idUsuarioIniciado = localStorage.getItem('UsuarioID');
+        idProductoSeleccionado = localStorage.getItem('itemID');
+        idProductoCantidadSelec = localStorage.getItem('itemCantSelec');
 
+        //los convierto a int
+        idUsuarioIniciado= parseInt(idUsuarioIniciado);
+        idProductoSeleccionado= parseInt(idProductoSeleccionado);
+        idProductoCantidadSelec= parseInt(idProductoCantidadSelec);
+
+        añadirCarritoCompra(idUsuarioIniciado, idProductoSeleccionado, idProductoCantidadSelec);
     });
 
 
@@ -511,7 +520,40 @@ function mostrarUnProducto(respuesta) {
         console.log("Cantidad seleccionada:", cantidadSeleccionada);
         // Aquí puedes almacenar la cantidad seleccionada en una variable, en el local storage, o realizar cualquier otra acción que desees.
     });
+}
+async function añadirCarritoCompra(idusuario, idproducto, cantProducto){
 
+    var requestBody = {
+        idusuario: idusuario,
+        idproducto: idproducto,
+        cantProducto :  cantProducto,
+    };
+
+    try {
+        const response = await fetch(`${lugarDeEjecucion}/AñadirAlCarritoCompra`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody)
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            
+            if(data.guay == true){
+                console.log('Producto añadido al carrito de compra');
+
+            }else {
+                console.error("El usuario ya tiene este producto en el carrito de compra, así que no lo guardo");
+            }
+
+        } else {
+            console.error('Problema con la solicitud a servicios: ', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
 }
 
 function mostrarUnProductoNoLogeado(respuesta) {

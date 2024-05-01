@@ -70,7 +70,7 @@ class Tienda
         get { return carritos; }
         private set { carritos = value; }
     }
-    
+
     private Usuario usuarioRegistrado = new Comprador("x", 1, "x", "x", "x", 1, "x", 1, "x");
     public Usuario UsuarioRegistrado
     {
@@ -94,16 +94,42 @@ class Tienda
     }
 
 
-    public void buscar(String texto)
+    public bool AñadirAlCarritoCompra(int idusuario, int idproducto, int cantProducto)
     {
-            List<string> nombresProductos = new List<string>();
+        // Verificar si el usuario ya tiene el producto en el carrito
+        if (CarritoDeCompras.Any(c => c.idusuario == idusuario && c.idproducto == idproducto))
+        {
+            Console.WriteLine("El usuario ya tiene este producto en el carrito de compra, así que no lo guardo");
+            return false;
+        }
 
-            Action<Producto> getNombre = (Producto prod) =>
+        // Crear la nueva línea del carrito de compra
+        CarritoDeCompra ProductoCarrito = new CarritoDeCompra(idusuario, idproducto, cantProducto);
+
+        // Agregar el producto al carrito de compras
+        CarritoDeCompras.Add(ProductoCarrito);
+
+        Console.WriteLine("El id del usuario: " + ProductoCarrito.idusuario);
+        Console.WriteLine("El producto seleccionado: " + ProductoCarrito.idproducto);
+        Console.WriteLine("Cantidad de producto: " + ProductoCarrito.cantidad);
+        Console.WriteLine("Ahora hay: " + CarritoDeCompras.Count() + " CarritoDeCompras");
+
+    return true;
+    }
+
+    
+    public List<String> GetCategorías(){
+
+        List<string> categoriasUnicas = new List<string>();
+
+        foreach (Producto prod in Productos){
+
+            if (!categoriasUnicas.Contains(prod.categoria??"va mal en cargacat fachada"))
             {
-                nombresProductos.Add(prod.nombreproducto ?? "nkjsdns");
-            };
-
-            productos.ForEach(getNombre);
+                categoriasUnicas.Add(prod.categoria??"va mal en cargacat fachada");
+            }
+        }
+        return categoriasUnicas;
     }
 
     public Producto buscarID(string idbuscado)

@@ -11,9 +11,10 @@ namespace CyberMercadillo.Entities
 {       
     public partial class CarritoDeCompra{
         public CarritoDeCompra(){}
-        public CarritoDeCompra(int usuarioCompr, String listProductos) {
+        public CarritoDeCompra(int usuarioCompr, int idProd, int cant) {
             idusuario = usuarioCompr;
-            listaProductos = listProductos;
+            idproducto = idProd;
+            cantidad = cant;
         }
     }
 }

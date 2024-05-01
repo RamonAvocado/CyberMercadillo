@@ -95,7 +95,7 @@ class Servicios{
             try
             {
                 //HABRÁ QUE HACER LA LÓGICA PARA CARGAR LOS PRODCUTOS RECOMENDADOS EN BASE A BUSQUEDAS Y COMPRAS
-                var categorias = fachadaLogica.GetCategorías();
+                var categorias = fachadaLogica.returnTienda().GetCategorías();
                 // Devolver los productos al frontend
   
                 //quiero devolver categorías que van a ser un string
@@ -504,7 +504,7 @@ class Servicios{
         });
 
         //Busca un producto con categoria== Todas categorías y el texto de búsqueda
-        app.MapPost("/BuscarProductoText", async (HttpContext context) =>
+        app.MapPost("/BuscarProductoText", async (HttpContext context, Supabase.Client client) =>
         {
             // Leer el cuerpo de la solicitud para obtener la información de búsqueda
             using var reader = new StreamReader(context.Request.Body);
@@ -518,7 +518,7 @@ class Servicios{
                 var category = searchData["category"].ToObject<string>();
 
                 //recupero los productos con esta categoría
-                var productos = fachadaLogica.GetProductosSoloText(category??"Todas las categorias", searchTerm, idBuscado);
+                var productos = fachadaLogica.returnTienda().GetProductosSoloText(category??"Todas las categorias", searchTerm, idBuscado);
                 //var productos = fachadaLogica.GetProductos();
 
 
@@ -535,7 +535,7 @@ class Servicios{
             }
         });
         
-        app.MapPost("/BuscarProductoTodo", async (HttpContext context) =>
+        app.MapPost("/BuscarProductoTodo", async (HttpContext context, Supabase.Client client) =>
         {
             // Leer el cuerpo de la solicitud para obtener la información de búsqueda
             using var reader = new StreamReader(context.Request.Body);
@@ -549,7 +549,7 @@ class Servicios{
                 var category = searchData["category"].ToObject<string>();
 
                 //recupero los productos con esta categoría
-                var productos = fachadaLogica.GetProductosBusqueda(category??"Todas las categorias", searchTerm, idBuscado);
+                var productos = fachadaLogica.returnTienda().GetProductosBusqueda(category??"Todas las categorias", searchTerm, idBuscado);
 
                 var jsonResponse = new { productos };
 
@@ -564,6 +564,36 @@ class Servicios{
             }
         });
 
+        app.MapPost("/AñadirAlCarritoCompra", async (HttpContext context, Supabase.Client client) =>
+        {
+            // Leer el cuerpo de la solicitud para obtener la información de búsqueda
+            using var reader = new StreamReader(context.Request.Body);
+            try
+            {
+                var requestBody = await reader.ReadToEndAsync();
+                var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
+
+                var idBuscado = searchData["idusuario"].ToObject<int>();
+                var idproducto = searchData["idproducto"].ToObject<int>();
+                var cantProducto = searchData["cantProducto"].ToObject<int>();
+                
+                //recupero los productos con esta categoría
+                var guay = fachadaLogica.returnTienda().AñadirAlCarritoCompra(idBuscado, idproducto, cantProducto);
+
+                //Console.WriteLine("idBuscado: " + idBuscado + ", idproducto: " + idproducto);
+
+                var jsonResponse = new { guay };
+
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier error y devolver una respuesta de error al cliente
+                errorDefault(context, ex);
+            }
+        });
 
         app.MapPost("/crearCertificado", async (HttpContext context, Supabase.Client client) =>
         {
