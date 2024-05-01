@@ -300,21 +300,21 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
             Usuario usuarioFalso = new Tecnico("Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se", "Tecnico");
             Usuario usuarioEncontrado;
 
-            usuarioEncontrado = compradores.Find(u => u.correo == correo && u.contraseña == password) ?? usuarioFalso;
+            usuarioEncontrado = Compradores.Find(u => u.correo == correo && u.contraseña == password) ?? usuarioFalso;
             if(usuarioEncontrado.correo == correo && usuarioEncontrado.contraseña == password){
             Console.WriteLine("usuario encontrado "+ usuarioEncontrado.correo);
 
                 return usuarioEncontrado;
             }
 
-            usuarioEncontrado = vendedores.Find(u => u.correo == correo && u.contraseña == password) ?? usuarioFalso;
+            usuarioEncontrado = Vendedores.Find(u => u.correo == correo && u.contraseña == password) ?? usuarioFalso;
             if(usuarioEncontrado.correo == correo && usuarioEncontrado.contraseña == password){
             Console.WriteLine("usuario encontrado "+ usuarioEncontrado.correo);
 
                 return usuarioEncontrado;
             }
 
-            usuarioEncontrado = tecnicos.Find(u => u.correo == correo && u.contraseña == password) ?? usuarioFalso;
+            usuarioEncontrado = Tecnicos.Find(u => u.correo == correo && u.contraseña == password) ?? usuarioFalso;
             if(usuarioEncontrado.correo == correo && usuarioEncontrado.contraseña == password){
             Console.WriteLine("usuario encontrado "+ usuarioEncontrado.correo);
 
