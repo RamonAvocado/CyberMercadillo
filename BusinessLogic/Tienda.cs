@@ -63,6 +63,14 @@ class Tienda
         private set { usuarios = value; }
     }
 
+    private List<CarritoDeCompra> carritos = new List<CarritoDeCompra>();
+
+    public List<CarritoDeCompra> CarritoDeCompras
+    {
+        get { return carritos; }
+        private set { carritos = value; }
+    }
+
     public void pregunta()
     {
             Console.WriteLine("Hay " + Busquedas.Count + " busquedas ");
@@ -74,6 +82,7 @@ class Tienda
             }
             Console.WriteLine("Hay " + Tecnicos.Count + " Tecnicos ");
             Console.WriteLine("Hay " + Usuarios.Count + " Usuarios ");
+            Console.WriteLine("Hay " + CarritoDeCompras.Count + " CarritoDeCompras ");
             
     }
 

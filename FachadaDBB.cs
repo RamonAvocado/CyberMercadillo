@@ -30,6 +30,7 @@ class FachadaDBB{
         var vendedores = await supabase.From<Vendedor>().Get();
         var tecnicos = await supabase.From<Tecnico>().Get();
         var compras = await supabase.From<Compra>().Get();
+        var carritos = await supabase.From<CarritoDeCompra>().Get();
 
         foreach (var producto in productos.Models){
             tienda.Productos.Add(producto);
@@ -48,6 +49,9 @@ class FachadaDBB{
         }
         foreach (var compra in compras.Models){
             tienda.Compras.Add(compra);
+        }
+        foreach(var carrito in carritos.Models){
+            tienda.CarritoDeCompras.Add(carrito);
         }
 
         TodoCargadoCargados = true;   

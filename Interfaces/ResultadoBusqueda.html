@@ -79,9 +79,7 @@
     <script src="./Metodos/MetodosNavegacion.js"></script>
     <script>
         if(getPaginaAnt() != "HistorialDeBusqueda.html"){
-            // window.addEventListener('DOMContentLoaded', CargaTodosProductos(1));
-            //NUEVO++++++
-            window.addEventListener('DOMContentLoaded');
+            window.addEventListener('DOMContentLoaded', CargaTodosProductos(1));
         } else {
             buscarProd(getSearchTerm(), getCategory());
 

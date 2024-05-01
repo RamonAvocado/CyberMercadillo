@@ -244,10 +244,18 @@ function mostrarCategorias(array) {
 
 // MOSTRAR TODOS LOS PRODUCTOS A LA HORA DE BUSCAR CUALQUIERO COSA
 //le paso un 1 y es para mostrarProductosCat, sino que funcione con normalidad
+var CategoriasCargadas = false;
+
 async function CargaTodosProductos(valor){
     try {
         // Realizar una solicitud GET al backend para obtener los 6 primeros productos
-        CargaCategorias();
+
+        //Para cargar las categorías una sola vez
+        if(CategoriasCargadas==false){
+            CargaCategorias();
+            CategoriasCargadas = true;
+        }
+
         const response = await fetch(`${lugarDeEjecucion}/ObtenerTodosProductos`);
         if (response.ok) {
             const data = await response.json();
