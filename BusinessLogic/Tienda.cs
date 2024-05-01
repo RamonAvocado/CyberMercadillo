@@ -109,13 +109,32 @@ class Tienda
         // Agregar el producto al carrito de compras
         CarritoDeCompras.Add(ProductoCarrito);
 
-        Console.WriteLine("El id del usuario: " + ProductoCarrito.idusuario);
+        /*Console.WriteLine("El id del usuario: " + ProductoCarrito.idusuario);
         Console.WriteLine("El producto seleccionado: " + ProductoCarrito.idproducto);
-        Console.WriteLine("Cantidad de producto: " + ProductoCarrito.cantidad);
-        Console.WriteLine("Ahora hay: " + CarritoDeCompras.Count() + " CarritoDeCompras");
+        Console.WriteLine("Cantidad de producto: " + ProductoCarrito.cantidad);*/
+        Console.WriteLine("Ahora hay: " + CarritoDeCompras.Count() + " Productos en CarritoDeCompras");
 
     return true;
     }
+
+    public List<CarritoDeCompra> ObtenerCarritoCompra(int idusuario){
+            
+        List<CarritoDeCompra> carritoDeCompras = new List<CarritoDeCompra>();
+
+        carritoDeCompras = CarritoDeCompras.Where(c => c.idusuario == idusuario).ToList();
+
+        return carritoDeCompras;
+    }
+
+    public List<Producto> ObtenerProductos(String idproductos){
+            
+        List<Producto> prod = new List<Producto>();
+
+        //prod = Productos.Where(c => c.idproducto == idproducto).ToList();
+
+        return prod;
+    }
+
 
     
     public List<String> GetCategorías(){
@@ -352,6 +371,29 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
             usuarioEncontrado = Tecnicos.Find(u => u.correo == correo && u.contraseña == password) ?? usuarioFalso;
             if(usuarioEncontrado.correo == correo && usuarioEncontrado.contraseña == password){
                 UsuarioRegistrado = usuarioEncontrado;
+                return usuarioEncontrado;
+            }
+
+            else{return usuarioFalso;}
+    }
+
+    public Usuario ObtenerInfoUsuario(int idusuario)
+    {
+            Usuario usuarioFalso = new Tecnico("Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se", "Tecnico");
+            Usuario usuarioEncontrado;
+
+            usuarioEncontrado = Compradores.Find(u => u.idusuario == idusuario) ?? usuarioFalso;
+            if(usuarioEncontrado.idusuario == idusuario){
+                return usuarioEncontrado;
+            }
+
+            usuarioEncontrado = Vendedores.Find(u => u.idusuario == idusuario) ?? usuarioFalso;
+            if(usuarioEncontrado.idusuario == idusuario){
+                return usuarioEncontrado;
+            }
+
+            usuarioEncontrado = Tecnicos.Find(u => u.idusuario == idusuario) ?? usuarioFalso;
+            if(usuarioEncontrado.idusuario == idusuario){
                 return usuarioEncontrado;
             }
 

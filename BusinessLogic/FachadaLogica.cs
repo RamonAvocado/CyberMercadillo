@@ -89,9 +89,4 @@ class FachadaLogica{
             return tienda.buscarID(idbuscado);
     }
 
-    public Producto GetProductoPorIDTodos(string idbuscado){
-
-            //hacer la lógica para buscar el producto
-            return tienda.buscarIDTodos(idbuscado);
-    }
 }

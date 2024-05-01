@@ -289,79 +289,6 @@ async function ActualizarProductoGuardado(idProductoSeleccionado,idUsuarioInicia
         });
 }
 
-
-async function CargaUnProductoCompra(){
-    try{
-        // Pillar el ID del producto de la URI
-        idUsuarioIniciado = localStorage.getItem('UsuarioID');
-        idProductoSeleccionado = localStorage.getItem('itemID')
-    
-
-        //solo falta que aqui le pasemos el id del usuario que ha iniciado sesión
-        //idUser = 1;
-        //console.log(idUser);
-        const respuestaDirec = await fetch(`${lugarDeEjecucion}/ObtenerInfoUsuario?idusuario=${idUsuarioIniciado}`);
-
-
-        // Obtener el producto por ID desde el backend
-        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductoPorID?idproducto=${idProductoSeleccionado}`);
-
-        if(response.ok && respuestaDirec.ok){
-            const data = await response.json();
-            const producto = data.producto;
-            console.log(producto); // Verifica la respuesta del servidor
-            
-            //muestra la información de la dirección correctamente
-            const dataDirec = await respuestaDirec.json();
-            const usuario = dataDirec.info;
-            console.log(usuario); // Verifica la respuesta del servidor
-
-            // Mostrar la información del producto
-            mostrarUnProductoCompra(producto, usuario);
-        } else {
-            console.error('Error en la solicitud al backend:', response.statusText);
-        }
-    } catch (error) {
-        console.error('Error inesperado al cargar un producto compra:', error);
-    }
-}
-
-function mostrarUnProductoCompra(producto, usuario) {
-    // Separar las URL de las imágenes
-    const imagenes = producto.imagenes.split(' ');
-    const primeraImagen = imagenes[0];
-
-    const productImg = document.querySelector('.product-container-compra img');
-    const productDescrip = document.querySelector('.product-container-compra h1');
-
-    const productName = document.querySelector('.header h1');
-
-    //const arrivalDate = document.querySelector('.product-container-compra p');
-    const shippingInfo = document.querySelector('.shipping-info p');
-    const paymentInputs = document.querySelectorAll('.payment-info input');
-    const totalCost = document.querySelector('.total-cost');
-    const cant = document.querySelector('.cantidad');
-    idProductoCantidadSelec = localStorage.getItem('itemCantSelec')
-
-
-    // Llenar la información del producto con los datos obtenidos del servidor
-    productImg.src = primeraImagen; // Suponiendo que el servidor envía la URL de la imagen
-    console.log(producto.descripcion);
-    productDescrip.textContent = `Descripción: ${producto.descripcion} `;
-    productName.textContent =  `Compra ahora: ${producto.nombreproducto} `;
-    //arrivalDate.textContent = `Llegada el: ${respuesta.fecha_llegada}`;
-    shippingInfo.textContent = `${usuario.direccion}`;
-    totalCost.textContent = `Total: ${(producto.precio * idProductoCantidadSelec)} €`; // Suponiendo que el servidor envía el precio
-    cant.textContent = `Cantidad Seleccionada: ${idProductoCantidadSelec} ${producto.nombreproducto}`;
-
-    // Si el servidor envía más información sobre el pago, puedes llenarla aquí
-    if (usuario.numeroTarjeta != null) {
-        paymentInputs[0].value = usuario.numeroTarjeta;
-        paymentInputs[1].value = usuario.fechaCaducidad;
-        paymentInputs[2].value = usuario.CVV;
-    }
-}
-
 async function CargaUnProducto(){
     try{
         idProductoSeleccionado = localStorage.getItem('itemID');
@@ -555,6 +482,145 @@ async function añadirCarritoCompra(idusuario, idproducto, cantProducto){
         console.error('Error inesperado:', error);
     }
 }
+
+async function CargaCarritoCompra(){
+    try{
+        idUsuarioIniciado = localStorage.getItem('UsuarioID');
+        idUsuarioIniciado= parseInt(idUsuarioIniciado);
+        console.log("usuario: " +idUsuarioIniciado);
+
+        var requestBody = {
+            idusuario: idUsuarioIniciado,
+        };
+
+        //obtengo el carrito de compra, los id's y su cantidad
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerCarritoCompra`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody)
+        });
+
+        //obtengo la información del usuario para la tarjeta de crédito
+        const respuestaUser = await fetch(`${lugarDeEjecucion}/ObtenerInfoComprador`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody)
+        });
+
+        if(response.ok  && respuestaUser.ok){
+            const data = await response.json();
+            const carritoCompra = data.carritoCompra;
+            //console.log("carrito compra: "+carritoCompra);
+            console.log(carritoCompra);
+
+            const dataDirec = await respuestaUser.json();
+            const usuario = dataDirec.info;
+
+            //le paso la información a esta función para recuperar los productos
+            mostrarCarritoCompra(carritoCompra,usuario)
+
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado al cargar el carrito de compra:', error);
+    }
+}
+/*
+/*    let totalPrecio = 0;
+    let descripc = "";
+
+    //para cada producto, quiero hacer mostrarUnProductoCompra
+    for (const item of carritoCompra) {
+        // Hacer una solicitud al servidor para obtener la información completa del producto por su ID
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductoPorID?idproducto=${item.idproducto}`);
+
+        if (response.ok) {
+            const data = await response.json();
+            const producto = data.producto;
+            // Mostrar la información del producto
+            mostrarUnProductoCompra(producto, productsContainer);
+            totalPrecio += producto.precio * producto.cantidad;
+            descripc += producto.cantidad +" "+ producto.nombreproducto;
+        }
+    } */
+
+async function mostrarCarritoCompra (carritoCompra, usuario){
+    const productsContainer = document.querySelector('.products-wrapper');
+    let totalPrecio = 0;
+    let descripc = "";
+
+    //para cada producto, quiero hacer mostrarUnProductoCompra
+    for (const item of carritoCompra) {
+        // Hacer una solicitud al servidor para obtener la información completa del producto por su ID
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductoPorID?idproducto=${item.idproducto}`);
+
+        if (response.ok) {
+            const data = await response.json();
+            const producto = data.producto;
+            //console.log(producto);
+            // Mostrar la información del producto
+            mostrarUnProductoCompra(producto, productsContainer);
+            totalPrecio += producto.precio * item.cantidad;
+            descripc += item.cantidad + " " + item.nombreproducto;
+            //console.log(item.cantidad);
+        }
+    }
+
+        // Mostrar el precio total de todos los productos
+        /*const descripc = document.querySelector('');
+        descripc.textContent = `Total: ${totalPrecio} €`;*/
+
+        const totalCost = document.querySelector('.total-cost');
+        totalCost.textContent = `Total: ${totalPrecio} €`;
+
+    // Si el servidor envía más información sobre el pago, puedes llenarla aquí
+    const paymentInputs = document.querySelectorAll('.payment-info input');
+    //arrivalDate.textContent = `Llegada el: ${respuesta.fecha_llegada}`;
+    const shippingInfo = document.querySelector('.shipping-info p');
+
+    if (usuario.numeroTarjeta != null) {
+        paymentInputs[0].value = usuario.numeroTarjeta;
+        paymentInputs[1].value = usuario.fechaCaducidad;
+        paymentInputs[2].value = usuario.CVV;
+        /*console.log("numero tarjeta: " +usuario.numeroTarjeta); 
+        console.log("fechaCaducidad: " +usuario.fechaCaducidad); 
+        console.log("CVV: " +usuario.CVV); */
+    }
+    shippingInfo.textContent = `${"Enviar a: " +usuario.direccion}`;
+
+
+}
+
+async function mostrarUnProductoCompra(producto, productsContainer) {
+    const productDiv = document.createElement('div');
+    productDiv.classList.add('product-compra');
+
+    // Crear elementos para la información del producto
+    const img = document.createElement('img');
+    img.src = producto.imagenes.split(' ')[0]; // Obtener la primera imagen
+
+    const descripcion = document.createElement('div');
+    descripcion.classList.add('descripción');
+    descripcion.innerHTML = `<h1>${producto.nombreproducto}</h1>
+    <p>Descripción: ${producto.descripcion}</p>
+    <p>Productos Seleccionados: ${localStorage.getItem('itemCantSelec')}</p>`;
+
+    //const cantidad = document.createElement('p');
+    //cantidad.textContent = `Productos Seleccionados: ${localStorage.getItem('itemCantSelec') || "1"}`;
+
+    // Añadir elementos al contenedor del producto
+    productDiv.appendChild(img);
+    productDiv.appendChild(descripcion);
+    //productDiv.appendChild(cantidad);
+    productsContainer.appendChild(productDiv);
+}
+
+
 
 function mostrarUnProductoNoLogeado(respuesta) {
     const producto = respuesta.producto;
