@@ -32,7 +32,7 @@ async function CargarProductosVendedor(idUser) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                idusuario: 5
+                idusuario: idUser
             }),
         });
         if (response.ok) {
@@ -50,7 +50,7 @@ async function CargarProductosVendedor(idUser) {
             mostrarProductosVendedor(prod.slice(0, productosPorPagina));
             
             //mostrarProductosDestacados(productos.slice(0, productosPorPagina));
-            generarEnlacesPaginacion(totalPaginas,5);
+            generarEnlacesPaginacion(totalPaginas,idUser);
             //generarEnlacesPaginacionDest(totalPaginas);
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
@@ -70,7 +70,7 @@ async function CargarProductosVendedorGuardados(idUser) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                idusuario: 5
+                idusuario: idUser
             }),
         });
         if (response.ok) {
@@ -152,7 +152,7 @@ async function cargarProductosPorPagina(numeroPagina,idUsuarioIniciado) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                idusuario: 5
+                idusuario: idUsuarioIniciado
             }),
         });
 
@@ -186,7 +186,7 @@ async function cargarProductosPorPaginaGuardados(numeroPagina,idUsuarioIniciado)
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                idusuario: 5
+                idusuario: idUsuarioIniciado
             }),
         });
 

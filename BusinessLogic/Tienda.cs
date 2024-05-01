@@ -18,12 +18,6 @@ class Tienda
         get { return productos; }
         private set { productos = value; }
     }
-    private List<Producto> productosGuardados = new List<Producto>();
-    public List<Producto> ProductosGuardados
-    {
-        get { return productosGuardados; }
-        private set { productosGuardados = value; }
-    }
 
     private List<Busqueda> busquedas= new List<Busqueda>();
     public List<Busqueda> Busquedas
@@ -184,15 +178,6 @@ class Tienda
                     producto = prod;
                 }
             }
-        if(producto.idproducto == -1){
-            foreach (Producto prod in ProductosGuardados)
-            {
-                if (prod.idproducto.ToString() == idbuscado)
-                {
-                    producto = prod;
-                }
-            }
-        }  
 
         return producto;
     }
@@ -214,6 +199,7 @@ class Tienda
         }
         if(producto.idproducto != -1 && producto.validado == false){
             producto.validado = true;
+            producto.idtecnico = -1;
             return true;
         }else return false;
     }
@@ -312,13 +298,6 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
                 if (prod.idproducto.ToString() == idbuscado)
                 {
                     Productos.Remove(prod);
-                }
-            }
-        foreach (Producto prod in ProductosGuardados)
-            {
-                if (prod.idproducto.ToString() == idbuscado)
-                {
-                    ProductosGuardados.Remove(prod);
                 }
             }
     }
@@ -474,5 +453,64 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
             }
         return productos;
     }
+
+    public List<Producto> GetProductosAValidarTecnico(int idTecnico){
+            
+            List<Producto> productos = new List<Producto>();
+
+        //Buscar en la lista de productos de la tienda el id y devolver ese productos
+        foreach (Producto prod in Productos)
+            {
+                if (prod.idtecnico == idTecnico && prod.validado == false)
+                {
+                    productos.Add(prod);
+                }
+            }
+        return productos;
+    }
+
+    public bool asignarPro(string idbuscado,int idusu)
+    {
+        Producto producto = new Producto
+        {
+            //por si no existe ese id
+            idproducto = -1
+        };
+        //Buscar en la lista de productos de la tienda el id y devolver ese productos
+        foreach (Producto prod in Productos)
+            {
+                if (prod.idproducto.ToString() == idbuscado)
+                {
+                    producto = prod;
+                    prod.idtecnico = idusu;
+                }
+            }
+        if(producto.idproducto != -1)
+            return true;
+        else 
+            return false; 
+    } 
+
+    public bool desasignarPro(string idbuscado)
+    {
+        Producto producto = new Producto
+        {
+            //por si no existe ese id
+            idproducto = -1
+        };
+        //Buscar en la lista de productos de la tienda el id y devolver ese productos
+        foreach (Producto prod in Productos)
+            {
+                if (prod.idproducto.ToString() == idbuscado)
+                {
+                    producto = prod;
+                    prod.idtecnico = -1;
+                }
+            }
+        if(producto.idproducto != -1)
+            return true;
+        else 
+            return false; 
+    } 
 }
     

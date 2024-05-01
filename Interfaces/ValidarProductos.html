@@ -28,6 +28,13 @@
                 padding: 10px;
                 background-color: #f0f0f0;
             }
+            .botones-vendedor2 {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px;
+                background-color: #ddd;
+            }
     
             .izquierda {
                 display: flex; /* Permite que los botones se coloquen uno al lado del otro */
@@ -52,9 +59,16 @@
             .product-card.selected {
                 border: 2px solid blue; /* Cambia el borde a azul para indicar selección */
                 box-shadow: 0 0 5px blue; /* Añade una sombra azul para resaltar */
-            }
-
+            }           
             #validarBtn {
+                background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
+                color: white; /* Color del texto del botón cuando está deshabilitado */
+            }
+            #validarVddBtn {
+                background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
+                color: white; /* Color del texto del botón cuando está deshabilitado */
+            }
+            #desasignarBtn {
                 background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
                 color: white; /* Color del texto del botón cuando está deshabilitado */
             }
@@ -63,6 +77,24 @@
                 color: white; /* Color del texto del botón cuando está deshabilitado */
             }
             #validarBtn:enabled {
+                background-color: #f39c12;
+                color: rgb(0, 0, 0);
+                padding: 10px 56px;
+                border-radius: 20px;
+                font-size: 24px;
+                border: none;
+                cursor: pointer; /* Color del texto del botón cuando está habilitado */
+            }
+            #validarVddBtn:enabled {
+                background-color: #f39c12;
+                color: rgb(0, 0, 0);
+                padding: 10px 56px;
+                border-radius: 20px;
+                font-size: 24px;
+                border: none;
+                cursor: pointer; /* Color del texto del botón cuando está habilitado */
+            }
+            #desasignarBtn:enabled {
                 background-color: #f39c12;
                 color: rgb(0, 0, 0);
                 padding: 10px 56px;
@@ -112,25 +144,38 @@
     <div class="featured-products-container">
         <div class="validation-products">
         </div>
-        <!--
-        <div class = "num-pagina">
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-        </div>-->
         <div class="num-pagina">
             <ul id="paginas"></ul>
         </div>
+        <div style="text-align: right;">
+            <button onclick="asignarProd(localStorage.getItem('UsuarioID'))" class="search-history-btn" id="validarBtn" disabled>Asignar</button>
+        </div>    </div>
+    <div class = "texto-titulo">
+        <h2>Tus Productos</h2>
+    </div>
+    <div class="featured-products-container">
+        <div class="validation-products-tecnico">
+        </div>
+        <div class="num-pagina">
+            <ul id="paginas2"></ul>
+        </div>
+        <div class="botones-vendedor2">
+            <div class="izquierda">
+                <button onclick="desasignarProd()" class="search-history-btn" id="desasignarBtn" disabled>Desasignar</button>
+            </div>
+            <div class="derecha">
+                <button onclick = "validarProd()" class="search-history-btn" id="validarVddBtn" disabled>Validar Producto</button>
+                <button onclick = "eliminarProd()" class="search-history-btn" id="eliminarBtn" disabled>Eliminar Producto</button>          
+            </div>
+        </div> 
     </div>
     <div class="botones-vendedor">
         <div class="izquierda">
             <button onclick = "volverPaginaAnterior()" class="search-history-btn">Volver</button>
         </div>
         <div class="derecha">
-            <button onclick = "validarProd()" class="search-history-btn" id="validarBtn" disabled>Validar Producto</button>
-
-            <button onclick = "eliminarProd()" class="search-history-btn" id="eliminarBtn" disabled>Eliminar Producto</button>
-            
+            <!--<button onclick = "validarProd()" class="search-history-btn" id="validarBtn" disabled>Validar Producto</button>
+            <button onclick = "eliminarProd()" class="search-history-btn" id="eliminarBtn" disabled>Eliminar Producto</button>-->          
         </div>
     </div>     
     <footer>
@@ -144,6 +189,10 @@
     <script>
         // Llama a la función buscar cuando la página se cargue
         window.addEventListener('load', CargarProductosValidacion);
+    </script>
+    <script>
+        // Llamar a la función para agregar el enlace de Iniciar Sesión o Cerrar Sesión
+        CargarProductosValidacionTecnico(localStorage.getItem('UsuarioID'));
     </script>
     <script>
         // Llamar a la función para agregar el enlace de Iniciar Sesión o Cerrar Sesión

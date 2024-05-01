@@ -20,6 +20,7 @@ namespace CyberMercadillo.Entities
             idvendedor = 0;
             validado = false;
             guardado = false;
+            idtecnico = -1;
             puntuacionEco = 0;  
             certificadoEco = "pdf"; 
         }
@@ -39,6 +40,7 @@ namespace CyberMercadillo.Entities
             idvendedor = idvendedorProd ?? 0;
             validado = validadoProd ?? false;
             guardado = guardadoProd ?? false;
+            idtecnico = -1;
             MemoryStream memoryStream = new MemoryStream();
             using (PdfWriter escritor = new PdfWriter(memoryStream))
             using (PdfDocument pdf = new PdfDocument(escritor))

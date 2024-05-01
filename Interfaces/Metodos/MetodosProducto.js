@@ -41,7 +41,7 @@ async function agregarProducto(idUsuarioIniciado)
                 descripcion: formData.get('descripcionProd'),
                 img: formData.get('imgProd'),
                 cantidad: parseInt(formData.get('cantProd')),
-                idvendedor: 5,
+                idvendedor: idUsuarioIniciado,
                 validado: false,
                 guardado: false,
             };
@@ -118,7 +118,7 @@ async function guardarProducto(idUsuarioIniciado)
                 descripcion: formData.get('descripcionProd'),
                 img: formData.get('imgProd'),
                 cantidad: parseInt(formData.get('cantProd')),
-                idvendedor: 5,
+                idvendedor: idUsuarioIniciado,
                 validado: false,
                 guardado: true,
             };

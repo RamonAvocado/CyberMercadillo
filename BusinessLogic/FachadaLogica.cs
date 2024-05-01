@@ -81,12 +81,29 @@ class FachadaLogica{
 
     public List<Producto> GetProductosAValidar(){
         List<Producto> prod = tienda.Productos;
-        return prod.Where(p => p.validado == false && p.guardado == false).ToList();
+        return prod.Where(p => p.validado == false && p.guardado == false && p.idtecnico == -1).ToList();
     }
+
+    public List<Producto> GetProductosAValidarTecnico(int idbuscado){
+        List<Producto> prod = tienda.GetProductosAValidarTecnico(idbuscado);
+        return prod;
+    }
+
     public Producto GetProductoPorID(string idbuscado){
 
             //hacer la lógica para buscar el producto
             return tienda.buscarID(idbuscado);
+    }
+
+    public bool asignarProductoTecnico(string idbuscado,int idusuario){
+
+            //hacer la lógica para buscar el producto
+            return tienda.asignarPro(idbuscado,idusuario);
+    }
+    public bool desasignarProducto(string idbuscado){
+
+            //hacer la lógica para buscar el producto
+            return tienda.desasignarPro(idbuscado);
     }
 
 }

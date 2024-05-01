@@ -47,6 +47,9 @@ namespace CyberMercadillo.Entities
 
         [Column("certificadoEco")]
         public string? certificadoEco { get; set; }
+        
+        [Column("idtecnico")]
+        public int? idtecnico { get; set; }
     }
 
 }

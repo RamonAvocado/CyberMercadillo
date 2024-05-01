@@ -179,6 +179,28 @@ class Servicios{
             }
         });
 
+        app.MapPost("/ObtenerProductosAValidarTecnicoConcreto", async (HttpContext context) =>
+        {
+            using var reader = new StreamReader(context.Request.Body);
+            try
+            {   
+                var requestBody = await reader.ReadToEndAsync();
+                var usuarioData = JsonConvert.DeserializeObject<JObject>(requestBody);
+                var idBuscado = usuarioData["idusuario"].ToObject<int>();
+
+                var productos = fachadaLogica.GetProductosAValidarTecnico(idBuscado); 
+                //var productos = fachadaLogica.GetProductosAValidar();
+                var jsonResponse = new { productos };
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+            }
+            catch (Exception ex)
+            {
+                context.Response.StatusCode = 500;
+                context.Response.ContentType = "text/plain";
+                await context.Response.WriteAsync($"Error interno del servidor: {ex.Message}");
+            }
+        });
 
         app.MapPost("/AgregarProducto", async (HttpContext context,Supabase.Client client) =>
         {
@@ -312,6 +334,33 @@ class Servicios{
                     errorDefault(context,ex);
                 }
         });
+
+        app.MapPost("/asignarProducto", async (HttpContext context, Supabase.Client client) =>
+        {
+            using var reader = new StreamReader(context.Request.Body);
+                try{
+                    var requestBody = await reader.ReadToEndAsync();
+                    var productoData = JsonConvert.DeserializeObject<JObject>(requestBody);
+                    var idProductoBuscado = productoData["idproducto"].ToObject<string>();
+                    var idTecnico = productoData["idusuario"].ToObject<int>();
+
+                    bool asignado = fachadaLogica.asignarProductoTecnico(idProductoBuscado ?? "0",idTecnico);
+                    if(asignado){
+                        var jsonResponse = new { mensaje = "El producto fue mandado a validar", existe = false };
+                        context.Response.ContentType = "application/json";
+                        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                    }else{
+                        var jsonResponse = new { mensaje = "El producto no pudo ser mandado a validar", existe = true };
+                        context.Response.ContentType = "application/json";
+                        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Manejar cualquier error y devolver una respuesta de error al cliente
+                    errorDefault(context,ex);
+                }
+        });
 /*
         app.MapPost("/buscarProductoSelec", async (HttpContext context, Supabase.Client client) =>
         {
@@ -412,6 +461,31 @@ class Servicios{
                                             .Where(p => p.idproducto == productoData.idproducto)
                                             .Delete();*/
                     fachadaLogica.eliminarProducto(idproductoSeleccionado ?? "0");
+                }
+                catch (Exception ex)
+                {
+                    // Manejar cualquier error y devolver una respuesta de error al cliente
+                    errorDefault(context,ex);
+                }
+        });
+
+        app.MapPost("/DesasignarProducto", async (HttpContext context, Supabase.Client client) =>
+        {
+            using var reader = new StreamReader(context.Request.Body);
+                try{
+                    var requestBody = await reader.ReadToEndAsync();
+                    var productoData = JsonConvert.DeserializeObject<JObject>(requestBody);
+                    var idproductoSeleccionado = productoData["idproducto"].ToObject<string>();
+                    bool desasignado = fachadaLogica.desasignarProducto(idproductoSeleccionado ?? "0");
+                    if(desasignado){
+                        var jsonResponse = new { mensaje = "El producto fue validado", existe = false };
+                        context.Response.ContentType = "application/json";
+                        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                    }else{
+                        var jsonResponse = new { mensaje = "El producto no pudo ser validado", existe = true };
+                        context.Response.ContentType = "application/json";
+                        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                    }
                 }
                 catch (Exception ex)
                 {
