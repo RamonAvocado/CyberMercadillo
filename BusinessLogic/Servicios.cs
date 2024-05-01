@@ -598,6 +598,45 @@ class Servicios{
             }
         });
 
+        app.MapGet("/getBusquedas", async (HttpContext context, Supabase.Client client) =>
+        {
+            try
+            {
+
+                using (var reader = new StreamReader(context.Request.Body))
+                        {
+                            var tienda = fachadaLogica.returnTienda();
+                            var busquedas = tienda.getBusquedasUsuario(tienda.UsuarioRegistrado);
+
+                            // Devolver los productos al frontend
+                            var jsonResponse = new {busquedas};
+                            context.Response.ContentType = "application/json";
+                            await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                        }
+
+                        
+                Console.WriteLine("Desde el backend, el id: "+ ID_USUARIO);
+                // Leer el cuerpo de la solicitud para obtener los datos del producto
+                using (var reader = new StreamReader(context.Request.Body))
+                {
+                    var result = await client.From<Busqueda>()
+                                    .Where(x => x.idusuario == ID_USUARIO)
+                                    .Select("*")
+                                    .Get();
+
+                    // Devolver los productos al frontend
+                    var jsonResponse = new { result };
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier error y devolver una respuesta de error al cliente
+                errorDefault(context,ex);    
+            }
+        });
+
         async static void errorDefault(HttpContext context,Exception ex){
             context.Response.StatusCode = 500;
             context.Response.ContentType = "text/plain";
@@ -1491,31 +1530,7 @@ app.MapPost("/iniciarSesion", async (HttpContext context, Supabase.Client client
 });
 */
 /*
-app.MapGet("/getBusquedas", async (HttpContext context, Supabase.Client client) =>
-{
-    try
-    {
-        Console.WriteLine("Desde el backend, el id: "+ ID_USUARIO);
-        // Leer el cuerpo de la solicitud para obtener los datos del producto
-        using (var reader = new StreamReader(context.Request.Body))
-        {
-            var result = await client.From<Busqueda>()
-                            .Where(x => x.idusuario == ID_USUARIO)
-                            .Select("*")
-                            .Get();
 
-            // Devolver los productos al frontend
-            var jsonResponse = new { result };
-            context.Response.ContentType = "application/json";
-            await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-        }
-    }
-    catch (Exception ex)
-    {
-        // Manejar cualquier error y devolver una respuesta de error al cliente
-        errorDefault(context,ex);    
-    }
-});
 
 app.MapPost("/iniciarSesion", async (HttpContext context, Supabase.Client client) =>
 {
