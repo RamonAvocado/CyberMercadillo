@@ -338,6 +338,7 @@ function mostrarUnProducto(respuesta) {
     imagenPrincipal.style.width = '500px';
     imagenPrincipal.style.height = '540px';
     productCard.appendChild(imagenPrincipal);
+    
 
     // Contenedor para la flecha semi visible
     const contenedorFlecha = document.createElement('div');
@@ -420,6 +421,8 @@ function mostrarUnProducto(respuesta) {
             const index = imagenes.indexOf(imagenPrincipal.src);
             const siguienteIndex = (index + 1) % imagenes.length;
             imagenPrincipal.src = imagenes[siguienteIndex];
+            // var imagenLink = document.getElementById("nuevo-url-imagen");
+            // imagenLink.value= imagenPrincipal.src.imagenes;
         });
     }
 
