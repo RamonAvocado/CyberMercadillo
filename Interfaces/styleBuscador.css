@@ -452,3 +452,20 @@ select {
 #sesion-link {
     margin-left: auto; /* Mover el elemento de cierre de sesión a la derecha */
 }
+
+
+
+/*CSS DE LOS FILTROS*/
+
+.main-section {
+    display: flex;
+}
+
+.filters-section {
+    flex: 30%;
+    border: 1px solid #1f0404;
+    background-color: #D9D9D9;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Aquí he añadido un recuadro alrededor de los filtros */
+}

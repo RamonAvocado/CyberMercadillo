@@ -49,12 +49,43 @@
     <div class="boton-historial">
         <button onclick = "irAHistorialDeBúsqueda()" class="search-history-btn">Historial de Búsqueda</button>
     </div>
-    <div class="resultado-busqueda-container">
 
-        <div class="resultado-busqueda">
-        
+    <div class="main-section">
+        <div class="filters-section">
+            <!-- Aquí he añadido los filtros para categoría, precio y valoración -->
+            <h3>Categoría</h3>
+            <ul id="category">
+                <li><a href="#" onclick="filtrar('hogar')">Hogar</a></li>
+                <li><a href="#" onclick="filtrar('electronica')">Electrónica</a></li>
+                <li><a href="#" onclick="filtrar('ropa')">Ropa</a></li>
+                <li><a href="#" onclick="filtrar('juguetes')">Juguetes</a></li>
+                <li><a href="#" onclick="filtrar('amor puro')">Amor Puro</a></li>
+
+                <!-- Aqui se deben cambiar los # por el nombre del boton q tendra funcion -->
+            </ul>
+
+            <h3>Precio</h3>
+            <input type="number" id="minPrice" placeholder="Precio mínimo">
+            <input type="number" id="maxPrice" placeholder="Precio máximo">
+
+            <h3>Valoración huella</h3>
+            <select id="rating">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+
+        <div class="resultado-busqueda-container">
+
+            <div class="resultado-busqueda">
+            
+            </div>
         </div>
     </div>
+
     <div class="boton-Volver">
         <button onclick = "volverPaginaAnterior()" class="volver-btn">Volver</button>
     </div>
