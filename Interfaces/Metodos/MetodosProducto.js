@@ -554,49 +554,65 @@ async function mostrarCarritoCompra (carritoCompra, usuario){
     let totalPrecio = 0;
     let descripc = "";
 
-    //para cada producto, quiero hacer mostrarUnProductoCompra
-    for (const item of carritoCompra) {
-        // Hacer una solicitud al servidor para obtener la información completa del producto por su ID
-        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductoPorID?idproducto=${item.idproducto}`);
+    if(carritoCompra.length == 0){
+        productsContainer.textContent = `No hay productos en el carrito de compra`;
+        
+    }else{
 
-        if (response.ok) {
-            const data = await response.json();
-            const producto = data.producto;
-            //console.log(producto);
-            // Mostrar la información del producto
-            mostrarUnProductoCompra(producto, productsContainer);
-            totalPrecio += producto.precio * item.cantidad;
-            descripc += item.cantidad + " " + item.nombreproducto;
-            //console.log(item.cantidad);
+        //para cada producto, quiero hacer mostrarUnProductoCompra
+        for (const item of carritoCompra) {
+            // Hacer una solicitud al servidor para obtener la información completa del producto por su ID
+            const response = await fetch(`${lugarDeEjecucion}/ObtenerProductoPorID?idproducto=${item.idproducto}`);
+
+            if (response.ok) {
+                const data = await response.json();
+                const producto = data.producto;
+                //console.log(producto);
+                // Mostrar la información del producto
+                mostrarUnProductoCompra(producto, item.cantidad, productsContainer);
+                totalPrecio += producto.precio * item.cantidad ;
+
+                //por si solo hay un producto, que no salga la coma
+                if (carritoCompra.length == 1) {
+                    descripc += item.cantidad + " " + producto.nombreproducto;
+                } else {
+                    descripc += item.cantidad + " " + producto.nombreproducto;
+                    if (carritoCompra.indexOf(item) < carritoCompra.length - 1) {
+                        descripc += ", ";
+                    }
+                }
+                //console.log(producto.nombreproducto);
+            }
         }
+
+    //donde llegan los productos, lo pongo aqui porque tienen que haber productos en el carrito para poder decir el día que llega
+    //ya que está puesto a mano el día que llega
+    const diaLlegada = document.querySelector('.shipping-info h1');
+    diaLlegada.textContent = 'Llegada el 25 de mayo';
+    
     }
+    const direccionEntre = document.querySelector('.shipping-info p');
+    direccionEntre.textContent = `${"Enviar a: " +usuario.direccion}`;
 
-        // Mostrar el precio total de todos los productos
-        /*const descripc = document.querySelector('');
-        descripc.textContent = `Total: ${totalPrecio} €`;*/
 
-        const totalCost = document.querySelector('.total-cost');
-        totalCost.textContent = `Total: ${totalPrecio} €`;
-
-    // Si el servidor envía más información sobre el pago, puedes llenarla aquí
+    //información de la tarjeta
     const paymentInputs = document.querySelectorAll('.payment-info input');
-    //arrivalDate.textContent = `Llegada el: ${respuesta.fecha_llegada}`;
-    const shippingInfo = document.querySelector('.shipping-info p');
-
     if (usuario.numeroTarjeta != null) {
         paymentInputs[0].value = usuario.numeroTarjeta;
         paymentInputs[1].value = usuario.fechaCaducidad;
         paymentInputs[2].value = usuario.CVV;
-        /*console.log("numero tarjeta: " +usuario.numeroTarjeta); 
-        console.log("fechaCaducidad: " +usuario.fechaCaducidad); 
-        console.log("CVV: " +usuario.CVV); */
     }
-    shippingInfo.textContent = `${"Enviar a: " +usuario.direccion}`;
 
+    //descripción y precio total
+    const ProdSeleccionados = document.querySelector('.ProdSeleccionados');
+    ProdSeleccionados.textContent =  `Productos Seleccionados: ${descripc} `;
 
+    const totalCost = document.querySelector('.total-cost');
+    totalCost.textContent = `Total: ${totalPrecio} €`;
 }
 
-async function mostrarUnProductoCompra(producto, productsContainer) {
+
+async function mostrarUnProductoCompra(producto, cantidad, productsContainer) {
     const productDiv = document.createElement('div');
     productDiv.classList.add('product-compra');
 
@@ -606,20 +622,15 @@ async function mostrarUnProductoCompra(producto, productsContainer) {
 
     const descripcion = document.createElement('div');
     descripcion.classList.add('descripción');
-    descripcion.innerHTML = `<h1>${producto.nombreproducto}</h1>
+    descripcion.innerHTML = `<h1>${producto.nombreproducto + " " + producto.precio} €</h1>
     <p>Descripción: ${producto.descripcion}</p>
-    <p>Productos Seleccionados: ${localStorage.getItem('itemCantSelec')}</p>`;
-
-    //const cantidad = document.createElement('p');
-    //cantidad.textContent = `Productos Seleccionados: ${localStorage.getItem('itemCantSelec') || "1"}`;
+    <p>Productos Seleccionados: ${cantidad}</p>`;
 
     // Añadir elementos al contenedor del producto
     productDiv.appendChild(img);
     productDiv.appendChild(descripcion);
-    //productDiv.appendChild(cantidad);
     productsContainer.appendChild(productDiv);
 }
-
 
 
 function mostrarUnProductoNoLogeado(respuesta) {

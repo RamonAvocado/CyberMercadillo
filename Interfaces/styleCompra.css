@@ -37,13 +37,13 @@ body {
     margin-bottom: 20px;
 }
 
-.product-compra{
+.informacion-compra{
     margin-left: 50px;
     margin-right: 50px;
 }
 
-.product-compra > div:not(:last-child) {
-    border-bottom: 1px solid #000; /* Añade un borde negro en la parte inferior de cada div dentro de .product-compra excepto el último */
+.informacion-compra > div:not(:last-child) {
+    border-bottom: 1px solid #000; /* Añade un borde negro en la parte inferior de cada div dentro de .informacion-compra excepto el último */
     padding-bottom: 20px; /* Ajusta el espaciado inferior para separar visualmente los elementos */
 } 
 
@@ -57,12 +57,33 @@ body {
     margin: 40px
 }
 
+.products-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-top: 130px;
+    width: 1500px; /* Establecer un ancho máximo para el contenedor */
+    height: 350px;
+    overflow-y: hidden; /* Oculta la barra de desplazamiento vertical */
+    overflow-x: auto; /* Muestra la barra de desplazamiento horizontal si es necesario */
+}
+
+.product-compra {
+    width: 30%;
+    display: flex;
+    flex-direction: column; /* Establecer la dirección de la fila como columna */
+    align-items: center; /* Alinear los elementos verticalmente */
+    margin-bottom: 20px; /* Añadir espacio entre los productos */
+}
+
 img {
     border-radius: 40px;
-    max-width: 30%;
-    height: auto;
+    width: 100%; /* Establecer el ancho de la imagen al 100% del contenedor */
+    height: 200px; /* Establecer una altura fija para todas las imágenes */
+    object-fit: contain; /* Escalar la imagen para que quepa dentro del contenedor sin recortarla */
     border: 1px solid #ddd;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px; /* Añadir espacio entre la imagen y la descripción */
 }
 
 .shipping-info h1{
@@ -115,7 +136,7 @@ button {
     background-color: #f9a825;
 }
 .inter-final h1{
-    font-size: 30px;
+    font-size: 22px;
    }
 
 .inter-final h2{

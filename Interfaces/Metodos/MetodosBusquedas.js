@@ -143,7 +143,7 @@ function mostrarProductosCat(productos) {
             <button class="favorite-btn"></button> <!-- Botón de favoritos -->
             <img src="${primeraImagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
             <h3>${truncate(producto.nombreproducto)}</h3>
-            <p class="price">${producto.precio}</p>
+            <p class="price">${producto.precio} €</p>
             <p class="description">${truncate(producto.descripcion)}</p>
             <div hidden>
                 <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>

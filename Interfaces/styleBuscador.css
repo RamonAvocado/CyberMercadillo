@@ -154,7 +154,7 @@ header h1 {
     text-align: center; /* Centrar los productos */
 }
 
-.resultado-busqueda-container{
+.resultado-busqueda-container {
     padding: 10px;
     border: 1px solid #1f0404;
     border-radius: 20px;
@@ -164,7 +164,11 @@ header h1 {
     margin-bottom: 20px;
     background-color: #D9D9D9;
     text-align: center; /* Centrar los productos */
+    overflow-y: scroll;
+    height: 800px; /* Establecer una altura máxima para la visualización de los productos */
+    width: 1500px; /* Establecer una altura máxima para la visualización de los productos */
 }
+
 
 .pagina-item {
     display: inline-block;
@@ -453,12 +457,9 @@ select {
     margin-left: auto; /* Mover el elemento de cierre de sesión a la derecha */
 }
 
-
-
-/*CSS DE LOS FILTROS*/
-
 .main-section {
     display: flex;
+
 }
 
 .filters-section {
@@ -467,5 +468,6 @@ select {
     background-color: #D9D9D9;
     border-radius: 20px;
     padding: 20px;
+    max-width: 230px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Aquí he añadido un recuadro alrededor de los filtros */
 }

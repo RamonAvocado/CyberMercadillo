@@ -402,10 +402,12 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
             {
                 if (prod.categoria == categoriaBuscada )
                 {
-                    if(prod.nombreproducto.IndexOf(searchTermLower, StringComparison.OrdinalIgnoreCase) >= 0 || prod.descripcion.IndexOf(searchTermLower, StringComparison.OrdinalIgnoreCase) >= 0){
+                    if(prod.nombreproducto.IndexOf(searchTermLower, StringComparison.OrdinalIgnoreCase) >= 0 || prod.descripcion.IndexOf(searchTermLower, StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
                     productos.Add(prod);
                     Console.WriteLine("prod: " + prod.nombreproducto);
-                }}
+                    }
+                }
             }
             
             Console.WriteLine("total: "+ productos.Count());
@@ -425,7 +427,7 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
         //Buscar en la lista de productos de la tienda el id y devolver ese productos
         foreach (Producto prod in Productos)
             {
-                if (prod.nombreproducto.IndexOf(searchTermLower, StringComparison.OrdinalIgnoreCase) >= 0)
+                if(prod.nombreproducto.IndexOf(searchTermLower, StringComparison.OrdinalIgnoreCase) >= 0 || prod.descripcion.IndexOf(searchTermLower, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     productos.Add(prod);
                     Console.WriteLine("prod: " + prod.nombreproducto);
