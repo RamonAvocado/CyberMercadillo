@@ -530,24 +530,6 @@ async function CargaCarritoCompra(){
         console.error('Error inesperado al cargar el carrito de compra:', error);
     }
 }
-/*
-/*    let totalPrecio = 0;
-    let descripc = "";
-
-    //para cada producto, quiero hacer mostrarUnProductoCompra
-    for (const item of carritoCompra) {
-        // Hacer una solicitud al servidor para obtener la información completa del producto por su ID
-        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductoPorID?idproducto=${item.idproducto}`);
-
-        if (response.ok) {
-            const data = await response.json();
-            const producto = data.producto;
-            // Mostrar la información del producto
-            mostrarUnProductoCompra(producto, productsContainer);
-            totalPrecio += producto.precio * producto.cantidad;
-            descripc += producto.cantidad +" "+ producto.nombreproducto;
-        }
-    } */
 
 async function mostrarCarritoCompra (carritoCompra, usuario){
     const productsContainer = document.querySelector('.products-wrapper');
@@ -555,7 +537,14 @@ async function mostrarCarritoCompra (carritoCompra, usuario){
     let descripc = "";
 
     if(carritoCompra.length == 0){
-        productsContainer.textContent = `No hay productos en el carrito de compra`;
+        //creo el elemento div y luego añado un p para decir que no hay productos
+        const Noproduct = document.createElement('p');
+
+        Noproduct.textContent = `No hay productos en el carrito de compra`;
+        Noproduct.style.fontSize = '30px';
+
+        //lo añado a 
+        productsContainer.appendChild(Noproduct);
         
     }else{
 
@@ -567,9 +556,9 @@ async function mostrarCarritoCompra (carritoCompra, usuario){
             if (response.ok) {
                 const data = await response.json();
                 const producto = data.producto;
-                //console.log(producto);
+
                 // Mostrar la información del producto
-                mostrarUnProductoCompra(producto, item.cantidad, productsContainer);
+                mostrarUnProductoCompra(producto, item, productsContainer);
                 totalPrecio += producto.precio * item.cantidad ;
 
                 //por si solo hay un producto, que no salga la coma
@@ -612,7 +601,7 @@ async function mostrarCarritoCompra (carritoCompra, usuario){
 }
 
 
-async function mostrarUnProductoCompra(producto, cantidad, productsContainer) {
+async function mostrarUnProductoCompra(producto, item, productsContainer) {
     const productDiv = document.createElement('div');
     productDiv.classList.add('product-compra');
 
@@ -624,12 +613,103 @@ async function mostrarUnProductoCompra(producto, cantidad, productsContainer) {
     descripcion.classList.add('descripción');
     descripcion.innerHTML = `<h1>${producto.nombreproducto + " " + producto.precio} €</h1>
     <p>Descripción: ${producto.descripcion}</p>
-    <p>Productos Seleccionados: ${cantidad}</p>`;
+    <p>Productos Seleccionados: ${item.cantidad}</p>
+    <button onclick="aumentarCantidad( ${item.idproducto}, ${item.cantidad}, ${producto.cantidad})">+</button>
+    <button onclick="disminuirCantidad(${item.idproducto}, ${item.cantidad}, ${producto.cantidad})">-</button>
+    <button onclick="eliminarProducto()">Eliminar</button>`;
 
     // Añadir elementos al contenedor del producto
     productDiv.appendChild(img);
     productDiv.appendChild(descripcion);
     productsContainer.appendChild(productDiv);
+}
+
+//botones productos
+async function aumentarCantidad(idprod, cantidadSeleccionada, cantidadProducto) {
+    console.log("idprod: "+ idprod + " cantidadSeleccionada: " + cantidadSeleccionada +" cantidadProducto: "+ cantidadProducto);
+     
+    /*por si lo quiero seleccionar directamente en vez de subir de uno en uno
+    for (let i = 1; i <= producto.cantidad; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = i;
+        selectCantidad.appendChild(option);
+    }
+    */
+
+   //asi aumento la cantidad seleccionada hasta que ya no haya más productos
+    if(cantidadSeleccionada < cantidadProducto){
+        cantidadSeleccionada++;
+        //le paso los parametros a la función para 
+        var ok = actualizarCantidad(idprod, cantidadSeleccionada);
+        //ahora actualizar el carrito con la nueva cantidad
+
+        //recargo la página para mostrar la nueva cantidad
+        window.location.href = `./CarritoDeCompra.html`;
+    }
+    else{
+        alert("No existe más stock de este producto");
+    }
+}
+
+async function actualizarCantidad(idprod, cantidadSeleccionada){
+    try
+        {
+            var requestBody = {
+                idproducto: idprod,
+                nuevaCantidad: cantidadSeleccionada,
+            };
+
+            const response = await fetch(`${lugarDeEjecucion}/ActualizarCantidadProducto`,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody)
+            });
+
+            if(response.ok){
+                console.log("La cantidad del producto ha sido actualizada");
+                return true;
+            }
+        }catch (error) {
+            console.error('Error al actualizar la cantidad en el carrito:', error);
+        }
+}
+
+function disminuirCantidad(idprod, cantidadSeleccionada, cantidadProducto) {
+    console.log("idprod: "+ idprod + " cantidadSeleccionada: " + cantidadSeleccionada +" cantidadProducto: "+ cantidadProducto);
+     
+    /*por si lo quiero seleccionar directamente en vez de bajar de uno en uno
+    for (let i = 1; i <= producto.cantidad; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = i;
+        selectCantidad.appendChild(option);
+    }
+    */
+
+   //asi reduzco la cantidad seleccionada hasta que ya no haya más productos
+    if(cantidadSeleccionada > cantidadProducto){
+        cantidadSeleccionada++;
+        //ahora actualizar el carrito con la nueva cantidad
+
+
+        //recargo la página para mostrar la nueva cantidad
+        //window.location.href = `./CarritoDeCompra.html`;
+
+    }
+    else{
+        alert("No existe más stock de este producto");
+    }
+}
+
+function eliminarProducto() {
+    // Eliminar el producto del DOM
+    const productDiv = document.querySelector('.product-compra');
+    productDiv.remove();
+    // También puedes eliminar el producto de localStorage si es necesario
+    localStorage.removeItem('itemCantSelec');
 }
 
 

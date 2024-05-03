@@ -60,12 +60,14 @@ body {
 .products-wrapper {
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
     justify-content: space-between;
-    padding-top: 130px;
+    max-width: fit-content;
     width: 1500px; /* Establecer un ancho máximo para el contenedor */
-    height: 350px;
+    height: 480px;
     overflow-y: hidden; /* Oculta la barra de desplazamiento vertical */
     overflow-x: auto; /* Muestra la barra de desplazamiento horizontal si es necesario */
+    margin-top: 20px; /* Añadir espacio entre los productos */
 }
 
 .product-compra {
@@ -73,7 +75,6 @@ body {
     display: flex;
     flex-direction: column; /* Establecer la dirección de la fila como columna */
     align-items: center; /* Alinear los elementos verticalmente */
-    margin-bottom: 20px; /* Añadir espacio entre los productos */
 }
 
 img {

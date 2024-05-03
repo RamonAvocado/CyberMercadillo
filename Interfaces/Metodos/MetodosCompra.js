@@ -24,7 +24,7 @@ function validarFormatoFecha(fechaCaducidadInput) {
 }
 
 
-function mostrarVentanaEmergente() {
+function mostrarVentanaEmergenteCompra() {
     const confirmacion = confirm('¿Desea guardar los datos de su tarjeta para futuras compras?');
 
     if (confirmacion) {
@@ -110,7 +110,7 @@ async function FinalizarCompra() {
 
     if (camposRellenados) {
         // Mostrar ventana emergente para guardar los datos de la tarjeta
-        const guardarDatosTarjeta =  mostrarVentanaEmergente();
+        const guardarDatosTarjeta =  mostrarVentanaEmergenteCompra();
 
         if (guardarDatosTarjeta) {
             // Aquí puedes agregar el código para proceder con la compra

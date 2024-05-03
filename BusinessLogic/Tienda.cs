@@ -182,6 +182,23 @@ class Tienda
         return producto;
     }
 
+    public bool ActualizarCantidadProducto(int idproducto, int nuevaCantidad)
+    {
+        
+        var productoEncontrado = false;
+        for (int i = 0; i < CarritoDeCompras.Count; i++)
+        {
+            if (CarritoDeCompras[i].idproducto == idproducto)
+            {
+                // Actualizar la cantidad del producto
+                CarritoDeCompras[i].cantidad = nuevaCantidad;
+                productoEncontrado = true;
+                break; // Salir del bucle una vez que se actualice la cantidad
+            }
+        }
+        return productoEncontrado;
+    }
+
     public bool validarUnProducto(string idBuscado)
     {
         Producto producto = new Producto

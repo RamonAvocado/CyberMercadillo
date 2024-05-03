@@ -89,6 +89,33 @@ class Servicios{
             }
         });
 
+        app.MapPost("/ActualizarCantidadProducto", async (HttpContext context, Supabase.Client client) =>
+        {
+            using var reader = new StreamReader(context.Request.Body);
+            try
+            {
+                //Leer frontend
+                var requestBody = await reader.ReadToEndAsync();
+                var datosProducto = JsonConvert.DeserializeObject<JObject>(requestBody);
+
+                var idproducto = datosProducto["idproducto"].ToObject<int>();
+                var nuevaCantidad = datosProducto["nuevaCantidad"].ToObject<int>();
+
+
+                //Crear PDF
+                var ok = fachadaLogica.returnTienda().ActualizarCantidadProducto(idproducto,nuevaCantidad);
+                
+                //Devolver PDF
+                 var jsonResponse = new { ok };
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+            }
+            catch (Exception ex)
+            {
+                errorDefault(context,ex);   // Manejar cualquier error y devolver una respuesta de error al cliente
+            }
+        });
+
         //que las categorías de todos los productos
         app.MapGet("/CargarCategorias", async (HttpContext context, Supabase.Client client) =>
         {
