@@ -101,12 +101,32 @@ class Servicios{
                 var idproducto = datosProducto["idproducto"].ToObject<int>();
                 var nuevaCantidad = datosProducto["nuevaCantidad"].ToObject<int>();
 
-
-                //Crear PDF
                 var ok = fachadaLogica.returnTienda().ActualizarCantidadProducto(idproducto,nuevaCantidad);
                 
-                //Devolver PDF
-                 var jsonResponse = new { ok };
+                var jsonResponse = new { ok };
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+            }
+            catch (Exception ex)
+            {
+                errorDefault(context,ex);   // Manejar cualquier error y devolver una respuesta de error al cliente
+            }
+        });
+
+        app.MapPost("/EliminarProductoDelCarrito", async (HttpContext context, Supabase.Client client) =>
+        {
+            using var reader = new StreamReader(context.Request.Body);
+            try
+            {
+                //Leer frontend
+                var requestBody = await reader.ReadToEndAsync();
+                var datosProducto = JsonConvert.DeserializeObject<JObject>(requestBody);
+
+                var idproducto = datosProducto["idproducto"].ToObject<int>();
+
+                fachadaLogica.returnTienda().EliminarProductoDelCarrito(idproducto);
+                
+                var jsonResponse = new { };
                 context.Response.ContentType = "application/json";
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
             }
@@ -487,7 +507,7 @@ class Servicios{
                     /*await client.From<Producto>()
                                             .Where(p => p.idproducto == productoData.idproducto)
                                             .Delete();*/
-                    fachadaLogica.eliminarProducto(idproductoSeleccionado ?? "0");
+                    fachadaLogica.returnTienda().eliminarProductoID(idproductoSeleccionado ?? "0");
                 }
                 catch (Exception ex)
                 {
@@ -1121,59 +1141,6 @@ app.MapGet("/ObtenerProductoPorID", async (HttpContext context, Supabase.Client 
         errorDefault(context,ex);
     }
 });
-
-*/
-/*
-app.MapPost("/ActualizarCantidadProducto", async (HttpContext context, Supabase.Client client) =>
-{
-    // Leer el cuerpo de la solicitud para obtener la información del producto
-    using (var reader = new StreamReader(context.Request.Body))
-    {
-        try
-        {
-            var requestBody = await reader.ReadToEndAsync();
-            var requestData = JsonConvert.DeserializeObject<JObject>(requestBody);
-
-            // Obtener el ID del producto y la cantidad seleccionada
-            var idProducto = requestData["idproducto"].ToObject<int>();
-            var cantidadSeleccionada = requestData["idProductoCantidadSelec"].ToObject<int>();
-
-            // Obtener el producto de la base de datos
-            var producto = await client.From<Producto>().Filter("idproducto", Postgrest.Constants.Operator.Equals, idProducto).Single();
-
-            // Calcular la nueva cantidad restando la cantidad actual del producto y la cantidad seleccionada
-            var nuevaCantidad = producto.cantidad - cantidadSeleccionada;
-
-
-            //VAS A BORRAR UN PRUDCUTO SI TE METES AQUI
-            if (nuevaCantidad <= 0)
-            {
-                // Si la nueva cantidad es menor o igual a cero, borrar el producto de la base de datos
-                await producto.Delete<Producto>();
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync("Producto eliminado correctamente");
-            }
-            else
-            {
-                // Actualizar la cantidad del producto con la nueva cantidad calculada
-                producto.cantidad = nuevaCantidad;
-
-                // Actualizar el producto en la base de datos
-                await producto.Update<Producto>();
-
-                // Devolver una respuesta de éxito al cliente
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync("Cantidad del producto actualizada correctamente");
-            }
-        }
-        catch (Exception ex)
-        {
-            // Manejar cualquier error y devolver una respuesta de error al cliente
-            errorDefault(context, ex);
-        }
-    }
-});
-
 
 app.MapPost("/GuardarDatosUsuario", async (HttpContext context, Supabase.Client client) =>
 {

@@ -456,7 +456,7 @@ async function añadirCarritoCompra(idusuario, idproducto, cantProducto){
         cantProducto :  cantProducto,
     };
 
-    try {
+    try {//
         const response = await fetch(`${lugarDeEjecucion}/AñadirAlCarritoCompra`, {
             method: 'POST',
             headers: {
@@ -469,10 +469,22 @@ async function añadirCarritoCompra(idusuario, idproducto, cantProducto){
             const data = await response.json();
             
             if(data.guay == true){
-                console.log('Producto añadido al carrito de compra');
+                //console.log('Producto añadido al carrito de compra');
+
+                var titulo = "¡Producto añadido!";
+                var mensaje = "El producto ha sido añadido al carrito de compra.";
+            
+                // Mostrar la ventana emergente con el título y el mensaje
+                alert(titulo + "\n\n" + mensaje);
 
             }else {
-                console.error("El usuario ya tiene este producto en el carrito de compra, así que no lo guardo");
+                var titulo = "¡Producto en carrito!";
+                var mensaje = "El producto ya está en el carrito de compra.";
+            
+                // Mostrar la ventana emergente con el título y el mensaje
+                alert(titulo + "\n\n" + mensaje);
+                
+                //console.error("El usuario ya tiene este producto en el carrito de compra, así que no lo guardo");
             }
 
         } else {
@@ -538,12 +550,10 @@ async function mostrarCarritoCompra (carritoCompra, usuario){
 
     if(carritoCompra.length == 0){
         //creo el elemento div y luego añado un p para decir que no hay productos
-        const Noproduct = document.createElement('p');
+        const Noproduct = document.createElement('h1');
 
         Noproduct.textContent = `No hay productos en el carrito de compra`;
         Noproduct.style.fontSize = '30px';
-
-        //lo añado a 
         productsContainer.appendChild(Noproduct);
         
     }else{
@@ -600,6 +610,10 @@ async function mostrarCarritoCompra (carritoCompra, usuario){
     totalCost.textContent = `Total: ${totalPrecio} €`;
 }
 
+async function GuardarCarritoBDD(){
+    await fetch(`${lugarDeEjecucion}/GuardarCarritoBDD`);
+}
+
 
 async function mostrarUnProductoCompra(producto, item, productsContainer) {
     const productDiv = document.createElement('div');
@@ -613,14 +627,15 @@ async function mostrarUnProductoCompra(producto, item, productsContainer) {
     descripcion.classList.add('descripción');
     descripcion.innerHTML = `<h1>${producto.nombreproducto + " " + producto.precio} €</h1>
     <p>Descripción: ${producto.descripcion}</p>
-    <p>Productos Seleccionados: ${item.cantidad}</p>
+    <h2>Productos Seleccionados: ${item.cantidad} </h2 style="font-size: 18px;">
     <button onclick="aumentarCantidad( ${item.idproducto}, ${item.cantidad}, ${producto.cantidad})">+</button>
-    <button onclick="disminuirCantidad(${item.idproducto}, ${item.cantidad}, ${producto.cantidad})">-</button>
-    <button onclick="eliminarProducto()">Eliminar</button>`;
+    <button onclick="disminuirCantidad(${item.idproducto}, ${item.cantidad})">-</button>
+    <button onclick="eliminarProducto(${item.idproducto})">Eliminar</button>`;
 
     // Añadir elementos al contenedor del producto
     productDiv.appendChild(img);
     productDiv.appendChild(descripcion);
+    
     productsContainer.appendChild(productDiv);
 }
 
@@ -628,27 +643,37 @@ async function mostrarUnProductoCompra(producto, item, productsContainer) {
 async function aumentarCantidad(idprod, cantidadSeleccionada, cantidadProducto) {
     console.log("idprod: "+ idprod + " cantidadSeleccionada: " + cantidadSeleccionada +" cantidadProducto: "+ cantidadProducto);
      
-    /*por si lo quiero seleccionar directamente en vez de subir de uno en uno
-    for (let i = 1; i <= producto.cantidad; i++) {
-        const option = document.createElement('option');
-        option.value = i;
-        option.textContent = i;
-        selectCantidad.appendChild(option);
-    }
-    */
-
    //asi aumento la cantidad seleccionada hasta que ya no haya más productos
     if(cantidadSeleccionada < cantidadProducto){
         cantidadSeleccionada++;
         //le paso los parametros a la función para 
-        var ok = actualizarCantidad(idprod, cantidadSeleccionada);
-        //ahora actualizar el carrito con la nueva cantidad
+        actualizarCantidad(idprod, cantidadSeleccionada);
 
-        //recargo la página para mostrar la nueva cantidad
-        window.location.href = `./CarritoDeCompra.html`;
     }
     else{
-        alert("No existe más stock de este producto");
+        var titulo = "¡Cantidad limite de este producto!";
+        var mensaje = "No existe más stock de este producto";
+    
+        // Mostrar la ventana emergente con el título y el mensaje
+        alert(titulo + "\n\n" + mensaje);
+    }
+}
+
+function disminuirCantidad(idprod, cantidadSeleccionada) {
+    console.log("idprod: "+ idprod + " cantidadSeleccionada: " + cantidadSeleccionada);
+     
+
+   //asi disminuyo la cantidad seleccionada
+    if(cantidadSeleccionada > 1){
+        cantidadSeleccionada--;
+        //le paso los parametros a la función para 
+        actualizarCantidad(idprod, cantidadSeleccionada);
+        //ahora actualizar el carrito con la nueva cantidad
+
+    }
+    else{
+        //si la cantidad a reducir ya llega a 0
+        eliminarProducto(idprod);
     }
 }
 
@@ -670,46 +695,45 @@ async function actualizarCantidad(idprod, cantidadSeleccionada){
 
             if(response.ok){
                 console.log("La cantidad del producto ha sido actualizada");
-                return true;
+                
+                //recargo la página para mostrar la nueva cantidad o si el producto ha sido eliminado
+                window.location.href = `./CarritoDeCompra.html`;
             }
         }catch (error) {
             console.error('Error al actualizar la cantidad en el carrito:', error);
         }
 }
 
-function disminuirCantidad(idprod, cantidadSeleccionada, cantidadProducto) {
-    console.log("idprod: "+ idprod + " cantidadSeleccionada: " + cantidadSeleccionada +" cantidadProducto: "+ cantidadProducto);
-     
-    /*por si lo quiero seleccionar directamente en vez de bajar de uno en uno
-    for (let i = 1; i <= producto.cantidad; i++) {
-        const option = document.createElement('option');
-        option.value = i;
-        option.textContent = i;
-        selectCantidad.appendChild(option);
+async function eliminarProducto(idprod) {
+    console.log("Eliminar este producto del carrito: "+ idprod);
+
+    try{    
+        var requestBody = {
+            idproducto: idprod,
+        };
+
+        const response = await fetch(`${lugarDeEjecucion}/EliminarProductoDelCarrito`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody)
+        });
+
+        if(response.ok){
+            console.log("El producto ha sido eliminado del carrito");
+
+            var titulo = "¡Producto eliminado!";
+            var mensaje = "El producto se ha eliminado del carrito de compra";
+            alert(titulo + "\n\n" + mensaje);
+
+            
+            //recargo la página para mostrar la nueva cantidad
+            window.location.href = `./CarritoDeCompra.html`;
+        }
+    }catch (error) {
+        console.error('Error al eliminar el producto del carrito:', error);
     }
-    */
-
-   //asi reduzco la cantidad seleccionada hasta que ya no haya más productos
-    if(cantidadSeleccionada > cantidadProducto){
-        cantidadSeleccionada++;
-        //ahora actualizar el carrito con la nueva cantidad
-
-
-        //recargo la página para mostrar la nueva cantidad
-        //window.location.href = `./CarritoDeCompra.html`;
-
-    }
-    else{
-        alert("No existe más stock de este producto");
-    }
-}
-
-function eliminarProducto() {
-    // Eliminar el producto del DOM
-    const productDiv = document.querySelector('.product-compra');
-    productDiv.remove();
-    // También puedes eliminar el producto de localStorage si es necesario
-    localStorage.removeItem('itemCantSelec');
 }
 
 

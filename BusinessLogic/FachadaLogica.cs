@@ -75,9 +75,6 @@ class FachadaLogica{
                 return false;
              }
     }
-    public void eliminarProducto(string idbuscado){
-             tienda.eliminarProductoID(idbuscado);
-    }
 
     public List<Producto> GetProductosAValidar(){
         List<Producto> prod = tienda.Productos;

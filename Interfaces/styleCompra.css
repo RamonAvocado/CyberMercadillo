@@ -57,13 +57,15 @@ body {
     margin: 40px
 }
 
+.descripción h2{
+    font-size: 18px;
+}
+
 .products-wrapper {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
     justify-content: space-between;
-    max-width: fit-content;
-    width: 1500px; /* Establecer un ancho máximo para el contenedor */
     height: 480px;
     overflow-y: hidden; /* Oculta la barra de desplazamiento vertical */
     overflow-x: auto; /* Muestra la barra de desplazamiento horizontal si es necesario */

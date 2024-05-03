@@ -107,7 +107,7 @@ class Tienda
         Console.WriteLine("El producto seleccionado: " + ProductoCarrito.idproducto);
         Console.WriteLine("Cantidad de producto: " + ProductoCarrito.cantidad);*/
         Console.WriteLine("Ahora hay: " + CarritoDeCompras.Count() + " Productos en CarritoDeCompras");
-
+        
     return true;
     }
 
@@ -197,6 +197,20 @@ class Tienda
             }
         }
         return productoEncontrado;
+    }
+
+    public void EliminarProductoDelCarrito(int idproducto)
+    {
+        List<CarritoDeCompra> NuevoCarritoDeCompras = new List<CarritoDeCompra>();
+
+        foreach(CarritoDeCompra producto in CarritoDeCompras)
+        {
+            //la logica para coger todos los productos del carrito menos el que quiero eliminar
+            if(producto.idproducto != idproducto){
+                NuevoCarritoDeCompras.Add(producto);
+            }
+        }
+        CarritoDeCompras = NuevoCarritoDeCompras;
     }
 
     public bool validarUnProducto(string idBuscado)

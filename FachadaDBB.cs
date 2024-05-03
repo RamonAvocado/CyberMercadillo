@@ -78,6 +78,7 @@ class FachadaDBB{
         var vendedores = tienda.Vendedores;
         var tecnicos = tienda.Tecnicos;
         var compras = tienda.Compras;
+        var carritos = tienda.CarritoDeCompras;
 
         Busqueda b1 = new Busqueda {
             texto = "Smart",
@@ -94,6 +95,40 @@ class FachadaDBB{
         Console.WriteLine("Ha actualizado las tablas");
 
     });
+
+    //Este metodo guarda el carrito de compra en la base de datos para no guardar todo, que es peligroso
+    app.MapGet("/GuardarCarritoBDD", async (HttpContext context, Supabase.Client supabase) =>
+    { 
+        //tengo que coger el carrito cuando lo haya actualizado
+        var Carrito = tienda.CarritoDeCompras;
+        
+        if(Carrito.Count == 0){
+            Console.WriteLine("nada, no hay productos en el carrito");
+        }
+        else
+        {
+            // Insertar los nuevos registros del carrito de compra
+            foreach(var prod in Carrito)
+            {
+                Console.WriteLine("Id ususario: " + prod.idusuario + " id producto: " + prod.idproducto + " cantidad: " + prod.cantidad);
+
+                // Eliminar todos los registros del carrito de compra asociados al usuario, para actualizarlo
+                await supabase.From<CarritoDeCompra>().Where(x => x.idusuario == prod.idusuario).Delete();
+                //Console.WriteLine(producto);
+
+                    CarritoDeCompra producto = new CarritoDeCompra {
+                    idusuario = prod.idusuario,
+                    idproducto = prod.idproducto,
+                    cantidad = prod.cantidad,
+                    };
+
+                await supabase.From<CarritoDeCompra>().Insert(producto);
+            }
+
+            Console.WriteLine("Ha actualizado el carrito de compra en la base de datos");
+        }
+    });
+
     app.Run();
     }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
