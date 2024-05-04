@@ -84,7 +84,6 @@ class FachadaDBB{
             texto = "Smart",
             fecha = DateTime.Now,
             idusuario = 2,
-            categoria = "Todas las categorias",
         };
         
         //Añade 10

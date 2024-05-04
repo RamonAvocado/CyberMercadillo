@@ -19,6 +19,14 @@ class Tienda
         private set { productos = value; }
     }
 
+//esto son los productos de la búsqueda, para aplicar filtros sobre ellos
+    private List<Producto> productosBus = new List<Producto>();
+    public List<Producto> ProductosBus
+    {
+        get { return productosBus; }
+        private set { productosBus = value; }
+    }
+
     private List<Busqueda> busquedas= new List<Busqueda>();
     public List<Busqueda> Busquedas
     {
@@ -349,12 +357,11 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
         return productos;
     }
 
-    public void GuardarBusqueda(string categoriaBuscada, string searchTerm, int idBuscado)
+    public void GuardarBusqueda(string searchTerm, int idBuscado)
     {
         Busqueda busqueda = new Busqueda
         {
             texto = searchTerm,
-            categoria = categoriaBuscada,
             fecha = DateTime.Now,
             idusuario = idBuscado,
         };
@@ -420,57 +427,51 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
         return busquedasUsuario;
     }
        
-    public List<Producto> GetProductosBusqueda(string categoriaBuscada, string searchTerm, int idBuscado)
+    public List<Producto> GetProductosBusqueda(string searchTerm, int idBuscado)
     {
             
         List<Producto> productos = new List<Producto>();
-            Console.WriteLine("categoriaBuscada: "+ categoriaBuscada);
-            Console.WriteLine("searchTermLower: "+ searchTerm);
+            //Console.WriteLine("searchTermLower: "+ searchTerm);
 
         var searchTermLower = searchTerm.ToLowerInvariant();
-        //Buscar en la lista de productos de la tienda el id y devolver ese productos
-        foreach (Producto prod in Productos)
-            {
-                if (prod.categoria == categoriaBuscada )
-                {
-                    if(prod.nombreproducto.IndexOf(searchTermLower, StringComparison.OrdinalIgnoreCase) >= 0 || prod.descripcion.IndexOf(searchTermLower, StringComparison.OrdinalIgnoreCase) >= 0)
-                    {
-                    productos.Add(prod);
-                    Console.WriteLine("prod: " + prod.nombreproducto);
-                    }
-                }
-            }
-            
-            Console.WriteLine("total: "+ productos.Count());
-        //guardo la búsqueda
-        GuardarBusqueda(categoriaBuscada,searchTerm,idBuscado);
-
-    return productos;
-    } 
-
-    public List<Producto> GetProductosSoloText(string categoriaBuscada, string searchTerm, int idBuscado)
-    {
-            
-        List<Producto> productos = new List<Producto>();
-
-        var searchTermLower = searchTerm.ToLowerInvariant();
-
         //Buscar en la lista de productos de la tienda el id y devolver ese productos
         foreach (Producto prod in Productos)
             {
                 if(prod.nombreproducto.IndexOf(searchTermLower, StringComparison.OrdinalIgnoreCase) >= 0 || prod.descripcion.IndexOf(searchTermLower, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
-                    productos.Add(prod);
-                    Console.WriteLine("prod: " + prod.nombreproducto);
+                productos.Add(prod);
+                //Console.WriteLine("prod: " + prod.nombreproducto);
                 }
             }
             
             Console.WriteLine("total: "+ productos.Count());
         //guardo la búsqueda
-        GuardarBusqueda(categoriaBuscada,searchTerm,idBuscado);
+        GuardarBusqueda(searchTerm,idBuscado);
+
+    ProductosBus = productos;
+
+    return ProductosBus;
+    }
+
+    public List<Producto> GetProdBusquedaFiltro(string category)
+    {
+        List<Producto> productos = new List<Producto>();
+            //Console.WriteLine("searchTermLower: "+ searchTerm);
+
+        //Buscar en la lista de productos de la tienda el id y devolver ese productos
+        foreach (Producto prod in ProductosBus)
+        {
+            if(prod.categoria == category)
+            {
+            productos.Add(prod);
+            }
+        }
+        // ¿guardo la búsqueda con la categoría que ahora es un filtro?
+        //GuardarBusqueda(searchTerm,idBuscado);
+        Console.WriteLine("total: "+ productos.Count());
 
     return productos;
-    } 
+    }
 
     public List<Producto> GetProductosVendedorG(int idVendedor){
             

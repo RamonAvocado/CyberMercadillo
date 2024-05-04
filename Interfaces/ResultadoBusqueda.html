@@ -18,9 +18,6 @@
             </h1>
             <div class="search-bar">
                 <input type="text" id = "searchInput" placeholder="Ingrese su búsqueda ...">
-                <select id="categorySelect">
-                    <option value="Todas las categorías">Todas las categorías</option>
-                </select>
                 <button onclick = "buscar()">Buscar</button>
             </div>
         </div>
@@ -54,15 +51,9 @@
         <div class="filters-section">
             <!-- Aquí he añadido los filtros para categoría, precio y valoración -->
             <h3>Categoría</h3>
-            <ul id="category">
-                <li><a href="#" onclick="filtrar('hogar')">Hogar</a></li>
-                <li><a href="#" onclick="filtrar('electronica')">Electrónica</a></li>
-                <li><a href="#" onclick="filtrar('ropa')">Ropa</a></li>
-                <li><a href="#" onclick="filtrar('juguetes')">Juguetes</a></li>
-                <li><a href="#" onclick="filtrar('amor puro')">Amor Puro</a></li>
-
-                <!-- Aqui se deben cambiar los # por el nombre del boton q tendra funcion -->
-            </ul>
+            <select id="categorySelect">
+                <option value="Todas las categorías">Todas las categorías</option>
+            </select>
 
             <h3>Precio</h3>
             <input type="number" id="minPrice" placeholder="Precio mínimo">
@@ -108,15 +99,25 @@
     <script src="./Metodos/MetodosBusquedas.js"></script>
     <script src="./Metodos/MetodosUser.js"></script>
     <script src="./Metodos/MetodosNavegacion.js"></script>
-    <script>
+    <!--
+        el que había antes:
+            <script>
         if(getPaginaAnt() != "HistorialDeBusqueda.html"){
-            window.addEventListener('DOMContentLoaded', CargaTodosProductos(1));
+            window.addEventListener('DOMContentLoaded', CargaTodosProductos());
         } else {
             buscarProd(getSearchTerm(), getCategory());
 
             localStorage.setItem('paginaAnterior', "null");
             localStorage.setItem('category', "Todas las categorias");
         }
+
+        window.addEventListener('unload', GuardarBDD);
+    </script>
+    -->
+    <script>
+        window.addEventListener('DOMContentLoaded', CargaTodosProductos());
+        //localStorage.setItem('searchTerm', "");
+
 
         window.addEventListener('unload', GuardarBDD);
     </script>

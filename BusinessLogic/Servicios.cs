@@ -624,6 +624,8 @@ class Servicios{
         }
         });
 
+/*      ya no buscamos por categorias, ahora filtramos
+
         //Busca un producto con categoria== Todas categorías y el texto de búsqueda
         app.MapPost("/BuscarProductoText", async (HttpContext context, Supabase.Client client) =>
         {
@@ -655,8 +657,8 @@ class Servicios{
                 errorDefault(context, ex);
             }
         });
-        
-        app.MapPost("/BuscarProductoTodo", async (HttpContext context, Supabase.Client client) =>
+*/
+        app.MapPost("/BuscarProductos", async (HttpContext context, Supabase.Client client) =>
         {
             // Leer el cuerpo de la solicitud para obtener la información de búsqueda
             using var reader = new StreamReader(context.Request.Body);
@@ -667,10 +669,36 @@ class Servicios{
 
                 var idBuscado = searchData["idusuario"].ToObject<int>();
                 var searchTerm = searchData["searchTerm"].ToObject<string>();
+
+                //recupero los productos con esta categoría
+                var productos = fachadaLogica.returnTienda().GetProductosBusqueda(searchTerm, idBuscado);
+
+                var jsonResponse = new { productos };
+
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier error y devolver una respuesta de error al cliente
+                errorDefault(context, ex);
+            }
+        });
+
+        app.MapPost("/GetProdBusquedas", async (HttpContext context, Supabase.Client client) =>
+        {
+            // Leer el cuerpo de la solicitud para obtener la información de búsqueda
+            using var reader = new StreamReader(context.Request.Body);
+            try
+            {
+                var requestBody = await reader.ReadToEndAsync();
+                var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
+
                 var category = searchData["category"].ToObject<string>();
 
                 //recupero los productos con esta categoría
-                var productos = fachadaLogica.returnTienda().GetProductosBusqueda(category??"Todas las categorias", searchTerm, idBuscado);
+                var productos = fachadaLogica.returnTienda().GetProdBusquedaFiltro(category);
 
                 var jsonResponse = new { productos };
 

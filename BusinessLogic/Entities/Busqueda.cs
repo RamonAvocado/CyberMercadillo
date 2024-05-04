@@ -11,11 +11,10 @@ namespace CyberMercadillo.Entities
 {       
     public partial class Busqueda{
         public Busqueda(){}
-        public Busqueda(string textoBusq, DateTime fechaBusq, int usuario, string categ) {
+        public Busqueda(string textoBusq, DateTime fechaBusq, int usuario) {
             texto = textoBusq;
             fecha = fechaBusq;
             idusuario = usuario;
-            categoria = categ;
         }
 
     }

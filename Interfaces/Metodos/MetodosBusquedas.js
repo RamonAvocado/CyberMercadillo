@@ -22,16 +22,49 @@ async function buscarHist(TextBuscar, CatBuscar, pagina) {
 
 
 async function buscar() {
-    var searchTerm = document.getElementById('searchInput').value;
+
+    localStorage.setItem('categoriaSeleccionada', "Todas las categorías");
     var category  = localStorage.getItem('categoriaSeleccionada');
+    
+    var searchTerm = document.getElementById('searchInput').value;
     localStorage.setItem('searchTerm', searchTerm);
 
     var limpiarResult = document.getElementById('resultados');
     limpiarResult.innerHTML = `<p></p>`;
 
-    buscarProd(searchTerm,category);
-    //NUEVO+++++++++++
-    CargaTodosProductos();
+    buscarProd(searchTerm, category);
+
+    //CargaTodosProductos();
+}
+
+
+// ahora ya no se tienen que mostrar productos hasta la búsqueda
+var CategoriasCargadas = false;
+
+async function CargaTodosProductos(){
+    try {
+        // Realizar una solicitud GET al backend para obtener los 6 primeros productos
+
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerTodosProductos`);
+        if (response.ok) {
+            const data = await response.json();
+            const productos = data.productos;
+
+            var category  = localStorage.getItem('categoriaSeleccionada');
+            mostrarProductosCat(productos, category);
+
+        if(CategoriasCargadas==false)
+        {
+            CargaCategorias();
+            CategoriasCargadas = true;
+        }
+
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
 }
 
 async function buscarProd(searchTerm, category) {
@@ -41,83 +74,39 @@ async function buscarProd(searchTerm, category) {
     var requestBody = {
         idusuario: idUsuarioIniciado,
         searchTerm: searchTerm,
-        category: category
     };   
 
-    console.log("idUsuarioIniciado: " + idUsuarioIniciado, "searchTerm: " + searchTerm, "category: " + category);
+    console.log("idUsuarioIniciado: " + idUsuarioIniciado, "searchTerm: " + searchTerm);
     try {
-        //console.log("esto es ante sd ela a:" + category);
-         //si es igual a todas las categorías, obtener como resultado solo el texto vacío -> mostrarTodo
-        if (category == "Todas las categorías" && searchTerm == ""){
-            //No has introducido ningún campo de búsqueda, recargo la página
-            window.location.href = `./ResultadoBusqueda.html`;
         
-        //ahora el texto ya tiene contendio y es con TODAS LAS CATEGORÍAS
-        }else if(category == "Todas las categorías")
-        {
-            const response = await fetch(`${lugarDeEjecucion}/BuscarProductoText`,{
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(requestBody)
-                });
+        const response = await fetch(`${lugarDeEjecucion}/BuscarProductos`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+        });
 
-            if (response.ok) {
-                const data = await response.json();
-                //console.log("Texto y todo intro: " + data.productos.Models);
-                var productos = data.productos;
-                console.log(productos);
-                console.log(productos.length);
-
-                productos.forEach((producto) => {
-                    console.log("Nombre: "+ producto.nombreproducto);
-                });
-
-                if(productos.length == 0){
-                    //Poner que no hay productos con estos criterios de búsqueda
-                    mostrarResultado("No existen productos con estos términos de búsqueda");  // Llama a una función para mostrar todos los productos
-                }
-                mostrarProductosCat(productos);//cargar los productos relacionados
-            } else {
-                console.error('Error en la solicitud al backend:', response.statusText);
+        if (response.ok) {
+            const data = await response.json();
+            //console.log("Texto y todo intro: " + data.productos.Models);
+            var productos = data.productos;
+            console.log(productos);
+            console.log(productos.length);
+            if(productos.length==0){
+                //Poner que no hay productos con estos criterios de búsqueda
+                mostrarResultado("No existen productos con estos términos de búsqueda");  // Llama a una función para mostrar todos los productos
             }
-        }
-        //ahora ya hay que buscar por texto y la categoría seleccionada
-        else
-        {
-            const response = await fetch(`${lugarDeEjecucion}/BuscarProductoTodo`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(requestBody)
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                //console.log("Texto y todo intro: " + data.productos.Models);
-                var productos = data.productos;
-                console.log(productos);
-                console.log(productos.length);
-                if(productos.length==0){
-                    //Poner que no hay productos con estos criterios de búsqueda
-                    mostrarResultado("No existen productos con estos términos de búsqueda");  // Llama a una función para mostrar todos los productos
-                }
-                mostrarProductosCat(productos);//cargar los productos relacionados
-            } else {
-                console.error('Error en la solicitud al backend:', response.statusText);
-            }
+            mostrarProductosCat(productos, category);//cargar los productos relacionados
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
         }
     } catch (error) {
         console.error('Error inesperado:', error);
     }
 }
 
-
-
-
-function mostrarProductosCat(productos) {
+function mostrarProductosCat(productos, category) {
     const container = document.querySelector('.resultado-busqueda-container');
     container.innerHTML = '';
 
@@ -169,31 +158,9 @@ function mostrarProductosCat(productos) {
 
     //Muestro la categoría por la que he buscado
     const categoriaTitle = document.createElement('h2');
-    //console.log(container);
-    categoriaSelect = localStorage.getItem("categoriaSeleccionada");
-    categoriaTitle.textContent = `Categoría: ${categoriaSelect}`;
+    categoriaTitle.textContent = `Categoría: ${category}`;
     container.insertBefore(categoriaTitle, container.firstChild);
 }
-
-//puesto en general por varias funciones depender de el
-/*function seleccionarProducto(productoSeleccionado) {
-    // Desmarcar todos los productos seleccionados
-    const selectedProducts = document.querySelectorAll('.product-card.selected');
-    selectedProducts.forEach(product => product.classList.remove('selected'));
-
-    // Marcar el producto actualmente seleccionado
-    productoSeleccionado.classList.add('selected');
-}*/
-
-
-//puesto en general por varias funciones depender de el
-/*function irAInfoProducto(productoParaInfo) {
-    // Obtener el ID del producto y la categoría de los atributos de datos (data-*) de la tarjeta de producto
-    const productId = productoParaInfo.querySelector('#idProducto').dataset.info;
-    localStorage.setItem('itemID', productId);
-
-    window.location.href = `./InfoProducto.html`;
-}*/
 
 async function CargaCategorias() {
     try {
@@ -212,9 +179,6 @@ async function CargaCategorias() {
 
 function mostrarCategorias(array) {
     const selectElement = document.getElementById('categorySelect');
-    //console.log(selectElement.options);
-    //console.log(selectElement.options[0]);
-
 
     // Limpiar opciones existentes, excepto la primera (Todas las categorías)
     selectElement.options.length = 1;
@@ -238,34 +202,56 @@ function mostrarCategorias(array) {
         categoriaSelect = localStorage.getItem("categoriaSeleccionada");
 
         console.log('Categoría seleccionada:', categoriaSelect);
-        // Aquí puedes hacer lo que necesites con la categoría seleccionada
+
+        //ahora falta filtrar por categorías
+        if(categoriaSelect == "Todas las categorías"){
+            //window.location.href = './ResultadoBusqueda.html';
+            //que cargue todos los productos y au
+    
+            var searchTerm = localStorage.getItem('searchTerm');
+
+                buscarProd(searchTerm, categoriaSelect);
+
+        }
+        else
+        {
+            ProductosFiltroCategoria(categoriaSelect);
+        }
+        var limpiarResult = document.getElementById('resultados');
+        limpiarResult.innerHTML = `<p></p>`;
+    
     });
 }
 
-// MOSTRAR TODOS LOS PRODUCTOS A LA HORA DE BUSCAR CUALQUIERO COSA
-//le paso un 1 y es para mostrarProductosCat, sino que funcione con normalidad
-var CategoriasCargadas = false;
+//le paso los productos para reloguearlos con el filtro de la categoría
+async function ProductosFiltroCategoria(categoriaSelect){
+    try{
+        
+        requestBody = {
+            category: categoriaSelect,
+        };
 
-async function CargaTodosProductos(valor){
-    try {
-        // Realizar una solicitud GET al backend para obtener los 6 primeros productos
-
-        //Para cargar las categorías una sola vez
-        if(CategoriasCargadas==false){
-            CargaCategorias();
-            CategoriasCargadas = true;
-        }
-
-        const response = await fetch(`${lugarDeEjecucion}/ObtenerTodosProductos`);
+        var response = await fetch(`${lugarDeEjecucion}/GetProdBusquedas`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+        });
         if (response.ok) {
             const data = await response.json();
-            const productos = data.productos;
-            if(valor ==  1){
-                mostrarProductosCat(productos);
+            //console.log("Texto y todo intro: " + data.productos.Models);
+            var productos = data.productos;
+
+            if(productos.length==0){
+                //Poner que no hay productos con estos criterios de búsqueda
+                mostrarResultado("No existen productos con estos términos de búsqueda");
             }
-            else{
-                mostrarTodosProductos(productos);// Llama a una función para mostrar los productos en la página
-            }
+            mostrarProductosCat(productos, categoriaSelect);//cargar los productos con este filtro
+
+            
+    //al final le paso los nuevos prodcutos y la categoria para que la ponga en el texto
+
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
         }
@@ -273,6 +259,9 @@ async function CargaTodosProductos(valor){
         console.error('Error inesperado:', error);
     }
 }
+
+// MOSTRAR TODOS LOS PRODUCTOS A LA HORA DE BUSCAR CUALQUIERO COSA
+//le paso un 1 y es para mostrarProductosCat, sino que funcione con normalidad
 
 async function getBusquedas() {
     
