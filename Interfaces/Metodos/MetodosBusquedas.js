@@ -73,7 +73,7 @@ async function buscarProd(searchTerm, category) {
 
     var requestBody = {
         idusuario: idUsuarioIniciado,
-        searchTerm: searchTerm,
+        searchTerm: searchTerm + ";" + category,
     };   
 
     console.log("idUsuarioIniciado: " + idUsuarioIniciado, "searchTerm: " + searchTerm);
@@ -89,10 +89,7 @@ async function buscarProd(searchTerm, category) {
 
         if (response.ok) {
             const data = await response.json();
-            //console.log("Texto y todo intro: " + data.productos.Models);
             var productos = data.productos;
-            console.log(productos);
-            console.log(productos.length);
             if(productos.length==0){
                 //Poner que no hay productos con estos criterios de búsqueda
                 mostrarResultado("No existen productos con estos términos de búsqueda");  // Llama a una función para mostrar todos los productos
@@ -200,6 +197,7 @@ function mostrarCategorias(array) {
         limpiarResult.innerHTML = `<p></p>`;
 
         var searchTerm = localStorage.getItem('searchTerm');
+
         buscarProd(searchTerm, categoriaSeleccionada);
     });
     categoryButtonsContainer.appendChild(todasLasCategoriasButton);  
@@ -223,6 +221,10 @@ function mostrarCategorias(array) {
         categoryButtonsContainer.appendChild(categoryButton);
     });
     localStorage.setItem('categoriaSeleccionada', categoriaSeleccionada);
+}
+
+function selectCategory(){
+    
 }
 
 // function mostrarCategorias(array) {

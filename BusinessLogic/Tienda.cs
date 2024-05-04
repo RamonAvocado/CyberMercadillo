@@ -360,9 +360,10 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
 
     public void GuardarBusqueda(string searchTerm, int idBuscado)
     {
+        var texto = searchTerm.Split(';');
         Busqueda busqueda = new Busqueda
         {
-            texto = searchTerm,
+            texto = texto[0]+ "   Filtros: " + texto[1],
             fecha = DateTime.Now,
             idusuario = idBuscado,
         };
@@ -432,9 +433,10 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
     {
             
         List<Producto> productos = new List<Producto>();
-            //Console.WriteLine("searchTermLower: "+ searchTerm);
 
-        var searchTermLower = searchTerm.ToLowerInvariant();
+        var busqueda = searchTerm.Split(';');
+
+        var searchTermLower = busqueda[0].ToLowerInvariant();
         //Buscar en la lista de productos de la tienda el id y devolver ese productos
         foreach (Producto prod in Productos)
             {

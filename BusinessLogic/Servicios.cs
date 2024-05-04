@@ -874,6 +874,37 @@ class Servicios{
             }
         });
 
+        app.MapGet("/guardar-archivo", async (HttpContext context, Supabase.Client client) =>
+        {
+            try
+            {
+                var archivo = context.Request.Form.Files.GetFile("archivo");
+
+                if (archivo != null && archivo.Length > 0)
+                {
+                    // Ruta donde deseas guardar el archivo
+                    string rutaDestino = "./CERTIFICADOS" + archivo.FileName;
+                    using (var stream = new FileStream(rutaDestino, FileMode.Create))
+                    {
+                        await archivo.CopyToAsync(stream);
+                    }
+                    // Archivo guardado correctamente
+                    await context.Response.WriteAsync("Archivo guardado correctamente.");
+                }
+                else
+                {
+                    // Manejar el caso donde no se seleccionó ningún archivo.
+                    context.Response.StatusCode = 400; // Bad Request
+                    await context.Response.WriteAsync("No se seleccionó ningún archivo.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier error y devolver una respuesta de error al cliente
+                errorDefault(context,ex);    
+            }
+        });
+
         async static void errorDefault(HttpContext context,Exception ex){
             context.Response.StatusCode = 500;
             context.Response.ContentType = "text/plain";

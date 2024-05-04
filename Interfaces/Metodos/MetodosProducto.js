@@ -880,8 +880,7 @@ function mostrarUnProductoBasico(respuesta) {
         <p>${producto.precio} €</p>
         <p> Descripción del producto: </p style="font-size: 18px;">
         <p>${producto.descripcion}</p>
-        <p> Puntuación de Huella Ecológica: </p style="font-size: 18px;">
-        <p>${producto.puntuacionEco}</p>
+        <p> Puntuación de Huella Ecológica:  ${producto.puntuacionEco}</p style="font-size: 18px;">
     `;
     productCard.appendChild(productInfo);
 
@@ -925,5 +924,34 @@ async function CargarProductosRecomendadosInfoProd(){
         }
     } catch (error) {
         console.error('Error inesperado:', error);
+    }
+}
+
+function handleFileSelect(event) {
+    const fileInput = event.target;
+    const selectedFiles = fileInput.files; // Accede a la lista de archivos seleccionados
+    
+    if (selectedFiles.length > 0) {
+        // Crear un objeto FormData para enviar el archivo al servidor
+        const formData = new FormData();
+        formData.append('archivo', selectedFiles[0]); // Añadir el primer archivo seleccionado al FormData
+        
+        // Realizar una solicitud POST al servidor
+        fetch('/guardar-archivo', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Archivo enviado correctamente.');
+            } else {
+                console.error('Error al enviar el archivo al servidor.');
+            }
+        })
+        .catch(error => {
+            console.error('Error de red:', error);
+        });
+    } else {
+        console.log("No se seleccionó ningún archivo.");
     }
 }
