@@ -117,7 +117,19 @@
                         <div class="input-group">
                             <label for="descripcion">Descripción:</label>
                             <textarea id="descripcion" name="descripcion" rows="4" cols="50" required></textarea>
-                        </div>               
+                        </div>    
+                        <div class="input-group" style="text-align: left;">
+                            <label for="valoracionHProd" >Valoración de Huella Ecológica:</label>
+                            <select id="valoracionHProd" name="valoracionHProd" required style="width: 100px; height: 40px;">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <!-- Agrega más opciones según tus necesidades -->
+                            </select>
+                        </div>           
                 </div>
 
                 <div class="image-group">
@@ -125,10 +137,12 @@
                         <div class="recommended-products">
                             <!-- Aquí se mostrarán los productos recomendados -->
                         </div>
-                        <input type="text" id="nuevo-url-imagen" name="nuevo-url-imagen" placeholder="Nuevo URL de Imagen">                
+                        <input type="text" id="nuevo-url-imagen" name="nuevo-url-imagen" placeholder="Nuevo URL de Imagen"><br>                
                         <!--<button onclick="cambiarImagen()">Cambiar Imagen</button><br><br><br><br><br><br><br><br>-->
-                        <input type="file" id="fileInput" name="fileInput" onchange="handleFileSelect(event)">
-                        <br><br> 
+                        <div class="input-group">
+                            <label for="imgProd">Certificado de la Huella Ecológica:</label>
+                            <input type="file" id="fileInput" name="fileInput" onchange="handleFileSelect(event)">
+                        </div>                         <br><br> 
                     </div>
                     <button onclick = "ActualizarProductoGuardado(localStorage.getItem('itemID'),localStorage.getItem('UsuarioID'))" class="search-history-btn small-button">Guardar</button>
                     <button onclick = "validarProductoGuardado(localStorage.getItem('itemID'))" class="search-history-btn small-button">Validar</button>

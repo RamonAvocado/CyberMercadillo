@@ -31,9 +31,9 @@ class FachadaLogica{
     }
 
     public void agregarProducto(string nombreProd, string precioProd, string categoriaProd,string descripcionProd,
-                                                        string imgProd, int cantProd,int idvendedorProd,bool validProd, bool saveProd){
+                                                        string imgProd, int cantProd,int idvendedorProd,bool validProd, bool saveProd, int puntHuella){
         int idProd = tienda.MayorIDProd() +1;
-        Producto product = new Producto(idProd,nombreProd,precioProd,categoriaProd,descripcionProd, imgProd, cantProd,idvendedorProd,validProd,saveProd, 1234567, "pdf");
+        Producto product = new Producto(idProd,nombreProd,precioProd,categoriaProd,descripcionProd, imgProd, cantProd,idvendedorProd,validProd,saveProd, puntHuella, "pdf");
         tienda.Productos.Add(product);
     }
 /*
@@ -54,8 +54,8 @@ class FachadaLogica{
         tienda.actualizarProd(idProducto,precioProd,descripcionProd, cantProd);
     }
 
-    public void actualizarProductoGuardado(string nombreProd, string precioProd, string categoriaProd,string descripcionProd,                                                  string imgProd, int cantProd,string idProducto){
-        tienda.actualizarProdGuardado(idProducto,nombreProd,precioProd,categoriaProd,descripcionProd, imgProd, cantProd);
+    public void actualizarProductoGuardado(string nombreProd, string precioProd, string categoriaProd,string descripcionProd,string imgProd, int cantProd,string idProducto, int puntHuella){
+        tienda.actualizarProdGuardado(idProducto,nombreProd,precioProd,categoriaProd,descripcionProd, imgProd, cantProd,puntHuella);
     }
 
     public bool validarProducto(string idbuscado){

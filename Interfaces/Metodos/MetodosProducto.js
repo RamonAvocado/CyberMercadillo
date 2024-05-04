@@ -44,6 +44,7 @@ async function agregarProducto(idUsuarioIniciado)
                 idvendedor: idUsuarioIniciado,
                 validado: false,
                 guardado: false,
+                puntuacionHuella: parseInt(formData.get('valoracionHProd'))
             };
 
             console.log('ID del usuario seleccionado:', idUsuarioIniciado);
@@ -121,9 +122,10 @@ async function guardarProducto(idUsuarioIniciado)
                 idvendedor: idUsuarioIniciado,
                 validado: false,
                 guardado: true,
+                puntuacionHuella: parseInt(formData.get('valoracionHProd'))
             };
             // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
-            
+
             try {
 
                 const response = await fetch(`${lugarDeEjecucion}/AgregarProducto`, {
@@ -261,6 +263,7 @@ async function ActualizarProductoGuardado(idProductoSeleccionado,idUsuarioInicia
                 img: formData.get('nuevo-url-imagen') ?? formData.get('imagenProducto'),
                 cantidad: parseInt(formData.get('cantidad')),
                 idproducto: idProductoSeleccionado,
+                puntuacionHuella: parseInt(formData.get('valoracionHProd'))
             };
 
             try {
@@ -877,6 +880,8 @@ function mostrarUnProductoBasico(respuesta) {
         <p>${producto.precio} €</p>
         <p> Descripción del producto: </p style="font-size: 18px;">
         <p>${producto.descripcion}</p>
+        <p> Puntuación de Huella Ecológica: </p style="font-size: 18px;">
+        <p>${producto.puntuacionEco}</p>
     `;
     productCard.appendChild(productInfo);
 

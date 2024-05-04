@@ -501,13 +501,11 @@ async function mostrarProd(idProductoSeleccionado) {
                 document.getElementById('categoria').value = prod.categoria;
                 document.getElementById('descripcion').value = prod.descripcion;
                 document.getElementById('cantidad').value = prod.cantidad;
-                document.getElementById('nuevo-url-imagen').value = prod.imagenes;             
+                document.getElementById('nuevo-url-imagen').value = prod.imagenes; 
+                document.getElementById('valoracionHProd').value = prod.puntuacionEco;             
             //}
         } else {
             console.error('Error al obtener los detalles del producto:', response.statusText);
-            const nombreInput = document.getElementById('nombre');
-            const nombreProducto = 'Producto de ejemplo233';
-            nombreInput.value = nombreProducto;
         }
     } catch (error) {
         console.error('Error inesperado:', error);
@@ -541,9 +539,6 @@ function mostrarProductosDeVendedor(productos) {
         container.appendChild(productCard);
     });
 }
-
-
-
 
 
 function cambiarImagen() {

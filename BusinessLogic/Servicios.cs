@@ -265,6 +265,7 @@ class Servicios{
                     var idvendedorP = productoData["idvendedor"].ToObject<int>();
                     var validadoP = productoData["validado"].ToObject<bool>();
                     var guardadoP = productoData["guardado"].ToObject<bool>();
+                    var puntuacionH = productoData["puntuacionHuella"].ToObject<int>();
 
                     // Utiliza los datos recibidos para crear un nuevo producto
                     fachadaLogica.agregarProducto(nombreP ?? "Producto de Serie Creación",
@@ -275,7 +276,8 @@ class Servicios{
                                                    cantidadP,
                                                    idvendedorP,
                                                    validadoP,
-                                                   guardadoP);
+                                                   guardadoP,
+                                                   puntuacionH);
                     // Inserta el nuevo producto en la base de datos
                    // await client.From<Producto>().Insert(new List<Producto> { nuevoProducto });
 
@@ -474,13 +476,15 @@ class Servicios{
                     var imgP = productoData["img"].ToObject<string>();
                     var cantidadP = productoData["cantidad"].ToObject<int>();
                     var idproductoP = productoData["idproducto"].ToObject<string>();
+                    var puntuacionH = productoData["puntuacionHuella"].ToObject<int>();
                     fachadaLogica.actualizarProductoGuardado(nombreP ?? "Producto de Serie Creación",
                                                    precioP ?? "-1",
                                                    categoriaP ?? "CatPrueba",
                                                    descripcionP ?? "Este artículo es el predeterminado por si llega un null a esta función",
                                                    imgP ?? "/rutaPrueba",
                                                    cantidadP,                                       
-                                                   idproductoP ?? "0");
+                                                   idproductoP ?? "0",
+                                                   puntuacionH);
                     Console.WriteLine("pedido");
 
                     // Devuelve una respuesta al frontend (opcional)
