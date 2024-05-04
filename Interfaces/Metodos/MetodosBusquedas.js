@@ -178,52 +178,102 @@ async function CargaCategorias() {
 }
 
 function mostrarCategorias(array) {
-    const selectElement = document.getElementById('categorySelect');
+    const categoryButtonsContainer = document.getElementById('categoryButtons');
+    categoryButtonsContainer.innerHTML = '';
 
-    // Limpiar opciones existentes, excepto la primera (Todas las categorías)
-    selectElement.options.length = 1;
+    // Obtener la última categoría seleccionada del localStorage
+    let categoriaSeleccionada = localStorage.getItem('categoriaSeleccionada');
+    if (!categoriaSeleccionada) {
+        categoriaSeleccionada = 'Todas las categorías';
+    }
 
-    categoriaSelect = selectElement.options[0].value;
-    console.log("categoría seleccinonada: " + categoriaSelect);
+    // Agregar botón "Todas las categorías"
+    const todasLasCategoriasButton = document.createElement('button');
+    todasLasCategoriasButton.textContent = 'Todas las categorías';
+    todasLasCategoriasButton.classList.add('category-button');
+    todasLasCategoriasButton.addEventListener('click', function() {
 
-    localStorage.setItem('categoriaSeleccionada', categoriaSelect);
+        categoriaSeleccionada = 'Todas las categorías';
+        localStorage.setItem('categoriaSeleccionada', categoriaSeleccionada);
 
-    // Agregar nuevas opciones de categorías
-    array.forEach(categoria => {
-        const option = document.createElement('option');
-        option.value = categoria;
-        option.textContent = categoria;
-        selectElement.appendChild(option);
-    });
-
-    selectElement.addEventListener('change', function() {
-        const selectedCategory = selectElement.value;
-        localStorage.setItem('categoriaSeleccionada', selectedCategory);
-        categoriaSelect = localStorage.getItem("categoriaSeleccionada");
-
-        console.log('Categoría seleccionada:', categoriaSelect);
-
-        //ahora falta filtrar por categorías
-        if(categoriaSelect == "Todas las categorías"){
-            //window.location.href = './ResultadoBusqueda.html';
-            //que cargue todos los productos y au
-    
-            var searchTerm = localStorage.getItem('searchTerm');
-
-                buscarProd(searchTerm, categoriaSelect);
-
-        }
-        else
-        {
-            ProductosFiltroCategoria(categoriaSelect);
-        }
         var limpiarResult = document.getElementById('resultados');
         limpiarResult.innerHTML = `<p></p>`;
-    
+
+        var searchTerm = localStorage.getItem('searchTerm');
+        buscarProd(searchTerm, categoriaSeleccionada);
     });
+    categoryButtonsContainer.appendChild(todasLasCategoriasButton);  
+    array.forEach(categoria => {
+        const categoryButton = document.createElement('button');
+        categoryButton.textContent = categoria;
+        categoryButton.classList.add('category-button');
+        categoryButton.addEventListener('click', function() {
+            
+            categoriaSeleccionada = categoria;
+            localStorage.setItem('categoriaSeleccionada', categoriaSeleccionada);          
+            var limpiarResult = document.getElementById('resultados');
+            limpiarResult.innerHTML = `<p></p>`;
+            var searchTerm = localStorage.getItem('searchTerm');
+            if (categoriaSeleccionada === 'Todas las categorías') {
+                buscarProd(searchTerm, categoriaSeleccionada);
+            } else {
+                ProductosFiltroCategoria(categoriaSeleccionada);
+            }
+        });
+        categoryButtonsContainer.appendChild(categoryButton);
+    });
+    localStorage.setItem('categoriaSeleccionada', categoriaSeleccionada);
 }
 
+// function mostrarCategorias(array) {
+//     const selectElement = document.getElementById('categorySelect');
+
+//     // Limpiar opciones existentes, excepto la primera (Todas las categorías)
+//     selectElement.options.length = 1;
+
+//     categoriaSelect = selectElement.options[0].value;
+//     console.log("categoría seleccinonada: " + categoriaSelect);
+
+//     localStorage.setItem('categoriaSeleccionada', categoriaSelect);
+
+//     // Agregar nuevas opciones de categorías
+//     array.forEach(categoria => {
+//         const option = document.createElement('option');
+//         option.value = categoria;
+//         option.textContent = categoria;
+//         selectElement.appendChild(option);
+//     });
+
+//     selectElement.addEventListener('change', function() {
+//         const selectedCategory = selectElement.value;
+//         localStorage.setItem('categoriaSeleccionada', selectedCategory);
+//         categoriaSelect = localStorage.getItem("categoriaSeleccionada");
+
+//         console.log('Categoría seleccionada:', categoriaSelect);
+
+//         //ahora falta filtrar por categorías
+//         if(categoriaSelect == "Todas las categorías"){
+//             //window.location.href = './ResultadoBusqueda.html';
+//             //que cargue todos los productos y au
+    
+//             var searchTerm = localStorage.getItem('searchTerm');
+
+//                 buscarProd(searchTerm, categoriaSelect);
+
+//         }
+//         else
+//         {
+//             ProductosFiltroCategoria(categoriaSelect);
+//         }
+//         var limpiarResult = document.getElementById('resultados');
+//         limpiarResult.innerHTML = `<p></p>`;
+    
+//     });
+// }
+
 //le paso los productos para reloguearlos con el filtro de la categoría
+
+
 async function ProductosFiltroCategoria(categoriaSelect){
     try{
         
