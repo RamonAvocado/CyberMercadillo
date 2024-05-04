@@ -248,8 +248,7 @@ async function ProductosFiltroCategoria(categoriaSelect){
                 mostrarResultado("No existen productos con estos términos de búsqueda");
             }
             mostrarProductosCat(productos, categoriaSelect);//cargar los productos con este filtro
-
-            
+          
     //al final le paso los nuevos prodcutos y la categoria para que la ponga en el texto
 
         } else {

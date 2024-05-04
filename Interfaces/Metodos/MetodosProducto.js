@@ -889,7 +889,6 @@ function mostrarUnProductoBasico(respuesta) {
     // Crear el contenedor de botones
     const productButtons = document.createElement('div');
 
-   
 
     // Agregar el producto al contenedor principal
     container.appendChild(productCard);
