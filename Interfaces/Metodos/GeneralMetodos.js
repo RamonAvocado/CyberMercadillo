@@ -14,6 +14,7 @@ var TipoUsuarioRegistrado;
 
 
 
+
 var lugarDeEjecucion = "http://localhost:5169";
 
 function getPaginaAnt(){

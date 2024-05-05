@@ -13,6 +13,7 @@ var searchTerm;
 var category;
 var TipoUsuarioRegistrado;
 
+
 //Para ejecutar en localhost : "http://localhost:5169";
 //Para ejecutar en WEB : "https://cybermercadillo.onrender.com";
 var lugarDeEjecucion = "http://localhost:5169";

@@ -484,6 +484,7 @@ public List<Producto> FiltrarProductosPorPrecio(int precioMin, int precioMax)
         {
             if (precio >= precioMin && precio <= precioMax)
             {
+                ProductosBus = productos;
                 productos.Add(prod);
             }
         }
@@ -493,7 +494,8 @@ public List<Producto> FiltrarProductosPorPrecio(int precioMin, int precioMax)
             Console.WriteLine($"El precio del producto {prod.nombreproducto} no es un número válido.");
         }
     }
-
+    //AQUI NO FUNCIONA
+    // ProductosBus = productos;
     return productos;
 }
 
