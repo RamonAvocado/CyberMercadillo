@@ -691,20 +691,17 @@ class Servicios{
                 var requestBody = await reader.ReadToEndAsync();
                 var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
 
-                Console.WriteLine(searchData);
-
                 var category = searchData["category"].ToObject<string>();
                 var precioMin = searchData["precioMin"].ToObject<int>();
                 var precioMax = searchData["precioMax"].ToObject<int>();
-                
+
 
                 //recupero los productos con esta categoría
                 var tienda = fachadaLogica.returnTienda();
                 var productos = tienda.GetProdBusquedaFiltro(category);
+
                 //filtrar por precio
                 productos = tienda.FiltrarProductosPorPrecio(precioMin, precioMax);
-               
-                
 
                 var jsonResponse = new { productos };
 

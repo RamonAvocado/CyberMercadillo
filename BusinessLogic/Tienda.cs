@@ -458,18 +458,17 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
             //Console.WriteLine("searchTermLower: "+ searchTerm);
 
         //Buscar en la lista de productos de la tienda el id y devolver ese productos
-        foreach (Producto prod in ProductosBus)
+        foreach (Producto prod in Productos)
         {
-            if(prod.categoria == category)
-            {
-            productos.Add(prod);
-            }
+            if(prod.categoria == category){productos.Add(prod);}
         }
         // ¿guardo la búsqueda con la categoría que ahora es un filtro?
         //GuardarBusqueda(searchTerm,idBuscado);
         Console.WriteLine("total: "+ productos.Count());
 
-    return productos;
+        ProductosBus = productos;
+
+        return productos;
     }
 
 
