@@ -427,9 +427,6 @@ function irAInfoProducto2(productoParaInfo) {
 async function mostrarProd(idProductoSeleccionado) {
     try {
         console.log('ID del producto seleccionado:', idProductoSeleccionado);
-        //const response = await fetch('http://localhost:5169/buscarProductoX');
-
-        //const response = await fetch(`http://localhost:5169/buscarProductoX?idProductoSeleccionado=${idProductoSeleccionado}`);
         const response = await fetch(`${lugarDeEjecucion}/buscarProductoSeleccionado`,{
             method: 'POST',
             headers: {
@@ -446,11 +443,15 @@ async function mostrarProd(idProductoSeleccionado) {
             //const productos = data.result.Models;
             const prod = data.producto;
             console.log(prod);
-            //if (prod.length > 0) {
-                //const primerProducto = prod[0]; // Obtener el primer producto (suponiendo que hay al menos uno)
-                // Separar las URL de las imágenes
-                
-                
+            var tipoUsuarioLogueado = localStorage.getItem('tipoUserID');
+            var botonValidar = document.getElementById('ValidarProdGua');
+
+            // Verificar si el botón existe
+            if (botonValidar && tipoUsuarioLogueado == "tecnico") {
+                // Ocultar el botón estableciendo su propiedad de visualización en "none"
+                botonValidar.style.display = "none";
+            }
+            
                 const container = document.querySelector('.recommended-products');
 
                 const imagenes = prod.imagenes.split(' ');

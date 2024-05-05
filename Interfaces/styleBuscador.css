@@ -471,3 +471,113 @@ select {
     max-width: 230px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Aquí he añadido un recuadro alrededor de los filtros */
 }
+
+.botones-vendedor {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f0f0f0;
+}
+.botones-vendedor2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #ddd;
+}
+
+.izquierda {
+    display: flex; /* Permite que los botones se coloquen uno al lado del otro */
+    margin-right: 10px;
+    margin-left: 10px;
+    gap: 10px;
+}
+
+.derecha {
+    display: flex; /* Permite que los botones se coloquen uno al lado del otro */
+    margin-right: 10px;
+    margin-left: 10px;
+    gap: 10px;
+}
+
+.boton {
+    margin-right: 10px;
+    margin-left: 10px;  /* Espacio entre los botones */
+    gap: 10px;
+}
+
+.product-card.selected {
+    border: 2px solid blue; /* Cambia el borde a azul para indicar selección */
+    box-shadow: 0 0 5px blue; /* Añade una sombra azul para resaltar */
+}           
+#validarBtn {
+    background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
+    color: white; /* Color del texto del botón cuando está deshabilitado */
+}
+#validarVddBtn {
+    background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
+    color: white; /* Color del texto del botón cuando está deshabilitado */
+}
+#desasignarBtn {
+    background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
+    color: white; /* Color del texto del botón cuando está deshabilitado */
+}
+#eliminarBtn {
+    background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
+    color: white; /* Color del texto del botón cuando está deshabilitado */
+}
+#editarBtn {
+    background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
+    color: white; /* Color del texto del botón cuando está deshabilitado */
+}
+#editarBtn:enabled {
+    background-color: #f39c12;
+    color: rgb(0, 0, 0);
+    padding: 10px 56px;
+    border-radius: 20px;
+    font-size: 24px;
+    border: none;
+    cursor: pointer; /* Color del texto del botón cuando está habilitado */
+}
+#validarBtn:enabled {
+    background-color: #f39c12;
+    color: rgb(0, 0, 0);
+    padding: 10px 56px;
+    border-radius: 20px;
+    font-size: 24px;
+    border: none;
+    cursor: pointer; /* Color del texto del botón cuando está habilitado */
+}
+#validarVddBtn:enabled {
+    background-color: #f39c12;
+    color: rgb(0, 0, 0);
+    padding: 10px 56px;
+    border-radius: 20px;
+    font-size: 24px;
+    border: none;
+    cursor: pointer; /* Color del texto del botón cuando está habilitado */
+}
+#desasignarBtn:enabled {
+    background-color: #f39c12;
+    color: rgb(0, 0, 0);
+    padding: 10px 56px;
+    border-radius: 20px;
+    font-size: 24px;
+    border: none;
+    cursor: pointer; /* Color del texto del botón cuando está habilitado */
+}
+#eliminarBtn:enabled {
+    background-color: #f39c12;
+    color: rgb(0, 0, 0);
+    padding: 10px 56px;
+    border-radius: 20px;
+    font-size: 24px;
+    border: none;
+    cursor: pointer; /* Color del texto del botón cuando está habilitado */
+}
+
+.pagina-item {
+    display: inline-block;
+    margin-right: 20px; /* Espacio entre los números de página */
+}

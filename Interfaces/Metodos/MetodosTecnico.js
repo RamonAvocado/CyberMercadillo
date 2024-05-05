@@ -62,10 +62,8 @@ async function CargarProductosValidacionTecnico(idUser) {
             const prod = data.productos;
             console.log(prod);
             const productosPorPagina = 6;
-            //const totalPaginas = Math.ceil(productos.length / productosPorPagina);
             const totalPaginas = Math.ceil(prod.length / productosPorPagina);
             // Mostrar los productos de la primera página en la interfaz de usuario
-            //mostrarProductosVendedor(prod.slice(0, productosPorPagina));
             mostrarProductosParaValidarTecnico(prod.slice(0, productosPorPagina));
 
             // Generar enlaces de paginación
@@ -305,6 +303,7 @@ function mostrarProductosParaValidarTecnico(productos) {
             const eliminarBtn = document.getElementById('eliminarBtn');
             const desasignarBtn = document.getElementById('desasignarBtn');
             const validarVddBtn = document.getElementById('validarVddBtn');
+            const editarBtn = document.getElementById('editarBtn');
         
             // Verifica si el clic no fue dentro de un productCard
             if (!event.target.closest('.product-card')) {
@@ -315,10 +314,12 @@ function mostrarProductosParaValidarTecnico(productos) {
                 eliminarBtn.disabled = true;
                 desasignarBtn.disabled = true;
                 validarVddBtn.disabled = true;
+                editarBtn.disabled = true;
                 // Quita la clase 'enabled' si está presente
                 eliminarBtn.classList.remove('enabled');
                 desasignarBtn.classList.remove('enabled');
                 validarVddBtn.classList.remove('enabled');
+                editarBtn.classList.remove('enabled');
             }
         });
 
@@ -343,6 +344,10 @@ function mostrarProductosParaValidarTecnico(productos) {
             const validarVddBtn = document.getElementById('validarVddBtn');
             validarVddBtn.disabled = false;
             validarVddBtn.classList.add('enabled');
+
+            const editarBtn = document.getElementById('editarBtn');
+            editarBtn.disabled = false;
+            editarBtn.classList.add('enabled');
 
             const allProductCards = document.querySelectorAll('.product-card');
             allProductCards.forEach(card => card.classList.remove('selected'));
