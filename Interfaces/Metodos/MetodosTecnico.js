@@ -13,7 +13,6 @@ var category;
 var TipoUsuarioRegistrado;
 
 
-
 var lugarDeEjecucion = "http://localhost:5169";
 
 

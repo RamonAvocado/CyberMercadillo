@@ -15,6 +15,7 @@ var TipoUsuarioRegistrado;
 
 
 
+
 var lugarDeEjecucion = "http://localhost:5169";
 
 function truncate(text) {
