@@ -156,33 +156,6 @@ class Servicios{
             }
         });
 
-        // app.MapPost("/FiltrarPorPrecio", async (HttpContext context, Supabase.Client client) =>
-        // {
-        //     using var reader = new StreamReader(context.Request.Body);
-        //     try{
-        //         var requestBody = await reader.ReadToEndAsync();
-        //         var filterData = JsonConvert.DeserializeObject<JObject>(requestBody);
-
-        //         var idUsuario = filterData["idusuario"].ToObject<int>();
-        //         var precioMinimo = filterData["precioMinimo"].ToObject<int>();
-        //         var precioMaximo = filterData["precioMaximo"].ToObject<int>();
-
-        //         // Filtrar productos por precio dentro del rango especificado
-        //         var productosFiltrados = fachadaLogica.returnTienda().FiltrarProductosPorPrecio(precioMinimo, precioMaximo);
-
-        //         var jsonResponse = new { productosFiltrados };
-
-        //         context.Response.ContentType = "application/json";
-        //         await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         // Manejar cualquier error y devolver una respuesta de error al cliente
-        //         errorDefault(context, ex);
-        //     }
-        // });
-
-
         app.MapPost("/ObtenerProductosVendedor", async (HttpContext context, Supabase.Client client) =>
         {
             using var reader = new StreamReader(context.Request.Body);
@@ -893,6 +866,99 @@ class Servicios{
                             context.Response.ContentType = "application/json";
                             await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
                         }
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier error y devolver una respuesta de error al cliente
+                errorDefault(context,ex);    
+            }
+        });
+
+        app.MapGet("/guardar-archivo", async (HttpContext context, Supabase.Client client) =>
+        {
+            try
+            {
+                var archivo = context.Request.Form.Files.GetFile("archivo");
+
+                if (archivo != null && archivo.Length > 0)
+                {
+                    // Ruta donde deseas guardar el archivo
+                    string rutaDestino = "./CERTIFICADOS" + archivo.FileName;
+                    using (var stream = new FileStream(rutaDestino, FileMode.Create))
+                    {
+                        await archivo.CopyToAsync(stream);
+                    }
+                    // Archivo guardado correctamente
+                    await context.Response.WriteAsync("Archivo guardado correctamente.");
+                }
+                else
+                {
+                    // Manejar el caso donde no se seleccionó ningún archivo.
+                    context.Response.StatusCode = 400; // Bad Request
+                    await context.Response.WriteAsync("No se seleccionó ningún archivo.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier error y devolver una respuesta de error al cliente
+                errorDefault(context,ex);    
+            }
+        });
+
+        app.MapGet("/guardar-archivo", async (HttpContext context, Supabase.Client client) =>
+        {
+            try
+            {
+                var archivo = context.Request.Form.Files.GetFile("archivo");
+
+                if (archivo != null && archivo.Length > 0)
+                {
+                    // Ruta donde deseas guardar el archivo
+                    string rutaDestino = "./CERTIFICADOS" + archivo.FileName;
+                    using (var stream = new FileStream(rutaDestino, FileMode.Create))
+                    {
+                        await archivo.CopyToAsync(stream);
+                    }
+                    // Archivo guardado correctamente
+                    await context.Response.WriteAsync("Archivo guardado correctamente.");
+                }
+                else
+                {
+                    // Manejar el caso donde no se seleccionó ningún archivo.
+                    context.Response.StatusCode = 400; // Bad Request
+                    await context.Response.WriteAsync("No se seleccionó ningún archivo.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier error y devolver una respuesta de error al cliente
+                errorDefault(context,ex);    
+            }
+        });
+
+        app.MapGet("/guardar-archivo", async (HttpContext context, Supabase.Client client) =>
+        {
+            try
+            {
+                var archivo = context.Request.Form.Files.GetFile("archivo");
+
+                if (archivo != null && archivo.Length > 0)
+                {
+                    // Ruta donde deseas guardar el archivo
+                    string rutaDestino = "./CERTIFICADOS" + archivo.FileName;
+                    using (var stream = new FileStream(rutaDestino, FileMode.Create))
+                    {
+                        await archivo.CopyToAsync(stream);
+                    }
+                    // Archivo guardado correctamente
+                    await context.Response.WriteAsync("Archivo guardado correctamente.");
+                }
+                else
+                {
+                    // Manejar el caso donde no se seleccionó ningún archivo.
+                    context.Response.StatusCode = 400; // Bad Request
+                    await context.Response.WriteAsync("No se seleccionó ningún archivo.");
+                }
             }
             catch (Exception ex)
             {
