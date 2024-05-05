@@ -420,8 +420,6 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
     }
 
     public List<Busqueda> getBusquedasUsuario(Usuario user){
-                        Console.WriteLine("ENTRAfuera");
-
         List<Busqueda> busquedasUsuario = new List<Busqueda>();
         foreach(var busqueda in Busquedas){
             if(busqueda.idusuario == user.idusuario){

@@ -116,7 +116,8 @@
         if(localStorage.getItem('paginaAnterior') != "HistorialDeBusqueda.html"){
             window.addEventListener('DOMContentLoaded', CargaTodosProductos());
         } else {
-            buscarProd(localStorage.getItem('searchterm'), localStorage.getItem('category'));
+            CargaCategorias();
+            buscarProd(localStorage.getItem('searchTerm'), localStorage.getItem('category'));
             localStorage.setItem('paginaAnterior', "null");
             //localStorage.setItem('category', "Todas las categorias");
         }

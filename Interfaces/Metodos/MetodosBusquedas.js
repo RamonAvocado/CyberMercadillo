@@ -18,9 +18,6 @@ var busquedasAnteriores = [];
 //Para ejecutar en WEB : "https://cybermercadillo.onrender.com";
 var lugarDeEjecucion = "http://localhost:5169";
 
-async function buscarHist(TextBuscar, CatBuscar, pagina) {
-    buscarProd(TextBuscar,CatBuscar);
-}
 
 
 async function buscar() {
@@ -29,11 +26,14 @@ async function buscar() {
     var category  = localStorage.getItem('categoriaSeleccionada');
     
     var searchTerm = document.getElementById('searchInput').value;
-    localStorage.setItem('searchTerm', searchTerm);
+    if(searchTerm == "null"){
+        localStorage.setItem('searchTerm', searchTerm);
+    }
 
     var limpiarResult = document.getElementById('resultados');
     limpiarResult.innerHTML = `<p></p>`;
 
+    console.log("Valor searchTerm en buscar : " + searchTerm);
     buscarProd(searchTerm, category);
     //CargaTodosProductos();
 }
@@ -272,7 +272,7 @@ function mostrarCategorias(array) {
         categoryButton.textContent = categoria;
         categoryButton.classList.add('category-button');
         categoryButton.addEventListener('click', function() {
-            //VOLVERAQUI
+
             categoriaSeleccionada = categoria;
             localStorage.setItem('categoriaSeleccionada', categoriaSeleccionada);          
             var limpiarResult = document.getElementById('resultados');
@@ -496,10 +496,15 @@ async function getBusquedas() {
 
                 
                 texto_busqueda.addEventListener('click', function() {
-                    var busc = texto_busqueda.textContent.split('[');
+                    var busc = texto_busqueda.textContent.split(' ');
+
+                    //var cat = busc[7].split(' ')[1].split(']')[0];
+                    var cat = "Todas";
+                    if(cat == "Todas"){cat = "Todas las categorias";}
 
                     localStorage.setItem('paginaAnterior', "HistorialDeBusqueda.html");
                     localStorage.setItem('searchTerm', busc[0]);
+                    localStorage.setItem('category', cat);
                     window.location.href = './ResultadoBusqueda.html';
                 });
             });
