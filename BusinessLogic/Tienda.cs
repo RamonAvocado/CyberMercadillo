@@ -137,7 +137,23 @@ class Tienda
         return prod;
     }
 
+    // public List<Producto> FiltrarProductosPorPrecio(int precioMinimo, int precioMaximo){
+    //     List<Producto> productosFiltrados = new List<Producto>();
 
+    //     foreach (Producto producto in Productos)
+    //     {
+    //         int precioProducto;
+    //         if (int.TryParse(producto.precio, out precioProducto))
+    //         {
+    //             if (precioProducto >= precioMinimo && precioProducto <= precioMaximo)
+    //             {
+    //                 productosFiltrados.Add(producto);
+    //             }
+    //         }
+    //     }
+
+    //     return productosFiltrados;
+    // }
     
     public List<String> GetCategorías(){
 

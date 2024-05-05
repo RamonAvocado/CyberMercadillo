@@ -156,6 +156,33 @@ class Servicios{
             }
         });
 
+        // app.MapPost("/FiltrarPorPrecio", async (HttpContext context, Supabase.Client client) =>
+        // {
+        //     using var reader = new StreamReader(context.Request.Body);
+        //     try{
+        //         var requestBody = await reader.ReadToEndAsync();
+        //         var filterData = JsonConvert.DeserializeObject<JObject>(requestBody);
+
+        //         var idUsuario = filterData["idusuario"].ToObject<int>();
+        //         var precioMinimo = filterData["precioMinimo"].ToObject<int>();
+        //         var precioMaximo = filterData["precioMaximo"].ToObject<int>();
+
+        //         // Filtrar productos por precio dentro del rango especificado
+        //         var productosFiltrados = fachadaLogica.returnTienda().FiltrarProductosPorPrecio(precioMinimo, precioMaximo);
+
+        //         var jsonResponse = new { productosFiltrados };
+
+        //         context.Response.ContentType = "application/json";
+        //         await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         // Manejar cualquier error y devolver una respuesta de error al cliente
+        //         errorDefault(context, ex);
+        //     }
+        // });
+
+
         app.MapPost("/ObtenerProductosVendedor", async (HttpContext context, Supabase.Client client) =>
         {
             using var reader = new StreamReader(context.Request.Body);

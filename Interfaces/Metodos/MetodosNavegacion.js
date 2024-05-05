@@ -11,7 +11,8 @@ var paginaAnterior;
 var searchTerm;
 var category;
 var TipoUsuarioRegistrado;
-
+var contadorBusquedas;
+var busquedasAnteriores = [];
 
 
 var lugarDeEjecucion = "http://localhost:5169";
@@ -27,7 +28,23 @@ function redirigirABusqueda(){
 }
 
 function volverPaginaAnterior(){
-    window.history.back();
+    if(contadorBusquedas > 0){
+        var busquedasAnteriores = JSON.parse(localStorage.getItem('busquedasAnteriores'));
+        if(busquedasAnteriores && busquedasAnteriores.length > 0){
+        // Si hay búsquedas anteriores en la pila, mostrar las últimas
+        var ultimaBusqueda = busquedasAnteriores.pop();
+        localStorage.setItem('busquedasAnteriores', JSON.stringify(busquedasAnteriores));
+        mostrarProductosCat(ultimaBusqueda, 'Todas las categorías');
+        contadorBusquedas--;
+        console.log("contadorBusquedas: " + contadorBusquedas);
+        } else {
+            // Si no hay búsquedas anteriores, simplemente regresar una página en el historial
+            window.history.back();
+        }
+    } else {
+        // Si el contador de búsquedas es 0 o menos, simplemente regresar una página en el historial
+        window.history.back();
+}
 }
 
 function irAHistorialDeBúsqueda(){
@@ -90,10 +107,3 @@ function irALogin(){
 
     window.location.href = `../index.html?idUser=${userId}`
 }
-
-
-
-
-
-
-
