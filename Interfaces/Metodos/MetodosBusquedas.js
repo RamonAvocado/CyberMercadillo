@@ -24,8 +24,8 @@ async function buscarHist(TextBuscar, CatBuscar, pagina) {
 
 
 async function buscar() {
-
-    localStorage.setItem('categoriaSeleccionada', "Todas las categorías");
+    //COMENTO ESTA LINEA PORQUE SI NO SIEMPRE QUE LES DAS A BUSCAR SE PONE TODAS LAS CATEGORIAS
+    //localStorage.setItem('categoriaSeleccionada', "Todas las categorías");
     var category  = localStorage.getItem('categoriaSeleccionada');
     
     var searchTerm = document.getElementById('searchInput').value;
@@ -35,14 +35,12 @@ async function buscar() {
     limpiarResult.innerHTML = `<p></p>`;
 
     buscarProd(searchTerm, category);
-
     //CargaTodosProductos();
 }
 
 
 // ahora ya no se tienen que mostrar productos hasta la búsqueda
 var CategoriasCargadas = false;
-
 async function CargaTodosProductos(){
     try {
         // Realizar una solicitud GET al backend para obtener los 6 primeros productos
@@ -75,6 +73,7 @@ async function buscarProd(searchTerm, category) {
 
     var requestBody = {
         idusuario: idUsuarioIniciado,
+        //RESULTADO QUE SALE EN HISTORIAL
         searchTerm: searchTerm + ";" + category,
     };     
 
@@ -265,6 +264,7 @@ function mostrarCategorias(array) {
         var searchTerm = localStorage.getItem('searchTerm');
 
         buscarProd(searchTerm, categoriaSeleccionada);
+        
     });
     categoryButtonsContainer.appendChild(todasLasCategoriasButton);  
     array.forEach(categoria => {
@@ -272,7 +272,7 @@ function mostrarCategorias(array) {
         categoryButton.textContent = categoria;
         categoryButton.classList.add('category-button');
         categoryButton.addEventListener('click', function() {
-            
+            //VOLVERAQUI
             categoriaSeleccionada = categoria;
             localStorage.setItem('categoriaSeleccionada', categoriaSeleccionada);          
             var limpiarResult = document.getElementById('resultados');
@@ -423,6 +423,8 @@ async function ProductosFiltroCategoria(categoriaSelect){
         
         requestBody = {
             category: categoriaSelect,
+            precioMin: 0,
+            precioMax: 1000,
         };
 
         var response = await fetch(`${lugarDeEjecucion}/GetProdBusquedas`,{
@@ -494,10 +496,10 @@ async function getBusquedas() {
 
                 
                 texto_busqueda.addEventListener('click', function() {
+                    var busc = texto_busqueda.textContent.split('[');
+
                     localStorage.setItem('paginaAnterior', "HistorialDeBusqueda.html");
-                    localStorage.setItem('searchTerm', texto_busqueda.textContent);
-                    localStorage.setItem('category', model.categoria);
-                    //console.log(paginaAnterior); // Esto imprimirá el nombre del archivo actual, por ejemplo, "ResultadoBusqueda.html" o "HistorialBusqueda.html"
+                    localStorage.setItem('searchTerm', busc[0]);
                     window.location.href = './ResultadoBusqueda.html';
                 });
             });

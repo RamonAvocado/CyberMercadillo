@@ -19,7 +19,6 @@ var busquedasAnteriores = [];
 var lugarDeEjecucion = "http://localhost:5169";
 
 function IrABuquedaProducto(){
-
     window.location.href = `./ResultadoBusqueda.html`
 }
 

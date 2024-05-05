@@ -106,22 +106,20 @@
     <!--
         el que había antes:
             <script>
-        if(getPaginaAnt() != "HistorialDeBusqueda.html"){
-            window.addEventListener('DOMContentLoaded', CargaTodosProductos());
-        } else {
-            buscarProd(getSearchTerm(), getCategory());
-
-            localStorage.setItem('paginaAnterior', "null");
-            localStorage.setItem('category', "Todas las categorias");
-        }
+        
 
         window.addEventListener('unload', GuardarBDD);
     </script>
     -->
     <script>
-        window.addEventListener('DOMContentLoaded', CargaTodosProductos());
         //localStorage.setItem('searchTerm', "");
-
+        if(localStorage.getItem('paginaAnterior') != "HistorialDeBusqueda.html"){
+            window.addEventListener('DOMContentLoaded', CargaTodosProductos());
+        } else {
+            buscarProd(localStorage.getItem('searchterm'), localStorage.getItem('category'));
+            localStorage.setItem('paginaAnterior', "null");
+            //localStorage.setItem('category', "Todas las categorias");
+        }
 
         window.addEventListener('unload', GuardarBDD);
     </script>

@@ -73,7 +73,6 @@ async function buscarProd(searchTerm, category) {
     };   
 
     try {
-        //console.log("esto es ante sd ela a:" + category);
          //si es igual a todas las categorías, obtener como resultado solo el texto vacío -> mostrarTodo
         if (category == "Todas las categorías" && searchTerm == ""){
             //No has introducido ningún campo de búsqueda, recargo la página

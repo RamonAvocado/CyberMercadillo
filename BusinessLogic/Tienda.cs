@@ -363,7 +363,7 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
         var texto = searchTerm.Split(';');
         Busqueda busqueda = new Busqueda
         {
-            texto = texto[0]+ "   Filtros: " + texto[1],
+            texto = texto[0]+ "   [Filtros: " + texto[1] + "]",
             fecha = DateTime.Now,
             idusuario = idBuscado,
         };
@@ -420,6 +420,8 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
     }
 
     public List<Busqueda> getBusquedasUsuario(Usuario user){
+                        Console.WriteLine("ENTRAfuera");
+
         List<Busqueda> busquedasUsuario = new List<Busqueda>();
         foreach(var busqueda in Busquedas){
             if(busqueda.idusuario == user.idusuario){
@@ -431,9 +433,7 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
        
     public List<Producto> GetProductosBusqueda(string searchTerm, int idBuscado)
     {
-            
         List<Producto> productos = new List<Producto>();
-
         var busqueda = searchTerm.Split(';');
 
         var searchTermLower = busqueda[0].ToLowerInvariant();
@@ -443,17 +443,15 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
                 if(prod.nombreproducto.IndexOf(searchTermLower, StringComparison.OrdinalIgnoreCase) >= 0 || prod.descripcion.IndexOf(searchTermLower, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                 productos.Add(prod);
-                //Console.WriteLine("prod: " + prod.nombreproducto);
                 }
             }
             
-            Console.WriteLine("total: "+ productos.Count());
         //guardo la búsqueda
         GuardarBusqueda(searchTerm,idBuscado);
 
-    ProductosBus = productos;
+        ProductosBus = productos;
 
-    return ProductosBus;
+        return ProductosBus;
     }
 
     public List<Producto> GetProdBusquedaFiltro(string category)

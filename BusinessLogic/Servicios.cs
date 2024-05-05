@@ -340,11 +340,7 @@ class Servicios{
                     var productoData = JsonConvert.DeserializeObject<JObject>(requestBody);
                     var idProductoBuscado = productoData["idproducto"].ToObject<string>();
 
-                    //string nombreBuscado = "Smartphone X";
-                /*    var result = await client.From<Producto>()
-                                            .Where(p => p.idproducto == productoData.idproducto)
-                                            .Select("precio, cantidad, categoria, descripcion, imagenes, nombreproducto")
-                                            .Get(); */
+                    
                     var producto = fachadaLogica.returnTienda().buscarIDTodos(idProductoBuscado ?? "0");
                     // Devolver los productos al frontend
                     var jsonResponse = new { producto };
@@ -507,10 +503,6 @@ class Servicios{
                     var productoData = JsonConvert.DeserializeObject<JObject>(requestBody);
                     var idproductoSeleccionado = productoData["idproducto"].ToObject<string>();
 
-                    //string nombreBuscado = "Smartphone X";
-                    /*await client.From<Producto>()
-                                            .Where(p => p.idproducto == productoData.idproducto)
-                                            .Delete();*/
                     fachadaLogica.returnTienda().eliminarProductoID(idproductoSeleccionado ?? "0");
                 }
                 catch (Exception ex)
@@ -699,9 +691,12 @@ class Servicios{
                 var requestBody = await reader.ReadToEndAsync();
                 var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
 
+                Console.WriteLine(searchData);
+
                 var category = searchData["category"].ToObject<string>();
                 var precioMin = searchData["precioMin"].ToObject<int>();
                 var precioMax = searchData["precioMax"].ToObject<int>();
+                
 
                 //recupero los productos con esta categoría
                 var tienda = fachadaLogica.returnTienda();
@@ -862,7 +857,6 @@ class Servicios{
         {
             try
             {
-
                 using (var reader = new StreamReader(context.Request.Body))
                         {
                             var tienda = fachadaLogica.returnTienda();
