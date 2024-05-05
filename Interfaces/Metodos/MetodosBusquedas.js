@@ -33,7 +33,6 @@ async function buscar() {
     var limpiarResult = document.getElementById('resultados');
     limpiarResult.innerHTML = `<p></p>`;
 
-    console.log("Valor searchTerm en buscar : " + searchTerm);
     buscarProd(searchTerm, category);
     //CargaTodosProductos();
 }
@@ -44,7 +43,6 @@ var CategoriasCargadas = false;
 async function CargaTodosProductos(){
     try {
         // Realizar una solicitud GET al backend para obtener los 6 primeros productos
-
         const response = await fetch(`${lugarDeEjecucion}/ObtenerTodosProductos`);
         if (response.ok) {
             const data = await response.json();
@@ -245,7 +243,7 @@ function mostrarCategorias(array) {
 
     // Obtener la última categoría seleccionada del localStorage
     let categoriaSeleccionada = localStorage.getItem('categoriaSeleccionada');
-    if (!categoriaSeleccionada) {
+    if (categoriaSeleccionada == null) {
         categoriaSeleccionada = 'Todas las categorías';
     }
 
@@ -255,8 +253,8 @@ function mostrarCategorias(array) {
     todasLasCategoriasButton.classList.add('category-button');
     todasLasCategoriasButton.addEventListener('click', function() {
 
-        categoriaSeleccionada = 'Todas las categorías';
-        localStorage.setItem('categoriaSeleccionada', categoriaSeleccionada);
+        //categoriaSeleccionada = 'Todas las categorías';
+        //localStorage.setItem('categoriaSeleccionada', categoriaSeleccionada);
 
         var limpiarResult = document.getElementById('resultados');
         limpiarResult.innerHTML = `<p></p>`;
@@ -498,8 +496,8 @@ async function getBusquedas() {
                 texto_busqueda.addEventListener('click', function() {
                     var busc = texto_busqueda.textContent.split(' ');
 
-                    //var cat = busc[7].split(' ')[1].split(']')[0];
-                    var cat = "Todas";
+                    var cat = busc[4].split(']')[0];
+
                     if(cat == "Todas"){cat = "Todas las categorias";}
 
                     localStorage.setItem('paginaAnterior', "HistorialDeBusqueda.html");
