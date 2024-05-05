@@ -700,9 +700,16 @@ class Servicios{
                 var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
 
                 var category = searchData["category"].ToObject<string>();
+                var precioMin = searchData["precioMin"].ToObject<int>();
+                var precioMax = searchData["precioMax"].ToObject<int>();
 
                 //recupero los productos con esta categoría
-                var productos = fachadaLogica.returnTienda().GetProdBusquedaFiltro(category);
+                var tienda = fachadaLogica.returnTienda();
+                var productos = tienda.GetProdBusquedaFiltro(category);
+                //filtrar por precio
+                productos = tienda.FiltrarProductosPorPrecio(precioMin, precioMax);
+               
+                
 
                 var jsonResponse = new { productos };
 

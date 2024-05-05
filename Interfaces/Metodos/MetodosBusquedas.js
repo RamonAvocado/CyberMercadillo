@@ -180,6 +180,51 @@ function mostrarProductosCat(productos, category) {
     container.insertBefore(categoriaTitle, container.firstChild);
 }
 
+async function filtrarPrecio(category, precioMin, precioMax) {
+    const minPrice = document.getElementById('minPrice').value;
+    const maxPrice = document.getElementById('maxPrice').value;
+
+    const data = {
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+        category: categoriaSelect
+        
+    };
+
+    try {
+
+        // requestBody = {
+        //     category: categoriaSelect,
+        // };
+
+        const response = await fetch('/GetProdBusquedas', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            const data = await response.json();
+            //console.log("Texto y todo intro: " + data.productos.Models);
+            var productos = data.productos;
+
+            if(productos.length==0){
+                //Poner que no hay productos con estos criterios de búsqueda
+                mostrarResultado("No existen productos con estos términos de búsqueda");
+            }
+        
+        // Llamar a la función para mostrar los productos filtrados
+        mostrarProductosCat(productosFiltrados, "Filtrados por Precio");
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error al filtrar precio productos:', Serror);
+    }
+}
+
 async function CargaCategorias() {
     try {
         const response = await fetch(`${lugarDeEjecucion}/CargarCategorias`);

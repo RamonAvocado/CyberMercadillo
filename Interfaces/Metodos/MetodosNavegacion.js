@@ -31,7 +31,7 @@ function redirigirABusqueda(){
 function volverPaginaAnterior(){
     if(contadorBusquedas > 0){
         var busquedasAnteriores = JSON.parse(localStorage.getItem('busquedasAnteriores'));
-        if(busquedasAnteriores && busquedasAnteriores.length > 0){
+        if(busquedasAnteriores && busquedasAnteriores.length >= 0){
         // Si hay búsquedas anteriores en la pila, mostrar las últimas
         var ultimaBusqueda = busquedasAnteriores.pop();
         localStorage.setItem('busquedasAnteriores', JSON.stringify(busquedasAnteriores));

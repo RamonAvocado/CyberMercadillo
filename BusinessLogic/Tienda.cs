@@ -476,6 +476,32 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
     return productos;
     }
 
+
+public List<Producto> FiltrarProductosPorPrecio(int precioMin, int precioMax)
+{
+    List<Producto> productos = new List<Producto>();
+
+    // Filtrar por rango de precios
+    foreach (Producto prod in ProductosBus)
+    {
+        // Convertir el precio de string a double para la comparación
+        if (int.TryParse(prod.precio, out int precio))
+        {
+            if (precio >= precioMin && precio <= precioMax)
+            {
+                productos.Add(prod);
+            }
+        }
+        else
+        {
+            // Manejar el caso en el que el valor de precio no sea un número válido
+            Console.WriteLine($"El precio del producto {prod.nombreproducto} no es un número válido.");
+        }
+    }
+
+    return productos;
+}
+
     public List<Producto> GetProductosVendedorG(int idVendedor){
             
             List<Producto> productos = new List<Producto>();
