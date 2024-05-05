@@ -11,6 +11,8 @@ var paginaAnterior;
 var searchTerm;
 var category;
 var TipoUsuarioRegistrado;
+var contadorBusquedas = 0 ;
+var busquedasAnteriores = [];
 
 //Para ejecutar en localhost : "http://localhost:5169";
 //Para ejecutar en WEB : "https://cybermercadillo.onrender.com";
@@ -95,12 +97,31 @@ async function buscarProd(searchTerm, category) {
                 mostrarResultado("No existen productos con estos términos de búsqueda");  // Llama a una función para mostrar todos los productos
             }
             mostrarProductosCat(productos, category);//cargar los productos relacionados
+            //EXTRA++++
+            BusquedaBackButton(productos);
+            contadorBusquedas++;
+            console.log("contadorBusquedas: " + contadorBusquedas);
+
+            // contadorBusquedas++; 
+            // console.log("contadorBusquedas: " + contadorBusquedas)
+            // busquedasAnteriores.push(productos);
+            // localStorage.setItem('busquedasAnteriores', JSON.stringify(busquedasAnteriores));
+            //HASTA AQUI+++++
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
         }
     } catch (error) {
         console.error('Error inesperado:', error);
     }
+}
+
+function BusquedaBackButton(productos) {
+    // Recuperar el historial de búsquedas anteriores
+    var busquedasAnteriores = JSON.parse(localStorage.getItem('busquedasAnteriores')) || [];
+    // Agregar la búsqueda actual al historial
+    busquedasAnteriores.push(productos);
+    // Guardar el historial actualizado en el almacenamiento local
+    localStorage.setItem('busquedasAnteriores', JSON.stringify(busquedasAnteriores));
 }
 
 function mostrarProductosCat(productos, category) {
