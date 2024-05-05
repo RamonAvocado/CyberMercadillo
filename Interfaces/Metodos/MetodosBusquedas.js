@@ -74,9 +74,7 @@ async function buscarProd(searchTerm, category) {
     var requestBody = {
         idusuario: idUsuarioIniciado,
         searchTerm: searchTerm + ";" + category,
-    };   
-        searchTerm: searchTerm + ";" + category,
-    };   
+    };     
 
     console.log("idUsuarioIniciado: " + idUsuarioIniciado, "searchTerm: " + searchTerm);
     try {
