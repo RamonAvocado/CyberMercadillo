@@ -59,11 +59,8 @@
 
 
             <h3>Precio</h3>
-            <div class="price-checkboxes">
-                <label><input type="checkbox" onclick="filterByPrice(0, 50)">0 - 50</label>
-                <label><input type="checkbox" onclick="filterByPrice(51, 100)">51 - 100</label>
-                <label><input type="checkbox" onclick="filterByPrice(101, 500)">101 - 500</label>
-            </div>
+            <input type="number" id="minPrice" placeholder="Precio mínimo">
+            <input type="number" id="maxPrice" placeholder="Precio máximo">
 
             <h3>Valoración huella</h3>
             <select id="rating">
@@ -129,8 +126,6 @@
     </script>
     <script>
         agregarCerrarSesion();
-
-        
     </script>
 </body>
 </html>

@@ -471,9 +471,3 @@ select {
     max-width: 230px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Aquí he añadido un recuadro alrededor de los filtros */
 }
-
-
-.price-checkboxes label {
-    display: block;
-    margin-bottom: 5px;
-}

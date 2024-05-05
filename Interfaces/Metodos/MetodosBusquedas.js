@@ -11,8 +11,6 @@ var paginaAnterior;
 var searchTerm;
 var category;
 var TipoUsuarioRegistrado;
-var contadorBusquedas = 0 ;
-var busquedasAnteriores = [];
 
 //Para ejecutar en localhost : "http://localhost:5169";
 //Para ejecutar en WEB : "https://cybermercadillo.onrender.com";
@@ -27,18 +25,17 @@ async function buscar() {
 
     localStorage.setItem('categoriaSeleccionada', "Todas las categorías");
     var category  = localStorage.getItem('categoriaSeleccionada');
-
+    
     var searchTerm = document.getElementById('searchInput').value;
     localStorage.setItem('searchTerm', searchTerm);
 
     var limpiarResult = document.getElementById('resultados');
-    limpiarResult.innerHTML = `<p></p>`
+    limpiarResult.innerHTML = `<p></p>`;
 
     buscarProd(searchTerm, category);
 
     //CargaTodosProductos();
 }
-
 
 
 // ahora ya no se tienen que mostrar productos hasta la búsqueda
@@ -78,10 +75,12 @@ async function buscarProd(searchTerm, category) {
         idusuario: idUsuarioIniciado,
         searchTerm: searchTerm + ";" + category,
     };   
+        searchTerm: searchTerm + ";" + category,
+    };   
 
     console.log("idUsuarioIniciado: " + idUsuarioIniciado, "searchTerm: " + searchTerm);
     try {
-
+        
         const response = await fetch(`${lugarDeEjecucion}/BuscarProductos`, {
             method: 'POST',
             headers: {
@@ -97,32 +96,13 @@ async function buscarProd(searchTerm, category) {
                 //Poner que no hay productos con estos criterios de búsqueda
                 mostrarResultado("No existen productos con estos términos de búsqueda");  // Llama a una función para mostrar todos los productos
             }
-            
             mostrarProductosCat(productos, category);//cargar los productos relacionados
-            //EXTRA++++
-            BusquedaBackButton(productos);
-            contadorBusquedas++;
-            console.log("contadorBusquedas: " + contadorBusquedas);
-
-            // contadorBusquedas++; 
-            // console.log("contadorBusquedas: " + contadorBusquedas)
-            // busquedasAnteriores.push(productos);
-            // localStorage.setItem('busquedasAnteriores', JSON.stringify(busquedasAnteriores));
-            //HASTA AQUI+++++
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
         }
     } catch (error) {
         console.error('Error inesperado:', error);
-    }   
-}
-function BusquedaBackButton(productos) {
-    // Recuperar el historial de búsquedas anteriores
-    var busquedasAnteriores = JSON.parse(localStorage.getItem('busquedasAnteriores')) || [];
-    // Agregar la búsqueda actual al historial
-    busquedasAnteriores.push(productos);
-    // Guardar el historial actualizado en el almacenamiento local
-    localStorage.setItem('busquedasAnteriores', JSON.stringify(busquedasAnteriores));
+    }
 }
 
 function mostrarProductosCat(productos, category) {
@@ -137,7 +117,7 @@ function mostrarProductosCat(productos, category) {
     cartButton.textContent = 'Añadir al Carrito de Compra';
     cartButtonContainer.appendChild(cartButton);
     container.appendChild(cartButtonContainer);
-
+    
     productos.forEach((producto) => {
         const productCard = document.createElement('div');
         productCard.classList.add('product-card');
@@ -222,16 +202,15 @@ function mostrarCategorias(array) {
 
         buscarProd(searchTerm, categoriaSeleccionada);
     });
-    categoryButtonsContainer.appendChild(todasLasCategoriasButton);
-
+    categoryButtonsContainer.appendChild(todasLasCategoriasButton);  
     array.forEach(categoria => {
         const categoryButton = document.createElement('button');
         categoryButton.textContent = categoria;
         categoryButton.classList.add('category-button');
         categoryButton.addEventListener('click', function() {
-
+            
             categoriaSeleccionada = categoria;
-            localStorage.setItem('categoriaSeleccionada', categoriaSeleccionada);
+            localStorage.setItem('categoriaSeleccionada', categoriaSeleccionada);          
             var limpiarResult = document.getElementById('resultados');
             limpiarResult.innerHTML = `<p></p>`;
             var searchTerm = localStorage.getItem('searchTerm');
@@ -356,7 +335,7 @@ function selectCategory(){
 //         if(categoriaSelect == "Todas las categorías"){
 //             //window.location.href = './ResultadoBusqueda.html';
 //             //que cargue todos los productos y au
-
+    
 //             var searchTerm = localStorage.getItem('searchTerm');
 
 //                 buscarProd(searchTerm, categoriaSelect);
@@ -368,17 +347,16 @@ function selectCategory(){
 //         }
 //         var limpiarResult = document.getElementById('resultados');
 //         limpiarResult.innerHTML = `<p></p>`;
-
+    
 //     });
 // }
 
 //le paso los productos para reloguearlos con el filtro de la categoría
 
 
-
 async function ProductosFiltroCategoria(categoriaSelect){
     try{
-
+        
         requestBody = {
             category: categoriaSelect,
         };
@@ -400,7 +378,7 @@ async function ProductosFiltroCategoria(categoriaSelect){
                 mostrarResultado("No existen productos con estos términos de búsqueda");
             }
             mostrarProductosCat(productos, categoriaSelect);//cargar los productos con este filtro
-
+          
     //al final le paso los nuevos prodcutos y la categoria para que la ponga en el texto
 
         } else {
@@ -411,36 +389,16 @@ async function ProductosFiltroCategoria(categoriaSelect){
     }
 }
 
-// async function filterByPrice(minPrice, maxPrice) {
-//     try {
-//         // Obtener los productos almacenados localmente
-//         const productos = JSON.parse(localStorage.getItem('productos'));
-
-//         // Filtrar los productos por precio dentro del rango especificado
-//         const productosFiltrados = productos.filter(producto => {
-//             const precio = parseFloat(producto.precio);
-//             return precio >= minPrice && precio <= maxPrice;
-//         });
-
-//         // Mostrar los productos filtrados
-//         const category = localStorage.getItem('categoriaSeleccionada');
-//         mostrarProductosCat(productosFiltrados, category);
-//     } catch (error) {
-//         console.error('Error inesperado:', error);
-//     }
-// }
-
-
 // MOSTRAR TODOS LOS PRODUCTOS A LA HORA DE BUSCAR CUALQUIERO COSA
 //le paso un 1 y es para mostrarProductosCat, sino que funcione con normalidad
 
 async function getBusquedas() {
-
+    
     try {
         await fetch(`${lugarDeEjecucion}/getBusquedas`)
         .then(response => response.json())
         .then(data => {
-
+        
         const models = data.busquedas;
 
         // Selecciona el elemento con la clase "historial"
@@ -452,7 +410,7 @@ async function getBusquedas() {
         } else {
             models.forEach(model => {
                 const busqueda = document.createElement('div');
-
+                
                 var texto_busqueda = document.createElement('span');
                 var fecha_busqueda = document.createElement('span');
 
@@ -470,7 +428,7 @@ async function getBusquedas() {
                 busqueda.appendChild(fecha_busqueda);
                 historialDiv.appendChild(busqueda);
 
-
+                
                 texto_busqueda.addEventListener('click', function() {
                     localStorage.setItem('paginaAnterior', "HistorialDeBusqueda.html");
                     localStorage.setItem('searchTerm', texto_busqueda.textContent);
