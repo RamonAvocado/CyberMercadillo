@@ -152,8 +152,8 @@
                         </div>                                  
                         <!--<button onclick="cambiarImagen()">Cambiar Imagen</button><br><br><br><br><br><br><br><br>-->
                         <div style="text-align: left;">
-                            <button onclick="AñadirImagen()" class="search-history-btn small-button small-button-sm">Nueva Img</button>
-                            <button onclick="EliminarImagen()" class="search-history-btn small-button small-button-sm btn-red">Eliminar Img</button>
+                            <button id = "AñadirImgBtn" class="search-history-btn small-button small-button-sm">Nueva Img</button>
+                            <button id = "EliminarImgBtn" class="search-history-btn small-button small-button-sm btn-red">Eliminar Img</button>
                         </div>
                         <br>
                         <input type="text" id="nuevaImG" name="nuevaImG" placeholder="Nuevo URL de Imagen">
@@ -185,7 +185,7 @@
 
     <script>
         // Llama a la función agregarProd() para que se ejecute tu código JavaScript
-        mostrarProd(localStorage.getItem('itemID'));
+        mostrarProdGuardado(localStorage.getItem('itemID'));
         window.addEventListener('unload', GuardarBDD);
     </script>
     <script>

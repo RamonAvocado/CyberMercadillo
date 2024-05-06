@@ -454,7 +454,8 @@ async function mostrarProd(idProductoSeleccionado) {
             }
             
                 const container = document.querySelector('.recommended-products');
-
+                localStorage.setItem('UrlImg', prod.imagenes);
+                console.log(localStorage.getItem('UrlImg'))
                 const imagenes = prod.imagenes.split(' ');
                 const primeraImagen = imagenes[0];
 
@@ -493,7 +494,6 @@ async function mostrarProd(idProductoSeleccionado) {
                         const index = imagenes.indexOf(imagenPrincipal.src);
                         const siguienteIndex = (index + 1) % imagenes.length;
                         imagenPrincipal.src = imagenes[siguienteIndex];
-                        //nuevoUrlImagenInput.value = imagenes[siguienteIndex]; 
                     });
                 }
                 container.appendChild(productCard);
@@ -513,6 +513,186 @@ async function mostrarProd(idProductoSeleccionado) {
         console.error('Error inesperado:', error);
     }
 }
+
+async function mostrarProdGuardado(idProductoSeleccionado) {
+    try {
+        console.log('ID del producto seleccionado:', idProductoSeleccionado);
+        const response = await fetch(`${lugarDeEjecucion}/buscarProductoSeleccionado`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                idproducto: idProductoSeleccionado
+            }),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+            //const productos = data.result.Models;
+            const prod = data.producto;
+            console.log(prod);
+            var tipoUsuarioLogueado = localStorage.getItem('tipoUserID');
+            var botonValidar = document.getElementById('ValidarProdGua');
+            var input = document.getElementById("nuevo-url-imagen");
+            input.style.visibility = "hidden";
+            // Verificar si el botón existe
+            if (botonValidar && tipoUsuarioLogueado == "tecnico") {
+                // Ocultar el botón estableciendo su propiedad de visualización en "none"
+                botonValidar.style.display = "none";
+            }
+            
+                const container = document.querySelector('.recommended-products');
+                localStorage.setItem('UrlImg', prod.imagenes);
+                console.log(localStorage.getItem('UrlImg'))
+                const imagenes = prod.imagenes.split(' ');
+                const primeraImagen = imagenes[0];
+
+                // Crear elementos para mostrar el producto
+                const productCard = document.createElement('div');
+                productCard.classList.add('product-element');
+
+                // Agregar la imagen principal del producto
+                const imagenPrincipal = document.createElement('img');
+                imagenPrincipal.src = primeraImagen;
+                imagenPrincipal.alt = prod.nombreproducto;
+                imagenPrincipal.style.width = '200px';
+                imagenPrincipal.style.height = '240px';
+                productCard.appendChild(imagenPrincipal);
+
+                // Contenedor para la flecha semi visible
+                const contenedorFlecha = document.createElement('div');
+                contenedorFlecha.classList.add('contenedor-flecha');
+
+                // Verificar si hay más de una imagen para mostrar la flecha
+                if (imagenes.length > 1) {
+                    // Agrega la imagen semi visible de la flecha al contenedor
+                    const flechaSemiVisible = document.createElement('img');
+                    flechaSemiVisible.src = 'Imagenes/flecha.png'; // Ruta a la imagen de la fecha
+                    flechaSemiVisible.alt = 'Flecha';
+                    flechaSemiVisible.style.width = '40px';
+                    flechaSemiVisible.style.height = '40px';
+                    flechaSemiVisible.classList.add('flecha-semi-visible');
+                    contenedorFlecha.appendChild(flechaSemiVisible);
+                }
+
+                productCard.appendChild(contenedorFlecha);
+
+                if (imagenes.length > 1) {
+                    /*function eliminarImagen() {
+                        const index = imagenes.indexOf(imagenPrincipal.src);
+                        const siguienteIndex = (index + 1) % imagenes.length;
+                        imagenes.splice(siguienteIndex, 1);
+                        imagenPrincipal.src = imagenes[(index + 2) % imagenes.length];
+                    }
+                    
+                    // Adjuntar event listener al botón de eliminar
+                    const eliminarImg = document.getElementById('EliminarImgBtn');
+                    eliminarImg.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        eliminarImagen();
+                    });
+                    
+                    // Listener de la flecha
+                    contenedorFlecha.addEventListener('click', function() {
+                        const index = imagenes.indexOf(imagenPrincipal.src);
+                        const siguienteIndex = (index + 1) % imagenes.length;
+                        imagenPrincipal.src = imagenes[siguienteIndex];
+                        console.log(imagenes[siguienteIndex]);
+                    });*/
+                    contenedorFlecha.addEventListener('click', function() {
+                        const index = imagenes.indexOf(imagenPrincipal.src);
+                        const siguienteIndex = (index + 1) % imagenes.length;
+                        imagenPrincipal.src = imagenes[siguienteIndex];
+                    
+                        // Ocultar la flecha si solo queda una imagen
+                        if (imagenes.length <= 1) {
+                            contenedorFlecha.style.display = 'none';
+                        }
+                    });
+                    
+                    // Adjuntar event listener al botón de eliminar
+                    const eliminarImg = document.getElementById('EliminarImgBtn');
+                    eliminarImg.addEventListener('click', function(event) {
+                        event.preventDefault();
+                    
+                        // Encontrar el índice de la imagen actual en el array de imágenes
+                        const indexAEliminar = imagenes.indexOf(imagenPrincipal.src);
+                        if (indexAEliminar !== -1) {
+                            // Eliminar la imagen actual del array
+                            imagenes.splice(indexAEliminar, 1);
+                    
+                            // Actualizar la imagen en el contenedor de flecha
+                            imagenPrincipal.src = imagenes[0]; // Mostrar la primera imagen restante
+                    
+                            // Ocultar la flecha si solo queda una imagen
+                            if (imagenes.length <= 1) {
+                                contenedorFlecha.style.display = 'none';
+                            }
+
+                            if (imagenes.length === 0) {
+                                eliminarImg.disabled = true;
+                                eliminarImg.style.backgroundColor = '#ccc';
+                            }
+                        }
+                    });
+                }
+
+                const añadirImgBtn = document.getElementById('AñadirImgBtn');
+                const nuevaImgInput = document.getElementById('nuevaImG');
+
+                // Agregar event listener al botón "Añadir Img"
+                añadirImgBtn.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const nuevaImgUrl = nuevaImgInput.value;
+                
+                    if (nuevaImgUrl.trim() !== '') {
+                        imagenes.push(nuevaImgUrl);
+                        nuevaImgInput.value = '';
+                
+                        // Verificar si hay más de una imagen para mostrar la flecha
+                        if (imagenes.length > 0) {
+                            contenedorFlecha.style.display = 'block';
+                        }
+                    } else {
+                        console.log('El campo de la URL de la imagen está vacío.');
+                        alert("El campo de la URL de la imagen está vacío.");
+                    }
+                });
+                container.appendChild(productCard);
+
+                document.getElementById('nombre').value = prod.nombreproducto;
+                document.getElementById('precio').value = prod.precio;
+                document.getElementById('categoria').value = prod.categoria;
+                document.getElementById('descripcion').value = prod.descripcion;
+                document.getElementById('cantidad').value = prod.cantidad;
+                document.getElementById('nuevo-url-imagen').value = prod.imagenes; 
+                document.getElementById('valoracionHProd').value = prod.puntuacionEco;             
+            //}
+        } else {
+            console.error('Error al obtener los detalles del producto:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+/*
+function EliminarImagen(){
+    var urlImgActual = localStorage.getItem('UrlImgActual');
+   /* var img = "https://m.media-amazon.com/images/I/71xVeEyhw7L._AC_SX679_.jpg https://m.media-amazon.com/images/I/81cS1tNadXL._AC_SX679_.jpg https://m.media-amazon.com/images/I/71xiq44DGzL._AC_SX679_.jpg";
+    const imagenes = img.split(' ');
+    contenedorFlecha.addEventListener('click', function() {
+        const index = imagenes.indexOf(imagenPrincipal.src);
+        const siguienteIndex = (index + 1) % imagenes.length;
+        imagenPrincipal.src = imagenes[siguienteIndex];
+        localStorage.setItem('UrlImgActual', imagenes[siguienteIndex]);
+        console.log(localStorage.getItem('UrlImgActual'))
+        //nuevoUrlImagenInput.value = imagenes[siguienteIndex]; 
+    });*/
+  //  alert("Hola");
+//}
 
 function mostrarProductosDeVendedor(productos) {
     const container = document.getElementById('seller-products');

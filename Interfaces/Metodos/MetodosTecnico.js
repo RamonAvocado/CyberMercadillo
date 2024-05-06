@@ -328,7 +328,7 @@ function mostrarProductosParaValidarTecnico(productos) {
             // Puedes hacer lo que quieras con el ID del producto seleccionado aquí
             idProductoSeleccionado = producto.idproducto;
             console.log('ID del producto seleccionado:', idProductoSeleccionado);
-            
+            localStorage.setItem('itemID', idProductoSeleccionado);
             /*const validarBtn = document.getElementById('validarBtn');
             validarBtn.disabled = false;
             validarBtn.classList.add('enabled');*/
