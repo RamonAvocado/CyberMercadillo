@@ -48,6 +48,32 @@ function volverPaginaAnterior(){
         console.log("contadorBusquedas: " + contadorBusquedas);
     }
 }
+//POSIBLE METODO PARA VOLVER A ULTIMA BUSQUEDA DESDE PRODUCTO. Falta testear mas,pero primera vez funciaba
+/**
+ * function volverPaginaAnterior() {
+    if (window.location.pathname.includes("InfoProducto.html")) {
+        var seAccedioDesdeBusqueda = localStorage.getItem("seAccedioDesdeBusqueda");
+        if (seAccedioDesdeBusqueda === "true") {
+            var busquedasAnteriores = JSON.parse(localStorage.getItem('busquedasAnteriores'));
+            if (busquedasAnteriores && busquedasAnteriores.length > 0) {
+                var ultimaBusqueda = busquedasAnteriores.pop();
+                localStorage.setItem('busquedasAnteriores', JSON.stringify(busquedasAnteriores));
+                window.location.href = "ResultadoBusqueda.html";
+            } else {
+                // Si no hay búsquedas anteriores, redirigir al inicio
+                window.location.href = "Inicio.html";
+            }
+        } else {
+            // Si no se accedió desde la búsqueda, simplemente regresar una página en el historial
+            window.history.back();
+        }
+    } else {
+        // Si no está en la página de InfoProducto.html, simplemente regresar una página en el historial
+        window.history.back();
+    }
+}
+
+ * //
 
 function irAHistorialDeBúsqueda(){
     //localStorage.setItem('itemID', idProductoSeleccionado);
