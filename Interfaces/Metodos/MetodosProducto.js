@@ -252,15 +252,16 @@ async function ActualizarProductoGuardado(idProductoSeleccionado,idUsuarioInicia
 {
         document.getElementById('agregarProductoForm7').addEventListener('submit', async (event) => {
             event.preventDefault();
-
+            
             const formData = new FormData(event.target);             
-
+            var imagen = localStorage.getItem('UrlImg');
+            var img2 = formData.get('nuevo-url-imagen');
             var requestBody = {
                 nombre: formData.get('nombre'),
                 precio: formData.get('precio'),
                 categoria: formData.get('categoria'),
                 descripcion: formData.get('descripcion'),
-                img: formData.get('nuevo-url-imagen') ?? formData.get('imagenProducto'),
+                img: imagen ?? formData.get('imagenProducto'),
                 cantidad: parseInt(formData.get('cantidad')),
                 idproducto: idProductoSeleccionado,
                 puntuacionHuella: parseInt(formData.get('valoracionHProd'))

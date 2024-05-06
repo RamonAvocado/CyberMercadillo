@@ -455,7 +455,6 @@ async function mostrarProd(idProductoSeleccionado) {
             
                 const container = document.querySelector('.recommended-products');
                 localStorage.setItem('UrlImg', prod.imagenes);
-                console.log(localStorage.getItem('UrlImg'))
                 const imagenes = prod.imagenes.split(' ');
                 const primeraImagen = imagenes[0];
 
@@ -547,6 +546,7 @@ async function mostrarProdGuardado(idProductoSeleccionado) {
                 localStorage.setItem('UrlImg', prod.imagenes);
                 console.log(localStorage.getItem('UrlImg'))
                 const imagenes = prod.imagenes.split(' ');
+                localStorage.setItem('UrlImg', prod.imagenes);
                 const primeraImagen = imagenes[0];
 
                 // Crear elementos para mostrar el producto
@@ -618,6 +618,8 @@ async function mostrarProdGuardado(idProductoSeleccionado) {
                                 eliminarImg.style.backgroundColor = '#ccc';
                             }
                         }
+                        const imagenesComoString = imagenes.join(' ');
+                        localStorage.setItem('UrlImg', imagenesComoString);
                     });
                 }
 
@@ -631,9 +633,9 @@ async function mostrarProdGuardado(idProductoSeleccionado) {
                 
                     if (nuevaImgUrl.trim() !== '') {
                         imagenes.push(nuevaImgUrl);
-                        console.log(imagenes.length);
+                        //console.log(imagenes.length);
                         nuevaImgInput.value = '';
-                        console.log(imagenes.length);
+                        //console.log(imagenes);
                         // Verificar si hay más de una imagen para mostrar la flecha
                         if (imagenes.length > 0) {
                             contenedorFlecha.style.display = 'block';
@@ -643,6 +645,8 @@ async function mostrarProdGuardado(idProductoSeleccionado) {
                         console.log('El campo de la URL de la imagen está vacío.');
                         alert("El campo de la URL de la imagen está vacío.");
                     }
+                    const imagenesComoString = imagenes.join(' ');
+                    localStorage.setItem('UrlImg', imagenesComoString);
                 });
                 container.appendChild(productCard);
 
@@ -652,7 +656,12 @@ async function mostrarProdGuardado(idProductoSeleccionado) {
                 document.getElementById('descripcion').value = prod.descripcion;
                 document.getElementById('cantidad').value = prod.cantidad;
                 document.getElementById('nuevo-url-imagen').value = prod.imagenes; 
-                document.getElementById('valoracionHProd').value = prod.puntuacionEco;             
+                document.getElementById('valoracionHProd').value = prod.puntuacionEco;   
+                
+                const imagenesComoString = imagenes.join(' ');
+                console.log("Hola   " + imagenesComoString);
+                localStorage.setItem('UrlImg', imagenesComoString);
+                console.log(localStorage.getItem('UrlImg'))
             //}
         } else {
             console.error('Error al obtener los detalles del producto:', response.statusText);
