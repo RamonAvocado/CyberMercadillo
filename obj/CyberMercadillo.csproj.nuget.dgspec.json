@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj": {}
+    "c:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj": {
+    "c:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
+        "projectUniqueName": "c:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
         "projectName": "CyberMercadillo",
-        "projectPath": "C:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
+        "projectPath": "c:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
         "packagesPath": "C:\\Users\\Jordi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\obj\\",
+        "outputPath": "c:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Jordi\\AppData\\Roaming\\NuGet\\NuGet.Config",

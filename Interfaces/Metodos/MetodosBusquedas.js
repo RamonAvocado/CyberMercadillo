@@ -180,12 +180,20 @@ function mostrarProductosCat(productos) {
 
 
 async function filtrarPrecio() {
-    const minPrice = document.getElementById('minPrice').value;
-    const maxPrice = document.getElementById('maxPrice').value;
+    var minPrice = document.getElementById('minPrice').value;
+    var maxPrice = document.getElementById('maxPrice').value;
     const category = localStorage.getItem('categoriaSeleccionada');
 
     var limpiarResult = document.getElementById('resultados');
     limpiarResult.innerHTML = `<p></p>`;
+
+    if (minPrice == "" ){
+        minPrice = 1;
+    }
+
+    if(maxPrice == "" ){
+        maxPrice = 1000;
+    }
 
     console.log("minPrice: " + minPrice + " maxPrice: " + maxPrice);
     const requestBody = {
