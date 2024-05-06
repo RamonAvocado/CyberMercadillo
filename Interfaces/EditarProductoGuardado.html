@@ -58,6 +58,15 @@
                 margin-right: 15px; /* Espacio entre los botones */
                 display: inline-block; /* Para que estén uno al lado del otro */
             }
+            .small-button-sm {
+                padding: 10px 15px; /* Ajusta el padding para reducir el tamaño del botón */
+                font-size: 15px; /* Reducir el tamaño del texto */
+            }
+
+            .btn-red {
+                background-color: #ff6666;
+                /* Otros estilos si los necesitas */
+            }
         </style>
     </header>
     <div class = "grupo-nav-list">
@@ -129,6 +138,10 @@
                                 <option value="5">5</option>
                                 <!-- Agrega más opciones según tus necesidades -->
                             </select>
+                        </div> 
+                        <div class="input-group">
+                            <label for="imgProd">Certificado de la Huella Ecológica:</label>
+                            <input type="file" id="fileInput" name="fileInput" onchange="handleFileSelect(event)">
                         </div>           
                 </div>
 
@@ -136,13 +149,16 @@
                     <div class="image-container">
                         <div class="recommended-products">
                             <!-- Aquí se mostrarán los productos recomendados -->
-                        </div>
-                        <input type="text" id="nuevo-url-imagen" name="nuevo-url-imagen" placeholder="Nuevo URL de Imagen"><br>                
+                        </div>                                  
                         <!--<button onclick="cambiarImagen()">Cambiar Imagen</button><br><br><br><br><br><br><br><br>-->
-                        <div class="input-group">
-                            <label for="imgProd">Certificado de la Huella Ecológica:</label>
-                            <input type="file" id="fileInput" name="fileInput" onchange="handleFileSelect(event)">
-                        </div>                         <br><br> 
+                        <div style="text-align: left;">
+                            <button onclick="AñadirImagen()" class="search-history-btn small-button small-button-sm">Nueva Img</button>
+                            <button onclick="EliminarImagen()" class="search-history-btn small-button small-button-sm btn-red">Eliminar Img</button>
+                        </div>
+                        <br>
+                        <input type="text" id="nuevaImG" name="nuevaImG" placeholder="Nuevo URL de Imagen">
+                        <br><br><br><br> <br><br> <br><br> <br><br><br>
+                        <input type="text" id="nuevo-url-imagen" name="nuevo-url-imagen" placeholder="Nuevo URL de Imagen" ><br> 
                     </div>
                     <button onclick = "ActualizarProductoGuardado(localStorage.getItem('itemID'),localStorage.getItem('UsuarioID'))" class="search-history-btn small-button">Guardar</button>
                     <button onclick = "validarProductoGuardado(localStorage.getItem('itemID'))" class="search-history-btn small-button" id = "ValidarProdGua">Validar</button>

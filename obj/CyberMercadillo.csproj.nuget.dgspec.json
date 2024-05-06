@@ -1,27 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ramon\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj": {}
+    "C:\\Users\\2003h\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ramon\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj": {
+    "C:\\Users\\2003h\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ramon\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
+        "projectUniqueName": "C:\\Users\\2003h\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
         "projectName": "CyberMercadillo",
-        "projectPath": "C:\\Users\\ramon\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
-        "packagesPath": "C:\\Users\\ramon\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ramon\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\obj\\",
+        "projectPath": "C:\\Users\\2003h\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
+        "packagesPath": "C:\\Users\\2003h\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\2003h\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\ramon\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\2003h\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -68,6 +67,24 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[7.0.15, 7.0.15]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[7.0.15, 7.0.15]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[7.0.15, 7.0.15]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[7.0.15, 7.0.15]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -76,7 +93,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100-preview.2.24157.14\\RuntimeIdentifierGraph.json"
         }
       }
     }
