@@ -50,13 +50,10 @@
     <div class="main-section">
         <div class="filters-section">
             <!-- Aquí he añadido los filtros para categoría, precio y valoración -->
-            <!-- <h3>Categoría</h3>
+            <h3>Categoría</h3>
             <select id="categorySelect">
                 <option value="Todas las categorías">Todas las categorías</option>
-            </select> -->
-            <h3>Categoría</h3>
-            <div id="categoryButtons"></div>
-
+            </select>
 
             <h3>Precio</h3>
             <input type="number" id="minPrice" placeholder="Precio mínimo">
@@ -103,24 +100,20 @@
     <script src="./Metodos/MetodosBusquedas.js"></script>
     <script src="./Metodos/MetodosUser.js"></script>
     <script src="./Metodos/MetodosNavegacion.js"></script>
-    <!--
-        el que había antes:
-            <script>
-        
 
-        window.addEventListener('unload', GuardarBDD);
-    </script>
-    -->
     <script>
-        //localStorage.setItem('searchTerm', "");
         if(localStorage.getItem('paginaAnterior') != "HistorialDeBusqueda.html"){
             window.addEventListener('DOMContentLoaded', CargaTodosProductos());
+            localStorage.setItem('searchTerm', "");
+
         } else {
             CargaCategorias();
-            buscarProd(localStorage.getItem('searchTerm'), localStorage.getItem('categoriaProductoBusqueda'));
+            buscarProd(localStorage.getItem('searchTerm'), localStorage.getItem('categoriaSeleccionada'));
             localStorage.setItem('paginaAnterior', "null");
         }
-
+        window.addEventListener('DOMContentLoaded', CargaTodosProductos());
+        localStorage.setItem('searchTerm', "");
+    
         window.addEventListener('unload', GuardarBDD);
 
         //PREGUNTAR

@@ -452,21 +452,32 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
         return ProductosBus;
     }
 
+    public List<Producto> GetProductos(){
+        ProductosBus = Productos;
+        return Productos;
+    }
+
     public List<Producto> GetProdBusquedaFiltro(string category)
     {
         List<Producto> productos = new List<Producto>();
-            //Console.WriteLine("searchTermLower: "+ searchTerm);
+        Console.WriteLine("category: "+ category);
 
         //Buscar en la lista de productos de la tienda el id y devolver ese productos
-        foreach (Producto prod in Productos)
+        Console.WriteLine("productos en las busquedas anteriores: "+ ProductosBus.Count());
+
+        foreach (Producto prod in ProductosBus)
         {
-            if(prod.categoria == category){productos.Add(prod);}
+            //Console.WriteLine("Nombre: "+ prod.nombreproducto + ",  Categoria: " + prod.categoria);
+            if(prod.categoria == category)
+            {
+                productos.Add(prod);
+            }
         }
         // ¿guardo la búsqueda con la categoría que ahora es un filtro?
         //GuardarBusqueda(searchTerm,idBuscado);
-        Console.WriteLine("total: "+ productos.Count());
+        Console.WriteLine("total productos con filtro categoría: "+ productos.Count());
 
-        ProductosBus = productos;
+        //ProductosBus = productos;
 
         return productos;
     }

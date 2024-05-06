@@ -15,7 +15,7 @@ class Servicios{
         {
             try
             {
-                var productos = fachadaLogica.GetProductos();
+                var productos = fachadaLogica.returnTienda().GetProductos();
                 // Devolver los productos al frontend
                 
                 var jsonResponse = new { productos };
@@ -35,7 +35,7 @@ class Servicios{
             try
             {
                 //HABRÁ QUE HACER LA LÓGICA PARA CARGAR LOS PRODCUTOS RECOMENDADOS EN BASE A BUSQUEDAS Y COMPRAS
-                var productos = fachadaLogica.GetProductos();
+                var productos = fachadaLogica.returnTienda().GetProductos();
                 // Devolver los productos al frontend
                 
                 var jsonResponse = new { productos };
@@ -55,7 +55,7 @@ class Servicios{
             try
             {
                 //HABRÁ QUE HACER LA LÓGICA PARA CARGAR LOS PRODCUTOS RECOMENDADOS EN BASE A BUSQUEDAS Y COMPRAS
-                var productos = fachadaLogica.GetProductos();
+                var productos = fachadaLogica.returnTienda().GetProductos();
                 // Devolver los productos al frontend
                 
                 var jsonResponse = new { productos };
@@ -692,16 +692,9 @@ class Servicios{
                 var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
 
                 var category = searchData["category"].ToObject<string>();
-                var precioMin = searchData["precioMin"].ToObject<int>();
-                var precioMax = searchData["precioMax"].ToObject<int>();
-
 
                 //recupero los productos con esta categoría
-                var tienda = fachadaLogica.returnTienda();
-                var productos = tienda.GetProdBusquedaFiltro(category);
-
-                //filtrar por precio
-                productos = tienda.FiltrarProductosPorPrecio(precioMin, precioMax);
+                var productos = fachadaLogica.returnTienda().GetProdBusquedaFiltro(category);
 
                 var jsonResponse = new { productos };
 
@@ -864,99 +857,6 @@ class Servicios{
                             context.Response.ContentType = "application/json";
                             await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
                         }
-            }
-            catch (Exception ex)
-            {
-                // Manejar cualquier error y devolver una respuesta de error al cliente
-                errorDefault(context,ex);    
-            }
-        });
-
-        app.MapGet("/guardar-archivo", async (HttpContext context, Supabase.Client client) =>
-        {
-            try
-            {
-                var archivo = context.Request.Form.Files.GetFile("archivo");
-
-                if (archivo != null && archivo.Length > 0)
-                {
-                    // Ruta donde deseas guardar el archivo
-                    string rutaDestino = "./CERTIFICADOS" + archivo.FileName;
-                    using (var stream = new FileStream(rutaDestino, FileMode.Create))
-                    {
-                        await archivo.CopyToAsync(stream);
-                    }
-                    // Archivo guardado correctamente
-                    await context.Response.WriteAsync("Archivo guardado correctamente.");
-                }
-                else
-                {
-                    // Manejar el caso donde no se seleccionó ningún archivo.
-                    context.Response.StatusCode = 400; // Bad Request
-                    await context.Response.WriteAsync("No se seleccionó ningún archivo.");
-                }
-            }
-            catch (Exception ex)
-            {
-                // Manejar cualquier error y devolver una respuesta de error al cliente
-                errorDefault(context,ex);    
-            }
-        });
-
-        app.MapGet("/guardar-archivo", async (HttpContext context, Supabase.Client client) =>
-        {
-            try
-            {
-                var archivo = context.Request.Form.Files.GetFile("archivo");
-
-                if (archivo != null && archivo.Length > 0)
-                {
-                    // Ruta donde deseas guardar el archivo
-                    string rutaDestino = "./CERTIFICADOS" + archivo.FileName;
-                    using (var stream = new FileStream(rutaDestino, FileMode.Create))
-                    {
-                        await archivo.CopyToAsync(stream);
-                    }
-                    // Archivo guardado correctamente
-                    await context.Response.WriteAsync("Archivo guardado correctamente.");
-                }
-                else
-                {
-                    // Manejar el caso donde no se seleccionó ningún archivo.
-                    context.Response.StatusCode = 400; // Bad Request
-                    await context.Response.WriteAsync("No se seleccionó ningún archivo.");
-                }
-            }
-            catch (Exception ex)
-            {
-                // Manejar cualquier error y devolver una respuesta de error al cliente
-                errorDefault(context,ex);    
-            }
-        });
-
-        app.MapGet("/guardar-archivo", async (HttpContext context, Supabase.Client client) =>
-        {
-            try
-            {
-                var archivo = context.Request.Form.Files.GetFile("archivo");
-
-                if (archivo != null && archivo.Length > 0)
-                {
-                    // Ruta donde deseas guardar el archivo
-                    string rutaDestino = "./CERTIFICADOS" + archivo.FileName;
-                    using (var stream = new FileStream(rutaDestino, FileMode.Create))
-                    {
-                        await archivo.CopyToAsync(stream);
-                    }
-                    // Archivo guardado correctamente
-                    await context.Response.WriteAsync("Archivo guardado correctamente.");
-                }
-                else
-                {
-                    // Manejar el caso donde no se seleccionó ningún archivo.
-                    context.Response.StatusCode = 400; // Bad Request
-                    await context.Response.WriteAsync("No se seleccionó ningún archivo.");
-                }
             }
             catch (Exception ex)
             {

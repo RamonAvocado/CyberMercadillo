@@ -21,8 +21,7 @@ var lugarDeEjecucion = "http://localhost:5169";
 
 
 async function buscar() {
-    //COMENTO ESTA LINEA PORQUE SI NO SIEMPRE QUE LES DAS A BUSCAR SE PONE TODAS LAS CATEGORIAS
-    //localStorage.setItem('categoriaSeleccionada', "Todas las categorías");
+    localStorage.setItem('categoriaSeleccionada', "Todas las categorías");
     var category  = localStorage.getItem('categoriaSeleccionada');
     
     var searchTerm = document.getElementById('searchInput').value;
@@ -34,7 +33,8 @@ async function buscar() {
     limpiarResult.innerHTML = `<p></p>`;
 
     buscarProd(searchTerm, category);
-    //CargaTodosProductos();
+    document.getElementById('categorySelect').selectedIndex = 0;
+
 }
 
 
@@ -48,14 +48,15 @@ async function CargaTodosProductos(){
             const data = await response.json();
             const productos = data.productos;
 
-            var category  = localStorage.getItem('categoriaSeleccionada');
-            mostrarProductosCat(productos, category);
-
         if(CategoriasCargadas==false)
         {
             CargaCategorias();
             CategoriasCargadas = true;
         }
+
+        var category  = "Todas las categorías";
+        mostrarProductosCat(productos, category);
+
 
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
@@ -94,10 +95,11 @@ async function buscarProd(searchTerm, category) {
                 mostrarResultado("No existen productos con estos términos de búsqueda");  // Llama a una función para mostrar todos los productos
             }
             mostrarProductosCat(productos, category);//cargar los productos relacionados
+            /*
             //EXTRA++++
             BusquedaBackButton(productos);
             contadorBusquedas++;
-            console.log("contadorBusquedas: " + contadorBusquedas);
+            console.log("contadorBusquedas: " + contadorBusquedas);*/
 
             // contadorBusquedas++; 
             // console.log("contadorBusquedas: " + contadorBusquedas)
@@ -121,19 +123,9 @@ function BusquedaBackButton(productos) {
     localStorage.setItem('busquedasAnteriores', JSON.stringify(busquedasAnteriores));
 }
 
-//MIRARRRRRR
 function mostrarProductosCat(productos, category) {
     const container = document.querySelector('.resultado-busqueda-container');
     container.innerHTML = '';
-
-    // Itera sobre los productos y crea elementos para mostrarlos
-    const cartButtonContainer = document.createElement('div');
-    cartButtonContainer.classList.add('cart-button-container');
-    const cartButton = document.createElement('button');
-    cartButton.classList.add('cart-btn');
-    cartButton.textContent = 'Añadir al Carrito de Compra';
-    cartButtonContainer.appendChild(cartButton);
-    container.appendChild(cartButtonContainer);
     
     productos.forEach((producto) => {
         const productCard = document.createElement('div');
@@ -180,6 +172,7 @@ function mostrarProductosCat(productos, category) {
     container.insertBefore(categoriaTitle, container.firstChild);
 }
 
+/*
 async function filtrarPrecio(category, precioMin, precioMax) {
     const minPrice = document.getElementById('minPrice').value;
     const maxPrice = document.getElementById('maxPrice').value;
@@ -224,6 +217,7 @@ async function filtrarPrecio(category, precioMin, precioMax) {
         console.error('Error al filtrar precio productos:', Serror);
     }
 }
+*/
 
 async function CargaCategorias() {
     try {
@@ -240,6 +234,7 @@ async function CargaCategorias() {
     }
 }
 
+/*
 function mostrarCategorias(array) {
     const categoryButtonsContainer = document.getElementById('categoryButtons');
     categoryButtonsContainer.innerHTML = '';
@@ -294,6 +289,7 @@ function mostrarCategorias(array) {
     });
     localStorage.setItem('categoriaSeleccionada', categoriaSeleccionada);
 }
+*/
 
 function selectCategory(){
     
@@ -375,62 +371,62 @@ function selectCategory(){
 // }
 
 
-// function mostrarCategorias(array) {
-//     const selectElement = document.getElementById('categorySelect');
+function mostrarCategorias(array) {
+    const selectElement = document.getElementById('categorySelect');
 
-//     // Limpiar opciones existentes, excepto la primera (Todas las categorías)
-//     selectElement.options.length = 1;
+     // Limpiar opciones existentes, excepto la primera (Todas las categorías)
+    selectElement.options.length = 1;
 
-//     categoriaSelect = selectElement.options[0].value;
-//     console.log("categoría seleccinonada: " + categoriaSelect);
+    categoriaSelect = selectElement.options[0].value;
+    console.log("categoría seleccinonada: " + categoriaSelect);
+    localStorage.setItem('categoriaSeleccionada', categoriaSelect);
 
-//     localStorage.setItem('categoriaSeleccionada', categoriaSelect);
+    // Agregar nuevas opciones de categorías
+    array.forEach(categoria => {
+        const option = document.createElement('option');
+        option.value = categoria;
+        option.textContent = categoria;
+        selectElement.appendChild(option);
+    });
 
-//     // Agregar nuevas opciones de categorías
-//     array.forEach(categoria => {
-//         const option = document.createElement('option');
-//         option.value = categoria;
-//         option.textContent = categoria;
-//         selectElement.appendChild(option);
-//     });
+    //cuando selecciono una categoría
+    selectElement.addEventListener('change', function() {
+        const selectedCategory = selectElement.value;
+        localStorage.setItem('categoriaSeleccionada', selectedCategory);
+        categoriaSelect = localStorage.getItem("categoriaSeleccionada");
 
-//     selectElement.addEventListener('change', function() {
-//         const selectedCategory = selectElement.value;
-//         localStorage.setItem('categoriaSeleccionada', selectedCategory);
-//         categoriaSelect = localStorage.getItem("categoriaSeleccionada");
+        console.log('Categoría seleccionada:', categoriaSelect);
 
-//         console.log('Categoría seleccionada:', categoriaSelect);
+        var searchTerm = localStorage.getItem('searchTerm');
 
-//         //ahora falta filtrar por categorías
-//         if(categoriaSelect == "Todas las categorías"){
-//             //window.location.href = './ResultadoBusqueda.html';
-//             //que cargue todos los productos y au
+        //buscarProd(searchTerm, categoriaSelect);
+
+        //ahora falta filtrar por categorías
+        if(categoriaSelect == "Todas las categorías"){
+            //window.location.href = './ResultadoBusqueda.html';
+            //que cargue todos los productos y au
     
-//             var searchTerm = localStorage.getItem('searchTerm');
+            var searchTerm = localStorage.getItem('searchTerm');
 
-//                 buscarProd(searchTerm, categoriaSelect);
+            buscarProd(searchTerm, categoriaSelect);
+        }
+        else
+        {
+            ProductosFiltroCategoria(categoriaSelect);
+        }
+        var limpiarResult = document.getElementById('resultados');
+        limpiarResult.innerHTML = `<p></p>`;
 
-//         }
-//         else
-//         {
-//             ProductosFiltroCategoria(categoriaSelect);
-//         }
-//         var limpiarResult = document.getElementById('resultados');
-//         limpiarResult.innerHTML = `<p></p>`;
-    
-//     });
-// }
+    });
+ }
 
 //le paso los productos para reloguearlos con el filtro de la categoría
 
 
 async function ProductosFiltroCategoria(categoriaSelect){
     try{
-        
         requestBody = {
             category: categoriaSelect,
-            precioMin: 0,
-            precioMax: 1000,
         };
 
         var response = await fetch(`${lugarDeEjecucion}/GetProdBusquedas`,{
@@ -442,8 +438,8 @@ async function ProductosFiltroCategoria(categoriaSelect){
         });
         if (response.ok) {
             const data = await response.json();
-            //console.log("Texto y todo intro: " + data.productos.Models);
             var productos = data.productos;
+            console.log("Productos después de aplicar el filtro de categorías: " + productos.length);
 
             if(productos.length==0){
                 //Poner que no hay productos con estos criterios de búsqueda

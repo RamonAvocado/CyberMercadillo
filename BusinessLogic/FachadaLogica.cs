@@ -14,10 +14,6 @@ class FachadaLogica{
         tienda.Busquedas.Add(busqueda);
     }
 
-    public List<Producto> GetProductos(){
-        return tienda.Productos;
-    }
-
     public List<Producto> GetTodosProductosVendedor(int user){
         List<Producto> prod = tienda.GetProductosVendedor(user);
         return prod;
