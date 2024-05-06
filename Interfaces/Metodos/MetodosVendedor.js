@@ -566,41 +566,23 @@ async function mostrarProdGuardado(idProductoSeleccionado) {
                 contenedorFlecha.classList.add('contenedor-flecha');
 
                 // Verificar si hay más de una imagen para mostrar la flecha
-                if (imagenes.length > 1) {
-                    // Agrega la imagen semi visible de la flecha al contenedor
-                    const flechaSemiVisible = document.createElement('img');
+                const flechaSemiVisible = document.createElement('img');
                     flechaSemiVisible.src = 'Imagenes/flecha.png'; // Ruta a la imagen de la fecha
                     flechaSemiVisible.alt = 'Flecha';
                     flechaSemiVisible.style.width = '40px';
                     flechaSemiVisible.style.height = '40px';
                     flechaSemiVisible.classList.add('flecha-semi-visible');
+                if (imagenes.length > 1) {
+                    // Agrega la imagen semi visible de la flecha al contenedor 
                     contenedorFlecha.appendChild(flechaSemiVisible);
+                }else{
+                    contenedorFlecha.appendChild(flechaSemiVisible);
+                    contenedorFlecha.style.display = 'none';
                 }
 
                 productCard.appendChild(contenedorFlecha);
 
-                if (imagenes.length > 1) {
-                    /*function eliminarImagen() {
-                        const index = imagenes.indexOf(imagenPrincipal.src);
-                        const siguienteIndex = (index + 1) % imagenes.length;
-                        imagenes.splice(siguienteIndex, 1);
-                        imagenPrincipal.src = imagenes[(index + 2) % imagenes.length];
-                    }
-                    
-                    // Adjuntar event listener al botón de eliminar
-                    const eliminarImg = document.getElementById('EliminarImgBtn');
-                    eliminarImg.addEventListener('click', function(event) {
-                        event.preventDefault();
-                        eliminarImagen();
-                    });
-                    
-                    // Listener de la flecha
-                    contenedorFlecha.addEventListener('click', function() {
-                        const index = imagenes.indexOf(imagenPrincipal.src);
-                        const siguienteIndex = (index + 1) % imagenes.length;
-                        imagenPrincipal.src = imagenes[siguienteIndex];
-                        console.log(imagenes[siguienteIndex]);
-                    });*/
+                if (imagenes.length >= 1) {
                     contenedorFlecha.addEventListener('click', function() {
                         const index = imagenes.indexOf(imagenPrincipal.src);
                         const siguienteIndex = (index + 1) % imagenes.length;
@@ -649,11 +631,13 @@ async function mostrarProdGuardado(idProductoSeleccionado) {
                 
                     if (nuevaImgUrl.trim() !== '') {
                         imagenes.push(nuevaImgUrl);
+                        console.log(imagenes.length);
                         nuevaImgInput.value = '';
-                
+                        console.log(imagenes.length);
                         // Verificar si hay más de una imagen para mostrar la flecha
                         if (imagenes.length > 0) {
                             contenedorFlecha.style.display = 'block';
+
                         }
                     } else {
                         console.log('El campo de la URL de la imagen está vacío.');
