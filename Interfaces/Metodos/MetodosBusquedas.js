@@ -28,6 +28,8 @@ async function buscar() {
    
     localStorage.setItem('searchTerm', searchTerm);
 
+    document.getElementById('minPrice').value = "";
+    document.getElementById('maxPrice').value = "";
 
     var limpiarResult = document.getElementById('resultados');
     limpiarResult.innerHTML = `<p></p>`;
@@ -122,7 +124,7 @@ function BusquedaBackButton(productos) {
     localStorage.setItem('busquedasAnteriores', JSON.stringify(busquedasAnteriores));
 }
 
-function mostrarProductosCat(productos, category) {
+function mostrarProductosCat(productos) {
     const container = document.querySelector('.resultado-busqueda-container');
     container.innerHTML = '';
     
@@ -176,33 +178,32 @@ function mostrarProductosCat(productos, category) {
     container.insertBefore(categoriaTitle, container.firstChild);
 }
 
-/*
-async function filtrarPrecio(category, precioMin, precioMax) {
+
+async function filtrarPrecio() {
     const minPrice = document.getElementById('minPrice').value;
     const maxPrice = document.getElementById('maxPrice').value;
+    const category = localStorage.getItem('categoriaSeleccionada');
 
-    const data = {
+    var limpiarResult = document.getElementById('resultados');
+    limpiarResult.innerHTML = `<p></p>`;
+
+    console.log("minPrice: " + minPrice + " maxPrice: " + maxPrice);
+    const requestBody = {
         minPrice: minPrice,
         maxPrice: maxPrice,
-        category: categoriaSelect
-        
+        category: category,
     };
 
     try {
-
-        // requestBody = {
-        //     category: categoriaSelect,
-        // };
-
-        const response = await fetch('/GetProdBusquedas', {
+        const response = await fetch(`${lugarDeEjecucion}/FiltroPorPrecio`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(requestBody) 
         });
 
-        if (!response.ok) {
+        if (response.ok) {
             const data = await response.json();
             //console.log("Texto y todo intro: " + data.productos.Models);
             var productos = data.productos;
@@ -213,15 +214,80 @@ async function filtrarPrecio(category, precioMin, precioMax) {
             }
         
         // Llamar a la función para mostrar los productos filtrados
-        mostrarProductosCat(productosFiltrados, "Filtrados por Precio");
+        mostrarProductosCat(productos);
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
         }
     } catch (error) {
-        console.error('Error al filtrar precio productos:', Serror);
+        console.error('Error al filtrar precio productos:', error);
     }
 }
-*/
+
+
+async function filtrarValorEco() {
+    const valoracion = document.getElementById('rating').value;
+    var minPrice = document.getElementById('minPrice').value;
+    var maxPrice = document.getElementById('maxPrice').value;
+    const category = localStorage.getItem('categoriaSeleccionada');
+
+    var limpiarResult = document.getElementById('resultados');
+    limpiarResult.innerHTML = `<p></p>`;
+
+
+    if(minPrice == ""){
+        minPrice = 1;
+    }    
+    
+    if(maxPrice == ""){
+        maxPrice = 1000;
+    }
+
+    // idUsuarioIniciado = localStorage.getItem("UsuarioID");
+    console.log("estamos aqui: "+ valoracion);
+    console.log("estamos aqui: "+ minPrice);
+    console.log("estamos aqui: "+ maxPrice);
+
+    const requestBody = {
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+        category: category,
+        valoracion: valoracion,    
+    };
+            // idusuario: idUsuarioIniciado,
+
+    console.log("estamos aqui 2: "+ valoracion);
+
+
+    try {
+        const response = await fetch(`${lugarDeEjecucion}/FiltroPorEco`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody) 
+        });
+
+        console.log("estamos aqui 4: "+ valoracion);
+
+        if (response.ok) {
+            const data = await response.json();
+            //console.log("Texto y todo intro: " + data.productos.Models);
+            var productos = data.productos;
+
+            if(productos.length==0){
+                //Poner que no hay productos con estos criterios de búsqueda
+                mostrarResultado("No existen productos con estos términos de búsqueda");
+            }
+        
+        // Llamar a la función para mostrar los productos filtrados
+        mostrarProductosCat(productos);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error al filtrar precio productos:', error);
+    }
+}
 
 async function CargaCategorias() {
     try {
@@ -295,86 +361,6 @@ function mostrarCategorias(array) {
 }
 */
 
-function selectCategory(){
-    
-}
-// async function ProductosFiltroPrecio(minPrice, maxPrice) {
-//     try {
-//         const requestBody = {
-//             minPrice: minPrice,
-//             maxPrice: maxPrice
-//         };
-
-//         const response = await fetch(`${lugarDeEjecucion}/FiltrarPorPrecio`, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify(requestBody)
-//         });
-
-//         if (response.ok) {
-//             const data = await response.json();
-//             const productos = data.productos;
-
-//             if (productos.length === 0) {
-//                 mostrarResultado("No existen productos en este rango de precios.");
-//             }
-
-//             mostrarProductosCat(productos, "Precios entre $" + minPrice + " y $" + maxPrice);
-//         } else {
-//             console.error('Error en la solicitud al backend:', response.statusText);
-//         }
-//     } catch (error) {
-//         console.error('Error inesperado:', error);
-//     }
-// }
-
-
-// async function filtrarPorPrecio(precioMinimo, precioMaximo) {
-//     // Realizar la búsqueda de productos por precio dentro del rango especificado
-//     try {
-//         // Llamar a la función buscar para actualizar el término de búsqueda y la categoría seleccionada
-//         localStorage.setItem('categoriaSeleccionada', "Todas las categorías");
-//         var category = localStorage.getItem('categoriaSeleccionada');
-//         var searchTerm = document.getElementById('searchInput').value;
-//         localStorage.setItem('searchTerm', searchTerm);
-//         var limpiarResult = document.getElementById('resultados');
-//         limpiarResult.innerHTML = `<p></p>`;
-//         await buscarProd(searchTerm, category);
-
-//         // Realizar una solicitud POST al backend para filtrar los productos por precio
-//         const response = await fetch(`${lugarDeEjecucion}/FiltrarPorPrecio`, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify({
-//                 precioMinimo: precioMinimo,
-//                 precioMaximo: precioMaximo
-//             })
-//         });
-
-//         if (response.ok) {
-//             const data = await response.json();
-//             const productosFiltrados = data.productosFiltrados;
-
-//             if (productosFiltrados.length === 0) {
-//                 // Mostrar un mensaje indicando que no hay productos dentro del rango de precio especificado
-//                 mostrarResultado("No existen productos dentro del rango de precio especificado");
-//             } else {
-//                 // Mostrar los productos filtrados
-//                 mostrarProductosCat(productosFiltrados, category);
-//             }
-//         } else {
-//             console.error('Error en la solicitud al backend:', response.statusText);
-//         }
-//     } catch (error) {
-//         console.error('Error inesperado:', error);
-//     }
-// }
-
-
 function mostrarCategorias(array) {
     const selectElement = document.getElementById('categorySelect');
 
@@ -408,6 +394,11 @@ function mostrarCategorias(array) {
         localStorage.setItem('searchTerm', "");
 
         localStorage.setItem('paginaAnterior', "ResultadoBusqueda.html");
+        
+        
+        //ESTO RESETEA LOS PRECIOS 
+        document.getElementById('minPrice').value = "";
+        document.getElementById('maxPrice').value = "";
 
         //ahora falta filtrar por categorías
         if(categoriaSelect == "Todas las categorías"){
@@ -456,7 +447,7 @@ async function ProductosFiltroCategoria(searchTerm, categoriaSelect){
                 //Poner que no hay productos con estos criterios de búsqueda
                 mostrarResultado("No existen productos con estos términos de búsqueda");
             }
-            mostrarProductosCat(productos, categoriaSelect);//cargar los productos con este filtro
+            mostrarProductosCat(productos);//cargar los productos con este filtro
           
     //al final le paso los nuevos prodcutos y la categoria para que la ponga en el texto
 

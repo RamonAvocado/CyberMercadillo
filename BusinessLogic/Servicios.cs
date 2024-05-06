@@ -694,6 +694,7 @@ class Servicios{
                 var category = searchData["category"].ToObject<string>();
                 var searchTerm = searchData["searchTerm"].ToObject<string>();
                 var idBuscado = searchData["idBuscado"].ToObject<int>();
+                
 
                 //recupero los productos con esta categoría
                 var productos = fachadaLogica.returnTienda().GetProdBusquedaFiltro(category);
@@ -711,6 +712,75 @@ class Servicios{
                 errorDefault(context, ex);
             }
         });
+
+        app.MapPost("/FiltroPorPrecio", async (HttpContext context, Supabase.Client client) =>
+        {
+            // Leer el cuerpo de la solicitud para obtener la información de búsqueda
+            using var reader = new StreamReader(context.Request.Body);
+            try
+            {
+                var requestBody = await reader.ReadToEndAsync();
+                var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
+
+                 var precioMin = searchData["minPrice"].ToObject<int>();
+                 var precioMax = searchData["maxPrice"].ToObject<int>();
+                 var category = searchData["category"].ToObject<string>();
+                
+
+                Console.WriteLine("Preciomin y PrecioMax" + precioMin + " " + precioMax); 
+                var productosCat = fachadaLogica.returnTienda().GetProdBusquedaFiltro(category);
+                var productos = fachadaLogica.returnTienda().FiltrarProductosPorPrecio(productosCat, precioMin, precioMax, category);
+
+                var jsonResponse = new { productos };
+
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier error y devolver una respuesta de error al cliente
+                errorDefault(context, ex);
+            }
+        });
+
+
+        app.MapPost("/FiltroPorEco", async (HttpContext context, Supabase.Client client) =>
+        {
+            // Leer el cuerpo de la solicitud para obtener la información de búsqueda
+            using var reader = new StreamReader(context.Request.Body);
+            try
+            {
+                var requestBody = await reader.ReadToEndAsync();
+                var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
+
+                 var minPrice = searchData["minPrice"].ToObject<int>();
+                 var maxPrice = searchData["maxPrice"].ToObject<int>();
+                 var category = searchData["category"].ToObject<string>();
+                 var valoracion = searchData["valoracion"].ToObject<int>();
+                 Console.WriteLine(valoracion);  
+
+                 Console.WriteLine("Preciomin y PrecioMax" + minPrice + " " + maxPrice + "valoracion" + "category" + category);  
+                
+
+                Console.WriteLine("Preciomin y PrecioMax" + minPrice + " " + maxPrice); 
+                var productosCat = fachadaLogica.returnTienda().GetProdBusquedaFiltro(category);
+                var productosPrec = fachadaLogica.returnTienda().FiltrarProductosPorPrecio(productosCat, minPrice, maxPrice, category);
+                var productos = fachadaLogica.returnTienda().FiltrarProductosPorValoracion(productosCat,productosPrec, valoracion, category);
+
+                var jsonResponse = new { productos };
+
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier error y devolver una respuesta de error al cliente
+                errorDefault(context, ex);
+            }
+        });
+
 
         app.MapPost("/AñadirAlCarritoCompra", async (HttpContext context, Supabase.Client client) =>
         {

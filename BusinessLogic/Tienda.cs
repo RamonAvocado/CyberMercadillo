@@ -483,29 +483,106 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
     }
 
 
-public List<Producto> FiltrarProductosPorPrecio(int precioMin, int precioMax)
+public List<Producto> FiltrarProductosPorPrecio (List<Producto>ProdCat, int precioMin, int precioMax, string category)
 {
     List<Producto> productos = new List<Producto>();
 
-    // Filtrar por rango de precios
-    foreach (Producto prod in ProductosBus)
-    {
-        // Convertir el precio de string a double para la comparación
-        if (int.TryParse(prod.precio, out int precio))
+    if (category == "Todas las categorías"){
+        // Filtrar por rango de precios
+        foreach (Producto prod in ProductosBus)
         {
-            if (precio >= precioMin && precio <= precioMax)
+            // Convertir el precio de string a double para la comparación
+            if (int.TryParse(prod.precio, out int precio))
             {
-                productos.Add(prod);
+                if (precio >= precioMin && precio <= precioMax)
+                {
+                    productos.Add(prod);
+                }
+            }
+            else
+            {
+                // Manejar el caso en el que el valor de precio no sea un número válido
+                Console.WriteLine($"El precio del producto {prod.nombreproducto} no es un número válido.");
             }
         }
-        else
+    }else{
+        // Filtrar por rango de precios
+        foreach (Producto prod in ProdCat)
         {
-            // Manejar el caso en el que el valor de precio no sea un número válido
-            Console.WriteLine($"El precio del producto {prod.nombreproducto} no es un número válido.");
+            // Convertir el precio de string a double para la comparación
+            if (int.TryParse(prod.precio, out int precio))
+            {
+                if (precio >= precioMin && precio <= precioMax)
+                {
+                    productos.Add(prod);
+                }
+            }
+            else
+            {
+                // Manejar el caso en el que el valor de precio no sea un número válido
+                Console.WriteLine($"El precio del producto {prod.nombreproducto} no es un número válido.");
+            }
         }
     }
 
     return productos;
+}
+
+
+public List<Producto> FiltrarProductosPorValoracion(List<Producto>ProdCat,List<Producto>ProdPrec, int puntuacionEco, string category)
+{
+    List<Producto> productos = new List<Producto>();
+
+    //if (category == "Todas las categorías"){
+    if(ProdPrec.Count() != 0)
+    {
+        foreach (Producto prod in ProdPrec)
+            {
+                // Convertir el precio de string a double para la comparación
+                if (prod.puntuacionEco == puntuacionEco)
+                {
+                    productos.Add(prod);
+                }
+                else
+                {
+                    // Manejar el caso en el que el valor de precio no sea un número válido
+                    Console.WriteLine($"El precio del producto {prod.nombreproducto} no es un número válido.");
+                }
+            }
+    }else if(ProdCat.Count() != 0)
+            {
+                // Filtrar por rango de precios
+                foreach (Producto prod in ProductosBus)
+                {
+                    // Convertir el precio de string a double para la comparación
+                    if (prod.puntuacionEco == puntuacionEco)
+                    {
+                        productos.Add(prod);
+                    }
+                    else
+                    {
+                        // Manejar el caso en el que el valor de precio no sea un número válido
+                        Console.WriteLine($"El precio del producto {prod.nombreproducto} no es un número válido.");
+                    }
+                }
+            }else
+            {
+                foreach (Producto prod in ProductosBus)
+                {
+                    // Convertir el precio de string a double para la comparación
+                    if (prod.puntuacionEco == puntuacionEco)
+                    {
+                        productos.Add(prod);
+                    }
+                    else
+                    {
+                        // Manejar el caso en el que el valor de precio no sea un número válido
+                        Console.WriteLine($"El precio del producto {prod.nombreproducto} no es un número válido.");
+                    }
+                }
+            }
+
+return productos;
 }
 
     public List<Producto> GetProductosVendedorG(int idVendedor){
