@@ -102,22 +102,25 @@
     <script src="./Metodos/MetodosNavegacion.js"></script>
 
     <script>
+        document.getElementById('searchInput').value = localStorage.getItem('searchTerm');
+
         if(localStorage.getItem('paginaAnterior') != "HistorialDeBusqueda.html"){
             window.addEventListener('DOMContentLoaded', CargaTodosProductos());
-            localStorage.setItem('searchTerm', "");
+            //CAMBIO
+            //localStorage.setItem('searchTerm', "");
 
         } else {
+            //Si te mueves desde historial hacia busqueda
             CargaCategorias();
-            buscarProd(localStorage.getItem('searchTerm'), localStorage.getItem('categoriaSeleccionada'));
-            localStorage.setItem('paginaAnterior', "null");
+            buscarProd(localStorage.getItem('searchTerm'), localStorage.getItem('categoriaProductoBusqueda'));
+            //localStorage.setItem('paginaAnterior', "null");
         }
-        window.addEventListener('DOMContentLoaded', CargaTodosProductos());
-        localStorage.setItem('searchTerm', "");
+        //window.addEventListener('DOMContentLoaded', CargaTodosProductos());
+        //localStorage.setItem('searchTerm', "");
     
         window.addEventListener('unload', GuardarBDD);
-
-        //PREGUNTAR
-        window.addEventListener('unload', localStorage.setItem('paginaAnterior', "HistorialDeBusqueda.html"));
+        window.addEventListener('unload', () => {
+    localStorage.setItem('paginaAnterior', "ResultadoBusqueda.html");});
     </script>
     <script>
         agregarCerrarSesion();

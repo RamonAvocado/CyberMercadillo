@@ -135,6 +135,8 @@
     <script>
         window.addEventListener('load', CargaUnProducto);
         window.addEventListener('unload', GuardarBDD);
+        window.addEventListener('unload', () => {
+    localStorage.setItem('paginaAnterior', "ResultadoBusqueda.html");});
 
         //CargaUnProducto(localStorage.getItem('UsuarioID'));
     </script>

@@ -74,12 +74,12 @@
     <script src="./Metodos/MetodosVendedor.js"></script> -->
 
     <script>
-        // Llama a la función buscar cuando la página se cargue
         window.addEventListener('load', getBusquedas);
         window.addEventListener('unload', GuardarBDD);
+        window.addEventListener('unload', () => {
+    localStorage.setItem('paginaAnterior', "HistorialDeBusqueda.html");});
     </script>
     <script>
-        // Llamar a la función para agregar el enlace de Iniciar Sesión o Cerrar Sesión
         agregarCerrarSesion();
     </script>
 </body>

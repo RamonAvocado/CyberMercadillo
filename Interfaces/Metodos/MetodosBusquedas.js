@@ -34,7 +34,6 @@ async function buscar() {
 
     buscarProd(searchTerm, category);
     document.getElementById('categorySelect').selectedIndex = 0;
-
 }
 
 
@@ -95,11 +94,11 @@ async function buscarProd(searchTerm, category) {
                 mostrarResultado("No existen productos con estos términos de búsqueda");  // Llama a una función para mostrar todos los productos
             }
             mostrarProductosCat(productos, category);//cargar los productos relacionados
-            /*
+            
             //EXTRA++++
             BusquedaBackButton(productos);
             contadorBusquedas++;
-            console.log("contadorBusquedas: " + contadorBusquedas);*/
+            console.log("contadorBusquedas: " + contadorBusquedas);
 
             // contadorBusquedas++; 
             // console.log("contadorBusquedas: " + contadorBusquedas)
@@ -168,7 +167,12 @@ function mostrarProductosCat(productos, category) {
 
     //Muestro la categoría por la que he buscado
     const categoriaTitle = document.createElement('h2');
-    categoriaTitle.textContent = `Categoría: ${category}`;
+    var paginaAnterior = localStorage.getItem('paginaAnterior');
+    if(paginaAnterior == "HistorialDeBusqueda.html"){
+        categoriaTitle.textContent = `Categoría: ${localStorage.getItem('categoriaProductoBusqueda')}`;
+    } else {
+        categoriaTitle.textContent = `Categoría: ${localStorage.getItem('categoriaSeleccionada')}`;
+    }
     container.insertBefore(categoriaTitle, container.firstChild);
 }
 
@@ -397,22 +401,24 @@ function mostrarCategorias(array) {
 
         console.log('Categoría seleccionada:', categoriaSelect);
 
-        var searchTerm = localStorage.getItem('searchTerm');
-
         //buscarProd(searchTerm, categoriaSelect);
+        var searchTerm = localStorage.getItem('searchTerm');
+        
+        //ESTO ES EL PROBLEMA
+        localStorage.setItem('searchTerm', "");
+
+        localStorage.setItem('paginaAnterior', "ResultadoBusqueda.html");
 
         //ahora falta filtrar por categorías
         if(categoriaSelect == "Todas las categorías"){
             //window.location.href = './ResultadoBusqueda.html';
             //que cargue todos los productos y au
     
-            var searchTerm = localStorage.getItem('searchTerm');
-
             buscarProd(searchTerm, categoriaSelect);
         }
         else
         {
-            ProductosFiltroCategoria(categoriaSelect);
+            ProductosFiltroCategoria(searchTerm, categoriaSelect);
         }
         var limpiarResult = document.getElementById('resultados');
         limpiarResult.innerHTML = `<p></p>`;
@@ -423,10 +429,15 @@ function mostrarCategorias(array) {
 //le paso los productos para reloguearlos con el filtro de la categoría
 
 
-async function ProductosFiltroCategoria(categoriaSelect){
+async function ProductosFiltroCategoria(searchTerm, categoriaSelect){
     try{
-        requestBody = {
+
+
+        var requestBody = {
             category: categoriaSelect,
+            //RESULTADO QUE SALE EN HISTORIAL
+            searchTerm: searchTerm + ";" + categoriaSelect,
+            idBuscado: idUsuarioIniciado,
         };
 
         var response = await fetch(`${lugarDeEjecucion}/GetProdBusquedas`,{
@@ -461,14 +472,12 @@ async function ProductosFiltroCategoria(categoriaSelect){
 //le paso un 1 y es para mostrarProductosCat, sino que funcione con normalidad
 
 async function getBusquedas() {
-    
     try {
         await fetch(`${lugarDeEjecucion}/getBusquedas`)
         .then(response => response.json())
         .then(data => {
         
         const models = data.busquedas;
-        console.log("HOLA");
 
         // Selecciona el elemento con la clase "historial"
         const historialDiv = document.querySelector('.historial');

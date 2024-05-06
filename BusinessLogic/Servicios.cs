@@ -692,9 +692,12 @@ class Servicios{
                 var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
 
                 var category = searchData["category"].ToObject<string>();
+                var searchTerm = searchData["searchTerm"].ToObject<string>();
+                var idBuscado = searchData["idBuscado"].ToObject<int>();
 
                 //recupero los productos con esta categoría
                 var productos = fachadaLogica.returnTienda().GetProdBusquedaFiltro(category);
+                fachadaLogica.returnTienda().GuardarBusqueda(searchTerm, idBuscado);
 
                 var jsonResponse = new { productos };
 
