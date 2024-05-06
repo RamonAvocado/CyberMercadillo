@@ -26,9 +26,9 @@ async function buscar() {
     var category  = localStorage.getItem('categoriaSeleccionada');
     
     var searchTerm = document.getElementById('searchInput').value;
-    if(searchTerm == "null"){
-        localStorage.setItem('searchTerm', searchTerm);
-    }
+   
+    localStorage.setItem('searchTerm', searchTerm);
+
 
     var limpiarResult = document.getElementById('resultados');
     limpiarResult.innerHTML = `<p></p>`;
@@ -121,6 +121,7 @@ function BusquedaBackButton(productos) {
     localStorage.setItem('busquedasAnteriores', JSON.stringify(busquedasAnteriores));
 }
 
+//MIRARRRRRR
 function mostrarProductosCat(productos, category) {
     const container = document.querySelector('.resultado-busqueda-container');
     container.innerHTML = '';
@@ -142,8 +143,9 @@ function mostrarProductosCat(productos, category) {
         const imagenes = producto.imagenes.split(' ');
         const primeraImagen = imagenes[0];
 
+        //PREGUNTA
         // Agregar la imagen, nombre y precio del producto dentro de un enlace
-        productCard.innerHTML = `
+            productCard.innerHTML = `
             <button class="favorite-btn"></button> <!-- Botón de favoritos -->
             <img src="${primeraImagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
             <h3>${truncate(producto.nombreproducto)}</h3>
@@ -155,7 +157,8 @@ function mostrarProductosCat(productos, category) {
                 <div id="categoriaProducto" data-info="${producto.categoria}"> </div>
             </div>
         `;
-
+        
+        
         // Agregar evento de clic para seleccionar el producto
         productCard.addEventListener('click', (event) => {
             seleccionarProducto(event.currentTarget);
@@ -242,10 +245,10 @@ function mostrarCategorias(array) {
     categoryButtonsContainer.innerHTML = '';
 
     // Obtener la última categoría seleccionada del localStorage
+    //PREGUNTAR
+    if(localStorage.getItem('categoriaSeleccionada') == "null"){localStorage.setItem('categoriaSeleccionada', localStorage.getItem('categoriaProductoBusqueda'));}
     let categoriaSeleccionada = localStorage.getItem('categoriaSeleccionada');
-    if (categoriaSeleccionada == null) {
-        categoriaSeleccionada = 'Todas las categorías';
-    }
+    
 
     // Agregar botón "Todas las categorías"
     const todasLasCategoriasButton = document.createElement('button');
@@ -253,15 +256,14 @@ function mostrarCategorias(array) {
     todasLasCategoriasButton.classList.add('category-button');
     todasLasCategoriasButton.addEventListener('click', function() {
 
-        //categoriaSeleccionada = 'Todas las categorías';
-        //localStorage.setItem('categoriaSeleccionada', categoriaSeleccionada);
+        localStorage.setItem('categoriaSeleccionada', 'Todas las categorias');
 
         var limpiarResult = document.getElementById('resultados');
         limpiarResult.innerHTML = `<p></p>`;
 
         var searchTerm = localStorage.getItem('searchTerm');
 
-        buscarProd(searchTerm, categoriaSeleccionada);
+        buscarProd(searchTerm, 'Todas las categorias');
         
     });
     categoryButtonsContainer.appendChild(todasLasCategoriasButton);  
@@ -275,7 +277,13 @@ function mostrarCategorias(array) {
             localStorage.setItem('categoriaSeleccionada', categoriaSeleccionada);          
             var limpiarResult = document.getElementById('resultados');
             limpiarResult.innerHTML = `<p></p>`;
-            var searchTerm = localStorage.getItem('searchTerm');
+
+
+            //PREGUNTAR
+            //var searchTerm = localStorage.getItem('searchTerm');
+            var searchTerm = document.getElementById('searchInput').value;
+
+
             if (categoriaSeleccionada === 'Todas las categorías') {
                 buscarProd(searchTerm, categoriaSeleccionada);
             } else {
@@ -464,6 +472,7 @@ async function getBusquedas() {
         .then(data => {
         
         const models = data.busquedas;
+        console.log("HOLA");
 
         // Selecciona el elemento con la clase "historial"
         const historialDiv = document.querySelector('.historial');
@@ -502,7 +511,7 @@ async function getBusquedas() {
 
                     localStorage.setItem('paginaAnterior', "HistorialDeBusqueda.html");
                     localStorage.setItem('searchTerm', busc[0]);
-                    localStorage.setItem('category', cat);
+                    localStorage.setItem('categoriaProductoBusqueda', cat);
                     window.location.href = './ResultadoBusqueda.html';
                 });
             });

@@ -70,8 +70,8 @@ function volverPaginaAnterior(){
         window.history.back();
     }
 }
+*/
 
- * //
 
 function irAHistorialDeBúsqueda(){
     //localStorage.setItem('itemID', idProductoSeleccionado);

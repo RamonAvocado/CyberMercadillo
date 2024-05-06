@@ -117,12 +117,14 @@
             window.addEventListener('DOMContentLoaded', CargaTodosProductos());
         } else {
             CargaCategorias();
-            buscarProd(localStorage.getItem('searchTerm'), localStorage.getItem('category'));
+            buscarProd(localStorage.getItem('searchTerm'), localStorage.getItem('categoriaProductoBusqueda'));
             localStorage.setItem('paginaAnterior', "null");
-            //localStorage.setItem('category', "Todas las categorias");
         }
 
         window.addEventListener('unload', GuardarBDD);
+
+        //PREGUNTAR
+        window.addEventListener('unload', localStorage.setItem('paginaAnterior', "HistorialDeBusqueda.html"));
     </script>
     <script>
         agregarCerrarSesion();
