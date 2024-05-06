@@ -445,7 +445,8 @@ async function mostrarProd(idProductoSeleccionado) {
             console.log(prod);
             var tipoUsuarioLogueado = localStorage.getItem('tipoUserID');
             var botonValidar = document.getElementById('ValidarProdGua');
-
+            var input = document.getElementById("nuevo-url-imagen");
+            input.style.visibility = "hidden";
             // Verificar si el botón existe
             if (botonValidar && tipoUsuarioLogueado == "tecnico") {
                 // Ocultar el botón estableciendo su propiedad de visualización en "none"

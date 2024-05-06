@@ -253,8 +253,8 @@ async function ActualizarProductoGuardado(idProductoSeleccionado,idUsuarioInicia
         document.getElementById('agregarProductoForm7').addEventListener('submit', async (event) => {
             event.preventDefault();
 
-            const formData = new FormData(event.target);
-         
+            const formData = new FormData(event.target);             
+
             var requestBody = {
                 nombre: formData.get('nombre'),
                 precio: formData.get('precio'),
