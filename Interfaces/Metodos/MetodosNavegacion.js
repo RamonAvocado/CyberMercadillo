@@ -40,12 +40,10 @@ function volverPaginaAnterior(){
         } else {
             // Si no hay búsquedas anteriores, simplemente regresar una página en el historial
             window.history.back();
-            console.log("contadorBusquedas: " + contadorBusquedas);
         }
     } else {
         // Si el contador de búsquedas es 0 o menos, simplemente regresar una página en el historial
         window.history.back();
-        console.log("contadorBusquedas: " + contadorBusquedas);
     }
 }
 //POSIBLE METODO PARA VOLVER A ULTIMA BUSQUEDA DESDE PRODUCTO. Falta testear mas,pero primera vez funciaba

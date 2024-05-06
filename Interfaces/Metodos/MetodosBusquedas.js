@@ -369,9 +369,6 @@ function selectCategory(){
 
 // function mostrarCategorias(array) {
 //     const selectElement = document.getElementById('categorySelect');
-//     //console.log(selectElement.options);
-//     //console.log(selectElement.options[0]);
-
 
 //     // Limpiar opciones existentes, excepto la primera (Todas las categorías)
 //     selectElement.options.length = 1;
@@ -395,7 +392,24 @@ function selectCategory(){
 //         categoriaSelect = localStorage.getItem("categoriaSeleccionada");
 
 //         console.log('Categoría seleccionada:', categoriaSelect);
-//         // Aquí puedes hacer lo que necesites con la categoría seleccionada
+
+//         //ahora falta filtrar por categorías
+//         if(categoriaSelect == "Todas las categorías"){
+//             //window.location.href = './ResultadoBusqueda.html';
+//             //que cargue todos los productos y au
+    
+//             var searchTerm = localStorage.getItem('searchTerm');
+
+//                 buscarProd(searchTerm, categoriaSelect);
+
+//         }
+//         else
+//         {
+//             ProductosFiltroCategoria(categoriaSelect);
+//         }
+//         var limpiarResult = document.getElementById('resultados');
+//         limpiarResult.innerHTML = `<p></p>`;
+    
 //     });
 // }
 
