@@ -5636,25 +5636,11 @@
     ]
   },
   "packageFolders": {
-<<<<<<< Updated upstream
-    "C:\\Users\\Jordi\\.nuget\\packages\\": {}
-=======
     "C:\\Users\\ramon\\.nuget\\packages\\": {}
->>>>>>> Stashed changes
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-<<<<<<< Updated upstream
-      "projectUniqueName": "C:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
-      "projectName": "CyberMercadillo",
-      "projectPath": "C:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
-      "packagesPath": "C:\\Users\\Jordi\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\obj\\",
-      "projectStyle": "PackageReference",
-      "configFilePaths": [
-        "C:\\Users\\Jordi\\AppData\\Roaming\\NuGet\\NuGet.Config",
-=======
       "projectUniqueName": "C:\\Users\\ramon\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
       "projectName": "CyberMercadillo",
       "projectPath": "C:\\Users\\ramon\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
@@ -5663,7 +5649,6 @@
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ramon\\AppData\\Roaming\\NuGet\\NuGet.Config",
->>>>>>> Stashed changes
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5728,5 +5713,13 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problema al leer el archivo de caché C:\\Users\\ramon\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

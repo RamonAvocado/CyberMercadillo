@@ -1,19 +1,6 @@
 {
   "format": 1,
   "restore": {
-<<<<<<< Updated upstream
-    "c:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj": {}
-  },
-  "projects": {
-    "c:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "c:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
-        "projectName": "CyberMercadillo",
-        "projectPath": "c:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
-        "packagesPath": "C:\\Users\\Jordi\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\obj\\",
-=======
     "C:\\Users\\ramon\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj": {}
   },
   "projects": {
@@ -25,7 +12,6 @@
         "projectPath": "C:\\Users\\ramon\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
         "packagesPath": "C:\\Users\\ramon\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\ramon\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\obj\\",
->>>>>>> Stashed changes
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ramon\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -83,18 +83,15 @@ class FachadaLogica{
     }
 
     public Producto GetProductoPorID(string idbuscado){
-
             //hacer la lógica para buscar el producto
             return tienda.buscarID(idbuscado);
     }
 
     public bool asignarProductoTecnico(string idbuscado,int idusuario){
-
             //hacer la lógica para buscar el producto
             return tienda.asignarPro(idbuscado,idusuario);
     }
     public bool desasignarProducto(string idbuscado){
-
             //hacer la lógica para buscar el producto
             return tienda.desasignarPro(idbuscado);
     }
