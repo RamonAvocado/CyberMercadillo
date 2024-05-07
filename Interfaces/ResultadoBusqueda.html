@@ -105,23 +105,28 @@
     <script>
         document.getElementById('searchInput').value = localStorage.getItem('searchTerm');
 
-        if(localStorage.getItem('paginaAnterior') != "HistorialDeBusqueda.html"){
-            window.addEventListener('DOMContentLoaded', CargaTodosProductos());
+        if(localStorage.getItem('paginaAnterior') != "HistorialDeBusqueda.html" && localStorage.getItem('paginaAnterior') != "ResultadoBusqueda.html"){
             //CAMBIO
-            //localStorage.setItem('searchTerm', "");
-
+            if(localStorage.getItem('categoriaSeleccionada') == null){localStorage.setItem('categoriaSeleccionada', "Todas las categorias");}
+            if(localStorage.getItem('searchTerm') == null){localStorage.setItem('searchTerm', "");}
+            
+            console.log("ENTRA AQUI");
+            //window.addEventListener('DOMContentLoaded', CargaTodosProductos());
         } else {
             //Si te mueves desde historial hacia busqueda
             CargaCategorias();
-            buscarProd(localStorage.getItem('searchTerm'), localStorage.getItem('categoriaProductoBusqueda'));
-            //localStorage.setItem('paginaAnterior', "null");
+            if(localStorage.getItem('paginaAnterior') == "ResultadoBusqueda.html"){
+                localStorage.setItem('categoriaSeleccionada', localStorage.getItem('categoriaProductoBusqueda'));
+            }
+            //Problema
+            searchTerm = localStorage.getItem('searchTerm');
+            categoriaSelect = localStorage.getItem('categoriaProductoBusqueda');
+            buscarProd(searchTerm, categoriaSelect); 
+            ProductosFiltroCategoria(searchTerm, categoriaSelect);
+  
         }
-        //window.addEventListener('DOMContentLoaded', CargaTodosProductos());
-        //localStorage.setItem('searchTerm', "");
-    
         window.addEventListener('unload', GuardarBDD);
-        window.addEventListener('unload', () => {
-    localStorage.setItem('paginaAnterior', "ResultadoBusqueda.html");});
+        window.addEventListener('unload', () => {localStorage.setItem('paginaAnterior', "ResultadoBusqueda.html");});
     </script>
     <script>
         agregarCerrarSesion();

@@ -1,6 +1,7 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< Updated upstream
     "c:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj": {}
   },
   "projects": {
@@ -12,9 +13,22 @@
         "projectPath": "c:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
         "packagesPath": "C:\\Users\\Jordi\\.nuget\\packages\\",
         "outputPath": "c:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\obj\\",
+=======
+    "C:\\Users\\ramon\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\ramon\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\ramon\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
+        "projectName": "CyberMercadillo",
+        "projectPath": "C:\\Users\\ramon\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
+        "packagesPath": "C:\\Users\\ramon\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ramon\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\obj\\",
+>>>>>>> Stashed changes
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Jordi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ramon\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

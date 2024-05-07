@@ -24,6 +24,8 @@ async function buscar() {
     localStorage.setItem('categoriaSeleccionada', "Todas las categorías");
     var category  = localStorage.getItem('categoriaSeleccionada');
     
+    localStorage.setItem('paginaAnterior', "ResultadoBusqueda.html");
+    
     var searchTerm = document.getElementById('searchInput').value;
    
     localStorage.setItem('searchTerm', searchTerm);
@@ -34,7 +36,15 @@ async function buscar() {
     var limpiarResult = document.getElementById('resultados');
     limpiarResult.innerHTML = `<p></p>`;
 
+
+    CargaCategorias();
     buscarProd(searchTerm, category);
+
+    if(category != "Todas las categorías"){
+        ProductosFiltroCategoria(searchTerm, category);
+    }
+
+
     document.getElementById('categorySelect').selectedIndex = 0;
 }
 
@@ -399,7 +409,6 @@ function mostrarCategorias(array) {
         var searchTerm = localStorage.getItem('searchTerm');
         
         //ESTO ES EL PROBLEMA
-        localStorage.setItem('searchTerm', "");
 
         localStorage.setItem('paginaAnterior', "ResultadoBusqueda.html");
         
@@ -430,8 +439,6 @@ function mostrarCategorias(array) {
 
 async function ProductosFiltroCategoria(searchTerm, categoriaSelect){
     try{
-
-
         var requestBody = {
             category: categoriaSelect,
             //RESULTADO QUE SALE EN HISTORIAL
@@ -446,6 +453,7 @@ async function ProductosFiltroCategoria(searchTerm, categoriaSelect){
             },
             body: JSON.stringify(requestBody)
         });
+
         if (response.ok) {
             const data = await response.json();
             var productos = data.productos;

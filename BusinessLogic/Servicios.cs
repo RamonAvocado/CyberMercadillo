@@ -268,17 +268,17 @@ class Servicios{
                     var puntuacionH = productoData["puntuacionHuella"].ToObject<int>();
                     var certiEco = productoData["certificadoHuella"].ToObject<string>();
                     // Utiliza los datos recibidos para crear un nuevo producto
-                    fachadaLogica.agregarProducto(nombreP ?? "Producto de Serie Creación",
-                                                   precioP ?? "-1",
-                                                   categoriaP ?? "CatPrueba",
-                                                   descripcionP ?? "Este artículo es el predeterminado por si llega un null a esta función",
-                                                   imgP ?? "/rutaPrueba",
-                                                   cantidadP,
-                                                   idvendedorP,
-                                                   validadoP,
-                                                   guardadoP,
-                                                   puntuacionH,
-                                                   certiEco ?? "pdf");
+                    // fachadaLogica.agregarProducto(nombreP ?? "Producto de Serie Creación",
+                    //                                precioP ?? "-1",
+                    //                                categoriaP ?? "CatPrueba",
+                    //                                descripcionP ?? "Este artículo es el predeterminado por si llega un null a esta función",
+                    //                                imgP ?? "/rutaPrueba",
+                    //                                cantidadP,
+                    //                                idvendedorP,
+                    //                                validadoP,
+                    //                                guardadoP,
+                    //                                puntuacionH,
+                    //                                certiEco ?? "pdf");
                     // Inserta el nuevo producto en la base de datos
                    // await client.From<Producto>().Insert(new List<Producto> { nuevoProducto });
 
@@ -475,15 +475,15 @@ class Servicios{
                     var idproductoP = productoData["idproducto"].ToObject<string>();
                     var puntuacionH = productoData["puntuacionHuella"].ToObject<int>();
                     var certificadoH = productoData["certificadoHuella"].ToObject<string>();
-                    fachadaLogica.actualizarProductoGuardado(nombreP ?? "Producto de Serie Creación",
-                                                   precioP ?? "-1",
-                                                   categoriaP ?? "CatPrueba",
-                                                   descripcionP ?? "Este artículo es el predeterminado por si llega un null a esta función",
-                                                   imgP ?? "/rutaPrueba",
-                                                   cantidadP,                                       
-                                                   idproductoP ?? "0",
-                                                   puntuacionH,
-                                                   certificadoH);
+                    // fachadaLogica.actualizarProductoGuardado(nombreP ?? "Producto de Serie Creación",
+                    //                                precioP ?? "-1",
+                    //                                categoriaP ?? "CatPrueba",
+                    //                                descripcionP ?? "Este artículo es el predeterminado por si llega un null a esta función",
+                    //                                imgP ?? "/rutaPrueba",
+                    //                                cantidadP,                                       
+                    //                                idproductoP ?? "0",
+                    //                                puntuacionH,
+                    //                                certificadoH);
                     Console.WriteLine("pedido");
 
                     // Devuelve una respuesta al frontend (opcional)
@@ -700,8 +700,8 @@ class Servicios{
                 
 
                 //recupero los productos con esta categoría
-                var productos = fachadaLogica.returnTienda().GetProdBusquedaFiltro(category);
-                fachadaLogica.returnTienda().GuardarBusqueda(searchTerm, idBuscado);
+                var productos = fachadaLogica.returnTienda().GetProdBusquedaFiltro(category ?? "Todas las categorias");
+                fachadaLogica.returnTienda().GuardarBusqueda(searchTerm ?? "", idBuscado);
 
                 var jsonResponse = new { productos };
 
@@ -731,7 +731,7 @@ class Servicios{
                 
 
                 Console.WriteLine("Preciomin y PrecioMax" + precioMin + " " + precioMax); 
-                var productosCat = fachadaLogica.returnTienda().GetProdBusquedaFiltro(category);
+                var productosCat = fachadaLogica.returnTienda().GetProdBusquedaFiltro(category ?? "Todas las categorias");
                 var productos = fachadaLogica.returnTienda().FiltrarProductosPorPrecio(productosCat, precioMin, precioMax, category);
 
                 var jsonResponse = new { productos };
