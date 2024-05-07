@@ -368,6 +368,7 @@ function mostrarUnProducto(respuesta) {
         <p>${producto.precio} €</p>
         <p> Acerca del producto: </p>
         <p>${producto.descripcion}</p>
+        <p> Puntuación de Huella Ecológica:  ${producto.puntuacionEco}</p style="font-size: 18px;">
     `;
     productInfo.style.margin = '40px';
     productInfo.style.fontSize = '22px';
@@ -793,6 +794,7 @@ function mostrarUnProductoNoLogeado(respuesta) {
         <p>${producto.precio} €</p>
         <p> Acerca del producto: </p>
         <p>${producto.descripcion}</p>
+        <p> Puntuación de Huella Ecológica:  ${producto.puntuacionEco}</p style="font-size: 18px;">
     `;
     productInfo.style.margin = '40px';
     productInfo.style.fontSize = '22px';

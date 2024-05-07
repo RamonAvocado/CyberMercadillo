@@ -397,6 +397,7 @@ function mostrarProductosRecomendados(productos, categoria, cantidad) {
                     <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
                     <div id="idProducto" data-info="${producto.idproducto}"> </div>
                     <div id="categoriaProducto" data-info="${producto.categoria}"> </div>
+                    <p> Puntuación de Huella Ecológica:  ${producto.puntuacionEco}</p style="font-size: 18px;">
                 </div>
             `;
 
