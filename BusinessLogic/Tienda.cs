@@ -281,7 +281,7 @@ class Tienda
     }
 
     public void actualizarProdGuardado(string idbuscado,string nombreProd, string precioProd, string categoriaProd,string descripcionProd,
-                                                        string imgProd, int cantProd,int puntHuella)
+                                                        string imgProd, int cantProd,int puntHuella,string certiH)
     {
         Producto producto = new Producto
         {
@@ -303,6 +303,7 @@ class Tienda
         producto.imagenes = imgProd;
         producto.cantidad = cantProd;
         producto.puntuacionEco = puntHuella;
+        producto.certificadoEco = certiH;
     }
 
 public void actualizarProd(string idbuscado, string precioProd,string descripcionProd, int cantProd)

@@ -503,7 +503,8 @@ async function mostrarProd(idProductoSeleccionado) {
                 document.getElementById('descripcion').value = prod.descripcion;
                 document.getElementById('cantidad').value = prod.cantidad;
                 document.getElementById('nuevo-url-imagen').value = prod.imagenes; 
-                document.getElementById('valoracionHProd').value = prod.puntuacionEco;             
+                document.getElementById('valoracionHProd').value = prod.puntuacionEco;  
+                document.getElementById('certiEcol').value = prod.certificadoEco;             
             //}
         } else {
             console.error('Error al obtener los detalles del producto:', response.statusText);
@@ -657,6 +658,7 @@ async function mostrarProdGuardado(idProductoSeleccionado) {
                 document.getElementById('cantidad').value = prod.cantidad;
                 document.getElementById('nuevo-url-imagen').value = prod.imagenes; 
                 document.getElementById('valoracionHProd').value = prod.puntuacionEco;   
+                document.getElementById('certiEcol').value = prod.certificadoEco;
                 
                 const imagenesComoString = imagenes.join(' ');
                 console.log("Hola   " + imagenesComoString);
