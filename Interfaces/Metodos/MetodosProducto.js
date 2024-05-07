@@ -45,7 +45,7 @@ async function agregarProducto(idUsuarioIniciado)
                 validado: false,
                 guardado: false,
                 puntuacionHuella: parseInt(formData.get('valoracionHProd')),
-                certificadoEco: formData.get('certiEco')
+                certificadoHuella: formData.get('certiEco')
             };
 
             console.log('ID del usuario seleccionado:', idUsuarioIniciado);
