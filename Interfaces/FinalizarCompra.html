@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styleCompra.css">
+    <title>Checkout</title>
+    <style>
+
+        .product-compra img {
+            width: 200px; /* Tamaño de la imagen */
+            margin-right: 20px; /* Espacio entre la imagen y el texto */
+        }
+
+        .descripción {
+            flex: 1; /* Ocupar todo el espacio disponible */
+        }
+
+        .descripción h1 {
+            margin-top: 0; /* Eliminar margen superior del título */
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div calss ="nombre-producto">
+            <h1>COMPRAR AHORA</h1>
+        </div>
+    </header>
+    <div class="product-container-compra">
+        <div class="informacion-compra">
+            <div class="shipping-info">
+                <h1>Llegada el: </h1>
+                <p>Dirección de entrega: </p>
+            </div>
+            <div class="payment-info">
+                <h2>Tarjeta de crédito:</h2>
+                <input type="text" placeholder="Número de tarjeta">
+                <input type="text" placeholder="Fecha de caducidad">
+                <input type="text" placeholder="CVV">
+            </div>
+            <div class="final">
+                <div class="inter-final">
+                    <h1 class="ProdSeleccionados">Productos Seleccionados: </h1>
+                    <h2 class="total-cost">Total: </h2>
+                </div>
+                <div class="button-container">
+                    <button onclick="volverPaginaAnterior()" class="volver-btn">Volver</button>
+                    <button onclick="FinalizarCompra()" class="checkout-button">Finalizar Pedido</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <script src="Metodos.js"></script> -->
+    <script src="./Metodos/GeneralMetodos.js"></script>
+    <script src="./Metodos/MetodosCompra.js"></script>
+    <script src="./Metodos/MetodosNavegacion.js"></script>
+    <script src="./Metodos/MetodosProducto.js"></script>
+    <script>
+        window.addEventListener('load', CargaCarritoCompra);
+        window.addEventListener('unload', GuardarBDD);
+    </script>
+    <!--window.addEventListener('load', GuardarCarritoBDD);-->
+</body>
+</html>
