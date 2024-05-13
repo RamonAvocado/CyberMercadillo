@@ -108,9 +108,6 @@
             //CAMBIO
             if(localStorage.getItem('categoriaSeleccionada') == null){localStorage.setItem('categoriaSeleccionada', "Todas las categorias");}
             if(localStorage.getItem('searchTerm') == null){localStorage.setItem('searchTerm', "");}
-            
-            console.log("ENTRA AQUI");
-            //window.addEventListener('DOMContentLoaded', CargaTodosProductos());
         } else {
             //Si te mueves desde historial hacia busqueda
             CargaCategorias();
@@ -121,6 +118,7 @@
             searchTerm = localStorage.getItem('searchTerm');
             categoriaSelect = localStorage.getItem('categoriaProductoBusqueda');
             buscarProd(searchTerm, categoriaSelect); 
+            //CREO QUE AQUI ES DONDE SE BUSCA DOS VECES
             ProductosFiltroCategoria(searchTerm, categoriaSelect);
   
         }

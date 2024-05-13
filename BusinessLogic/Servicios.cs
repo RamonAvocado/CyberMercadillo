@@ -382,12 +382,8 @@ class Servicios{
                 var idBuscado = searchData["idusuario"].ToObject<int>();
                 var searchTerm = searchData["searchTerm"].ToObject<string>();
 
-
-                Console.WriteLine(idBuscado + " " + searchTerm);
                 //recupero los productos con esta categoría
                 var productos = fachadaLogica.returnTienda().GetProductosBusqueda(searchTerm ?? "", idBuscado);
-                Console.WriteLine("PRODUCTOS " + productos);
-
                 devolverFrontEnd(context, productos);
             }catch (Exception ex){errorDefault(context,ex);}
         });
