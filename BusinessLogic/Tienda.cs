@@ -74,7 +74,7 @@ class Tienda
     }
 
 
-    private Usuario usuarioRegistrado = new Comprador("x", 1, "x", "x", "x", 1, "x", 1, "x");
+    private Usuario usuarioRegistrado = new Comprador(0,"x", 1, "x", "x", "x", 1, "x", 1, "x");
     public Usuario UsuarioRegistrado
     {
         get { return usuarioRegistrado;}
@@ -464,6 +464,24 @@ public bool ActualizarCantidadProducto(int idusuario, int idproducto, int nuevaC
         return mayorID;
     }
 
+     public int MayorIDUsuario(){
+        int mayorID = 0;
+
+        foreach (Usuario usu in Usuarios)
+        {
+            if (usu.idusuario > mayorID)
+            {
+                mayorID = usu.idusuario;
+            }
+        }
+
+        return mayorID;
+    }
+
+    public void agregarUser(Usuario usuario){
+        Usuarios.Add(usuario);
+    }
+
     public void actualizarProdGuardado(string idbuscado,string nombreProd, string precioProd, string categoriaProd,string descripcionProd,
                                                         string imgProd, int cantProd,int puntHuella,string certiH)
     {
@@ -557,7 +575,7 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
 
     public Usuario buscarUsuario(String correo, String password)
     {
-            Usuario usuarioFalso = new Tecnico("Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se", "Tecnico");
+            Usuario usuarioFalso = new Tecnico(0,"Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se", "Tecnico");
             Usuario usuarioEncontrado;
 
             usuarioEncontrado = Compradores.Find(u => u.correo == correo && u.contraseña == password) ?? usuarioFalso;
@@ -583,7 +601,7 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
 
     public Usuario ObtenerInfoUsuario(int idusuario)
     {
-            Usuario usuarioFalso = new Tecnico("Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se", "Tecnico");
+            Usuario usuarioFalso = new Tecnico(0,"Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se", "Tecnico");
             Usuario usuarioEncontrado;
 
             usuarioEncontrado = Compradores.Find(u => u.idusuario == idusuario) ?? usuarioFalso;

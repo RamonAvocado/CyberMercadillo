@@ -144,99 +144,94 @@ function irAInfoProducto2(productoParaInfo) {
 async function agregarUsuarioVendedor(TipoUsuarioRegistrado){
     document.getElementById('agregarVendedorForm').addEventListener('submit', async (event) => {
         event.preventDefault();
+
         const formData = new FormData(event.target);
-        const nombreUsu = formData.get('nombreUsuV');
-        const telefono = formData.get('TelUsuV');
-        const correoUsu = formData.get('CorreoUsuV');
-        const contraseña = formData.get('ContraseñaUsuV');
-        const contraseñaR = formData.get('RContraseñaUsuV');
-        const direccion = formData.get('DirUsuV');
-        const telTienda = parseInt(formData.get('TelUsuT'));
-        const nombreTienda = formData.get('NomTUsu');
+        var requestBody = {
+            nombreUsu : formData.get('nombreUsu'),
+            telefono : formData.get('TelUsu'),
+            correoUsu : formData.get('CorreoUsu'),
+            contraseña : formData.get('ContraseñaUsu'),
+            contraseñaR : formData.get('RContraseñaUsu'),
+            direccion : formData.get('DirUsu'),
+            telTienda : parseInt(formData.get('TelUsuT')),
+            nombreTienda : formData.get('NomTUsu'),
+            tipoUsu: TipoUsuarioRegistrado
+        };
+
         try {
-            const response = await fetch(`http://localhost:5169/AgregarVendedor`, {
+
+            const response = await fetch(`${lugarDeEjecucion}/AgregarVendedor`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    nombre: nombreUsu,
-                    movil: telefono,
-                    correo: correoUsu,
-                    contraseña: contraseña,
-                    direccion: direccion,
-                    CVV: cvv,
-                    fechaCaducidad: FechaCad,
-                    numeroTarjeta: numTarj,
-                    tipoUsu:TipoUsuarioRegistrado,
-                    telefonotienda: telTienda,
-                    nombretienda: nombreTienda,
-                }),
+                body: JSON.stringify(requestBody)
             });
+    
             if (response.ok) {
-                const data = await response.json();
-                console.log('Producto creado correctamente');
-                mostrarResultado(data.resultado);
-                window.location.reload();
+                //const data = await response.json();
+                console.log('Usuario creado correctamente');
+                //mostrarResultado(data.resultado); 
+                window.location.href = `../index.html`
             } else {
                 console.error('Error al crear el usuario:', response.statusText);
             }
         } catch (error) {
             console.error('Error inesperado:', error);
         }
-        alert("Usuario creado correctamente");
-        window.location.reload();
+        //alert("Error crear Producto")
+        //window.location.reload();
     });
 }
 
-async function agregarUsuarioComprador(TipoUsuarioRegistrado)
-{
-        console.log('ID del usuario registrado:', TipoUsuarioRegistrado);
-        document.getElementById('agregarCompradorForm').addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            const nombreUsu = formData.get('nombreUsuC');
-            const telefono = formData.get('TelUsuC');
-            const correoUsu = formData.get('CorreoUsuC');
-            const contraseña = formData.get('ContraseñaUsuC');
-            const contraseñaR = formData.get('RContraseñaUsuC');
-            const direccion = formData.get('DirUsuC');
-            const cvv = parseInt(formData.get('CVV'));
-            const numTarj = parseInt(formData.get('NumTarj'));
-            const FechaCad = formData.get('FechaCad');
+async function agregarUsuarioComprador(TipoUsuarioRegistrado){
+document.getElementById('agregarCompradorForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const cvv = formData.get('CVV');
+    const numTarj = formData.get('NumTarj');
+    const fechaCad = formData.get('FechaCad');
+    var requestBody = {
+        nombreUsu : formData.get('nombreUsuC'),
+        telefono : formData.get('TelUsuC'),
+        correoUsu : formData.get('CorreoUsuC'),
+        contraseña : formData.get('ContraseñaUsuC'),
+        contraseñaR : formData.get('RContraseñaUsuC'),
+        direccion : formData.get('DirUsuC'),
+        cvv : cvv ? parseInt(cvv) : 0,
+        numTarj : numTarj ? parseInt(numTarj) : 0,
+        FechaCad : fechaCad ? fechaCad : "",
+        tipoUsu: TipoUsuarioRegistrado
+    };
 
-            try {
-                const response = await fetch(`http://localhost:5169/AgregarComprador`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        nombre: nombreUsu,
-                        movil: telefono,
-                        correo: correoUsu,
-                        contraseña: contraseña,
-                        direccion: direccion,
-                        CVV: cvv,
-                        fechaCaducidad: FechaCad,
-                        numeroTarjeta: numTarj,
-                        tipoUsu:TipoUsuarioRegistrado,
-                    }),
-                });
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log('Producto creado correctamente');
-                    GeneralMetodos.mostrarResultado(data.objeto);
-                    window.location.reload();
-                } else {
-                    console.error('Error al crear el usuario:', response.statusText);
-                }
-            } catch (error) {
-                console.error('Error inesperado:', error);
-            }
-            alert("Usuario creado correctamente")
-            window.location.reload();
+    console.log('Llegamos acá');
+    // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
+    
+    try {
+
+        const response = await fetch(`${lugarDeEjecucion}/AgregarComprador`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody)
         });
+
+        if (response.ok) {
+            //const data = await response.json();
+            console.log('Usuario creado correctamente');
+            //mostrarResultado(data.resultado); 
+            //window.location.reload();
+            window.location.href = `../index.html`
+        } else {
+            console.error('Error al crear el usuario:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+    //alert("Error crear Producto")
+    //window.location.reload();
+});
 }
 
 function irAPagianValidaciones() {

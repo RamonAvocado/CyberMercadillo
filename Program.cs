@@ -43,6 +43,8 @@ FachadaLogica fachadaLogica= new FachadaLogica();
 
 Tienda tienda = fachadaLogica.returnTienda();
 
+//FabricaDeUsuarios fabricaUsuarios = fachadaLogica.returnFabrica();
+
 Servicios servicios = new Servicios(fachadaLogica, app);
 
 FachadaDBB fachadadbb = new FachadaDBB(args, app, tienda);

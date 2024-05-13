@@ -1,13 +1,22 @@
 using CyberMercadillo.Entities;
+using CyberMercadillo.BusinessLogic;
+
 class FachadaLogica{
 
     private Tienda tienda;
+
+    private FabricaDeUsuarios fabrica;
     public FachadaLogica(){
         tienda = new Tienda();
+        fabrica = new FabricaDeUsuarios();
     }
 
     public Tienda returnTienda(){
         return tienda;
+    }
+
+    public FabricaDeUsuarios returnFabrica(){
+        return fabrica;
     }
 
 
@@ -28,6 +37,25 @@ class FachadaLogica{
         int idProd = tienda.MayorIDProd() +1;
         Producto product = new Producto(idProd,nombreProd,precioProd,categoriaProd,descripcionProd, imgProd, cantProd,idvendedorProd,validProd,saveProd, puntHuella, certiEco, llegada);
         tienda.Productos.Add(product);
+    }
+
+    public void agregarUsuario(string tipoUsuario, string nombre, int movil, string correo, string contraseña, string direccion, string nombreTienda , 
+                                            int telefonoTienda,int CVV , int numTarjeta ,string fechaCaducidad){
+        int idUsu = tienda.MayorIDUsuario() +1;
+        var nuevoUsuario = fabrica.CrearUsuario(
+                        idUsu,
+                        tipoUsuario ?? "Usuario por defecto",
+                        nombre ?? "Usuario de Serie Creación",
+                        movil,
+                        correo ?? "Correo Usuario",
+                        contraseña ?? "1234",
+                        direccion ?? "direccion usuario",
+                        nombreTienda ?? "nombre tienda",
+                        telefonoTienda,
+                        CVV,
+                        numTarjeta,
+                        fechaCaducidad);
+        tienda.agregarUser(nuevoUsuario);
     }
 
     public bool GuardarDatosUsuario(int idusuario, int numTarjeta, string fechaCaducidad, int cvv){

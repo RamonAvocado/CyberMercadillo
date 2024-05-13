@@ -11,8 +11,8 @@ namespace CyberMercadillo.Entities
 {       
     public partial class Tecnico:Usuario{
         public Tecnico(){}
-        public Tecnico(string nombre, int movil, string correo, string contraseña, string direccion,string tipoUser)
-            : base(nombre, movil, correo, contraseña, direccion,tipoUser)
+        public Tecnico(int idUser, string nombre, int movil, string correo, string contraseña, string direccion,string tipoUser)
+            : base(idUser,nombre, movil, correo, contraseña, direccion,tipoUser)
         {}
     }
 }

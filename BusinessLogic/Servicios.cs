@@ -645,6 +645,68 @@ class Servicios{
             }catch (Exception ex){errorDefault(context,ex);}
         });
 
+        app.MapPost("/AgregarVendedor", async (HttpContext context, Supabase.Client client) =>
+        {
+            using var reader = new StreamReader(context.Request.Body);
+            try{      
+                var requestBody = await reader.ReadToEndAsync();
+                var productoData = JsonConvert.DeserializeObject<JObject>(requestBody);
+                    var nombreV = productoData["nombreUsu"].ToObject<string>();
+                    var nombreTiendaV = productoData["nombreTienda"].ToObject<string>();
+                    var tipoUsuario = productoData["tipoUsu"].ToObject<string>();
+                    var correo = productoData["correoUsu"].ToObject<string>();
+                    var contraseña = productoData["contraseña"].ToObject<string>();
+                    var direccion = productoData["direccion"].ToObject<string>();
+                    var movilV = productoData["telefono"].ToObject<int>();
+                    var telefonotienda = productoData["telTienda"].ToObject<int>();
+                    fachadaLogica.agregarUsuario(
+                        tipoUsuario ?? "Usuario por defecto",
+                        nombreV ?? "Usuario de Serie Creación",
+                        movilV,
+                        correo ?? "Correo Usuario",
+                        contraseña ?? "xxxx",
+                        direccion ?? "direccion usuario",
+                        nombreTiendaV ?? "nombre tienda",
+                        telefonotienda,
+                        0,
+                        0,
+                        "");
+    
+            }catch (Exception ex){errorDefault(context,ex);}
+        });
+
+        app.MapPost("/AgregarComprador", async (HttpContext context, Supabase.Client client) =>
+        {
+            using var reader = new StreamReader(context.Request.Body);
+            try{      
+                var requestBody = await reader.ReadToEndAsync();
+                var userData = JsonConvert.DeserializeObject<JObject>(requestBody);
+
+                    var nombreV = userData["nombreUsu"].ToObject<string>();
+                    var tipoUsuario = userData["tipoUsu"].ToObject<string>();
+                    var correo = userData["correoUsu"].ToObject<string>();
+                    var contraseña = userData["contraseña"].ToObject<string>();
+                    var direccion = userData["direccion"].ToObject<string>();
+                    var movilV = userData["telefono"].ToObject<int>();
+                    var cvv = userData["cvv"].ToObject<int>();
+                    var numTarj = userData["numTarj"].ToObject<int>();
+                    var FechaCad = userData["FechaCad"].ToObject<string>();
+                    fachadaLogica.agregarUsuario(
+                        tipoUsuario ?? "Usuario por defecto",
+                        nombreV ?? "Usuario de Serie Creación",
+                        movilV,
+                        correo ?? "Correo Usuario",
+                        contraseña ?? "xxxx",
+                        direccion ?? "direccion usuario",
+                        "Sin tienda",
+                        0000,
+                        cvv,
+                        numTarj,
+                        FechaCad ?? "00/00/0000");
+    
+            }catch (Exception ex){errorDefault(context,ex);}
+        });
+
         async static void errorDefault(HttpContext context,Exception ex){
             context.Response.StatusCode = 500;
             context.Response.ContentType = "text/plain";

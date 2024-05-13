@@ -13,7 +13,8 @@ using System.Security.Cryptography;
 namespace CyberMercadillo.Entities
 {       
     public abstract partial class Usuario{
-        public Usuario(){
+         public Usuario(){
+            idusuario = 0;
             nombre = string.Empty;
             movil = 0; // o null si es nullable
             correo = string.Empty;
@@ -21,7 +22,8 @@ namespace CyberMercadillo.Entities
             direccion = string.Empty;
             tipoUsuario = string.Empty;
         }
-        public Usuario(string nombreUser, int movilUser, string correoUser, string contraUser, string dirUser,string tipoUser) {
+        public Usuario(int IdUser,string nombreUser, int movilUser, string correoUser, string contraUser, string dirUser,string tipoUser) {
+            idusuario = IdUser;
             nombre = nombreUser;
             movil = movilUser;
             correo = correoUser;

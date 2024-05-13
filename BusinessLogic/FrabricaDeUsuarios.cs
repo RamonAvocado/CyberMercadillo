@@ -20,17 +20,17 @@ namespace CyberMercadillo.BusinessLogic{
     public class FabricaDeUsuarios{
 
         public FabricaDeUsuarios(){}
-        public Usuario CrearUsuario(string tipoUsuario, string nombre, int movil, string correo, string contraseña, string direccion, string nombreTienda , 
+        public Usuario CrearUsuario(int idUsu,string tipoUsuario, string nombre, int movil, string correo, string contraseña, string direccion, string nombreTienda , 
                                             int telefonoTienda,int CVV , int numTarjeta ,string fechaCaducidad)
         {
             switch (tipoUsuario.ToLower())
             {
                 case "vendedor":
-                    return new Vendedor(nombre, movil, correo, contraseña, direccion, nombreTienda, telefonoTienda,tipoUsuario);
+                    return new Vendedor(idUsu,nombre, movil, correo, contraseña, direccion, nombreTienda, telefonoTienda,tipoUsuario);
                 case "tecnico":
-                    return new Tecnico(nombre, movil, correo, contraseña, direccion,tipoUsuario);
+                    return new Tecnico(idUsu,nombre, movil, correo, contraseña, direccion,tipoUsuario);
                 case "comprador":
-                    return new Comprador(nombre, movil, correo, contraseña, direccion,CVV,fechaCaducidad,numTarjeta,tipoUsuario);
+                    return new Comprador(idUsu,nombre, movil, correo, contraseña, direccion,CVV,fechaCaducidad,numTarjeta,tipoUsuario);
                 default:
                     throw new ArgumentException("Tipo de usuario no válido");
             }

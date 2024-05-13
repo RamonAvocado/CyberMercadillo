@@ -75,9 +75,12 @@
     <div class = "texto-titulo">
     </div>
     <div class="featured-products-container">
+        <br><br><h1>Elija el tipo de Usuario</h1>
             <div class="container">    
-                <button onclick = "irRegistroVendedor()" class="search-history-btn">Soy Vendedor</button><br><br>
+                <br><br><button onclick = "irRegistroVendedor()" class="search-history-btn">Soy Vendedor</button><br><br>
                 <button onclick = "irRegistroComprador()" class="search-history-btn">Soy Comprador</button><br><br>
+                <p style="font-size: 1.2em;">¿Ya tienes cuenta?
+                <a href="../index.html" style="color: blue; text-decoration: underline;">Iniciar Sesión</a></p>
             </div>
         </div>
     </body>
@@ -95,15 +98,17 @@
     <!-- <script src="Metodos.js"></script> -->
     <script src="./Metodos/GeneralMetodos.js"></script>
     <script src="./Metodos/MetodosNavegacion.js"></script>
+    <script src="./Metodos/MetodosVendedor.js"></script>
+    <script src="./Metodos/MetodosUser.js"></script>
 
     <script>
         // Llama a la función buscar cuando la página se cargue
-        window.addEventListener('load', CargarProductosVendedor);
+        //window.addEventListener('load', CargarProductosVendedor);
         window.addEventListener('unload', GuardarBDD);
     </script>
     <script>
         // Llamar a la función para agregar el enlace de Iniciar Sesión o Cerrar Sesión
-        agregarCerrarSesion();
+        //agregarCerrarSesion();
     </script>
 </body>
 </html>

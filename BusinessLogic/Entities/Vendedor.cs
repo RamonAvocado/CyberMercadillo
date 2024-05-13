@@ -13,8 +13,8 @@ namespace CyberMercadillo.Entities
 
         public Vendedor(){}
 
-        public Vendedor(string nombre, int movil, string correo, string contraseña, string direccion, string nombretienda, int telefonotienda,string tipoUser)
-            : base(nombre, movil, correo, contraseña, direccion,tipoUser)
+        public Vendedor(int idUser,string nombre, int movil, string correo, string contraseña, string direccion, string nombretienda, int telefonotienda,string tipoUser)
+            : base(idUser,nombre, movil, correo, contraseña, direccion,tipoUser)
         {
             this.nombretienda = nombretienda;
             this.telefonotienda = telefonotienda;
