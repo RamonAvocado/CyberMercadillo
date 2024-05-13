@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using CyberMercadillo.BusinessLogic;
 using CyberMercadillo.Entities;
 using Newtonsoft.Json.Linq;
+using Microsoft.VisualBasic;
 
 
 class Servicios{
@@ -10,70 +11,48 @@ class Servicios{
     public Servicios(FachadaLogica fachadaLogica, WebApplication app){
 
         // Obtinene los 6 primeros productos, ya que no hay productos destacados
-        app.MapGet("/ObtenerProductosDestacados", async (HttpContext context, Supabase.Client client) =>
+        app.MapGet("/ObtenerProductosDestacados",(HttpContext context, Supabase.Client client) =>
         {
-            try
-            {
+            try{
                 var productos = fachadaLogica.returnTienda().GetProductos();
-                // Devolver los productos al frontend
-                
-                var jsonResponse = new { productos };
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-
+                devolverFrontEnd(context, productos);
             }catch (Exception ex){errorDefault(context,ex);}
         });
 
         // Obtinene los 6 primeros productos, ya que no hay productos destacados
-        app.MapGet("/ObtenerProductosRecomendados", async (HttpContext context, Supabase.Client client) =>
+        app.MapGet("/ObtenerProductosRecomendados",(HttpContext context, Supabase.Client client) =>
         {
-            try
-            {
+            try{
                 //HABRÁ QUE HACER LA LÓGICA PARA CARGAR LOS PRODCUTOS RECOMENDADOS EN BASE A BUSQUEDAS Y COMPRAS
                 var productos = fachadaLogica.returnTienda().GetProductos();
-                // Devolver los productos al frontend
-                
-                var jsonResponse = new { productos };
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                devolverFrontEnd(context, productos);
             }catch (Exception ex){errorDefault(context,ex);}
         });
 
         // Obtinene TODOS los productos
-        app.MapGet("/ObtenerTodosProductos", async (HttpContext context, Supabase.Client client) =>
+        app.MapGet("/ObtenerTodosProductos", (HttpContext context, Supabase.Client client) =>
         {
-            try
-            {
+            try{
                 //HABRÁ QUE HACER LA LÓGICA PARA CARGAR LOS PRODCUTOS RECOMENDADOS EN BASE A BUSQUEDAS Y COMPRAS
                 var productos = fachadaLogica.returnTienda().GetProductos();
-                // Devolver los productos al frontend
-                
-                var jsonResponse = new { productos };
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                devolverFrontEnd(context, productos);
             }catch (Exception ex){errorDefault(context,ex);}
         });
 
-        app.MapGet("/ObtenerProductoPorID", async (HttpContext context, Supabase.Client client) =>
+        app.MapGet("/ObtenerProductoPorID",(HttpContext context, Supabase.Client client) =>
         {
-            try
-            {
+            try{
                 var idBuscado = context.Request.Query["idproducto"].ToString();
 
                 var producto = fachadaLogica.returnTienda().buscarIDTodos(idBuscado);
-                // Devolver los productos al frontend
-                
-                var jsonResponse = new { producto };
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                devolverFrontEnd(context, new List<Producto>{producto});
             }catch (Exception ex){errorDefault(context,ex);}
         });
 
         app.MapPost("/ActualizarCantidadProducto", async (HttpContext context, Supabase.Client client) =>
         {
             using var reader = new StreamReader(context.Request.Body);
-            try
-            {
+            try{
                 //Leer frontend
                 var requestBody = await reader.ReadToEndAsync();
                 var datosProducto = JsonConvert.DeserializeObject<JObject>(requestBody);
@@ -83,18 +62,15 @@ class Servicios{
                 var nuevaCantidad = datosProducto["nuevaCantidad"].ToObject<int>();
 
                 var guay = fachadaLogica.returnTienda().ActualizarCantidadProducto(idusuario, idproducto, nuevaCantidad);
-                
-                var jsonResponse = new { guay };
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+
+                devolverFrontEnd(context, new List<Boolean> {guay});
             }catch (Exception ex){errorDefault(context,ex);}
         });
 
         app.MapPost("/EliminarProductoDelCarrito", async (HttpContext context, Supabase.Client client) =>
         {
             using var reader = new StreamReader(context.Request.Body);
-            try
-            {
+            try{
                 //Leer frontend
                 var requestBody = await reader.ReadToEndAsync();
                 var datosProducto = JsonConvert.DeserializeObject<JObject>(requestBody);
@@ -105,6 +81,7 @@ class Servicios{
 
                 fachadaLogica.returnTienda().EliminarProductoDelCarrito(idusuario, idproducto??"1");
                 
+                //HERNAN ES NECESARIO ESTE JSONRESPONSE???
                 var jsonResponse = new { };
                 context.Response.ContentType = "application/json";
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
@@ -112,63 +89,46 @@ class Servicios{
         });
 
         //que las categorías de todos los productos
-        app.MapGet("/CargarCategorias", async (HttpContext context, Supabase.Client client) =>
+        app.MapGet("/CargarCategorias", (HttpContext context, Supabase.Client client) =>
         {
-            try
-            {
+            try{
                 //HABRÁ QUE HACER LA LÓGICA PARA CARGAR LOS PRODCUTOS RECOMENDADOS EN BASE A BUSQUEDAS Y COMPRAS
                 var categorias = fachadaLogica.returnTienda().GetCategorías();
-                // Devolver los productos al frontend
-  
-                //quiero devolver categorías que van a ser un string
-                var jsonResponse = new { categorias };
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                devolverFrontEnd(context, categorias);
             }catch (Exception ex){errorDefault(context,ex);}
         });
 
         app.MapPost("/ObtenerProductosVendedor", async (HttpContext context, Supabase.Client client) =>
         {
             using var reader = new StreamReader(context.Request.Body);
-                try
-                {      
+                try{      
                     var requestBody = await reader.ReadToEndAsync();
                     var usuarioData = JsonConvert.DeserializeObject<JObject>(requestBody);
                     var idBuscado = usuarioData["idusuario"].ToObject<int>();
                     
                     var productos = fachadaLogica.GetTodosProductosVendedor(idBuscado);
-
-                    var jsonResponse = new { productos };
-                    context.Response.ContentType = "application/json";
-                    await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                    devolverFrontEnd(context, productos);
             }catch (Exception ex){errorDefault(context,ex);}
         });
 
         app.MapPost("/ObtenerProductosVendedorGuardados", async (HttpContext context, Supabase.Client client) =>
         {
             using var reader = new StreamReader(context.Request.Body);
-                try
-                {      
+                try{      
                     var requestBody = await reader.ReadToEndAsync();
                     var usuarioData = JsonConvert.DeserializeObject<JObject>(requestBody);
                     var idBuscado = usuarioData["idusuario"].ToObject<int>();
                     
                     var productos = fachadaLogica.GetProductosVendedorGuardados(idBuscado);
-                    var jsonResponse = new { productos };
-                    context.Response.ContentType = "application/json";
-                    await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                    devolverFrontEnd(context, productos);
             }catch (Exception ex){errorDefault(context,ex);}
         });
 
-        app.MapGet("/ObtenerProductosAValidar", async (HttpContext context, Supabase.Client client) =>
+        app.MapGet("/ObtenerProductosAValidar", (HttpContext context, Supabase.Client client) =>
         {
-            try
-            {   
+            try{   
                 var productos = fachadaLogica.GetProductosAValidar(); 
-
-                var jsonResponse = new { productos };
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                devolverFrontEnd(context, productos);
             }catch (Exception ex){errorDefault(context,ex);}
         });
 
@@ -182,13 +142,11 @@ class Servicios{
                 var idBuscado = usuarioData["idusuario"].ToObject<int>();
 
                 var productos = fachadaLogica.GetProductosAValidarTecnico(idBuscado); 
-                //var productos = fachadaLogica.GetProductosAValidar();
-                var jsonResponse = new { productos };
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                devolverFrontEnd(context, productos);
             }catch (Exception ex){errorDefault(context,ex);}
         });
 
+        //RARO
         app.MapPost("/AgregarProducto", async (HttpContext context,Supabase.Client client) =>
         {
             // Leer el cuerpo de la solicitud para obtener la información de búsqueda
@@ -224,10 +182,6 @@ class Servicios{
                                                    llegada ?? "18 de Junio");
                     // Inserta el nuevo producto en la base de datos
                    // await client.From<Producto>().Insert(new List<Producto> { nuevoProducto });
-
-                    // Devuelve una respuesta al frontend (opcional)
-                    context.Response.ContentType = "application/json";
-                    await context.Response.WriteAsync("Producto creado exitosamente");
                 }catch (Exception ex){errorDefault(context,ex);}
 
             return Results.Ok("Producto created successfully"); 
@@ -243,10 +197,8 @@ class Servicios{
 
                     
                     var producto = fachadaLogica.returnTienda().buscarIDTodos(idProductoBuscado ?? "0");
-                    // Devolver los productos al frontend
-                    var jsonResponse = new { producto };
-                    context.Response.ContentType = "application/json";
-                    await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+
+                    devolverFrontEnd(context, new List<Producto>{producto});
                 }catch (Exception ex){errorDefault(context,ex);}
         });
 
@@ -297,25 +249,19 @@ class Servicios{
         {
             // Leer el cuerpo de la solicitud para obtener la información de búsqueda
             using var reader = new StreamReader(context.Request.Body);
-            
-                try{
-
-                    var requestBody = await reader.ReadToEndAsync();
-                    var productoData = JsonConvert.DeserializeObject<JObject>(requestBody);
-                    var precioP = productoData["precio"].ToObject<string>();
-                    var descripcionP = productoData["descripcion"].ToObject<string>();
-                    var cantidadP = productoData["cantidad"].ToObject<int>();
-                    var idproductoP = productoData["idproducto"].ToObject<string>();
-                    fachadaLogica.actualizarProducto(precioP ?? "-1",
-                                                   descripcionP ?? "Este artículo es el predeterminado por si llega un null a esta función",
-                                                   cantidadP,                                       
-                                                   idproductoP ?? "0");
-                    Console.WriteLine("pedido");
-
-                    // Devuelve una respuesta al frontend (opcional)
-                    context.Response.ContentType = "application/json";
-                    await context.Response.WriteAsync("Producto creado exitosamente");
-                }catch (Exception ex){errorDefault(context,ex);}
+            try{
+                var requestBody = await reader.ReadToEndAsync();
+                var productoData = JsonConvert.DeserializeObject<JObject>(requestBody);
+                var precioP = productoData["precio"].ToObject<string>();
+                var descripcionP = productoData["descripcion"].ToObject<string>();
+                var cantidadP = productoData["cantidad"].ToObject<int>();
+                var idproductoP = productoData["idproducto"].ToObject<string>();
+                fachadaLogica.actualizarProducto(precioP ?? "-1",
+                                                descripcionP ?? "Este artículo es el predeterminado por si llega un null a esta función",
+                                                cantidadP,                                       
+                                                idproductoP ?? "0");
+                Console.WriteLine("pedido");
+            }catch (Exception ex){errorDefault(context,ex);}
             return Results.Ok("Producto created successfully"); 
         });
 
@@ -343,114 +289,93 @@ class Servicios{
                                                    cantidadP,                                       
                                                    idproductoP ?? "0",
                                                    puntuacionH,
-                                                   certificadoH);
+                                                   certificadoH ?? "");
                     Console.WriteLine("pedido");
-
-                    // Devuelve una respuesta al frontend (opcional)
-                    context.Response.ContentType = "application/json";
-                    await context.Response.WriteAsync("Producto creado exitosamente");
                 }catch (Exception ex){errorDefault(context,ex);}
-
             return Results.Ok("Producto created successfully"); 
         });
-
 
         app.MapPost("/eliminarProductoSeleccionado", async (HttpContext context, Supabase.Client client) =>
         {
             using var reader = new StreamReader(context.Request.Body);
-                try{
-                    var requestBody = await reader.ReadToEndAsync();
-                    var productoData = JsonConvert.DeserializeObject<JObject>(requestBody);
-                    var idproductoSeleccionado = productoData["idproducto"].ToObject<string>();
+            try{
+                var requestBody = await reader.ReadToEndAsync();
+                var productoData = JsonConvert.DeserializeObject<JObject>(requestBody);
+                
+                var idproductoSeleccionado = productoData["idproducto"].ToObject<string>();
 
-                    fachadaLogica.returnTienda().eliminarProductoID(idproductoSeleccionado ?? "0");
-                }
-                catch (Exception ex){errorDefault(context,ex);}
-
+                fachadaLogica.returnTienda().eliminarProductoID(idproductoSeleccionado ?? "0");
+            }catch (Exception ex){errorDefault(context,ex);}
         });
 
         app.MapPost("/DesasignarProducto", async (HttpContext context, Supabase.Client client) =>
         {
             using var reader = new StreamReader(context.Request.Body);
-                try{
-                    var requestBody = await reader.ReadToEndAsync();
-                    var productoData = JsonConvert.DeserializeObject<JObject>(requestBody);
-                    var idproductoSeleccionado = productoData["idproducto"].ToObject<string>();
-                    bool desasignado = fachadaLogica.desasignarProducto(idproductoSeleccionado ?? "0");
-                    if(desasignado){
-                        var jsonResponse = new { mensaje = "El producto fue validado", existe = false };
-                        context.Response.ContentType = "application/json";
-                        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-                    }else{
-                        var jsonResponse = new { mensaje = "El producto no pudo ser validado", existe = true };
-                        context.Response.ContentType = "application/json";
-                        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-                    }
+            try{
+                var requestBody = await reader.ReadToEndAsync();
+                var productoData = JsonConvert.DeserializeObject<JObject>(requestBody);
+                var idproductoSeleccionado = productoData["idproducto"].ToObject<string>();
+                bool desasignado = fachadaLogica.desasignarProducto(idproductoSeleccionado ?? "0");
+                if(desasignado){
+                    var jsonResponse = new { mensaje = "El producto fue validado", existe = false };
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                }else{
+                    var jsonResponse = new { mensaje = "El producto no pudo ser validado", existe = true };
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
                 }
-                catch (Exception ex){errorDefault(context,ex);}
+            }catch (Exception ex){errorDefault(context,ex);}
         });
 
         app.MapPost("/validarProductoSeleccionado", async (HttpContext context, Supabase.Client client) =>
         {
             using var reader = new StreamReader(context.Request.Body);
-                try{
-                    var requestBody = await reader.ReadToEndAsync();
-                    var productoData = JsonConvert.DeserializeObject<JObject>(requestBody);
-                    var idproductoSeleccionado = productoData["idproducto"].ToObject<string>();
-                    bool validado = fachadaLogica.validarProducto(idproductoSeleccionado ?? "0");
-                    if(validado){
-                        var jsonResponse = new { mensaje = "El producto fue validado", existe = false };
-                        context.Response.ContentType = "application/json";
-                        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-                    }else{
-                        var jsonResponse = new { mensaje = "El producto no pudo ser validado", existe = true };
-                        context.Response.ContentType = "application/json";
-                        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-                    }
+            try{
+                var requestBody = await reader.ReadToEndAsync();
+                var productoData = JsonConvert.DeserializeObject<JObject>(requestBody);
+                var idproductoSeleccionado = productoData["idproducto"].ToObject<string>();
+                bool validado = fachadaLogica.validarProducto(idproductoSeleccionado ?? "0");
+                if(validado){
+                    var jsonResponse = new { mensaje = "El producto fue validado", existe = false };
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                }else{
+                    var jsonResponse = new { mensaje = "El producto no pudo ser validado", existe = true };
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
                 }
-                catch (Exception ex)
-                {
-                    // Manejar cualquier error y devolver una respuesta de error al cliente
-                    errorDefault(context,ex);
-                }
+            }catch (Exception ex){errorDefault(context,ex);}
         });
 
         app.MapPost("/iniciarSesion", async (HttpContext context, Supabase.Client client) =>
         {
-        try
-        {
-            var correoUsuario = context.Request.Form["correo"].ToString();
-            var contraUsuario = context.Request.Form["contraseña"].ToString();
+            try{
+                var correoUsuario = context.Request.Form["correo"].ToString();
+                var contraUsuario = context.Request.Form["contraseña"].ToString();
 
-            // Buscar el usuario por su correo electrónico
-            var user = fachadaLogica.returnTienda().buscarUsuario(correoUsuario, contraUsuario);
+                // Buscar el usuario por su correo electrónico
+                var user = fachadaLogica.returnTienda().buscarUsuario(correoUsuario, contraUsuario);
 
-            Console.WriteLine("Usuario que intenta iniciar sesion " + user.correo);
-
-            var jsonResponse = new Dictionary<string, object>
-                    {
-                        { "Id", user.idusuario }, // Asumiendo que idusuario no puede ser nulo, pero ajusta esto según tus requisitos
-                        { "Nombre", user.nombre ?? "UsuarioPorDefecto" }, // Si nombre es nullable, usa el operador de coalescencia nula para proporcionar un valor predeterminado en caso de que sea nulo
-                        { "Correo", user.correo ?? "CorreoPorDefecto" },
-                        { "TipoUsuario", user.tipoUsuario ?? "TipoUsuarioPorDefecto" }
-                    }; 
-                    
-            context.Response.StatusCode = 200;
-            context.Response.ContentType = "application/json";
-            await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-        }
-        catch (Exception ex)
-        {
-            errorDefault(context,ex);   // Manejar cualquier error y devolver una respuesta de error al cliente
-        }
+                var jsonResponse = new Dictionary<string, object>
+                        {
+                            { "Id", user.idusuario }, // Asumiendo que idusuario no puede ser nulo, pero ajusta esto según tus requisitos
+                            { "Nombre", user.nombre ?? "UsuarioPorDefecto" }, // Si nombre es nullable, usa el operador de coalescencia nula para proporcionar un valor predeterminado en caso de que sea nulo
+                            { "Correo", user.correo ?? "CorreoPorDefecto" },
+                            { "TipoUsuario", user.tipoUsuario ?? "TipoUsuarioPorDefecto" }
+                        }; 
+                        
+                context.Response.StatusCode = 200;
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+            }catch (Exception ex){errorDefault(context,ex);}
         });
 
         app.MapPost("/BuscarProductos", async (HttpContext context, Supabase.Client client) =>
         {
             // Leer el cuerpo de la solicitud para obtener la información de búsqueda
             using var reader = new StreamReader(context.Request.Body);
-            try
-            {
+            try{
                 var requestBody = await reader.ReadToEndAsync();
                 var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
 
@@ -459,57 +384,35 @@ class Servicios{
 
                 //recupero los productos con esta categoría
                 var productos = fachadaLogica.returnTienda().GetProductosBusqueda(searchTerm ?? "", idBuscado);
-
-                var jsonResponse = new { productos };
-
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-                
-            }
-            catch (Exception ex)
-            {
-                // Manejar cualquier error y devolver una respuesta de error al cliente
-                errorDefault(context, ex);
-            }
+                devolverFrontEnd(context, productos);
+            }catch (Exception ex){errorDefault(context,ex);}
         });
 
         app.MapPost("/GetProdBusquedas", async (HttpContext context, Supabase.Client client) =>
         {
             // Leer el cuerpo de la solicitud para obtener la información de búsqueda
             using var reader = new StreamReader(context.Request.Body);
-            try
-            {
+            try{
                 var requestBody = await reader.ReadToEndAsync();
                 var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
 
                 var category = searchData["category"].ToObject<string>();
                 var searchTerm = searchData["searchTerm"].ToObject<string>();
                 var idBuscado = searchData["idBuscado"].ToObject<int>();
-                
 
                 //recupero los productos con esta categoría
                 var productos = fachadaLogica.returnTienda().GetProdBusquedaFiltro(category ?? "Todas las categorias");
                 fachadaLogica.returnTienda().GuardarBusqueda(searchTerm ?? "", idBuscado);
 
-                var jsonResponse = new { productos };
-
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-                
-            }
-            catch (Exception ex)
-            {
-                // Manejar cualquier error y devolver una respuesta de error al cliente
-                errorDefault(context, ex);
-            }
+                devolverFrontEnd(context, productos);
+            }catch (Exception ex){errorDefault(context,ex);}
         });
 
         app.MapPost("/FiltroPorPrecio", async (HttpContext context, Supabase.Client client) =>
         {
             // Leer el cuerpo de la solicitud para obtener la información de búsqueda
             using var reader = new StreamReader(context.Request.Body);
-            try
-            {
+            try{
                 var requestBody = await reader.ReadToEndAsync();
                 var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
 
@@ -522,26 +425,15 @@ class Servicios{
                 var productosCat = fachadaLogica.returnTienda().GetProdBusquedaFiltro(category ?? "Todas las categorías");
                 var productos = fachadaLogica.returnTienda().FiltrarProductosPorPrecio(productosCat, precioMin, precioMax, category ?? "Todas las categorías");
 
-                var jsonResponse = new { productos };
-
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-                
-            }
-            catch (Exception ex)
-            {
-                // Manejar cualquier error y devolver una respuesta de error al cliente
-                errorDefault(context, ex);
-            }
+                devolverFrontEnd(context, productos);
+            }catch (Exception ex){errorDefault(context,ex);}
         });
-
 
         app.MapPost("/FiltroPorEco", async (HttpContext context, Supabase.Client client) =>
         {
             // Leer el cuerpo de la solicitud para obtener la información de búsqueda
             using var reader = new StreamReader(context.Request.Body);
-            try
-            {
+            try{
                 var requestBody = await reader.ReadToEndAsync();
                 var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
 
@@ -559,17 +451,8 @@ class Servicios{
                 var productosPrec = fachadaLogica.returnTienda().FiltrarProductosPorPrecio(productosCat, minPrice, maxPrice, category ?? "Todas las categorías");
                 var productos = fachadaLogica.returnTienda().FiltrarProductosPorValoracion(productosCat,productosPrec, valoracion, category ?? "Todas las categorías");
 
-                var jsonResponse = new { productos };
-
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-                
-            }
-            catch (Exception ex)
-            {
-                // Manejar cualquier error y devolver una respuesta de error al cliente
-                errorDefault(context, ex);
-            }
+                devolverFrontEnd(context, productos);
+            }catch (Exception ex){errorDefault(context,ex);}
         });
 
 
@@ -577,8 +460,7 @@ class Servicios{
         {
             // Leer el cuerpo de la solicitud para obtener la información de búsqueda
             using var reader = new StreamReader(context.Request.Body);
-            try
-            {
+            try{
                 var requestBody = await reader.ReadToEndAsync();
                 var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
 
@@ -591,25 +473,14 @@ class Servicios{
 
                 //Console.WriteLine("idBuscado: " + idBuscado + ", idproducto: " + idproducto);
 
-
-                var jsonResponse = new { guay };
-
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-
-            }
-            catch (Exception ex)
-            {
-                // Manejar cualquier error y devolver una respuesta de error al cliente
-                errorDefault(context, ex);
-            }
+                devolverFrontEnd(context, new List<Boolean> {guay});
+            }catch (Exception ex){errorDefault(context,ex);}
         });
 
         app.MapPost("/ObtenerCarritoCompra", async (HttpContext context, Supabase.Client client) =>
         {
             using var reader = new StreamReader(context.Request.Body);
-            try
-            {
+            try{
                 var requestBody = await reader.ReadToEndAsync();
                 var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
 
@@ -622,13 +493,26 @@ class Servicios{
 
                 context.Response.ContentType = "application/json";
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+            }catch (Exception ex){errorDefault(context,ex);}
+        });
 
-            }
-            catch (Exception ex)
+        app.MapPost("/TramitarPedido", async (HttpContext context, Supabase.Client client) =>
+        {
+            using var reader = new StreamReader(context.Request.Body);
+            try
             {
-                // Manejar cualquier error y devolver una respuesta de error al cliente
-                errorDefault(context, ex);
-            }
+                var requestBody = await reader.ReadToEndAsync();
+                var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
+
+                var idusuario = searchData["idusuario"].ToObject<int>();
+
+                var guay = fachadaLogica.TramitarPedido(idusuario);
+
+                var jsonResponse = new {guay};
+
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+            }catch (Exception ex){errorDefault(context,ex);}
         });
 
         app.MapPost("/TramitarPedido", async (HttpContext context, Supabase.Client client) =>
@@ -686,8 +570,7 @@ class Servicios{
         app.MapPost("/ObtenerInfoComprador", async (HttpContext context, Supabase.Client client) =>
         {
             using var reader = new StreamReader(context.Request.Body);
-            try
-            {
+            try{
                 var requestBody = await reader.ReadToEndAsync();
                 var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
 
@@ -700,13 +583,7 @@ class Servicios{
 
                 context.Response.ContentType = "application/json";
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-
-            }
-            catch (Exception ex)
-            {
-                // Manejar cualquier error y devolver una respuesta de error al cliente
-                errorDefault(context, ex);
-            }
+            }catch (Exception ex){errorDefault(context,ex);}
         });
 
     app.MapPost("/GuardarDatosUsuario", async (HttpContext context, Supabase.Client client) =>
@@ -728,11 +605,7 @@ class Servicios{
                 //recupero la información del usuairo por su id
                 var guay = fachadaLogica.GuardarDatosUsuario(idusuario, numTarjeta, fechaCaducidad??"0", cvv);
 
-                var jsonResponse = new {guay};
-
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-
+                devolverFrontEnd(context, new List<Boolean> {guay});
             }
             catch (Exception ex)
             {
@@ -745,8 +618,7 @@ class Servicios{
         app.MapPost("/crearCertificado", async (HttpContext context, Supabase.Client client) =>
         {
             using var reader = new StreamReader(context.Request.Body);
-            try
-            {
+            try{
                 //Leer frontend
                 var requestBody = await reader.ReadToEndAsync();
                 var idProductoSeleccionado = JsonConvert.DeserializeObject(requestBody);
@@ -757,40 +629,26 @@ class Servicios{
                 //Devolver PDF
                 context.Response.ContentType = "application/pdf";
                 context.Response.Headers.Add("Content-Disposition", "attachment; filename=certificado.pdf");
-
-            }
-            catch (Exception ex)
-            {
-                errorDefault(context,ex);   // Manejar cualquier error y devolver una respuesta de error al cliente
-            }
+            }catch (Exception ex){errorDefault(context,ex);}
         });
 
-        app.MapGet("/getBusquedas", async (HttpContext context, Supabase.Client client) =>
+        app.MapGet("/getBusquedas", (HttpContext context, Supabase.Client client) =>
         {
-            try
-            {
+            try{
                 using (var reader = new StreamReader(context.Request.Body))
-                        {
-                            var tienda = fachadaLogica.returnTienda();
-                            var busquedas = tienda.getBusquedasUsuario(tienda.UsuarioRegistrado);
+                    {
+                        var tienda = fachadaLogica.returnTienda();
+                        var busquedas = tienda.getBusquedasUsuario(tienda.UsuarioRegistrado);
 
-                            // Devolver los productos al frontend
-                            var jsonResponse = new {busquedas};
-                            context.Response.ContentType = "application/json";
-                            await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-                        }
-            }
-            catch (Exception ex)
-            {
-                // Manejar cualquier error y devolver una respuesta de error al cliente
-                errorDefault(context,ex);    
-            }
+                        // Devolver los productos al frontend
+                        devolverFrontEnd(context, busquedas);
+                    }
+            }catch (Exception ex){errorDefault(context,ex);}
         });
 
         app.MapGet("/guardar-archivo", async (HttpContext context, Supabase.Client client) =>
         {
-            try
-            {
+            try{
                 var archivo = context.Request.Form.Files.GetFile("archivo");
 
                 if (archivo != null && archivo.Length > 0)
@@ -810,18 +668,19 @@ class Servicios{
                     context.Response.StatusCode = 400; // Bad Request
                     await context.Response.WriteAsync("No se seleccionó ningún archivo.");
                 }
-            }
-            catch (Exception ex)
-            {
-                // Manejar cualquier error y devolver una respuesta de error al cliente
-                errorDefault(context,ex);    
-            }
+            }catch (Exception ex){errorDefault(context,ex);}
         });
 
         async static void errorDefault(HttpContext context,Exception ex){
             context.Response.StatusCode = 500;
             context.Response.ContentType = "text/plain";
             await context.Response.WriteAsync($"Error al guardar el producto: {ex.Message}");
+        }
+
+        async static void devolverFrontEnd<T>(HttpContext context,List<T> objeto){
+            var jsonResponse = new {objeto};
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
         }
     }
         

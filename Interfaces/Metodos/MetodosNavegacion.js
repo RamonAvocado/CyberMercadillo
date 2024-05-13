@@ -105,9 +105,9 @@ async function irAEditarProducto(idProductoSeleccionado){
     
             if (response.ok) {
                 const data = await response.json();
-                console.log("dfvndfnv"+data.producto.idproducto);
-                console.log(data.producto);
-                var validado = data.producto.validado;
+                console.log("dfvndfnv"+data.objeto.idproducto);
+                console.log(data.objeto);
+                var validado = data.objeto.validado;
                 console.log(validado);
                 if (validado == false) {
                     window.location.href = `./EditarProductoGuardado.html?idUser=${userId}`;

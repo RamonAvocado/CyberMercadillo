@@ -189,7 +189,7 @@ async function agregarProd()
                 if (response.ok) {
                     const data = await response.json();
                     console.log('Producto creado correctamente');
-                    mostrarResultado(data.resultado);
+                    mostrarResultado(data.objeto);
 
                     // Aquí podrías mostrar un mensaje de éxito o redirigir a otra página
                     // Borra los campos del formulario
@@ -476,7 +476,7 @@ async function añadirCarritoCompra(idusuario, idproducto, cantProducto){
         if (response.ok) {
             const data = await response.json();
             
-            if(data.guay == true){
+            if(data.objeto == true){
                 //console.log('Producto añadido al carrito de compra');
 
                 var titulo = "¡Producto añadido!";
@@ -533,7 +533,7 @@ async function CargaCarritoCompra(){
 
         if(response.ok  && respuestaUser.ok){
             const data = await response.json();
-            const carritoCompra = data.carritoCompra;
+            const carritoCompra = data.objeto;
             //console.log("carrito compra: "+carritoCompra);
             console.log(carritoCompra.length);
 
@@ -607,7 +607,7 @@ async function mostrarCarritoCompra (carrCompra){
 
             if (response.ok) {
                 const data = await response.json();
-                const producto = data.producto;
+                const producto = data.objeto;
 
                 // Mostrar la información del producto
                 mostrarUnProductoCompra(producto, cantidadProducto, productsContainer);
@@ -961,7 +961,7 @@ async function CargarProductosRecomendadosInfoProd(){
         const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosRecomendados`);
         if (response.ok) {
             const data = await response.json();
-            const productos = data.productos;
+            const productos = data.objeto;
 
             const productosPorPagina = 8;
             const totalPaginas = Math.ceil(productos.length / productosPorPagina);
