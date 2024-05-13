@@ -7,8 +7,6 @@
     <link rel="stylesheet" href="styleBuscador.css">
 </head>
 <body>
-    <input type="hidden" id="idUsuario" value="-1">
-    <input type="hidden" id="idProducto" value="-1">
     <header>
         <div  class="parte-superior">
             <div class="img-logo">   
@@ -37,41 +35,25 @@
                 <li id="sesion-link"></li>
                 <li>
                     <div class="user-icons">
-                        <!-- AQUI LOS ICONOS -->
+                        <!-- Iconos de usuario (por ejemplo, inicio de sesión, carrito de compras) -->
                     </div>
                 </li>
             </ul>
         </nav>
     </div>
-    <div class="boton-historial">
-        <button onclick = "irAHistorialDeBúsqueda()" class="search-history-btn">Historial de Búsqueda</button>
-    </div>
-    <div class = "texto-titulo">
-        <h2>Productos destacados</h2>
-    </div>
-    <div class="featured-products-container">
-        <!-- Productos destacados (similar a la imagen) -->
-        <div class="featured-products">
-        
-        </div>
-        <div class="num-pagina">
-            <ul id="paginasDest"></ul>
+
+    <div class="main-section">
+
+        <div class="resultado-busqueda-container">
+            <div class="resultado-busqueda">
+            
+            </div>
         </div>
     </div>
 
-    <div class = "texto-titulo">
-        <h2>Recomendaciones</h2>
+    <div class="boton-Volver">
+        <button onclick = "volverPaginaAnterior()" class="volver-btn">Volver</button>
     </div>
-    <div class="recommended-products-container">
-        <!-- Productos destacados (similar a la imagen) -->
-        <div class="recommended-products">
-        
-        </div>
-        <div class="num-pagina">
-            <ul id="paginasRec"></ul>
-        </div>        
-    </div>
-
     <footer>
         <div class="separador">
             <div class = "footer-parte-izuierda">
@@ -89,16 +71,14 @@
     </footer>
     <!-- <script src="Metodos.js"></script> -->
     <script src="./Metodos/GeneralMetodos.js"></script>
-    <!-- <script src="./Metodos/MetodosCompra.js"></script> -->
-    <script src="./Metodos/MetodosNavegacion.js"></script>
+    <script src="./Metodos/MetodosBusquedas.js"></script>
     <script src="./Metodos/MetodosUser.js"></script>
-    <!-- <script src="./Metodos/MetodosBusquedas.js"></script> -->
+    <script src="./Metodos/MetodosNavegacion.js"></script>
+
     <script>
-        window.addEventListener('DOMContentLoaded', InicializarProductos);
         window.addEventListener('unload', GuardarBDD);
     </script>
     <script>
-        // Llamar a la función para agregar el enlace de Iniciar Sesión o Cerrar Sesión
         agregarCerrarSesion();
     </script>
 </body>

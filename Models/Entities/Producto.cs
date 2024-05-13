@@ -50,6 +50,9 @@ namespace CyberMercadillo.Entities
         
         [Column("idtecnico")]
         public int? idtecnico { get; set; }
+
+        [Column("llegada")]
+        public string? llegada { get; set; }
     }
 
 }

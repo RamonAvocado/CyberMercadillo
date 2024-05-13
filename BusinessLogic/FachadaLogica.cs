@@ -27,10 +27,14 @@ class FachadaLogica{
     }
 
     public void agregarProducto(string nombreProd, string precioProd, string categoriaProd,string descripcionProd,
-                                                        string imgProd, int cantProd,int idvendedorProd,bool validProd, bool saveProd, int puntHuella,string certiEco){
+                                                        string imgProd, int cantProd,int idvendedorProd,bool validProd, bool saveProd, int puntHuella,string certiEco, string llegada){
         int idProd = tienda.MayorIDProd() +1;
-        Producto product = new Producto(idProd,nombreProd,precioProd,categoriaProd,descripcionProd, imgProd, cantProd,idvendedorProd,validProd,saveProd, puntHuella, certiEco);
+        Producto product = new Producto(idProd,nombreProd,precioProd,categoriaProd,descripcionProd, imgProd, cantProd,idvendedorProd,validProd,saveProd, puntHuella, certiEco, llegada);
         tienda.Productos.Add(product);
+    }
+
+    public bool GuardarDatosUsuario(int idusuario, int numTarjeta, string fechaCaducidad, int cvv){
+        return tienda.GuardarDatosUsuario(idusuario, numTarjeta, fechaCaducidad, cvv);
     }
 /*
     public void guardarProducto(string nombreProd, string precioProd, string categoriaProd,string descripcionProd,

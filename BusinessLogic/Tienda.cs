@@ -96,17 +96,17 @@ class Tienda
     }
 
 
-    public bool AñadirAlCarritoCompra(int idusuario, int idproducto, int cantProducto)
+    public bool AñadirAlCarritoCompra(int idusuario, int idproducto, int cantProducto, string estado)
     {
         // Verificar si el usuario ya tiene el producto en el carrito
-        if (CarritoDeCompras.Any(c => c.idusuario == idusuario && c.idproducto == idproducto))
+        if (CarritoDeCompras.Any(c => c.idusuario == idusuario && c.idproducto == idproducto && c.estado == estado))
         {
             Console.WriteLine("El usuario ya tiene este producto en el carrito de compra, así que no lo guardo");
             return false;
         }
 
         // Crear la nueva línea del carrito de compra
-        CarritoDeCompra ProductoCarrito = new CarritoDeCompra(idusuario, idproducto, cantProducto);
+        CarritoDeCompra ProductoCarrito = new CarritoDeCompra(idusuario, idproducto, cantProducto, estado);
 
         // Agregar el producto al carrito de compras
         CarritoDeCompras.Add(ProductoCarrito);
@@ -123,7 +123,7 @@ class Tienda
             
         List<CarritoDeCompra> carritoDeCompras = new List<CarritoDeCompra>();
 
-        carritoDeCompras = CarritoDeCompras.Where(c => c.idusuario == idusuario).ToList();
+        carritoDeCompras = CarritoDeCompras.Where(c => c.idusuario == idusuario && c.estado == "En espera de pago").ToList();
 
         return carritoDeCompras;
     }
@@ -190,22 +190,37 @@ class Tienda
         return producto;
     }
 
-    public bool ActualizarCantidadProducto(int idproducto, int nuevaCantidad)
+public bool ActualizarCantidadProducto(int idproducto, int nuevaCantidad)
+{
+    var productoEncontrado = false;
+    foreach (Producto prod in Productos)
     {
-        
-        var productoEncontrado = false;
-        for (int i = 0; i < CarritoDeCompras.Count; i++)
+        if (prod.idproducto == idproducto)
         {
-            if (CarritoDeCompras[i].idproducto == idproducto)
+            // Actualizar la cantidad del producto
+            prod.cantidad -= nuevaCantidad;
+            productoEncontrado = true;
+
+            //la lógica para cambiar el estado del producto en el carrito del usuario 
+            foreach (CarritoDeCompra product in CarritoDeCompras)
             {
-                // Actualizar la cantidad del producto
-                CarritoDeCompras[i].cantidad = nuevaCantidad;
-                productoEncontrado = true;
-                break; // Salir del bucle una vez que se actualice la cantidad
+                if (product.idproducto == idproducto)
+                {
+                    product.estado = "Enviado";
+                    break; // Salir del bucle una vez que se actualice la cantidad
+                }
             }
         }
-        return productoEncontrado;
     }
+
+    if (productoEncontrado)
+    {
+        //guardar el carrito en la base de datos y eliminar el producto actual
+        Console.WriteLine("Producto ha cambiado de estado");
+    }
+    
+    return productoEncontrado;
+}
 
     public void EliminarProductoDelCarrito(int idproducto)
     {
@@ -418,6 +433,21 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
             }
 
             else{return usuarioFalso;}
+    }
+
+    public bool GuardarDatosUsuario(int idusuario, int numTarjeta, string fechaCaducidad, int cvv){
+    var ok= false;
+        foreach(Comprador usuario in Compradores){
+            if(usuario.idusuario == idusuario){
+                usuario.numeroTarjeta = numTarjeta;
+                usuario.fechaCaducidad = fechaCaducidad;
+                usuario.CVV = cvv;
+                ok = true;
+                //Console.WriteLine("ok: " + ok + ", numTarjeta: " + usuario.numeroTarjeta + ", fechaCaducidad: " + usuario.fechaCaducidad + ", cvv: " + usuario.CVV);
+
+            }
+        }
+        return ok;
     }
 
     public List<Busqueda> getBusquedasUsuario(Usuario user){

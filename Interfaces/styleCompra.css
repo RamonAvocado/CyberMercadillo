@@ -98,10 +98,7 @@ img {
     color: #be0e0e;
     font-size: 26px;
 }
-.payment-info h2{
-    color: black;
-}
-    
+
 input {
     width: 100%;
     padding: 10px;
@@ -110,11 +107,6 @@ input {
     border-radius: 5px;
 }
 
-.total-cost {
-    font-size: 18px;
-    font-weight: bold;
-    margin-top: 20px;
-}
 
 .buttons {
     margin-top: 20px;
@@ -143,9 +135,64 @@ button {
    }
 
 .inter-final h2{
- font-size: 26px;
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 20px;
 }
 
 .checkout-button {
     background-color: #f9a825;
+}
+
+.elegir-pago {
+    margin-top: 20px;
+}
+
+.centro_img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.elegir-pago img {
+    justify-content: center;
+    height: 100px; /* Establece la altura */
+    width: 100px;
+    margin: 0 10px; /* Ajusta el margen entre las imágenes */
+    border-radius: 100; /* Quita el borde redondeado */
+}
+
+.modificar-direc {
+    background-color: #f9a825;
+    border: none;
+    padding: 18px 28px;
+    font-size: 24px;
+    cursor: pointer;
+    border-radius: 35px;
+    justify-content: right; /* Mueve el botón hacia la derecha */
+}
+
+.modif{
+    display: flex;
+    flex-direction:column;
+    justify-content: space-between;
+    align-items:flex-end;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.payment-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.tarjeta-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.tarjeta-info p {
+    margin-right: 20px;
 }

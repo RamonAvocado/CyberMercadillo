@@ -23,13 +23,14 @@ namespace CyberMercadillo.Entities
             idtecnico = -1;
             puntuacionEco = 0;  
             certificadoEco = "pdf"; 
+            llegada = "18 de Junio";
         }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public Producto(int? idproductoProd,string? nombreProd, string? precioProd, string? categoriaProd, string? descripcionProd, string? imgsProd, int? cantProd,
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-                        int? idvendedorProd, bool? validadoProd, bool? guardadoProd, int? puntuacionHuella, string? pdfCertificado) {
+                        int? idvendedorProd, bool? validadoProd, bool? guardadoProd, int? puntuacionHuella, string? pdfCertificado, string? Llegada) {
             idproducto = idproductoProd ?? 0;
             nombreproducto = nombreProd ?? "ProductoDefecto";
             precio = precioProd ?? "0";
@@ -48,6 +49,8 @@ namespace CyberMercadillo.Entities
             //Si es 0-5 tiene huella ecologica debe aparecer ESTE PRODUCTO YA TIENE CERTIFICADO
             puntuacionEco = puntuacionHuella ?? -1;   
             certificadoEco = pdfCertificado ?? "pdf";
+            llegada = Llegada ?? "18 de Junio";
+
         }
 
         

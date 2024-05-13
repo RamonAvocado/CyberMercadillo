@@ -21,6 +21,8 @@ namespace CyberMercadillo.Entities
         [Column("cantidad")]
         public int? cantidad { get; set; }
 
+        [Column("estado")]
+        public string? estado { get; set; }
     }
 
 }

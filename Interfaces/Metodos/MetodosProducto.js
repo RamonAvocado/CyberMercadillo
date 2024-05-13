@@ -445,7 +445,7 @@ function mostrarUnProducto(respuesta) {
         idProductoSeleccionado= parseInt(idProductoSeleccionado);
         idProductoCantidadSelec= parseInt(idProductoCantidadSelec);
 
-        añadirCarritoCompra(idUsuarioIniciado, idProductoSeleccionado, idProductoCantidadSelec);
+        añadirCarritoCompra(idUsuarioIniciado, idProductoSeleccionado, idProductoCantidadSelec, "En espera de pago");
     });
 
 
@@ -456,12 +456,13 @@ function mostrarUnProducto(respuesta) {
         // Aquí puedes almacenar la cantidad seleccionada en una variable, en el local storage, o realizar cualquier otra acción que desees.
     });
 }
-async function añadirCarritoCompra(idusuario, idproducto, cantProducto){
+async function añadirCarritoCompra(idusuario, idproducto, cantProducto, estadoProducto){
 
     var requestBody = {
         idusuario: idusuario,
         idproducto: idproducto,
         cantProducto :  cantProducto,
+        estadoProducto : estadoProducto,
     };
 
     try {//
@@ -592,31 +593,22 @@ async function mostrarCarritoCompra (carritoCompra, usuario){
             }
         }
 
-    //donde llegan los productos, lo pongo aqui porque tienen que haber productos en el carrito para poder decir el día que llega
-    //ya que está puesto a mano el día que llega
-    const diaLlegada = document.querySelector('.shipping-info h1');
-    diaLlegada.textContent = 'Llegada el 25 de mayo';
-    
+        // Habilitar el botón de "Tramitar Pedido" si hay productos en el carrito
+        const buttonContainer = document.querySelector('.button-container');
+        const tramitarBoton = document.createElement('button');
+        tramitarBoton.textContent = "Tramitar Pedido";
+        tramitarBoton.className = "tramitar-boton";
+        tramitarBoton.onclick = TramitarPedido; // Asigna la función TramitarPedido al evento click del botón
+        buttonContainer.appendChild(tramitarBoton);    
     }
-    const direccionEntre = document.querySelector('.shipping-info p');
-    direccionEntre.textContent = `${"Enviar a: " +usuario.direccion}`;
-
-
-    //información de la tarjeta
-    const paymentInputs = document.querySelectorAll('.payment-info input');
-    if (usuario.numeroTarjeta != null) {
-        paymentInputs[0].value = usuario.numeroTarjeta;
-        paymentInputs[1].value = usuario.fechaCaducidad;
-        paymentInputs[2].value = usuario.CVV;
-    }
-
-    //descripción y precio total
-    const ProdSeleccionados = document.querySelector('.ProdSeleccionados');
-    ProdSeleccionados.textContent =  `Productos Seleccionados: ${descripc} `;
 
     const totalCost = document.querySelector('.total-cost');
     totalCost.textContent = `Total: ${totalPrecio} €`;
+
+    localStorage.setItem('descripc', descripc);
+    localStorage.setItem('totalPrecio', totalPrecio);
 }
+
 
 async function GuardarCarritoBDD(){
     await fetch(`${lugarDeEjecucion}/GuardarCarritoBDD`);
@@ -634,17 +626,31 @@ async function mostrarUnProductoCompra(producto, item, productsContainer) {
     const descripcion = document.createElement('div');
     descripcion.classList.add('descripción');
     descripcion.innerHTML = `<h1>${producto.nombreproducto + " " + producto.precio} €</h1>
-    <p>Descripción: ${producto.descripcion}</p>
-    <h2>Productos Seleccionados: ${item.cantidad} </h2 style="font-size: 18px;">
+    <p>Llegada el: ${producto.llegada}</p>
+    <h2>Cantidad: ${item.cantidad} </h2 style="font-size: 18px;">
     <button onclick="aumentarCantidad( ${item.idproducto}, ${item.cantidad}, ${producto.cantidad})">+</button>
     <button onclick="disminuirCantidad(${item.idproducto}, ${item.cantidad})">-</button>
-    <button onclick="eliminarProducto(${item.idproducto})">Eliminar</button>`;
+    <button onclick="eliminarProducto(${item.idproducto})">Quitar</button>`;
 
     // Añadir elementos al contenedor del producto
     productDiv.appendChild(img);
     productDiv.appendChild(descripcion);
     
+    productDiv.addEventListener('dblclick', () => {
+        irAInfoProd(producto);
+    });
+
     productsContainer.appendChild(productDiv);
+}
+
+function irAInfoProd(producto) {
+    // Obtener el ID del producto y la categoría de los atributos de datos (data-*) de la tarjeta de producto
+    const productId = producto.idproducto;
+    const productoCategoria = producto.categoria;
+    localStorage.setItem('itemID', productId);
+    localStorage.setItem('categoria', productoCategoria);
+
+    window.location.href = `./InfoProducto.html`;
 }
 
 //botones productos

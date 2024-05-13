@@ -107,9 +107,9 @@ class FachadaDBB{
         else
         {
             // Insertar los nuevos registros del carrito de compra
-            foreach(var prod in Carrito)
+            foreach(var prod in tienda.CarritoDeCompras)
             {
-                Console.WriteLine("Id ususario: " + prod.idusuario + " id producto: " + prod.idproducto + " cantidad: " + prod.cantidad);
+                Console.WriteLine("Id ususario: " + prod.idusuario + ", id producto: " + prod.idproducto + ", cantidad: " + prod.cantidad + ", estado: " + prod.estado);
 
                 // Eliminar todos los registros del carrito de compra asociados al usuario, para actualizarlo
                 await supabase.From<CarritoDeCompra>().Where(x => x.idusuario == prod.idusuario).Delete();
@@ -119,6 +119,7 @@ class FachadaDBB{
                     idusuario = prod.idusuario,
                     idproducto = prod.idproducto,
                     cantidad = prod.cantidad,
+                    estado = prod.estado,
                     };
 
                 await supabase.From<CarritoDeCompra>().Insert(producto);

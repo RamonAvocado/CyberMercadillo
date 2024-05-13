@@ -17,56 +17,161 @@ var TipoUsuarioRegistrado;
 var lugarDeEjecucion = "http://localhost:5169";
 
 
-function validarFormatoFecha(fechaCaducidadInput) {
-    //es un formato año, mes, dia
-    const regex = /^\d{4}-\d{2}-\d{2}$/;
-    return regex.test(fechaCaducidadInput);
+async function CargaFinCompra(){
+    try{
+        idUsuarioIniciado = localStorage.getItem('UsuarioID');
+        idUsuarioIniciado= parseInt(idUsuarioIniciado);
+        console.log("usuario: " +idUsuarioIniciado);
+
+        var requestBody = {
+            idusuario: idUsuarioIniciado,
+        };
+
+        //obtengo la información del usuario para la tarjeta de crédito
+        const respuestaUser = await fetch(`${lugarDeEjecucion}/ObtenerInfoComprador`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody)
+        });
+
+        if(respuestaUser.ok){
+            const dataDirec = await respuestaUser.json();
+            const usuario = dataDirec.info;
+
+            //le paso la información a esta función para recuperar los productos
+            mostrarInfoCompra(usuario)
+
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado al cargar el carrito de compra:', error);
+    }
+}
+
+async function mostrarInfoCompra (usuario){
+    
+    // Mostrar la información de dirección de envío
+    const direccionEnvio = document.querySelector('.direccion_envio');
+    direccionEnvio.textContent = `Dirección de envío: ${usuario.direccion}`;
+
+    // Mostrar la información de dirección de facturación
+    const direccionFac = document.querySelector('.direccion_facturacion');
+    direccionFac.textContent = `Dirección de facturación: Calle Pepe Botella`;
+
+    // Habilitar el botón para modificar la dirección
+    const modificarButton = document.querySelector('.modificar-direc');
+
+    modificarButton.addEventListener('click', () => {
+        console.log("Hace como que modifica la dirección");
+
+    });
+
+    //información de la tarjeta
+    const paymentInputs = document.querySelectorAll('.payment-info input');
+    if (usuario.numeroTarjeta != null) {
+        paymentInputs[0].value = usuario.numeroTarjeta;
+        paymentInputs[1].value = usuario.fechaCaducidad;
+        paymentInputs[2].value = usuario.CVV;
+    }
+
+    
+    let descripc =  localStorage.getItem('descripc');
+    let totalPrecio = localStorage.getItem('totalPrecio');
+
+    
+    const prodSelecc = document.querySelector('.prod-selecc');
+    prodSelecc.textContent = `Productos Seleccionados: ${descripc}`;
+    
+    const totalCost = document.querySelector('.total-cost');
+    totalCost.textContent = `Total: ${totalPrecio} €`;
 }
 
 
-function mostrarVentanaEmergenteCompra() {
-    const confirmacion = confirm('¿Desea guardar los datos de su tarjeta para futuras compras?');
+function ModificarTarjeta(){
+    const camposRellenados = verificarCamposTarjeta();
+    
+    if (camposRellenados) {
+        // Mostrar ventana emergente para guardar los datos de la tarjeta
+        mostrarVentanaEmergenteCompra();
+    }
+}
 
-    if (confirmacion) {
-        // guardo los datos de su tarjeta en la base de datos
+//boton de finalizar la compra
+async function FinalizarCompra() {
+    // Verificar si los campos de la tarjeta están rellenados
+    const camposRellenados = verificarCamposTarjeta();
+
+    if (camposRellenados) {
         try {
             idUsuarioIniciado = localStorage.getItem('UsuarioID');
-            numTarjeta = localStorage.getItem('numTarjeta');
-            fechaCaducidad = localStorage.getItem('fechCaduci');
-            cvv = localStorage.getItem('cvv');
-
-            const response = fetch(`${lugarDeEjecucion}/GuardarDatosUsuario`, {
+            idUsuarioIniciado= parseInt(idUsuarioIniciado);
+            console.log("usuario: " +idUsuarioIniciado);
+    
+            var requestBody = {
+                idusuario: idUsuarioIniciado,
+            };
+    
+            //obtengo el carrito de compra, los id's y su cantidad
+            const response = await fetch(`${lugarDeEjecucion}/ObtenerCarritoCompra`,{
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    idusuario: idUsuarioIniciado,
-                    numTarjeta: numTarjeta,
-                    fechaCaducidad: fechaCaducidad,
-                    cvv: cvv
-                })
+                body: JSON.stringify(requestBody)
             });
-            
 
+            if (response.ok) {
+                const data = await response.json();
+                const carritoCompra = data.carritoCompra;
+                
+                for (const item of carritoCompra) {
+                    const idProductoCantidadSelec = item.cantidad;
+                    const idProductoSeleccionado = item.idproducto;
+                
+                    // Hacer la solicitud para actualizar la cantidad del producto
+                    const response = await fetch(`${lugarDeEjecucion}/ActualizarCantidadProducto`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            idproducto: idProductoSeleccionado,
+                            nuevaCantidad: idProductoCantidadSelec
+                        })
+                    });
+                
+                    if (response.ok) {
+                        // Hacer algo si la solicitud es exitosa
+                        console.log(`Cantidad del producto ${idProductoSeleccionado} actualizada, nueva cantidad: ${idProductoCantidadSelec}`);
+
+                        //luego ver si quitar el console log de arriba
+                        alert("Compra realizada");
+                        window.location.href = `./MisPedidos.html`;
+                    } else {
+                        // Manejar errores si la solicitud falla
+                        console.error('Error al actualizar la cantidad del producto.');
+                    }
+                }
+
+            } else {
+                console.error('Error en la solicitud al backend:', response.statusText);
+            }
         } catch (error) {
             console.error('Error inesperado:', error);
         }
-        return true;
-    } else {
-        alert('Los datos de su tarjeta no han sido guardados.');
-        return true;
     }
 }
 
 
-
 function verificarCamposTarjeta() {
     
-    const numTarjetaInput = document.querySelector('.payment-info input[type="text"][placeholder="Número de tarjeta"]');
-    const fechaCaducidadInput = document.querySelector('.payment-info input[type="text"][placeholder="Fecha de caducidad"]');
-    const cvvInput = document.querySelector('.payment-info input[type="text"][placeholder="CVV"]');
-    
+    const numTarjetaInput = document.querySelector('.tarjeta-info input[placeholder="Ingresa el número de tarjeta"]');
+    const fechaCaducidadInput = document.querySelector('.tarjeta-info input[placeholder="Ingresa la fecha de caducidad"]');
+    const cvvInput = document.querySelector('.tarjeta-info input[placeholder="Ingresa el CVV"]');
+
     localStorage.setItem('numTarjeta', numTarjetaInput.value);
     localStorage.setItem('fechCaduci', fechaCaducidadInput.value);
     localStorage.setItem('cvv', cvvInput.value);
@@ -92,7 +197,7 @@ function verificarCamposTarjeta() {
         return false;
     }
 
-/*
+    /*
         NO BORRAR   
 
     if (!validarFormatoFecha(fechaCaducidad)) {
@@ -100,46 +205,58 @@ function verificarCamposTarjeta() {
         fechaCaducidadInput.focus();
         return false;
     }*/
-    return true;
+return true;
+}
+
+function validarFormatoFecha(fechaCaducidadInput) {
+    //es un formato año, mes, dia
+    const regex = /^\d{4}-\d{2}-\d{2}$/;
+    return regex.test(fechaCaducidadInput);
 }
 
 
-async function FinalizarCompra() {
-    // Verificar si los campos de la tarjeta están rellenados
-    const camposRellenados = verificarCamposTarjeta();
+async function mostrarVentanaEmergenteCompra() {
+    const confirmacion = confirm('¿Desea guardar los datos de su tarjeta para futuras compras?');
 
-    if (camposRellenados) {
-        // Mostrar ventana emergente para guardar los datos de la tarjeta
-        const guardarDatosTarjeta =  mostrarVentanaEmergenteCompra();
+    if (confirmacion) {
+        // guardo los datos de su tarjeta en la base de datos
+        try {
+            idUsuarioIniciado = localStorage.getItem('UsuarioID');
+            numTarjeta = localStorage.getItem('numTarjeta');
+            fechaCaducidad = localStorage.getItem('fechCaduci');
+            cvv = localStorage.getItem('cvv');
 
-        if (guardarDatosTarjeta) {
-            // Aquí puedes agregar el código para proceder con la compra
-            // Primero, actualiza la cantidad del producto en la base de datos
-            try {
-                const idProductoCantidadSelec = localStorage.getItem("itemCantSelec");
-                const idProductoSeleccionado = localStorage.getItem("itemID");
+            console.log("idUsuarioIniciado: " + idUsuarioIniciado + ", numTarjeta: " + numTarjeta + ", fechaCaducidad: " + fechaCaducidad + ", cvv: " + cvv);
 
-                const response = await fetch(`${lugarDeEjecucion}/ActualizarCantidadProducto`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        idproducto: idProductoSeleccionado,
-                        idProductoCantidadSelec: idProductoCantidadSelec
-                    })
-                });
+            var response = await fetch(`${lugarDeEjecucion}/GuardarDatosUsuario`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    idusuario: idUsuarioIniciado,
+                    numTarjeta: numTarjeta,
+                    fechaCaducidad: fechaCaducidad,
+                    cvv: cvv
+                })
+            });
 
-                if (response.ok) {
-                    //const data = await response.json();
-                    alert("Gracias por su compra");
-                    window.location.href = `./NewPaginaPrincipal.html`;
-                } else {
-                    console.error('Error en la solicitud al backend:', response.statusText);
-                }
-            } catch (error) {
-                console.error('Error inesperado:', error);
+            if(response.ok) {
+                alert('Los datos de su tarjeta han sido guardados.');
             }
+            else {
+                console.error('Error en la solicitud al backend:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error inesperado:', error);
         }
+        return true;
+    } else {
+        alert('Los datos de su tarjeta no han sido guardados.');
     }
+}
+
+
+function TramitarPedido(){
+    window.location.href = `./FinalizarCompra.html`;
 }

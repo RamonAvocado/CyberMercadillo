@@ -81,9 +81,9 @@ class Servicios{
                 var idproducto = datosProducto["idproducto"].ToObject<int>();
                 var nuevaCantidad = datosProducto["nuevaCantidad"].ToObject<int>();
 
-                var ok = fachadaLogica.returnTienda().ActualizarCantidadProducto(idproducto,nuevaCantidad);
+                var guay = fachadaLogica.returnTienda().ActualizarCantidadProducto(idproducto,nuevaCantidad);
                 
-                var jsonResponse = new { ok };
+                var jsonResponse = new { guay };
                 context.Response.ContentType = "application/json";
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
             }catch (Exception ex){errorDefault(context,ex);}
@@ -204,6 +204,8 @@ class Servicios{
                     var guardadoP = productoData["guardado"].ToObject<bool>();
                     var puntuacionH = productoData["puntuacionHuella"].ToObject<int>();
                     var certiEco = productoData["certificadoHuella"].ToObject<string>();
+                    var llegada = productoData["llegada"].ToObject<string>();
+                    
                     // Utiliza los datos recibidos para crear un nuevo producto
                     fachadaLogica.agregarProducto(nombreP ?? "Producto de Serie Creación",
                                                    precioP ?? "-1",
@@ -215,7 +217,8 @@ class Servicios{
                                                    validadoP,
                                                    guardadoP,
                                                    puntuacionH,
-                                                   certiEco ?? "pdf");
+                                                   certiEco ?? "pdf",
+                                                   llegada ?? "18 de Junio");
                     // Inserta el nuevo producto en la base de datos
                    // await client.From<Producto>().Insert(new List<Producto> { nuevoProducto });
 
@@ -579,9 +582,10 @@ class Servicios{
                 var idBuscado = searchData["idusuario"].ToObject<int>();
                 var idproducto = searchData["idproducto"].ToObject<int>();
                 var cantProducto = searchData["cantProducto"].ToObject<int>();
+                var estado = searchData["estadoProducto"].ToObject<string>();
                 
                 //recupero los productos con esta categoría
-                var guay = fachadaLogica.returnTienda().AñadirAlCarritoCompra(idBuscado, idproducto, cantProducto);
+                var guay = fachadaLogica.returnTienda().AñadirAlCarritoCompra(idBuscado, idproducto, cantProducto, estado??"En espera de pago");
 
                 //Console.WriteLine("idBuscado: " + idBuscado + ", idproducto: " + idproducto);
 
@@ -623,6 +627,7 @@ class Servicios{
                 errorDefault(context, ex);
             }
         });
+
         app.MapPost("/ObtenerInfoComprador", async (HttpContext context, Supabase.Client client) =>
         {
             using var reader = new StreamReader(context.Request.Body);
@@ -637,6 +642,38 @@ class Servicios{
                 var info = fachadaLogica.returnTienda().ObtenerInfoUsuario(idusuario);
 
                 var jsonResponse = new { info };
+
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier error y devolver una respuesta de error al cliente
+                errorDefault(context, ex);
+            }
+        });
+
+    app.MapPost("/GuardarDatosUsuario", async (HttpContext context, Supabase.Client client) =>
+        {
+            using var reader = new StreamReader(context.Request.Body);
+            try
+            {
+                var requestBody = await reader.ReadToEndAsync();
+                var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
+
+                var idusuario = searchData["idusuario"].ToObject<int>();
+                var numTarjeta = searchData["numTarjeta"].ToObject<int>();
+                var fechaCaducidad = searchData["fechaCaducidad"].ToObject<string>();
+                var cvv = searchData["cvv"].ToObject<int>();
+
+                //Console.WriteLine("idUsuarioIniciado: " + idusuario + ", numTarjeta: " + numTarjeta + ", fechaCaducidad: " + fechaCaducidad + ", cvv: " + cvv);
+
+
+                //recupero la información del usuairo por su id
+                var guay = fachadaLogica.GuardarDatosUsuario(idusuario, numTarjeta, fechaCaducidad??"0", cvv);
+
+                var jsonResponse = new {guay};
 
                 context.Response.ContentType = "application/json";
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));

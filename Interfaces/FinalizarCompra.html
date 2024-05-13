@@ -5,21 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styleCompra.css">
     <title>Checkout</title>
-    <style>
-
-        .product-compra img {
-            width: 200px; /* Tamaño de la imagen */
-            margin-right: 20px; /* Espacio entre la imagen y el texto */
-        }
-
-        .descripción {
-            flex: 1; /* Ocupar todo el espacio disponible */
-        }
-
-        .descripción h1 {
-            margin-top: 0; /* Eliminar margen superior del título */
-        }
-    </style>
 </head>
 <body>
     <header class="header">
@@ -30,23 +15,47 @@
     <div class="product-container-compra">
         <div class="informacion-compra">
             <div class="shipping-info">
-                <h1>Llegada el: </h1>
-                <p>Dirección de entrega: </p>
+                <div clas="direcciones">
+                    <p class="direccion_envio"></p>
+                    <h1 class="direccion_facturacion"></h1>
+                </div>
+                <div class="modif">
+                    <button class="modificar-direc"> Modificar Dirección</button>
+                </div>
+            </div>
+            <div class="elegir-pago">
+                <h3>Elegir método de pago:</h3>
+                <div class="centro_img">   
+                    <img src="Imagenes/Paypal.png">
+                    <img src="Imagenes/Tarjeta.png">
+                </div>
             </div>
             <div class="payment-info">
-                <h2>Tarjeta de crédito:</h2>
-                <input type="text" placeholder="Número de tarjeta">
-                <input type="text" placeholder="Fecha de caducidad">
-                <input type="text" placeholder="CVV">
+                <h2>Pago:</h2>
+                <div class="tarjeta-info">
+                    <p>Número de tarjeta:</p>
+                    <input type="text" placeholder="Ingresa el número de tarjeta">
+                </div>
+                <div class="tarjeta-info">
+                    <p>Fecha de caducidad:</p>
+                    <input type="text" placeholder="Ingresa la fecha de caducidad">
+                </div>
+                <div class="tarjeta-info">
+                    <p>CVV:</p>
+                    <input type="text" placeholder="Ingresa el CVV">
+                </div>
+                <div class="modif">
+                    <button onclick="ModificarTarjeta()" class="modificar-tarjeta-btn">Modificar Tarjeta</button>
+                </div>
             </div>
             <div class="final">
                 <div class="inter-final">
-                    <h1 class="ProdSeleccionados">Productos Seleccionados: </h1>
+                    <h1 class="prod-selecc">Productos Seleccionados: </h1>
                     <h2 class="total-cost">Total: </h2>
                 </div>
                 <div class="button-container">
                     <button onclick="volverPaginaAnterior()" class="volver-btn">Volver</button>
-                    <button onclick="FinalizarCompra()" class="checkout-button">Finalizar Pedido</button>
+                    <button onclick="FinalizarCompra()" class="checkout-button">Finalizar Compra</button>
                 </div>
             </div>
         </div>
@@ -57,7 +66,7 @@
     <script src="./Metodos/MetodosNavegacion.js"></script>
     <script src="./Metodos/MetodosProducto.js"></script>
     <script>
-        window.addEventListener('load', CargaCarritoCompra);
+        window.addEventListener('load', CargaFinCompra);
         window.addEventListener('unload', GuardarBDD);
     </script>
     <!--window.addEventListener('load', GuardarCarritoBDD);-->
