@@ -36,6 +36,12 @@ class FachadaLogica{
     public bool GuardarDatosUsuario(int idusuario, int numTarjeta, string fechaCaducidad, int cvv){
         return tienda.GuardarDatosUsuario(idusuario, numTarjeta, fechaCaducidad, cvv);
     }
+
+/* ahora cambia
+    public List<CarritoDeCompra> CargarPedidos(int idusuario){
+        return tienda.CargarPedidos(idusuario);
+    }
+    */
 /*
     public void guardarProducto(string nombreProd, string precioProd, string categoriaProd,string descripcionProd,
                                                         string imgProd, int cantProd,int idvendedorProd,bool validProd,bool saveProd){

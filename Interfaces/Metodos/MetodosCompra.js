@@ -126,10 +126,16 @@ async function FinalizarCompra() {
             if (response.ok) {
                 const data = await response.json();
                 const carritoCompra = data.carritoCompra;
-                
+
                 for (const item of carritoCompra) {
                     const idProductoCantidadSelec = item.cantidad;
                     const idProductoSeleccionado = item.idproducto;
+
+                    var requestBody2 = {
+                        idusuario: idUsuarioIniciado,
+                        idproducto: idProductoSeleccionado,
+                        nuevaCantidad: idProductoCantidadSelec,
+                    };
                 
                     // Hacer la solicitud para actualizar la cantidad del producto
                     const response = await fetch(`${lugarDeEjecucion}/ActualizarCantidadProducto`, {
@@ -137,11 +143,9 @@ async function FinalizarCompra() {
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({
-                            idproducto: idProductoSeleccionado,
-                            nuevaCantidad: idProductoCantidadSelec
-                        })
+                        body: JSON.stringify(requestBody2)
                     });
+        
                 
                     if (response.ok) {
                         // Hacer algo si la solicitud es exitosa

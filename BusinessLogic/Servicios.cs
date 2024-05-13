@@ -78,10 +78,11 @@ class Servicios{
                 var requestBody = await reader.ReadToEndAsync();
                 var datosProducto = JsonConvert.DeserializeObject<JObject>(requestBody);
 
+                var idusuario = datosProducto["idusuario"].ToObject<int>();
                 var idproducto = datosProducto["idproducto"].ToObject<int>();
                 var nuevaCantidad = datosProducto["nuevaCantidad"].ToObject<int>();
 
-                var guay = fachadaLogica.returnTienda().ActualizarCantidadProducto(idproducto,nuevaCantidad);
+                var guay = fachadaLogica.returnTienda().ActualizarCantidadProducto(idusuario, idproducto, nuevaCantidad);
                 
                 var jsonResponse = new { guay };
                 context.Response.ContentType = "application/json";
@@ -98,9 +99,11 @@ class Servicios{
                 var requestBody = await reader.ReadToEndAsync();
                 var datosProducto = JsonConvert.DeserializeObject<JObject>(requestBody);
 
-                var idproducto = datosProducto["idproducto"].ToObject<int>();
+                var idusuario = datosProducto["idusuario"].ToObject<int>();
+                var idproducto = datosProducto["idproducto"].ToObject<string>();
 
-                fachadaLogica.returnTienda().EliminarProductoDelCarrito(idproducto);
+
+                fachadaLogica.returnTienda().EliminarProductoDelCarrito(idusuario, idproducto);
                 
                 var jsonResponse = new { };
                 context.Response.ContentType = "application/json";
@@ -580,12 +583,12 @@ class Servicios{
                 var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
 
                 var idBuscado = searchData["idusuario"].ToObject<int>();
-                var idproducto = searchData["idproducto"].ToObject<int>();
-                var cantProducto = searchData["cantProducto"].ToObject<int>();
-                var estado = searchData["estadoProducto"].ToObject<string>();
+                var idproducto = searchData["idproducto"].ToObject<string>();
+                var cantProducto = searchData["cantProducto"].ToObject<string>();
+
                 
                 //recupero los productos con esta categoría
-                var guay = fachadaLogica.returnTienda().AñadirAlCarritoCompra(idBuscado, idproducto, cantProducto, estado??"En espera de pago");
+                var guay = fachadaLogica.returnTienda().AñadirAlCarritoCompra(idBuscado, idproducto??"1", cantProducto??"1");
 
                 //Console.WriteLine("idBuscado: " + idBuscado + ", idproducto: " + idproducto);
 
@@ -627,6 +630,33 @@ class Servicios{
                 errorDefault(context, ex);
             }
         });
+
+        app.MapPost("/CargarPedidos", async (HttpContext context, Supabase.Client client) =>
+        {
+            using var reader = new StreamReader(context.Request.Body);
+            try
+            {
+                var requestBody = await reader.ReadToEndAsync();
+                var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
+
+                var idusuario = searchData["idusuario"].ToObject<int>();
+
+                //recupero los productos con esta categoría
+                //var pedidos = fachadaLogica.CargarPedidos(idusuario);
+
+                var jsonResponse = new {  };
+
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier error y devolver una respuesta de error al cliente
+                errorDefault(context, ex);
+            }
+        });
+
 
         app.MapPost("/ObtenerInfoComprador", async (HttpContext context, Supabase.Client client) =>
         {

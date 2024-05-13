@@ -9,17 +9,20 @@ using System.Threading.Tasks;
 
 namespace CyberMercadillo.Entities
 {
-    [Table("CarritoDeCompra")]
-    public partial class CarritoDeCompra : BaseModel
+    [Table("CarritosDeCompra")]
+    public partial class CarritosDeCompra : BaseModel
     {
         [PrimaryKey("idusuario", false)]
         public int idusuario { get; set; }
 
-        [PrimaryKey("idproducto", false)]
-        public int idproducto { get; set; }
+        [PrimaryKey("idproductos", false)]
+        public string idproductos { get; set; }
 
-        [Column("cantidad")]
-        public int? cantidad { get; set; }
+        [Column("cantidadProds")]
+        public string? cantidadProds { get; set; }
+
+        [Column("fecha")]
+        public DateTime? fecha { get; set; }
 
         [Column("estado")]
         public string? estado { get; set; }

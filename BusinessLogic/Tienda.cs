@@ -65,13 +65,14 @@ class Tienda
         private set { usuarios = value; }
     }
 
-    private List<CarritoDeCompra> carritos = new List<CarritoDeCompra>();
+    private List<CarritosDeCompra> carritos = new List<CarritosDeCompra>();
 
-    public List<CarritoDeCompra> CarritoDeCompras
+    public List<CarritosDeCompra> CarritosDeCompra
     {
         get { return carritos; }
         private set { carritos = value; }
     }
+
 
     private Usuario usuarioRegistrado = new Comprador("x", 1, "x", "x", "x", 1, "x", 1, "x");
     public Usuario UsuarioRegistrado
@@ -91,39 +92,76 @@ class Tienda
             }
             Console.WriteLine("Hay " + Tecnicos.Count + " Tecnicos ");
             Console.WriteLine("Hay " + Usuarios.Count + " Usuarios ");
-            Console.WriteLine("Hay " + CarritoDeCompras.Count + " CarritoDeCompras ");
+            Console.WriteLine("Hay " + CarritosDeCompra.Count + " CarritoDeCompras ");
             
     }
 
+    public void CrearCarrito(int idusuario){
+        CarritosDeCompra carrito = new CarritosDeCompra
+        {
+            idusuario = idusuario,
+            estado = "En espera de pago"
+        };
+        carritos.Add(carrito);
+        Console.WriteLine("Se ha creado un carrito de compra ");
+        Console.WriteLine("Ahora hay: " + CarritosDeCompra.Count() + " CarritoDeCompras");
+    }
 
-    public bool AñadirAlCarritoCompra(int idusuario, int idproducto, int cantProducto, string estado)
+    public bool AñadirAlCarritoCompra(int idusuario, string idproducto, string cantProducto)
     {
-        // Verificar si el usuario ya tiene el producto en el carrito
-        if (CarritoDeCompras.Any(c => c.idusuario == idusuario && c.idproducto == idproducto && c.estado == estado))
+
+        // Verificar si el usuario ya tiene el producto en el carrito, si existe el producto, no quiero añadirlo al carrito
+        if (CarritosDeCompra.Any(c => c.idusuario == idusuario && c.estado != "En espera de pago" && c.idproductos.Contains(idproducto)))
         {
             Console.WriteLine("El usuario ya tiene este producto en el carrito de compra, así que no lo guardo");
             return false;
         }
+        else{
+            //cogo el carrito que estoy bucando
+            var carritoUsuario = CarritosDeCompra.FirstOrDefault(c => c.idusuario == idusuario && c.estado != "En espera de pago");
 
-        // Crear la nueva línea del carrito de compra
-        CarritoDeCompra ProductoCarrito = new CarritoDeCompra(idusuario, idproducto, cantProducto, estado);
+            // Si el carrito de compra no es null, añadir el producto y su cantidad
+            if (carritoUsuario != null)
+            {
+                carritoUsuario.idproductos += idproducto;
+                carritoUsuario.cantidadProds += cantProducto;
+            }
+            else // Si el usuario no tiene un carrito de compra existente, crear uno nuevo
+            {
+                CrearCarrito(idusuario);
+                CarritosDeCompra.Last().idproductos += idproducto;
+                CarritosDeCompra.Last().cantidadProds += cantProducto;
+            }
 
-        // Agregar el producto al carrito de compras
-        CarritoDeCompras.Add(ProductoCarrito);
-
-        /*Console.WriteLine("El id del usuario: " + ProductoCarrito.idusuario);
-        Console.WriteLine("El producto seleccionado: " + ProductoCarrito.idproducto);
-        Console.WriteLine("Cantidad de producto: " + ProductoCarrito.cantidad);*/
-        Console.WriteLine("Ahora hay: " + CarritoDeCompras.Count() + " Productos en CarritoDeCompras");
+                Console.WriteLine("idproducos: " + carritoUsuario.idproductos);
+                Console.WriteLine("cantidadProds: " + carritoUsuario.cantidadProds);
+        }
         
+        Console.WriteLine("Ahora hay: " + CarritosDeCompra.Count() + " Productos en CarritoDeCompras");
+            
     return true;
     }
 
-    public List<CarritoDeCompra> ObtenerCarritoCompra(int idusuario){
-            
-        List<CarritoDeCompra> carritoDeCompras = new List<CarritoDeCompra>();
+/*  ahora esto cambia
+    public List<CarritosDeCompra> CargarPedidos(int idusuario){
+        List<CarritosDeCompra> pedidos = new List<CarritosDeCompra>();
 
-        carritoDeCompras = CarritoDeCompras.Where(c => c.idusuario == idusuario && c.estado == "En espera de pago").ToList();
+        foreach(var pedid in Pedidos){
+            if(pedid.idusuario == idusuario){
+                pedidos.Add(pedid);
+            }
+        }
+
+        return pedidos;
+    }*/
+
+//cambiar el estado
+
+    public List<CarritosDeCompra> ObtenerCarritoCompra(int idusuario){
+            
+        List<CarritosDeCompra> carritoDeCompras = new List<CarritosDeCompra>();
+
+        carritoDeCompras = CarritosDeCompra.Where(c => c.idusuario == idusuario && c.estado == "En espera de pago").ToList();
 
         return carritoDeCompras;
     }
@@ -190,7 +228,8 @@ class Tienda
         return producto;
     }
 
-public bool ActualizarCantidadProducto(int idproducto, int nuevaCantidad)
+
+public bool ActualizarCantidadProducto(int idusuario, int idproducto, int nuevaCantidad)
 {
     var productoEncontrado = false;
     foreach (Producto prod in Productos)
@@ -202,11 +241,11 @@ public bool ActualizarCantidadProducto(int idproducto, int nuevaCantidad)
             productoEncontrado = true;
 
             //la lógica para cambiar el estado del producto en el carrito del usuario 
-            foreach (CarritoDeCompra product in CarritoDeCompras)
+            foreach (CarritosDeCompra carrito in CarritosDeCompra)
             {
-                if (product.idproducto == idproducto)
+                if(carrito.idusuario == idusuario && carrito.estado != "En espera de pago" && carrito.idproductos.Contains((char)idproducto))
                 {
-                    product.estado = "Enviado";
+                    carrito.estado = "Enviado";
                     break; // Salir del bucle una vez que se actualice la cantidad
                 }
             }
@@ -222,18 +261,17 @@ public bool ActualizarCantidadProducto(int idproducto, int nuevaCantidad)
     return productoEncontrado;
 }
 
-    public void EliminarProductoDelCarrito(int idproducto)
+    public void EliminarProductoDelCarrito(int idusuario, string idproducto)
     {
-        List<CarritoDeCompra> NuevoCarritoDeCompras = new List<CarritoDeCompra>();
+        List<CarritosDeCompra> NuevoCarritoDeCompras = new List<CarritosDeCompra>();
 
-        foreach(CarritoDeCompra producto in CarritoDeCompras)
+        foreach(CarritosDeCompra carrito in CarritosDeCompra)
         {
             //la logica para coger todos los productos del carrito menos el que quiero eliminar
-            if(producto.idproducto != idproducto){
-                NuevoCarritoDeCompras.Add(producto);
+            if(carrito.idusuario == idusuario && carrito.estado != "En espera de pago" && carrito.idproductos.Contains(idproducto)){
+                carrito.idproductos = carrito.idproductos.Replace(idproducto,"");
             }
         }
-        CarritoDeCompras = NuevoCarritoDeCompras;
     }
 
     public bool validarUnProducto(string idBuscado)

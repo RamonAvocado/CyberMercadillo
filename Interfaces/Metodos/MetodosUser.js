@@ -185,3 +185,54 @@ async function agregarUsuarioComprador(TipoUsuarioRegistrado)
 function irAPagianValidaciones() {
     window.location.href = './ValidarProductos.html';
 }*/
+
+async function CargarPeidodos(){
+    try {
+
+        idUsuarioIniciado = localStorage.getItem("UsuarioID");
+
+        var requestBody = {
+            idusuario: idUsuarioIniciado,
+        };
+
+        //obtengo el carrito de compra, los id's y su cantidad
+        const response = await fetch(`${lugarDeEjecucion}/CargarPedidos`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody)
+        });
+        if(response.ok){
+            var data = await response.json();
+            var pedidos = data.pedidos;
+            console.log(pedidos);
+            mostrarPeidos(pedidos);
+        }
+        else {
+        console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    }
+    catch(error){
+        console.error('Error inesperado:', error);
+    }
+}
+
+function mostrarPeidos(pedidos){
+    const tabla = document.getElementById("pedidos-container");
+    
+    for(var i = 0; i < pedidos.length; i++){
+        var pedido = document.createElement("div");
+        pedido.classList.add('pedido');
+
+        //informacion de cada pedido
+        const info = document.createElement("div");
+        info.classList.add('fecha');
+        info.innerHTML = `<h1>Compra realizada ${pedidos[i].idproducto}</h1>
+        <p>${pedidos[i].estado}</p>`;
+
+        pedido.appendChild(info);
+
+        tabla.appendChild(pedido);
+    }
+}

@@ -31,7 +31,7 @@ class FachadaDBB{
         var vendedores = await supabase.From<Vendedor>().Get();
         var tecnicos = await supabase.From<Tecnico>().Get();
         var compras = await supabase.From<Compra>().Get();
-        var carritos = await supabase.From<CarritoDeCompra>().Get();
+        var carritos = await supabase.From<CarritosDeCompra>().Get();
 
         foreach (var producto in productos.Models){
             tienda.Productos.Add(producto);
@@ -52,7 +52,7 @@ class FachadaDBB{
             tienda.Compras.Add(compra);
         }
         foreach(var carrito in carritos.Models){
-            tienda.CarritoDeCompras.Add(carrito);
+            tienda.CarritosDeCompra.Add(carrito);
         }
 
         TodoCargadoCargados = true;   
@@ -78,7 +78,7 @@ class FachadaDBB{
         var vendedores = tienda.Vendedores;
         var tecnicos = tienda.Tecnicos;
         var compras = tienda.Compras;
-        var carritos = tienda.CarritoDeCompras;
+        var carritos = tienda.CarritosDeCompra;
 
         Busqueda b1 = new Busqueda {
             texto = "Smart",
@@ -96,6 +96,8 @@ class FachadaDBB{
     });
 
     //Este metodo guarda el carrito de compra en la base de datos para no guardar todo, que es peligroso
+    //cambiar el estado
+/*
     app.MapGet("/GuardarCarritoBDD", async (HttpContext context, Supabase.Client supabase) =>
     { 
         //tengo que coger el carrito cuando lo haya actualizado
@@ -108,7 +110,7 @@ class FachadaDBB{
         {
             // Insertar los nuevos registros del carrito de compra
             foreach(var prod in tienda.CarritoDeCompras)
-            {
+            {//cambiar el estado
                 Console.WriteLine("Id ususario: " + prod.idusuario + ", id producto: " + prod.idproducto + ", cantidad: " + prod.cantidad + ", estado: " + prod.estado);
 
                 // Eliminar todos los registros del carrito de compra asociados al usuario, para actualizarlo
@@ -119,7 +121,8 @@ class FachadaDBB{
                     idusuario = prod.idusuario,
                     idproducto = prod.idproducto,
                     cantidad = prod.cantidad,
-                    estado = prod.estado,
+                    //cambiar el estado
+                    //estado = prod.estado,
                     };
 
                 await supabase.From<CarritoDeCompra>().Insert(producto);
@@ -127,7 +130,7 @@ class FachadaDBB{
 
             Console.WriteLine("Ha actualizado el carrito de compra en la base de datos");
         }
-    });
+    });*/
 
     app.Run();
     }

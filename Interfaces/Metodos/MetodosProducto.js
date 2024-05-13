@@ -445,7 +445,7 @@ function mostrarUnProducto(respuesta) {
         idProductoSeleccionado= parseInt(idProductoSeleccionado);
         idProductoCantidadSelec= parseInt(idProductoCantidadSelec);
 
-        añadirCarritoCompra(idUsuarioIniciado, idProductoSeleccionado, idProductoCantidadSelec, "En espera de pago");
+        añadirCarritoCompra(idUsuarioIniciado, idProductoSeleccionado, idProductoCantidadSelec);
     });
 
 
@@ -456,13 +456,12 @@ function mostrarUnProducto(respuesta) {
         // Aquí puedes almacenar la cantidad seleccionada en una variable, en el local storage, o realizar cualquier otra acción que desees.
     });
 }
-async function añadirCarritoCompra(idusuario, idproducto, cantProducto, estadoProducto){
+async function añadirCarritoCompra(idusuario, idproducto, cantProducto){
 
     var requestBody = {
         idusuario: idusuario,
         idproducto: idproducto,
         cantProducto :  cantProducto,
-        estadoProducto : estadoProducto,
     };
 
     try {//
@@ -720,10 +719,13 @@ async function actualizarCantidad(idprod, cantidadSeleccionada){
 
 async function eliminarProducto(idprod) {
     console.log("Eliminar este producto del carrito: "+ idprod);
+    idUsuarioIniciado = localStorage.getItem('UsuarioID');
+
 
     try{    
         var requestBody = {
             idproducto: idprod,
+            idusuario:idUsuarioIniciado,
         };
 
         const response = await fetch(`${lugarDeEjecucion}/EliminarProductoDelCarrito`,{
