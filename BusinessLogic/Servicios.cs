@@ -103,7 +103,7 @@ class Servicios{
                 var idproducto = datosProducto["idproducto"].ToObject<string>();
 
 
-                fachadaLogica.returnTienda().EliminarProductoDelCarrito(idusuario, idproducto);
+                fachadaLogica.returnTienda().EliminarProductoDelCarrito(idusuario, idproducto??"1");
                 
                 var jsonResponse = new { };
                 context.Response.ContentType = "application/json";
@@ -586,11 +586,11 @@ class Servicios{
                 var idproducto = searchData["idproducto"].ToObject<string>();
                 var cantProducto = searchData["cantProducto"].ToObject<string>();
 
-                
                 //recupero los productos con esta categoría
                 var guay = fachadaLogica.returnTienda().AñadirAlCarritoCompra(idBuscado, idproducto??"1", cantProducto??"1");
 
                 //Console.WriteLine("idBuscado: " + idBuscado + ", idproducto: " + idproducto);
+
 
                 var jsonResponse = new { guay };
 
@@ -631,6 +631,31 @@ class Servicios{
             }
         });
 
+        app.MapPost("/TramitarPedido", async (HttpContext context, Supabase.Client client) =>
+        {
+            using var reader = new StreamReader(context.Request.Body);
+            try
+            {
+                var requestBody = await reader.ReadToEndAsync();
+                var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
+
+                var idusuario = searchData["idusuario"].ToObject<int>();
+
+                var guay = fachadaLogica.TramitarPedido(idusuario);
+
+                var jsonResponse = new {guay};
+
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier error y devolver una respuesta de error al cliente
+                errorDefault(context, ex);
+            }
+        });
+
         app.MapPost("/CargarPedidos", async (HttpContext context, Supabase.Client client) =>
         {
             using var reader = new StreamReader(context.Request.Body);
@@ -642,9 +667,9 @@ class Servicios{
                 var idusuario = searchData["idusuario"].ToObject<int>();
 
                 //recupero los productos con esta categoría
-                //var pedidos = fachadaLogica.CargarPedidos(idusuario);
+                var carritos = fachadaLogica.CargarPedidos(idusuario);
 
-                var jsonResponse = new {  };
+                var jsonResponse = new { carritos };
 
                 context.Response.ContentType = "application/json";
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));

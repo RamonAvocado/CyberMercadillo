@@ -96,66 +96,112 @@ class Tienda
             
     }
 
+
     public void CrearCarrito(int idusuario){
         CarritosDeCompra carrito = new CarritosDeCompra
         {
             idusuario = idusuario,
             estado = "En espera de pago"
         };
-        carritos.Add(carrito);
+ 
         Console.WriteLine("Se ha creado un carrito de compra ");
         Console.WriteLine("Ahora hay: " + CarritosDeCompra.Count() + " CarritoDeCompras");
+        CarritosDeCompra.Add(carrito);
     }
 
     public bool AñadirAlCarritoCompra(int idusuario, string idproducto, string cantProducto)
     {
 
         // Verificar si el usuario ya tiene el producto en el carrito, si existe el producto, no quiero añadirlo al carrito
-        if (CarritosDeCompra.Any(c => c.idusuario == idusuario && c.estado != "En espera de pago" && c.idproductos.Contains(idproducto)))
+        if (CarritosDeCompra.Any(c => c.idusuario == idusuario && c.estado == "En espera de pago" && c.idproductos.Contains(idproducto)))
         {
             Console.WriteLine("El usuario ya tiene este producto en el carrito de compra, así que no lo guardo");
             return false;
         }
         else{
             //cogo el carrito que estoy bucando
-            var carritoUsuario = CarritosDeCompra.FirstOrDefault(c => c.idusuario == idusuario && c.estado != "En espera de pago");
+            var carritoUsuario = CarritosDeCompra.FirstOrDefault(c => c.idusuario == idusuario && c.estado== "En espera de pago");
 
             // Si el carrito de compra no es null, añadir el producto y su cantidad
             if (carritoUsuario != null)
             {
-                carritoUsuario.idproductos += idproducto;
-                carritoUsuario.cantidadProds += cantProducto;
+                carritoUsuario.idproductos += "," + idproducto;
+                carritoUsuario.cantidadProds += "," + cantProducto;
             }
             else // Si el usuario no tiene un carrito de compra existente, crear uno nuevo
             {
-                CrearCarrito(idusuario);
-                CarritosDeCompra.Last().idproductos += idproducto;
-                CarritosDeCompra.Last().cantidadProds += cantProducto;
-            }
+                CarritosDeCompra carrito = new CarritosDeCompra
+                {
+                    idusuario = idusuario,
+                    estado = "En espera de pago",
+                    idproductos = idproducto, // Agregar el primer producto
+                    cantidadProds = cantProducto // Agregar la cantidad del primer producto
+                };
 
-                Console.WriteLine("idproducos: " + carritoUsuario.idproductos);
-                Console.WriteLine("cantidadProds: " + carritoUsuario.cantidadProds);
+                Console.WriteLine("Se ha creado un carrito de compra ");
+                Console.WriteLine("Ahora hay: " + CarritosDeCompra.Count() + " CarritoDeCompras");
+
+                CarritosDeCompra.Add(carrito);
+
+                return true;
+            }
         }
         
-        Console.WriteLine("Ahora hay: " + CarritosDeCompra.Count() + " Productos en CarritoDeCompras");
+    Console.WriteLine("Ahora hay: " + CarritosDeCompra.Count() + " Productos en CarritoDeCompras");
             
     return true;
     }
 
-/*  ahora esto cambia
-    public List<CarritosDeCompra> CargarPedidos(int idusuario){
-        List<CarritosDeCompra> pedidos = new List<CarritosDeCompra>();
+    public bool TramitarPedido(int idusuario)
+    {
+        var hecho = false;
+        var carritoUsuario = CarritosDeCompra.FirstOrDefault(c => c.idusuario == idusuario && c.estado == "En espera de pago");
+        if (carritoUsuario!= null)
+        {
+            carritoUsuario.estado = "Enviado";
+            carritoUsuario.fecha = DateTime.Now;
 
-        foreach(var pedid in Pedidos){
-            if(pedid.idusuario == idusuario){
-                pedidos.Add(pedid);
+            // Ahora he de actualizar cada producto en la lista de productos restándole su cantidad debida
+            // Recorrer los productos en el carrito y actualizar la cantidad en la lista de productos
+            for (int i = 0; i < carritoUsuario.idproductos.Split(',').Length; i++)
+            {
+                var productosCarrito = carritoUsuario.idproductos.Split(',').ToList();
+                var cantidadesCarrito = carritoUsuario.cantidadProds.Split(',').ToList();
+
+                // Convertir el id del producto a entero
+                if (int.TryParse(productosCarrito[i], out int idProducto))
+                {
+                    var productoEnLista = Productos.FirstOrDefault(p => p.idproducto == idProducto);
+                    if (productoEnLista != null)
+                    {
+                        // Restar la cantidad debida del producto en la lista de productos
+                        if (int.TryParse(cantidadesCarrito[i], out int cantidad))
+                        {
+                            productoEnLista.cantidad -= cantidad;
+                            Console.WriteLine("Ahora hay " + productoEnLista.cantidad + " unidades de " + productoEnLista.nombreproducto);
+                        }
+                    }
+                }
+            }
+            hecho = true;
+        }
+        return hecho;
+    }
+
+
+//cargo los pedidos, independientemente de si han sido pagados o no
+    public List<CarritosDeCompra> CargarPedidos(int idusuario){
+
+        List<CarritosDeCompra> carritos = new List<CarritosDeCompra>();
+
+        foreach(var carrito in CarritosDeCompra){
+            if(carrito.idusuario == idusuario){
+                carritos.Add(carrito);
             }
         }
 
-        return pedidos;
-    }*/
-
-//cambiar el estado
+        return carritos;
+    }
 
     public List<CarritosDeCompra> ObtenerCarritoCompra(int idusuario){
             
@@ -229,6 +275,7 @@ class Tienda
     }
 
 
+/* ANTIGUO ACTUALIZAR CANTIDAD
 public bool ActualizarCantidadProducto(int idusuario, int idproducto, int nuevaCantidad)
 {
     var productoEncontrado = false;
@@ -241,12 +288,26 @@ public bool ActualizarCantidadProducto(int idusuario, int idproducto, int nuevaC
             productoEncontrado = true;
 
             //la lógica para cambiar el estado del producto en el carrito del usuario 
-            foreach (CarritosDeCompra carrito in CarritosDeCompra)
+            var carritoUsuario = CarritosDeCompra.FirstOrDefault(c => c.idusuario == idusuario && c.estado== "En espera de pago");
+            //ahora quiero actualizar  su respectiva cantidad, que está en la misam posición que el idprodcuto
+            
+            if (carritoUsuario != null)
             {
-                if(carrito.idusuario == idusuario && carrito.estado != "En espera de pago" && carrito.idproductos.Contains((char)idproducto))
+                // Encontrar la posición del producto en el carrito del usuario
+                int index = Array.IndexOf(carritoUsuario.idproductos.Split(','), idproducto.ToString());
+
+            if (index != -1)
                 {
-                    carrito.estado = "Enviado";
-                    break; // Salir del bucle una vez que se actualice la cantidad
+                    // Convertir la cantidad de productos a un array de strings
+                    string[] cantidades = carritoUsuario.cantidadProds.Split(',');
+
+                    // Actualizar la cantidad del producto en el carrito del usuario
+                    int cantidadActual = int.Parse(cantidades[index]);
+                    cantidadActual -= nuevaCantidad;
+                    cantidades[index] = cantidadActual.ToString();
+
+                    // Unir el array de cantidades en una cadena
+                    carritoUsuario.cantidadProds = string.Join(',', cantidades);
                 }
             }
         }
@@ -255,7 +316,45 @@ public bool ActualizarCantidadProducto(int idusuario, int idproducto, int nuevaC
     if (productoEncontrado)
     {
         //guardar el carrito en la base de datos y eliminar el producto actual
-        Console.WriteLine("Producto ha cambiado de estado");
+        Console.WriteLine("Cantidad producto acutalizada");
+    }
+    
+    return productoEncontrado;
+}
+
+*/
+public bool ActualizarCantidadProducto(int idusuario, int idproducto, int nuevaCantidad)
+{
+    var productoEncontrado = false;
+
+    //la lógica para cambiar el estado del producto en el carrito del usuario 
+    var carritoUsuario = CarritosDeCompra.FirstOrDefault(c => c.idusuario == idusuario && c.estado== "En espera de pago");
+    //ahora quiero actualizar  su respectiva cantidad, que está en la misam posición que el idprodcuto
+    
+    if (carritoUsuario != null)
+    {
+        // Encontrar la posición del producto en el carrito del usuario
+        int index = Array.IndexOf(carritoUsuario.idproductos.Split(','), idproducto.ToString());
+
+    if (index != -1)
+        {
+            // Convertir la cantidad de productos a un array de strings
+            string[] cantidades = carritoUsuario.cantidadProds.Split(',');
+
+            // Actualizar la cantidad del producto en el carrito del usuario
+            int cantidadActual = int.Parse(cantidades[index]);
+            cantidadActual = nuevaCantidad;
+            cantidades[index] = cantidadActual.ToString();
+
+            // Unir el array de cantidades en una cadena
+            carritoUsuario.cantidadProds = string.Join(',', cantidades);
+        }
+    }
+
+    if (productoEncontrado)
+    {
+        //guardar el carrito en la base de datos y eliminar el producto actual
+        Console.WriteLine("Cantidad producto acutalizada");
     }
     
     return productoEncontrado;
@@ -263,14 +362,46 @@ public bool ActualizarCantidadProducto(int idusuario, int idproducto, int nuevaC
 
     public void EliminarProductoDelCarrito(int idusuario, string idproducto)
     {
-        List<CarritosDeCompra> NuevoCarritoDeCompras = new List<CarritosDeCompra>();
+        var carritoUsuario = CarritosDeCompra.FirstOrDefault(c => c.idusuario == idusuario && c.estado == "En espera de pago");
 
-        foreach(CarritosDeCompra carrito in CarritosDeCompra)
+        if (carritoUsuario != null)
         {
-            //la logica para coger todos los productos del carrito menos el que quiero eliminar
-            if(carrito.idusuario == idusuario && carrito.estado != "En espera de pago" && carrito.idproductos.Contains(idproducto)){
-                carrito.idproductos = carrito.idproductos.Replace(idproducto,"");
+            // Separar los id de los productos y cantidades en listas
+            List<string> productos = carritoUsuario.idproductos.Split(',').ToList();
+            List<string> cantidades = carritoUsuario.cantidadProds.Split(',').ToList();
+
+            // Buscar la posición del producto en la lista
+            int index = productos.IndexOf(idproducto);
+
+            if (index != -1)
+            {
+                // Eliminar el producto y su cantidad
+                productos.RemoveAt(index);
+                cantidades.RemoveAt(index);
+
+                // Actualizar el carrito
+                carritoUsuario.idproductos = string.Join(",", productos);
+                carritoUsuario.cantidadProds = string.Join(",", cantidades);
+
+                // Si no quedan productos, eliminar el carrito
+                if (productos.Count == 0)
+                {
+                    CarritosDeCompra.Remove(carritoUsuario);
+                    Console.WriteLine("Carrito eliminado");
+                }
+                else
+                {
+                    Console.WriteLine("Producto eliminado del carrito");
+                }
             }
+            else
+            {
+                Console.WriteLine("El producto no se encontró en el carrito");
+            }
+        }
+        else
+        {
+            Console.WriteLine("No se encontró un carrito para el usuario especificado");
         }
     }
 

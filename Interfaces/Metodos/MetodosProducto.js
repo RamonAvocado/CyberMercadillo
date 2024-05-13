@@ -464,7 +464,7 @@ async function añadirCarritoCompra(idusuario, idproducto, cantProducto){
         cantProducto :  cantProducto,
     };
 
-    try {//
+    try {
         const response = await fetch(`${lugarDeEjecucion}/AñadirAlCarritoCompra`, {
             method: 'POST',
             headers: {
@@ -535,13 +535,13 @@ async function CargaCarritoCompra(){
             const data = await response.json();
             const carritoCompra = data.carritoCompra;
             //console.log("carrito compra: "+carritoCompra);
-            console.log(carritoCompra);
+            console.log(carritoCompra.length);
 
             const dataDirec = await respuestaUser.json();
             const usuario = dataDirec.info;
 
             //le paso la información a esta función para recuperar los productos
-            mostrarCarritoCompra(carritoCompra,usuario)
+            mostrarCarritoCompra(carritoCompra)
 
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
@@ -551,12 +551,32 @@ async function CargaCarritoCompra(){
     }
 }
 
-async function mostrarCarritoCompra (carritoCompra, usuario){
+function contarProds(productos){
+    //productos es un string, y quiero contar
+    var totalProd = 0;
+
+    var subcadenas = productos.split(',');
+    //console.log(subcadenas);
+    // Contar el número de subcadenas resultantes
+    var totalProd = subcadenas.length;
+
+    return totalProd;
+}
+function DevolverSubCadena(carrito, buscado){
+    //console.log("carrito", carrito);
+    var subcadenas = carrito.split(',');
+    //console.log("subcadenas: " + subcadenas);
+    var idProducto = subcadenas[buscado];
+    //console.log("idProducto: " + idProducto);
+    return idProducto;
+}
+
+async function mostrarCarritoCompra (carrCompra){
     const productsContainer = document.querySelector('.products-wrapper');
     let totalPrecio = 0;
     let descripc = "";
-
-    if(carritoCompra.length == 0){
+    
+    if(carrCompra.length == 0){
         //creo el elemento div y luego añado un p para decir que no hay productos
         const Noproduct = document.createElement('h1');
 
@@ -566,27 +586,40 @@ async function mostrarCarritoCompra (carritoCompra, usuario){
         
     }else{
 
+        var carritoCompra = carrCompra[0];
+        var totalProd = contarProds(carritoCompra.idproductos);
+        //console.log("carrito compra: " + totalProd);
+
+
+                    // Obtener el ID del producto y su cantidad
+        console.log(carritoCompra.idproductos);
+        console.log(carritoCompra.cantidadProds);
         //para cada producto, quiero hacer mostrarUnProductoCompra
-        for (const item of carritoCompra) {
+        for (var i = 0; i< totalProd; i++) {
+            //var carritoItem = DevolverSubcadena(carritoCompra[0]);
+
+            const idProducto = DevolverSubCadena(carritoCompra.idproductos, i);
+            const cantidadProducto = DevolverSubCadena(carritoCompra.cantidadProds, i);
+
             // Hacer una solicitud al servidor para obtener la información completa del producto por su ID
-            const response = await fetch(`${lugarDeEjecucion}/ObtenerProductoPorID?idproducto=${item.idproducto}`);
+            console.log("Aqui aqui: " +idProducto + " y su cantidad: " + cantidadProducto);
+            const response = await fetch(`${lugarDeEjecucion}/ObtenerProductoPorID?idproducto=${idProducto}`);
 
             if (response.ok) {
                 const data = await response.json();
                 const producto = data.producto;
 
                 // Mostrar la información del producto
-                mostrarUnProductoCompra(producto, item, productsContainer);
-                totalPrecio += producto.precio * item.cantidad ;
+                mostrarUnProductoCompra(producto, cantidadProducto, productsContainer);
 
-                //por si solo hay un producto, que no salga la coma
-                if (carritoCompra.length == 1) {
-                    descripc += item.cantidad + " " + producto.nombreproducto;
+                // Calcular el total del precio
+                totalPrecio += producto.precio * cantidadProducto;
+
+                // Construir la descripción de los productos en el carrito
+                if (descripc == "") {
+                    descripc += `${cantidadProducto} ${producto.nombreproducto}`;
                 } else {
-                    descripc += item.cantidad + " " + producto.nombreproducto;
-                    if (carritoCompra.indexOf(item) < carritoCompra.length - 1) {
-                        descripc += ", ";
-                    }
+                    descripc += `, ${cantidadProducto} ${producto.nombreproducto}`;
                 }
                 //console.log(producto.nombreproducto);
             }
@@ -614,7 +647,7 @@ async function GuardarCarritoBDD(){
 }
 
 
-async function mostrarUnProductoCompra(producto, item, productsContainer) {
+async function mostrarUnProductoCompra(producto, cantidad, productsContainer) {
     const productDiv = document.createElement('div');
     productDiv.classList.add('product-compra');
 
@@ -626,10 +659,10 @@ async function mostrarUnProductoCompra(producto, item, productsContainer) {
     descripcion.classList.add('descripción');
     descripcion.innerHTML = `<h1>${producto.nombreproducto + " " + producto.precio} €</h1>
     <p>Llegada el: ${producto.llegada}</p>
-    <h2>Cantidad: ${item.cantidad} </h2 style="font-size: 18px;">
-    <button onclick="aumentarCantidad( ${item.idproducto}, ${item.cantidad}, ${producto.cantidad})">+</button>
-    <button onclick="disminuirCantidad(${item.idproducto}, ${item.cantidad})">-</button>
-    <button onclick="eliminarProducto(${item.idproducto})">Quitar</button>`;
+    <h2>Cantidad: ${cantidad} </h2 style="font-size: 18px;">
+    <button onclick="aumentarCantidad( ${producto.idproducto}, ${cantidad}, ${producto.cantidad})">+</button>
+    <button onclick="disminuirCantidad(${producto.idproducto}, ${cantidad})">-</button>
+    <button onclick="eliminarProducto(${producto.idproducto})">Quitar</button>`;
 
     // Añadir elementos al contenedor del producto
     productDiv.appendChild(img);
@@ -693,7 +726,9 @@ function disminuirCantidad(idprod, cantidadSeleccionada) {
 async function actualizarCantidad(idprod, cantidadSeleccionada){
     try
         {
+            idUsuarioIniciado = localStorage.getItem('UsuarioID');
             var requestBody = {
+                idusuario: idUsuarioIniciado,
                 idproducto: idprod,
                 nuevaCantidad: cantidadSeleccionada,
             };

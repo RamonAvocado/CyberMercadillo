@@ -186,7 +186,7 @@ function irAPagianValidaciones() {
     window.location.href = './ValidarProductos.html';
 }*/
 
-async function CargarPeidodos(){
+async function CargarPedidos(){
     try {
 
         idUsuarioIniciado = localStorage.getItem("UsuarioID");
@@ -205,9 +205,9 @@ async function CargarPeidodos(){
         });
         if(response.ok){
             var data = await response.json();
-            var pedidos = data.pedidos;
-            console.log(pedidos);
-            mostrarPeidos(pedidos);
+            var carritos = data.carritos;
+            console.log(carritos);
+            mostrarPedidos(carritos);
         }
         else {
         console.error('Error en la solicitud al backend:', response.statusText);
@@ -218,21 +218,35 @@ async function CargarPeidodos(){
     }
 }
 
-function mostrarPeidos(pedidos){
-    const tabla = document.getElementById("pedidos-container");
+function mostrarPedidos(carritos){
+    const tabla = document.getElementById("carritos-container");
     
-    for(var i = 0; i < pedidos.length; i++){
-        var pedido = document.createElement("div");
-        pedido.classList.add('pedido');
+    for(var i = 0; i < carritos.length; i++){
+        var carrito = document.createElement("div");
 
-        //informacion de cada pedido
+        //esto es para saber que color darle
+        if(carritos[i].estado == "En espera de pago"){
+            carrito.classList.add('pedido', 'EnEspera');
+        }else{
+            carrito.classList.add('pedido', carritos[i].estado);
+        }
+
+
+        // Convertir la cadena de fecha a un objeto Date
+        const fechaCompra = new Date(carritos[i].fecha);
+
+        // Formatear la fecha y la hora
+        const fechaFormateada = `${fechaCompra.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`;
+        const horaFormateada = `${fechaCompra.getHours()}:${('0' + fechaCompra.getMinutes()).slice(-2)}`;
+
+        // Información de cada carrito
         const info = document.createElement("div");
         info.classList.add('fecha');
-        info.innerHTML = `<h1>Compra realizada ${pedidos[i].idproducto}</h1>
-        <p>${pedidos[i].estado}</p>`;
+        info.innerHTML = `<h2>Compra realizada el día: ${fechaFormateada} a la hora: ${horaFormateada}</h2>
+        <h2>${carritos[i].estado}</h2>`;
 
-        pedido.appendChild(info);
+        carrito.appendChild(info);
 
-        tabla.appendChild(pedido);
+        tabla.appendChild(carrito);
     }
 }

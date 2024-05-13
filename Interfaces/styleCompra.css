@@ -196,3 +196,13 @@ button {
 .tarjeta-info p {
     margin-right: 20px;
 }
+
+.modificar-tarjeta-btn:disabled {
+    opacity: 0.6; /* Cambia la opacidad del botón cuando está deshabilitado */
+    cursor: not-allowed; /* Cambia el cursor a 'no permitido' cuando está deshabilitado */
+}
+
+.checkout-button:disabled {
+    opacity: 0.6; /* Cambia la opacidad del botón cuando está deshabilitado */
+    cursor: not-allowed; /* Cambia el cursor a 'no permitido' cuando está deshabilitado */
+}

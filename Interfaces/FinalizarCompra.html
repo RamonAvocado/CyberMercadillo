@@ -69,6 +69,67 @@
         window.addEventListener('load', CargaFinCompra);
         window.addEventListener('unload', GuardarBDD);
     </script>
+    <script>
+        // Obtener referencia a la imagen de tarjeta de crédito
+        var tarjetaCreditoImg = document.querySelector('.elegir-pago img[src="Imagenes/Tarjeta.png"]');
+        var paypal = document.querySelector('.elegir-pago img[src="Imagenes/Paypal.png"]');
+
+        // Obtener referencias a los campos de entrada de la tarjeta de crédito
+        var numeroTarjetaInput = document.querySelector('input[placeholder="Ingresa el número de tarjeta"]');
+        var fechaCaducidadInput = document.querySelector('input[placeholder="Ingresa la fecha de caducidad"]');
+        var cvvInput = document.querySelector('input[placeholder="Ingresa el CVV"]');
+        var modificarTarjetaBtn = document.querySelector('.modificar-tarjeta-btn');
+        var finalizarBoton = document.querySelector('.checkout-button');
+
+        // Función para habilitar los campos de entrada de la tarjeta de crédito
+        function habilitarCamposTarjeta() {
+            numeroTarjetaInput.disabled = false;
+            fechaCaducidadInput.disabled = false;
+            cvvInput.disabled = false;
+            modificarTarjetaBtn.disabled = false;
+            finalizarBoton.disabled = false;
+        }
+
+        // Función para deshabilitar los campos de entrada de la tarjeta de crédito
+        function deshabilitarCamposTarjeta() {
+            numeroTarjetaInput.disabled = true;
+            fechaCaducidadInput.disabled = true;
+            cvvInput.disabled = true;
+            modificarTarjetaBtn.disabled = true;
+            finalizarBoton.disabled = true;
+        }
+
+        // Agregar un controlador de eventos al hacer clic en la imagen de la tarjeta de crédito
+        tarjetaCreditoImg.addEventListener('click', function() {
+            alert("Metodo de pago seleccionado: \n \n Tarjeta de Crédito");
+
+            // Verificar si la imagen de la tarjeta de crédito está seleccionada
+            if (tarjetaCreditoImg.classList.contains('seleccionada')) {
+                // Si está seleccionada, deshabilitar los campos de entrada de la tarjeta de crédito
+                deshabilitarCamposTarjeta();
+                // Además, quitar la clase 'seleccionada'
+                tarjetaCreditoImg.classList.remove('seleccionada');
+            } else {
+                // Si no está seleccionada, habilitar los campos de entrada de la tarjeta de crédito
+                habilitarCamposTarjeta();
+                // Además, agregar la clase 'seleccionada'
+                tarjetaCreditoImg.classList.add('seleccionada');
+            }
+        });
+
+        paypal.addEventListener('click', function(){
+            alert("Metodo de pago seleccionado: \n \n Paypal");
+            if (tarjetaCreditoImg.classList.contains('seleccionada')) {
+                // Si está seleccionada, deshabilitar los campos de entrada de la tarjeta de crédito
+                deshabilitarCamposTarjeta();
+                // Además, quitar la clase 'seleccionada'
+                tarjetaCreditoImg.classList.remove('seleccionada');
+            }
+        });
+
+        // Al cargar la página, asegúrate de que los campos de entrada de la tarjeta de crédito estén deshabilitados inicialmente
+        deshabilitarCamposTarjeta();
+    </script>
     <!--window.addEventListener('load', GuardarCarritoBDD);-->
 </body>
 </html>

@@ -184,7 +184,7 @@ async function agregarUsuarioVendedor(TipoUsuarioRegistrado){
         } catch (error) {
             console.error('Error inesperado:', error);
         }
-        alert("Usuario creado correctamente")
+        alert("Usuario creado correctamente");
         window.location.reload();
     });
 }

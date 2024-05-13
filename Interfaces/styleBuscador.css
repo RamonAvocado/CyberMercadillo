@@ -581,3 +581,49 @@ select {
     display: inline-block;
     margin-right: 20px; /* Espacio entre los números de página */
 }
+/* Estilos para el contenedor de pedidos */
+.carritos-container {
+    display: flex; /* Establece el contenedor como flexbox */
+    flex-direction: column; /* Orienta los elementos en columna */
+    overflow-y: scroll; /* Habilita el scroll vertical */
+    overflow-x: hidden;
+    max-height: 600px; /* Establece una altura máxima para el contenedor */
+    padding: 10px; /* Añade espacio interno */
+    width: 100%; /* Ocupa todo el espacio horizontal disponible */
+    margin-right: 10px;
+    align-items: center;
+}
+
+/* Estilos para cada pedido */
+.pedido {
+    display: flex; /* Establece el pedido como flexbox */
+    flex-direction: column; /* Orienta los elementos en columna */
+    background-color: #d7d7d7;
+    border: 1px solid #e0e0e0;
+    border-radius: 50px;
+    padding: 10px;
+    margin: 10px;
+    width: 95%; /* Ocupa todo el espacio horizontal disponible */
+}
+
+/* Estilos para el estado "Recibido" */
+.pedido.Recibido {
+    background-color: green; /* Cambia el color de fondo a verde */
+}
+
+/* Estilos para el estado "En espera de pago" */
+.pedido.EnEspera {
+    background-color: red; /* Cambia el color de fondo a rojo */
+}
+
+/* Estilos para el estado "Enviado" */
+.pedido.Enviado {
+    background-color: yellow; /* Cambia el color de fondo a amarillo */
+}
+
+.fecha {
+    display: flex; /* Establece la fecha como flexbox */
+    justify-content: space-between; /* Separa los elementos con el espacio disponible */
+    margin-left: 50px; /* Añade margen a la izquierda */
+    margin-right: 100px; /* Añade margen a la derecha */
+}

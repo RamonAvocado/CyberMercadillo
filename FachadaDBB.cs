@@ -54,7 +54,7 @@ class FachadaDBB{
         foreach(var carrito in carritos.Models){
             tienda.CarritosDeCompra.Add(carrito);
         }
-
+        
         TodoCargadoCargados = true;   
         tienda.pregunta();     
         }

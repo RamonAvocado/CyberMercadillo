@@ -106,62 +106,25 @@ async function FinalizarCompra() {
 
     if (camposRellenados) {
         try {
+
             idUsuarioIniciado = localStorage.getItem('UsuarioID');
             idUsuarioIniciado= parseInt(idUsuarioIniciado);
-            console.log("usuario: " +idUsuarioIniciado);
-    
+
             var requestBody = {
                 idusuario: idUsuarioIniciado,
             };
     
-            //obtengo el carrito de compra, los id's y su cantidad
-            const response = await fetch(`${lugarDeEjecucion}/ObtenerCarritoCompra`,{
+            var response = await fetch(`${lugarDeEjecucion}/TramitarPedido`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(requestBody)
-            });
+            })
 
-            if (response.ok) {
-                const data = await response.json();
-                const carritoCompra = data.carritoCompra;
-
-                for (const item of carritoCompra) {
-                    const idProductoCantidadSelec = item.cantidad;
-                    const idProductoSeleccionado = item.idproducto;
-
-                    var requestBody2 = {
-                        idusuario: idUsuarioIniciado,
-                        idproducto: idProductoSeleccionado,
-                        nuevaCantidad: idProductoCantidadSelec,
-                    };
-                
-                    // Hacer la solicitud para actualizar la cantidad del producto
-                    const response = await fetch(`${lugarDeEjecucion}/ActualizarCantidadProducto`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(requestBody2)
-                    });
-        
-                
-                    if (response.ok) {
-                        // Hacer algo si la solicitud es exitosa
-                        console.log(`Cantidad del producto ${idProductoSeleccionado} actualizada, nueva cantidad: ${idProductoCantidadSelec}`);
-
-                        //luego ver si quitar el console log de arriba
-                        alert("Compra realizada");
-                        window.location.href = `./MisPedidos.html`;
-                    } else {
-                        // Manejar errores si la solicitud falla
-                        console.error('Error al actualizar la cantidad del producto.');
-                    }
-                }
-
-            } else {
-                console.error('Error en la solicitud al backend:', response.statusText);
+            if(response.ok){
+                alert("Pedido enviado");
+                window.location.href = `./NewPaginaPrincipal.html`;
             }
         } catch (error) {
             console.error('Error inesperado:', error);
@@ -261,6 +224,6 @@ async function mostrarVentanaEmergenteCompra() {
 }
 
 
-function TramitarPedido(){
+async function TramitarPedido(){
     window.location.href = `./FinalizarCompra.html`;
 }
