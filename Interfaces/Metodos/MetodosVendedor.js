@@ -39,8 +39,8 @@ async function CargarProductosVendedor(idUser) {
                 //console.log("Texto y todo intro: " + data.productos.Models);
             const data = await response.json();
             console.log(data);
-            console.log(data.productos.length);
-            const prod = data.productos;
+            console.log(data.objeto.length);
+            const prod = data.objeto;
             console.log(prod);
             
             const productosPorPagina = 6;
@@ -77,8 +77,8 @@ async function CargarProductosVendedorGuardados(idUser) {
                 //console.log("Texto y todo intro: " + data.productos.Models);
             const data = await response.json();
             console.log(data);
-            console.log(data.productos.length);
-            const prod = data.productos;
+            console.log(data.objeto.length);
+            const prod = data.objeto;
             console.log(prod);
 
             const productosPorPaginaGuardados = 4;
@@ -158,7 +158,7 @@ async function cargarProductosPorPagina(numeroPagina,idUsuarioIniciado) {
 
         if (response.ok) {
             const data = await response.json();
-            const productos = data.productos;
+            const productos = data.objeto;
 
             const inicio = (numeroPagina - 1) * productosPorPagina;
             const fin = numeroPagina * productosPorPagina;
@@ -192,7 +192,7 @@ async function cargarProductosPorPaginaGuardados(numeroPagina,idUsuarioIniciado)
 
         if (response.ok) {
             const data = await response.json();
-            const productos = data.productos;
+            const productos = data.objeto;
 
             const inicio = (numeroPagina - 1) * productosPorPagina;
             const fin = numeroPagina * productosPorPagina;
@@ -441,7 +441,7 @@ async function mostrarProd(idProductoSeleccionado) {
             const data = await response.json();
             console.log(data);
             //const productos = data.result.Models;
-            const prod = data.producto;
+            const prod = data.objeto;
             console.log(prod);
             var tipoUsuarioLogueado = localStorage.getItem('tipoUserID');
             var botonValidar = document.getElementById('ValidarProdGua');
@@ -531,7 +531,7 @@ async function mostrarProdGuardado(idProductoSeleccionado) {
             const data = await response.json();
             console.log(data);
             //const productos = data.result.Models;
-            const prod = data.producto;
+            const prod = data.objeto;
             console.log(prod);
             var tipoUsuarioLogueado = localStorage.getItem('tipoUserID');
             var botonValidar = document.getElementById('ValidarProdGua');

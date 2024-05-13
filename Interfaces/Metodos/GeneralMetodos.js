@@ -226,7 +226,7 @@ async function agregarUsuarioComprador(TipoUsuarioRegistrado)
                 if (response.ok) {
                     const data = await response.json();
                     console.log('Producto creado correctamente');
-                    GeneralMetodos.mostrarResultado(data.resultado);
+                    GeneralMetodos.mostrarResultado(data.objeto);
                     window.location.reload();
                 } else {
                     console.error('Error al crear el usuario:', response.statusText);
@@ -275,7 +275,7 @@ async function CargarProductosRecomendados(){
         const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosRecomendados`);
         if (response.ok) {
             const data = await response.json();
-            const productos = data.productos;
+            const productos = data.objeto;
 
             const productosPorPagina = 6;
             const totalPaginas = Math.ceil(productos.length / productosPorPagina);
@@ -299,7 +299,7 @@ async function cargarProductosPorPaginaRec(numeroPagina) {
         const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosRecomendados`);
         if (response.ok) {
             const data = await response.json();
-            const productos = data.productos;
+            const productos = data.objeto;
 
             const inicio = (numeroPagina - 1) * productosPorPagina;
             const fin = numeroPagina * productosPorPagina;
@@ -355,7 +355,7 @@ async function cargarProductosPorPaginaDest(numeroPagina) {
         const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosDestacados`);
         if (response.ok) {
             const data = await response.json();
-            const productos = data.productos;
+            const productos = data.objeto;
 
             const inicio = (numeroPagina - 1) * productosPorPagina;
             const fin = numeroPagina * productosPorPagina;
@@ -475,7 +475,7 @@ async function CargarProductosDestacados() {
                 console.log(`Nombre: ${prod.nombreproducto}, Precio: ${prod.precio}`);
             });*/
         
-            const productos = data.productos;
+            const productos = data.objeto;
             
             const productosPorPagina = 6;
             const totalPaginas = Math.ceil(productos.length / productosPorPagina);

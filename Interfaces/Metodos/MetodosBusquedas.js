@@ -57,7 +57,7 @@ async function CargaTodosProductos(){
         const response = await fetch(`${lugarDeEjecucion}/ObtenerTodosProductos`);
         if (response.ok) {
             const data = await response.json();
-            const productos = data.productos;
+            const productos = data.objeto;
 
         if(CategoriasCargadas==false)
         {
@@ -100,7 +100,9 @@ async function buscarProd(searchTerm, category) {
 
         if (response.ok) {
             const data = await response.json();
-            var productos = data.productos;
+            console.log(data);
+            var productos = data.objeto;
+
             if(productos.length==0){
                 //Poner que no hay productos con estos criterios de búsqueda
                 mostrarResultado("No existen productos con estos términos de búsqueda");  // Llama a una función para mostrar todos los productos
@@ -224,7 +226,7 @@ async function filtrarPrecio() {
         if (response.ok) {
             const data = await response.json();
             //console.log("Texto y todo intro: " + data.productos.Models);
-            var productos = data.productos;
+            var productos = data.objeto;
 
             if(productos.length==0){
                 //Poner que no hay productos con estos criterios de búsqueda
@@ -290,7 +292,7 @@ async function filtrarValorEco() {
         if (response.ok) {
             const data = await response.json();
             //console.log("Texto y todo intro: " + data.productos.Models);
-            var productos = data.productos;
+            var productos = data.objeto;
 
             if(productos.length==0){
                 //Poner que no hay productos con estos criterios de búsqueda
@@ -312,8 +314,8 @@ async function CargaCategorias() {
         const response = await fetch(`${lugarDeEjecucion}/CargarCategorias`);
         if (response.ok) {
             const data = await response.json();
-            console.log("Categorías de todos los productos: " + data.categorias);
-            mostrarCategorias(data.categorias);
+            console.log("Categorías de todos los productos: " + data.objeto);
+            mostrarCategorias(data.objeto);
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
         }
@@ -456,7 +458,7 @@ async function ProductosFiltroCategoria(searchTerm, categoriaSelect){
 
         if (response.ok) {
             const data = await response.json();
-            var productos = data.productos;
+            var productos = data.objeto;
             console.log("Productos después de aplicar el filtro de categorías: " + productos.length);
 
             if(productos.length==0){
@@ -484,7 +486,7 @@ async function getBusquedas() {
         .then(response => response.json())
         .then(data => {
         
-        const models = data.busquedas;
+        const models = data.objeto;
 
         // Selecciona el elemento con la clase "historial"
         const historialDiv = document.querySelector('.historial');

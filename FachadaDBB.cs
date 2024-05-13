@@ -14,6 +14,7 @@ using Postgrest.Responses;
 using Newtonsoft.Json.Linq;
 
 class FachadaDBB{
+    // PREGUNTA
     private Supabase.Client client;
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public FachadaDBB(String[] args, WebApplication app, Tienda tienda){

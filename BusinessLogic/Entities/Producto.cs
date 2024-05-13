@@ -7,6 +7,7 @@ using iText.Layout.Element;
 namespace CyberMercadillo.Entities
 {       
     public partial class Producto{
+        // PREGUNTA
         private FachadaDBB fachadaDBB;
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public Producto() {

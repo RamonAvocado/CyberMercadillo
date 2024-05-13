@@ -24,7 +24,7 @@ async function CargarProductosValidacion() {
         if (response.ok) {
             const data = await response.json();
             //const productos = data.productos.Models;
-            const prod = data.productos;
+            const prod = data.objeto;
             console.log(prod);
             const productosPorPagina = 6;
             //const totalPaginas = Math.ceil(productos.length / productosPorPagina);
@@ -59,7 +59,7 @@ async function CargarProductosValidacionTecnico(idUser) {
         });
         if (response.ok) {
             const data = await response.json();
-            const prod = data.productos;
+            const prod = data.objeto;
             console.log(prod);
             const productosPorPagina = 6;
             const totalPaginas = Math.ceil(prod.length / productosPorPagina);
@@ -130,7 +130,7 @@ async function cargarProductosPorPaginaTecnico(numeroPagina,idUsuarioIniciado) {
 
         if (response.ok) {
             const data = await response.json();
-            const productos = data.productos;
+            const productos = data.objeto;
 
             const inicio = (numeroPagina - 1) * productosPorPagina;
             const fin = numeroPagina * productosPorPagina;
@@ -163,7 +163,7 @@ async function cargarProductosPorPaginaTecnicoConcreto(numeroPagina,idUser) {
         });
         if (response.ok) {
             const data = await response.json();
-            const productos = data.productos;
+            const productos = data.objeto;
 
             const inicio = (numeroPagina - 1) * productosPorPagina;
             const fin = numeroPagina * productosPorPagina;
