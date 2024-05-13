@@ -307,9 +307,11 @@ async function CargaUnProducto(){
             var tipoUsuarioLogueado = localStorage.getItem('tipoUserID');
             console.log(usuarioLogueado);
             if (usuarioLogueado && tipoUsuarioLogueado == "usuario") {
-                mostrarUnProducto(data);
+                console.log(data.objeto[0]);
+
+                mostrarUnProducto(data.objeto[0]);
             } else {
-                mostrarUnProductoNoLogeado(data);
+                mostrarUnProductoNoLogeado(data.objeto);
             }
         } else{
             console.error('Error en la solicitud al backend:', response.statusText);
@@ -319,8 +321,7 @@ async function CargaUnProducto(){
     }
 }
 
-function mostrarUnProducto(respuesta) {
-    const producto = respuesta.producto;
+function mostrarUnProducto(producto) {
     const container = document.querySelector('.product-container');
     container.innerHTML = '';
 
@@ -535,7 +536,7 @@ async function CargaCarritoCompra(){
             const data = await response.json();
             const carritoCompra = data.objeto;
             //console.log("carrito compra: "+carritoCompra);
-            console.log(carritoCompra.length);
+            console.log(carritoCompra);
 
             const dataDirec = await respuestaUser.json();
             const usuario = dataDirec.info;
@@ -607,7 +608,8 @@ async function mostrarCarritoCompra (carrCompra){
 
             if (response.ok) {
                 const data = await response.json();
-                const producto = data.objeto;
+                const producto = data.objeto[0];
+                //console.log(data.objeto[0]);
 
                 // Mostrar la información del producto
                 mostrarUnProductoCompra(producto, cantidadProducto, productsContainer);

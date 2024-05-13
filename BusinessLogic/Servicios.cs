@@ -489,10 +489,7 @@ class Servicios{
                 //recupero los productos con esta categoría
                 var carritoCompra = fachadaLogica.returnTienda().ObtenerCarritoCompra(idusuario);
 
-                var jsonResponse = new { carritoCompra };
-
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                devolverFrontEnd(context, carritoCompra);
             }catch (Exception ex){errorDefault(context,ex);}
         });
 
@@ -508,30 +505,7 @@ class Servicios{
 
                 var guay = fachadaLogica.TramitarPedido(idusuario);
 
-                var jsonResponse = new {guay};
-
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-            }catch (Exception ex){errorDefault(context,ex);}
-        });
-
-        app.MapPost("/TramitarPedido", async (HttpContext context, Supabase.Client client) =>
-        {
-            using var reader = new StreamReader(context.Request.Body);
-            try
-            {
-                var requestBody = await reader.ReadToEndAsync();
-                var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
-
-                var idusuario = searchData["idusuario"].ToObject<int>();
-
-                var guay = fachadaLogica.TramitarPedido(idusuario);
-
-                var jsonResponse = new {guay};
-
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-
+                devolverFrontEnd(context, new List<Boolean> {guay});
             }
             catch (Exception ex)
             {
@@ -539,7 +513,7 @@ class Servicios{
                 errorDefault(context, ex);
             }
         });
-
+        
         app.MapPost("/CargarPedidos", async (HttpContext context, Supabase.Client client) =>
         {
             using var reader = new StreamReader(context.Request.Body);
