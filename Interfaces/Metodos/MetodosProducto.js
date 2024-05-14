@@ -888,7 +888,7 @@ async function CargaUnProductoBasico(){
 }
 
 function mostrarUnProductoBasico(respuesta) {
-    const producto = respuesta.producto;
+    const producto = respuesta.objeto[0];
     const container = document.querySelector('.product-container');
     container.innerHTML = '';
 
