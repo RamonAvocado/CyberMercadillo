@@ -166,6 +166,7 @@ class Servicios{
                     var puntuacionH = productoData["puntuacionHuella"].ToObject<int>();
                     var certiEco = productoData["certificadoHuella"].ToObject<string>();
                     var llegada = productoData["llegada"].ToObject<string>();
+                    var descuento = productoData["descuento"].ToObject<int>();
                     
                     
                     // Utiliza los datos recibidos para crear un nuevo producto
@@ -180,7 +181,8 @@ class Servicios{
                                                    guardadoP,
                                                    puntuacionH,
                                                    certiEco ?? "pdf",
-                                                   llegada ?? "18 de Junio");
+                                                   llegada ?? "18 de Junio",
+                                                   descuento);
                     // Inserta el nuevo producto en la base de datos
                    // await client.From<Producto>().Insert(new List<Producto> { nuevoProducto });
                 }catch (Exception ex){errorDefault(context,ex);}
@@ -254,11 +256,13 @@ class Servicios{
                 var precioP = productoData["precio"].ToObject<string>();
                 var descripcionP = productoData["descripcion"].ToObject<string>();
                 var cantidadP = productoData["cantidad"].ToObject<int>();
+                var descuento = productoData["descuento"].ToObject<int>();
                 var idproductoP = productoData["idproducto"].ToObject<string>();
                 fachadaLogica.actualizarProducto(precioP ?? "-1",
                                                 descripcionP ?? "Este artículo es el predeterminado por si llega un null a esta función",
                                                 cantidadP,                                       
-                                                idproductoP ?? "0");
+                                                idproductoP ?? "0",
+                                                descuento);
                 Console.WriteLine("pedido");
             }catch (Exception ex){errorDefault(context,ex);}
             return Results.Ok("Producto created successfully"); 
@@ -280,6 +284,7 @@ class Servicios{
                     var idproductoP = productoData["idproducto"].ToObject<string>();
                     var puntuacionH = productoData["puntuacionHuella"].ToObject<int>();
                     var certificadoH = productoData["certificadoHuella"].ToObject<string>();
+                    var descuento = productoData["descuento"].ToObject<int>();
                     fachadaLogica.actualizarProductoGuardado(nombreP ?? "Producto de Serie Creación",
                                                    precioP ?? "-1",
                                                    categoriaP ?? "CatPrueba",
@@ -288,7 +293,8 @@ class Servicios{
                                                    cantidadP,                                       
                                                    idproductoP ?? "0",
                                                    puntuacionH,
-                                                   certificadoH ?? "");
+                                                   certificadoH ?? "",
+                                                   descuento);
                     Console.WriteLine("pedido");
                 }catch (Exception ex){errorDefault(context,ex);}
             return Results.Ok("Producto created successfully"); 

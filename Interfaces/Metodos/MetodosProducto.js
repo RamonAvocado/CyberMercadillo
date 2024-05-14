@@ -46,7 +46,8 @@ async function agregarProducto(idUsuarioIniciado)
                 guardado: false,
                 puntuacionHuella: parseInt(formData.get('valoracionHProd')),
                 certificadoHuella: formData.get('certiEco'),
-                llegada:"18 de Junio"
+                llegada:"18 de Junio",
+                descuento:parseInt(formData.get('descuento'))
             };
 
             console.log('ID del usuario seleccionado:', idUsuarioIniciado);
@@ -126,7 +127,8 @@ async function guardarProducto(idUsuarioIniciado)
                 guardado: true,
                 puntuacionHuella: parseInt(formData.get('valoracionHProd')),
                 certificadoHuella: formData.get('certiEco'),
-                llegada:"18 de Junio"
+                llegada:"18 de Junio",
+                descuento:parseInt(formData.get('descuento'))
             };
             // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
 
@@ -223,6 +225,7 @@ async function ActualizarProducto(idProductoSeleccionado,idUsuarioIniciado)
                 precio: formData.get('precio'),
                 descripcion: formData.get('descripcion'),
                 cantidad: parseInt(formData.get('cantidad')),
+                descuento: parseInt(formData.get('descuento')),
                 idproducto: idProductoSeleccionado,
             };
 
@@ -269,7 +272,8 @@ async function ActualizarProductoGuardado(idProductoSeleccionado,idUsuarioInicia
                 cantidad: parseInt(formData.get('cantidad')),
                 idproducto: idProductoSeleccionado,
                 puntuacionHuella: parseInt(formData.get('valoracionHProd')),
-                certificadoHuella: formData.get('certiEcol')
+                certificadoHuella: formData.get('certiEcol'),
+                descuento: parseInt(formData.get('descuento'))
             };
 
             try {

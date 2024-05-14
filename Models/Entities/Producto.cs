@@ -53,6 +53,9 @@ namespace CyberMercadillo.Entities
 
         [Column("llegada")]
         public string? llegada { get; set; }
+
+        [Column("descuento")]
+        public int? descuento { get; set; }
     }
 
 }

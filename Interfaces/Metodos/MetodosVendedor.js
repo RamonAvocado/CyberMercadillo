@@ -505,7 +505,8 @@ async function mostrarProd(idProductoSeleccionado) {
                 document.getElementById('cantidad').value = prod[0].cantidad;
                 document.getElementById('nuevo-url-imagen').value = prod[0].imagenes; 
                 document.getElementById('valoracionHProd').value = prod[0].puntuacionEco;  
-                document.getElementById('certiEcol').value = prod[0].certificadoEco;             
+                document.getElementById('certiEcol').value = prod[0].certificadoEco; 
+                document.getElementById('descuento').value = prod[0].descuento;               
             //}
         } else {
             console.error('Error al obtener los detalles del producto:', response.statusText);
@@ -536,12 +537,16 @@ async function mostrarProdGuardado(idProductoSeleccionado) {
             console.log(prod);
             var tipoUsuarioLogueado = localStorage.getItem('tipoUserID');
             var botonValidar = document.getElementById('ValidarProdGua');
+            var descuento = document.getElementById('descuento');
+            var textDescuento = document.getElementById('textDescuento');
             var input = document.getElementById("nuevo-url-imagen");
             input.style.visibility = "hidden";
             // Verificar si el botón existe
             if (botonValidar && tipoUsuarioLogueado == "tecnico") {
                 // Ocultar el botón estableciendo su propiedad de visualización en "none"
                 botonValidar.style.display = "none";
+                descuento.style.display = "none";
+                textDescuento.style.display = "none";
             }
             
                 const container = document.querySelector('.recommended-products');
@@ -660,7 +665,8 @@ async function mostrarProdGuardado(idProductoSeleccionado) {
                 document.getElementById('nuevo-url-imagen').value = prod.imagenes; 
                 document.getElementById('valoracionHProd').value = prod.puntuacionEco;   
                 document.getElementById('certiEcol').value = prod.certificadoEco;
-                
+                document.getElementById('descuento').value = prod.descuento;
+
                 const imagenesComoString = imagenes.join(' ');
                 console.log("Hola   " + imagenesComoString);
                 localStorage.setItem('UrlImg', imagenesComoString);

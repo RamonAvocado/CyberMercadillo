@@ -33,10 +33,10 @@ class FachadaLogica{
     }
 
     public void agregarProducto(string nombreProd, string precioProd, string categoriaProd,string descripcionProd,
-                                                        string imgProd, int cantProd,int idvendedorProd,bool validProd, bool saveProd, int puntHuella,string certiEco, string llegada){
+                                                        string imgProd, int cantProd,int idvendedorProd,bool validProd, bool saveProd, int puntHuella,string certiEco, string llegada,int descuento){
         int idProd = tienda.MayorIDProd() +1;
-        Producto product = new Producto(idProd,nombreProd,precioProd,categoriaProd,descripcionProd, imgProd, cantProd,idvendedorProd,validProd,saveProd, puntHuella, certiEco, llegada);
-        tienda.Productos.Add(product);
+        Producto product = new Producto(idProd,nombreProd,precioProd,categoriaProd,descripcionProd, imgProd, cantProd,idvendedorProd,validProd,saveProd, puntHuella, certiEco, llegada,descuento);
+        tienda.agregarProducto(product);
     }
 
     public void agregarUsuario(string tipoUsuario, string nombre, int movil, string correo, string contraseña, string direccion, string nombreTienda , 
@@ -85,12 +85,13 @@ class FachadaLogica{
    // }
 
 
-    public void actualizarProducto(string precioProd,string descripcionProd, int cantProd,string idProducto){
-        tienda.actualizarProd(idProducto,precioProd,descripcionProd, cantProd);
+    public void actualizarProducto(string precioProd,string descripcionProd, int cantProd,string idProducto, int descuento){
+        tienda.actualizarProd(idProducto,precioProd,descripcionProd, cantProd,descuento);
     }
 
-    public void actualizarProductoGuardado(string nombreProd, string precioProd, string categoriaProd,string descripcionProd,string imgProd, int cantProd,string idProducto, int puntHuella,string certiH){
-        tienda.actualizarProdGuardado(idProducto,nombreProd,precioProd,categoriaProd,descripcionProd, imgProd, cantProd,puntHuella,certiH);
+    public void actualizarProductoGuardado(string nombreProd, string precioProd, string categoriaProd,string descripcionProd,string imgProd, int cantProd,string idProducto, int puntHuella,string certiH,int descuento
+    ){
+        tienda.actualizarProdGuardado(idProducto,nombreProd,precioProd,categoriaProd,descripcionProd, imgProd, cantProd,puntHuella,certiH,descuento);
     }
 
     public bool validarProducto(string idbuscado){

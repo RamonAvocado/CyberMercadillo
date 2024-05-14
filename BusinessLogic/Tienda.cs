@@ -482,8 +482,12 @@ public bool ActualizarCantidadProducto(int idusuario, int idproducto, int nuevaC
         Usuarios.Add(usuario);
     }
 
+    public void agregarProducto(Producto prod){
+        Productos.Add(prod);
+    }
+
     public void actualizarProdGuardado(string idbuscado,string nombreProd, string precioProd, string categoriaProd,string descripcionProd,
-                                                        string imgProd, int cantProd,int puntHuella,string certiH)
+                                                        string imgProd, int cantProd,int puntHuella,string certiH,int descuento)
     {
         Producto producto = new Producto
         {
@@ -506,9 +510,10 @@ public bool ActualizarCantidadProducto(int idusuario, int idproducto, int nuevaC
         producto.cantidad = cantProd;
         producto.puntuacionEco = puntHuella;
         producto.certificadoEco = certiH;
+        producto.descuento = descuento;
     }
 
-public void actualizarProd(string idbuscado, string precioProd,string descripcionProd, int cantProd)
+public void actualizarProd(string idbuscado, string precioProd,string descripcionProd, int cantProd, int descuento)
     {
         Producto producto = new Producto
         {
@@ -526,6 +531,7 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
         producto.precio = precioProd;
         producto.descripcion = descripcionProd;
         producto.cantidad = cantProd;
+        producto.descuento = descuento;
     }
 
     public void eliminarProductoID(string idbuscado)
@@ -664,7 +670,7 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
             
         //guardo la búsqueda
         GuardarBusqueda(searchTerm,idBuscado);
-
+        //
         ProductosBus = productos;
 
         return ProductosBus;
