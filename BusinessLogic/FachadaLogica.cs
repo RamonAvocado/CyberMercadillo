@@ -40,7 +40,7 @@ class FachadaLogica{
     }
 
     public void agregarUsuario(string tipoUsuario, string nombre, int movil, string correo, string contraseña, string direccion, string nombreTienda , 
-                                            int telefonoTienda,int CVV , int numTarjeta ,string fechaCaducidad){
+                                            int telefonoTienda,int CVV , int numTarjeta ,string fechaCaducidad, string dirFact){
         int idUsu = tienda.MayorIDUsuario() +1;
         var nuevoUsuario = fabrica.CrearUsuario(
                         idUsu,
@@ -54,7 +54,8 @@ class FachadaLogica{
                         telefonoTienda,
                         CVV,
                         numTarjeta,
-                        fechaCaducidad);
+                        fechaCaducidad,
+                        dirFact);
         tienda.agregarUser(nuevoUsuario);
     }
 

@@ -74,7 +74,7 @@ class Tienda
     }
 
 
-    private Usuario usuarioRegistrado = new Comprador(0,"x", 1, "x", "x", "x", 1, "x", 1, "x");
+    private Usuario usuarioRegistrado = new Comprador(0,"x", 1, "x", "x", "x", 1, "x", 1, "x","x");
     public Usuario UsuarioRegistrado
     {
         get { return usuarioRegistrado;}

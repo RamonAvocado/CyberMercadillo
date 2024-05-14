@@ -12,12 +12,13 @@ namespace CyberMercadillo.Entities
     public partial class Comprador:Usuario{
         public Comprador(){}
 
-        public Comprador(int idUser, string nombre, int movil, string correo, string contraseña, string direccion, int CVV, string fechaCaducidad,int numeroTarjetaU,string tipoUser)
+        public Comprador(int idUser, string nombre, int movil, string correo, string contraseña, string direccion, int CVV, string fechaCaducidad,int numeroTarjetaU,string tipoUser,string dirFact)
             : base(idUser,nombre, movil, correo, contraseña, direccion,tipoUser)
         {
             this.CVV = CVV;
             this.fechaCaducidad = fechaCaducidad;
-            this.numeroTarjeta = numeroTarjetaU;
+            numeroTarjeta = numeroTarjetaU;
+            direccionFacturacion = dirFact;
         }
     }
 }

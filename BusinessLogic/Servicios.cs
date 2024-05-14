@@ -650,15 +650,15 @@ class Servicios{
             using var reader = new StreamReader(context.Request.Body);
             try{      
                 var requestBody = await reader.ReadToEndAsync();
-                var productoData = JsonConvert.DeserializeObject<JObject>(requestBody);
-                    var nombreV = productoData["nombreUsu"].ToObject<string>();
-                    var nombreTiendaV = productoData["nombreTienda"].ToObject<string>();
-                    var tipoUsuario = productoData["tipoUsu"].ToObject<string>();
-                    var correo = productoData["correoUsu"].ToObject<string>();
-                    var contraseña = productoData["contraseña"].ToObject<string>();
-                    var direccion = productoData["direccion"].ToObject<string>();
-                    var movilV = productoData["telefono"].ToObject<int>();
-                    var telefonotienda = productoData["telTienda"].ToObject<int>();
+                var userData = JsonConvert.DeserializeObject<JObject>(requestBody);
+                    var nombreV = userData["nombreUsu"].ToObject<string>();
+                    var nombreTiendaV = userData["nombreTienda"].ToObject<string>();
+                    var tipoUsuario = userData["tipoUsu"].ToObject<string>();
+                    var correo = userData["correoUsu"].ToObject<string>();
+                    var contraseña = userData["contraseña"].ToObject<string>();
+                    var direccion = userData["direccion"].ToObject<string>();
+                    var movilV = userData["telefono"].ToObject<int>();
+                    var telefonotienda = userData["telTienda"].ToObject<int>();
                     fachadaLogica.agregarUsuario(
                         tipoUsuario ?? "Usuario por defecto",
                         nombreV ?? "Usuario de Serie Creación",
@@ -670,6 +670,7 @@ class Servicios{
                         telefonotienda,
                         0,
                         0,
+                        "",
                         "");
     
             }catch (Exception ex){errorDefault(context,ex);}
@@ -681,7 +682,7 @@ class Servicios{
             try{      
                 var requestBody = await reader.ReadToEndAsync();
                 var userData = JsonConvert.DeserializeObject<JObject>(requestBody);
-
+                    
                     var nombreV = userData["nombreUsu"].ToObject<string>();
                     var tipoUsuario = userData["tipoUsu"].ToObject<string>();
                     var correo = userData["correoUsu"].ToObject<string>();
@@ -691,6 +692,7 @@ class Servicios{
                     var cvv = userData["cvv"].ToObject<int>();
                     var numTarj = userData["numTarj"].ToObject<int>();
                     var FechaCad = userData["FechaCad"].ToObject<string>();
+                    var dirFact = userData["dirFacturaccion"].ToObject<string>();
                     fachadaLogica.agregarUsuario(
                         tipoUsuario ?? "Usuario por defecto",
                         nombreV ?? "Usuario de Serie Creación",
@@ -702,7 +704,8 @@ class Servicios{
                         0000,
                         cvv,
                         numTarj,
-                        FechaCad ?? "00/00/0000");
+                        FechaCad ?? "00/00/0000",
+                        dirFact ?? "direccion  de facturacion");
     
             }catch (Exception ex){errorDefault(context,ex);}
         });

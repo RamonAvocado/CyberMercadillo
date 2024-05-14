@@ -197,11 +197,12 @@ document.getElementById('agregarCompradorForm').addEventListener('submit', async
         correoUsu : formData.get('CorreoUsuC'),
         contraseña : formData.get('ContraseñaUsuC'),
         contraseñaR : formData.get('RContraseñaUsuC'),
-        direccion : formData.get('DirUsuC'),
+        direccion : formData.get('DirUsuEnvio'),
         cvv : cvv ? parseInt(cvv) : 0,
         numTarj : numTarj ? parseInt(numTarj) : 0,
         FechaCad : fechaCad ? fechaCad : "",
-        tipoUsu: TipoUsuarioRegistrado
+        tipoUsu: TipoUsuarioRegistrado,
+        dirFacturaccion : formData.get('DirUsuFact'),
     };
 
     console.log('Llegamos acá');

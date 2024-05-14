@@ -21,6 +21,9 @@ namespace CyberMercadillo.Entities
 
         [Column("CVV")]
         public int? CVV { get; set; }
+
+        [Column("direccionFacturacion")]
+        public string? direccionFacturacion { get; set; }
     }
 
 }
