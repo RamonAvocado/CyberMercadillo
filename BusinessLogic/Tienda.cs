@@ -479,7 +479,13 @@ public bool ActualizarCantidadProducto(int idusuario, int idproducto, int nuevaC
     }
 
     public void agregarUser(Usuario usuario){
-        Usuarios.Add(usuario);
+        if (usuario is Tecnico tecnico) {
+            tecnicos.Add(tecnico);
+        } else if (usuario is Vendedor vendedor) {
+            vendedores.Add(vendedor);
+        } else if (usuario is Comprador comprador) {
+            compradores.Add(comprador);
+        }
     }
 
     public void agregarProducto(Producto prod){
@@ -882,5 +888,16 @@ return productos;
         else 
             return false; 
     } 
+
+    public void borrarCuenta(int idusuario, string tipoUsuario){
+        Comprador usuarioFalso1 = new Comprador(0,"Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se",1 , "Tecnico", 1, "Yo que se", "Yo que se");
+        Vendedor usuarioFalso2 = new Vendedor(0,"Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se","Yo que se",1 , "Tecnico");
+        Usuario usuarioEncontrado = Compradores.Find(x => x.idusuario == idusuario) ?? usuarioFalso1;
+        if(tipoUsuario == "Comprador"){
+            Compradores.Remove((Comprador)usuarioEncontrado);
+        }else{
+            Vendedores.Remove((Vendedor)usuarioEncontrado);
+        }
+    }
 }
     

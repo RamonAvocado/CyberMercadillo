@@ -71,6 +71,10 @@ class FachadaLogica{
         return tienda.CargarPedidos(idusuario);
     }
 
+    public void borrarCuenta(int idusuario, string tipoUsuario){
+        tienda.borrarCuenta(idusuario, tipoUsuario);
+    }
+
 /*
     public void guardarProducto(string nombreProd, string precioProd, string categoriaProd,string descripcionProd,
                                                         string imgProd, int cantProd,int idvendedorProd,bool validProd,bool saveProd){
