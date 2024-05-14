@@ -25,7 +25,6 @@ class FachadaDBB{
     app.MapGet("/inicializar", async (HttpContext context, Supabase.Client supabase) =>
     { 
         if(!TodoCargadoCargados){
-
         var productos = await supabase.From<Producto>().Get();
         var busquedas = await supabase.From<Busqueda>().Get();
         var compradores = await supabase.From<Comprador>().Get();
@@ -67,7 +66,6 @@ class FachadaDBB{
         var jsonResponse = new {};
         context.Response.ContentType = "application/json";
         await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-    
     });
 
 
@@ -80,20 +78,32 @@ class FachadaDBB{
         var tecnicos = tienda.Tecnicos;
         var compras = tienda.Compras;
         var carritos = tienda.CarritosDeCompra;
-
-        Busqueda b1 = new Busqueda {
-            texto = "Smart",
-            fecha = DateTime.Now,
-            idusuario = 2,
-        };
         
-        //Añade 10
+        await supabase.From<Producto>().Where(x => x.categoria != "string random que para que eliga lo contrario").Delete();
+        await supabase.From<Producto>().Insert(productos);
 
         await supabase.From<Busqueda>().Where(x => x.idbusqueda != 0).Delete();
         await supabase.From<Busqueda>().Insert(busquedas);
 
-        Console.WriteLine("Ha actualizado las tablas");
+        await supabase.From<Comprador>().Where(x => x.idusuario != 0).Delete();
+        await supabase.From<Comprador>().Insert(compradores);
 
+        /*
+        await supabase.From<Vendedor>().Where(x => x.idusuario != 0).Delete();
+        await supabase.From<Vendedor>().Insert(vendedores);
+
+        await supabase.From<Tecnico>().Where(x => x.idusuario != 0).Delete();
+        await supabase.From<Tecnico>().Insert(tecnicos);
+
+        /*
+        await supabase.From<Compra>().Where(x => x.idcompra != 0).Delete();
+        await supabase.From<Compra>().Insert(compras);
+
+        await supabase.From<CarritosDeCompra>().Where(x => x.idusuario != 0).Delete();
+        await supabase.From<CarritosDeCompra>().Insert(carritos);
+        */
+
+        Console.WriteLine("Ha actualizado las tablas");
     });
 
     //Este metodo guarda el carrito de compra en la base de datos para no guardar todo, que es peligroso

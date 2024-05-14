@@ -612,8 +612,6 @@ class Servicios{
                     {
                         var tienda = fachadaLogica.returnTienda();
                         var busquedas = tienda.getBusquedasUsuario(tienda.UsuarioRegistrado);
-
-                        // Devolver los productos al frontend
                         devolverFrontEnd(context, busquedas);
                     }
             }catch (Exception ex){errorDefault(context,ex);}
@@ -706,6 +704,20 @@ class Servicios{
                         FechaCad ?? "00/00/0000",
                         dirFact ?? "direccion  de facturacion");
     
+            }catch (Exception ex){errorDefault(context,ex);}
+        });
+
+        app.MapGet("/borrarCuenta", async(HttpContext context, Supabase.Client client) =>
+        {
+            try{
+                using (var reader = new StreamReader(context.Request.Body))
+                    {
+                        var requestBody = await reader.ReadToEndAsync();
+                        var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
+
+                        var idusuario = searchData["idusuario"].ToObject<int>();
+                        fachadaLogica.borrarCuenta(idusuario, "Comprador");
+                    }
             }catch (Exception ex){errorDefault(context,ex);}
         });
 
