@@ -662,3 +662,9 @@ async function crearCertificado() {
 async function GuardarBDD(){
     await fetch(`${lugarDeEjecucion}/guardarBDD`);
 }
+
+async function CierroSesionCuenta() {
+    localStorage.removeItem('UsuarioID');
+    alert("Estas cerrando sesion en tu cuenta");
+    window.location.href = '../index.html';
+}

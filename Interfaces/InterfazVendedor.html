@@ -48,28 +48,20 @@
         <h1>Mi Cuenta</h1>
     </div>
 
-    <div class="featured-usuario-wrapper">
-        <div class="featured-usuario-container">
+    <div class="featured-vendedor-wrapper">
+        <div class="featured-vendedor-container" onclick="irAProductosVendedor()">
             <img src="Imagenes/editarProducto.png" alt="Imagen 1">
-            <p>Editar Productos</p>
+            <p>Mis Productos</p>
         </div>
-        <div class="featured-usuario-container">
+        <div class="featured-vendedor-container" onclick="irAHistorialDeBúsqueda()">
             <img src="Imagenes/historialBusqueda.png" alt="Imagen 2">
             <p>Historial de Búsquedas</p>
         </div>
-        <div class="featured-usuario-container">
-            <img src="Imagenes/carritoCompra.png" alt="Imagen 3">
-            <p>Carrito de Compras</p>
-        </div>
-        <div class="featured-usuario-container">
-            <img src="Imagenes/listaDeseados.png" alt="Imagen 4">
-            <p>Lista de Deseados</p>
-        </div>
-        <div class="featured-usuario-container">
+        <div class="featured-vendedor-container">
             <img src="Imagenes/editarPerfil.png" alt="Imagen 5">
             <p>Editar Perfil</p>
         </div>
-        <div class="featured-usuario-container">
+        <div class="featured-vendedor-container" onclick="CierroSesionCuenta()">
             <img src="Imagenes/cerrarSesion1.png" alt="Imagen 6">
             <p>Cerrar Sesión</p>
         </div>
@@ -77,10 +69,10 @@
 
     <div class="contenedor-botones">
         <div class="boton-volver">
-            <button onclick="irAHistorialDeBúsqueda()" class="search-volver-btn">Volver</button>
+            <button onclick="volverPaginaAnterior()" class="search-volver-btn">Volver</button>
         </div>
         <div class="boton-eliminar-cuenta">
-            <button onclick="irAHistorialDeBúsqueda()" class="search-delete-btn">Eliminar Cuenta</button>
+            <button onclick="" class="search-delete-btn">Eliminar Cuenta</button>
         </div>
     </div>
 
@@ -109,7 +101,6 @@
     <script src="./Metodos/MetodosUser.js"></script>
     <!-- <script src="./Metodos/MetodosBusquedas.js"></script> -->
     <script>
-        window.addEventListener('DOMContentLoaded', InicializarProductos);
         window.addEventListener('unload', GuardarBDD);
     </script>
     <script>

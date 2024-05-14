@@ -134,7 +134,17 @@ function irALogin(){
     window.location.href = `../index.html?idUser=${userId}`
 }
 
+async function irAProductosVendedor() {
+    window.location.href = `./PaginaVendedor.html`
+}
 
+async function irACarritoDeCompra() {
+    window.location.href = `./CarritoDeCompra.html`
+}
+
+async function irAListaDeDeseos() {
+    window.location.href = `./ListaDeseados.html`
+}
 
 
 

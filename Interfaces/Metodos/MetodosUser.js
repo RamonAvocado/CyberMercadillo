@@ -57,13 +57,13 @@ async function IniciarSesion(){
             
             if (data.TipoUsuario === "Vendedor") {
                 tipoUsuario = "vendedor";
-                window.location.href = `./Interfaces/PaginaVendedor.html`;
+                window.location.href = `./Interfaces/InterfazVendedor.html`;
             } else if (data.TipoUsuario === "Tecnico") {
                 tipoUsuario = "tecnico";
                 window.location.href = `./Interfaces/ValidarProductos.html`;
             } else {
                 tipoUsuario = "usuario";
-                window.location.href = `./Interfaces/NewPaginaPrincipal.html`;
+                window.location.href = `./Interfaces/InterfazComprador.html`;
             }
             
             localStorage.setItem('tipoUserID', tipoUsuario);
@@ -96,13 +96,15 @@ async function agregarCerrarSesion() {
     } else {
         sesionLink.innerHTML = '<a href="#" onclick="cerrarSesion()">Cerrar Sesión</a>';
         if(tipoUsuarioLogueado == "vendedor"){
-            sesionSUserLink.innerHTML = '<a href="./PaginaVendedor.html">Productos</a>';
+            sesionSUserLink.innerHTML += '<a href="./PaginaVendedor.html">Productos</a>';
+            sesionSUserLink.innerHTML += '<a href="./InterfazVendedor.html">Mi Cuenta</a>';
         }else if(tipoUsuarioLogueado == "tecnico"){
             sesionSUserLink.innerHTML = '<a onclick="irAPagianValidaciones()">Validaciones</a>';
         }else{ 
             sesionSUserLink.innerHTML += '<a href="./ListaDeseados.html">Lista Deseados</a>';
             sesionSUserLink.innerHTML += '<a href="./CarritoDeCompra.html">Carrito De Compra</a>';
             sesionSUserLink.innerHTML += '<a href="./MisPedidos.html">Mis pedidos</a>';
+            sesionSUserLink.innerHTML += '<a href="./InterfazComprador.html">Mi Cuenta</a>';
         }      
     }
 }
@@ -126,57 +128,6 @@ function irRegistroComprador() {
     localStorage.setItem('tipoUsuRegistro', "comprador");
     console.log("comprador");
 }
-
-/*
-async function agregarUsuarioComprador(TipoUsuarioRegistrado)
-{
-        console.log('ID del usuario registrado:', TipoUsuarioRegistrado);
-        document.getElementById('agregarCompradorForm').addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            const nombreUsu = formData.get('nombreUsuC');
-            const telefono = formData.get('TelUsuC');
-            const correoUsu = formData.get('CorreoUsuC');
-            const contraseña = formData.get('ContraseñaUsuC');
-            const contraseñaR = formData.get('RContraseñaUsuC');
-            const direccion = formData.get('DirUsuC');
-            const cvv = parseInt(formData.get('CVV'));
-            const numTarj = parseInt(formData.get('NumTarj'));
-            const FechaCad = formData.get('FechaCad');
-
-            try {
-                const response = await fetch(`http://localhost:5169/AgregarComprador`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        nombre: nombreUsu,
-                        movil: telefono,
-                        correo: correoUsu,
-                        contraseña: contraseña,
-                        direccion: direccion,
-                        CVV: cvv,
-                        fechaCaducidad: FechaCad,
-                        numeroTarjeta: numTarj,
-                        tipoUsu:TipoUsuarioRegistrado,
-                    }),
-                });
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log('Producto creado correctamente');
-                    GeneralMetodos.mostrarResultado(data.resultado);
-                    window.location.reload();
-                } else {
-                    console.error('Error al crear el usuario:', response.statusText);
-                }
-            } catch (error) {
-                console.error('Error inesperado:', error);
-            }
-            alert("Usuario creado correctamente")
-            window.location.reload();
-        });
-}*/
 
 /*function irAPagianVendedor() {
     window.location.href = './PaginaVendedor.html';

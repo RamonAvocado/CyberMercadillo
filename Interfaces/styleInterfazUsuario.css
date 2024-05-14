@@ -1,4 +1,4 @@
-.featured-usuario-wrapper {
+.featured-comprador-wrapper {
     display: flex;
     flex-wrap: wrap;
     justify-content: center; /* Centraliza los contenedores */
@@ -6,7 +6,7 @@
     margin-right: 50px;
 }
 
-.featured-usuario-container {
+.featured-comprador-container {
     width: calc(25.33% - 20px); /* Ancho del contenedor (33.33% del ancho total - espacio entre los contenedores) */
     padding: 10px;
     height: 150px; 
@@ -24,7 +24,34 @@
     align-items: center;
 }
 
-.featured-usuario-container img {
+.featured-vendedor-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centraliza los contenedores */
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.featured-vendedor-container {
+    width: calc(35.33% - 20px); /* Ancho del contenedor (33.33% del ancho total - espacio entre los contenedores) */
+    padding: 10px;
+    height: 170px; 
+    border: 1px solid #1f0404;
+    border-radius: 20px;
+    margin-top: 50px;
+    margin-bottom: 80px;
+    margin-right: 150px; /* Espacio entre los contenedores */
+    margin-left: 25px; /* Espacio entre los contenedores */
+    background-color: #D9D9D9;
+    text-align: center; /* Centrar el texto */
+    position: relative; /* Posición relativa para colocar la imagen */
+    display: flex; /* Hacer que el contenedor sea un contenedor flexible */
+    justify-content: center; /* Centrar horizontalmente el contenido */
+    align-items: center;
+}
+
+
+.featured-comprador-container img {
     display: inline-block;
     vertical-align: middle; /* Centra verticalmente la imagen */
     max-width: 100%;
@@ -32,7 +59,23 @@
     margin-right: 10px;
 }
 
-.featured-usuario-container p {
+.featured-comprador-container p {
+    display: inline-block; /* Mostrar el texto en línea */
+    vertical-align: middle; /* Alinear verticalmente el texto con la imagen */
+    margin: 0; /* Elimina el margen predeterminado del párrafo */
+    font-size: 35px; /* Tamaño de fuente */
+    font-weight: bold; /* Negrita */
+}
+
+.featured-vendedor-container img {
+    display: inline-block;
+    vertical-align: middle; /* Centra verticalmente la imagen */
+    max-width: 100%;
+    max-height: 100px;
+    margin-right: 10px;
+}
+
+.featured-vendedor-container p {
     display: inline-block; /* Mostrar el texto en línea */
     vertical-align: middle; /* Alinear verticalmente el texto con la imagen */
     margin: 0; /* Elimina el margen predeterminado del párrafo */
