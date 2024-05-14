@@ -62,6 +62,7 @@ header h1 {
     max-width: 470%; /* Hacemos que los elementos ocupen todo el ancho disponible */
 }
 
+
 /* Barra de búsqueda */
 .search-bar {
     display: flex;
