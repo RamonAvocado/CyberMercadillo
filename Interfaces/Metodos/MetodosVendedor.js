@@ -440,9 +440,9 @@ async function mostrarProd(idProductoSeleccionado) {
         if (response.ok) {
             const data = await response.json();
             console.log(data);
-            //const productos = data.result.Models;
+            //const prod = data.result.Models;
             const prod = data.objeto;
-            console.log(prod);
+            console.log(prod[0]);
             var tipoUsuarioLogueado = localStorage.getItem('tipoUserID');
             var botonValidar = document.getElementById('ValidarProdGua');
             var input = document.getElementById("nuevo-url-imagen");
@@ -454,8 +454,9 @@ async function mostrarProd(idProductoSeleccionado) {
             }
             
                 const container = document.querySelector('.recommended-products');
-                localStorage.setItem('UrlImg', prod.imagenes);
-                const imagenes = prod.imagenes.split(' ');
+                localStorage.setItem('UrlImg', prod[0].imagenes);
+                const imagenes = prod[0].imagenes.split(' ');
+                
                 const primeraImagen = imagenes[0];
 
                 // Crear elementos para mostrar el producto
@@ -497,14 +498,14 @@ async function mostrarProd(idProductoSeleccionado) {
                 }
                 container.appendChild(productCard);
 
-                document.getElementById('nombre').value = prod.nombreproducto;
-                document.getElementById('precio').value = prod.precio;
-                document.getElementById('categoria').value = prod.categoria;
-                document.getElementById('descripcion').value = prod.descripcion;
-                document.getElementById('cantidad').value = prod.cantidad;
-                document.getElementById('nuevo-url-imagen').value = prod.imagenes; 
-                document.getElementById('valoracionHProd').value = prod.puntuacionEco;  
-                document.getElementById('certiEcol').value = prod.certificadoEco;             
+                document.getElementById('nombre').value = prod[0].nombreproducto;
+                document.getElementById('precio').value = prod[0].precio;
+                document.getElementById('categoria').value = prod[0].categoria;
+                document.getElementById('descripcion').value = prod[0].descripcion;
+                document.getElementById('cantidad').value = prod[0].cantidad;
+                document.getElementById('nuevo-url-imagen').value = prod[0].imagenes; 
+                document.getElementById('valoracionHProd').value = prod[0].puntuacionEco;  
+                document.getElementById('certiEcol').value = prod[0].certificadoEco;             
             //}
         } else {
             console.error('Error al obtener los detalles del producto:', response.statusText);
@@ -531,7 +532,7 @@ async function mostrarProdGuardado(idProductoSeleccionado) {
             const data = await response.json();
             console.log(data);
             //const productos = data.result.Models;
-            const prod = data.objeto;
+            const prod = data.objeto[0];
             console.log(prod);
             var tipoUsuarioLogueado = localStorage.getItem('tipoUserID');
             var botonValidar = document.getElementById('ValidarProdGua');

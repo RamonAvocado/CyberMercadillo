@@ -45,7 +45,8 @@ async function agregarProducto(idUsuarioIniciado)
                 validado: false,
                 guardado: false,
                 puntuacionHuella: parseInt(formData.get('valoracionHProd')),
-                certificadoHuella: formData.get('certiEco')
+                certificadoHuella: formData.get('certiEco'),
+                llegada:"18 de Junio"
             };
 
             console.log('ID del usuario seleccionado:', idUsuarioIniciado);
@@ -124,7 +125,8 @@ async function guardarProducto(idUsuarioIniciado)
                 validado: false,
                 guardado: true,
                 puntuacionHuella: parseInt(formData.get('valoracionHProd')),
-                certificadoHuella: formData.get('certiEco')
+                certificadoHuella: formData.get('certiEco'),
+                llegada:"18 de Junio"
             };
             // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
 

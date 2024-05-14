@@ -167,6 +167,7 @@ class Servicios{
                     var certiEco = productoData["certificadoHuella"].ToObject<string>();
                     var llegada = productoData["llegada"].ToObject<string>();
                     
+                    
                     // Utiliza los datos recibidos para crear un nuevo producto
                     fachadaLogica.agregarProducto(nombreP ?? "Producto de Serie Creación",
                                                    precioP ?? "-1",
@@ -183,8 +184,6 @@ class Servicios{
                     // Inserta el nuevo producto en la base de datos
                    // await client.From<Producto>().Insert(new List<Producto> { nuevoProducto });
                 }catch (Exception ex){errorDefault(context,ex);}
-
-            return Results.Ok("Producto created successfully"); 
         });
 
         app.MapPost("/buscarProductoSeleccionado", async (HttpContext context, Supabase.Client client) =>
