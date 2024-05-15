@@ -152,4 +152,9 @@ class FachadaLogica{
         return tienda.buscarUserComprador(idbuscado);
     }
 
+    public Vendedor actualizarVendedor(string nombre, int movil, string correo, string contraseña,
+                                   string direccion, string nombreTienda,int telefonoTienda,string imagPerfil,string idvendedor){
+        return tienda.actualizarVendedor(nombre,movil,correo,contraseña,direccion,nombreTienda,telefonoTienda,imagPerfil,idvendedor);
+    }
+
 }

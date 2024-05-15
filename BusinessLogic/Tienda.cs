@@ -942,5 +942,30 @@ return productos;
             return comprador;
     }
 
+    public Vendedor actualizarVendedor(string nombre, int movil, string correo, string contraseña,
+                                   string direccion, string nombreTienda,int telefonoTienda,string imagPerfil,string idvendedor){
+            Vendedor vendedor = new Vendedor
+            {
+                //por si no existe ese id
+                idusuario = -1
+            };
+            foreach (Vendedor user in Vendedores)
+                {
+                    if (user.idusuario.ToString() == idvendedor)
+                    {
+                        vendedor = user;
+                    }
+                }
+            vendedor.nombre=nombre;
+            vendedor.movil=movil;
+            vendedor.correo=correo;
+            vendedor.contraseña=contraseña;
+            vendedor.direccion=direccion;
+            vendedor.nombretienda=nombreTienda;
+            vendedor.telefonotienda=telefonoTienda;
+            vendedor.fotoPerfil=imagPerfil;
+            return vendedor;
+    }
+
 }
     

@@ -30,6 +30,9 @@ namespace CyberMercadillo.Entities
         [Column("direccion")]
         public string? direccion { get; set; }
 
+        [Column("fotoPerfil")]
+        public string? fotoPerfil { get; set; }
+
         [Column("tipoUsuario")]
         public string? tipoUsuario { get; set; }
         

@@ -717,6 +717,42 @@ class Servicios{
             }catch (Exception ex){errorDefault(context,ex);}
         });
 
+app.MapPost("/ActualizarVendedor", async (HttpContext context, Supabase.Client client) =>
+        {
+            using var reader = new StreamReader(context.Request.Body);
+            try{      
+                var requestBody = await reader.ReadToEndAsync();
+                var userData = JsonConvert.DeserializeObject<JObject>(requestBody);
+
+                    var correo = userData["correoUsu"].ToObject<string>();
+                    //var user = fachadaLogica.buscarCorreoUsu(correo ?? "");
+                        var nombreV = userData["nombreUsu"].ToObject<string>();
+                        var nombreTiendaV = userData["nombreTienda"].ToObject<string>();
+                        var contraseña = userData["contraseña"].ToObject<string>();
+                        var direccion = userData["direccion"].ToObject<string>();
+                        var idvendedor = userData["idvendedor"].ToObject<string>();
+                        var imgPerfil = userData["imgPerfil"].ToObject<string>();
+                        var movilV = userData["telefono"].ToObject<int>();
+                        var telefonotienda = userData["telTienda"].ToObject<int>();
+                        var vendedor= fachadaLogica.actualizarVendedor(
+                            nombreV ?? "Usuario de Serie Creación",
+                            movilV,
+                            correo ?? "Correo Usuario",
+                            contraseña ?? "xxxx",
+                            direccion ?? "direccion usuario",
+                            nombreTiendaV ?? "nombre tienda",
+                            telefonotienda,
+                            imgPerfil,
+                            idvendedor
+                        );
+                        devolverFrontEnd(context, new List<Vendedor>{vendedor});
+                        /*var jsonResponse = new { mensaje = "Usuario actualizada correctamente", existe = true };
+                        context.Response.ContentType = "application/json";
+                        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+  */
+            }catch (Exception ex){errorDefault(context,ex);}
+        });
+
         app.MapPost("/AgregarComprador", async (HttpContext context, Supabase.Client client) =>
         {
             using var reader = new StreamReader(context.Request.Body);

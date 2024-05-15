@@ -21,6 +21,7 @@ namespace CyberMercadillo.Entities
             contraseña = string.Empty;
             direccion = string.Empty;
             tipoUsuario = string.Empty;
+            fotoPerfil = string.Empty;
         }
         public Usuario(int IdUser,string nombreUser, int movilUser, string correoUser, string contraUser, string dirUser,string tipoUser) {
             idusuario = IdUser;
@@ -30,6 +31,7 @@ namespace CyberMercadillo.Entities
             contraseña = contraUser;
             direccion = dirUser;
             tipoUsuario = tipoUser;
+            fotoPerfil = string.Empty;
         }
     }
 }
