@@ -754,7 +754,7 @@ async function mostrarCarritoCompra (carrCompra){
 }
 
 async function mostrarListaDeseados (listaDes){
-    const productsContainer = document.querySelector('.products-wrapper');
+    const productsContainer = document.querySelector('.featured-products');
     // let totalPrecio = 0;
     let descripc = "";
     
@@ -794,9 +794,9 @@ async function mostrarListaDeseados (listaDes){
 
                 // Construir la descripción de los productos en el carrito
                 if (descripc == "") {
-                    descripc += `${cantidadProducto} ${producto.nombreproducto}`;
+                    descripc += `${producto.nombreproducto}`;
                 } else {
-                    descripc += `, ${cantidadProducto} ${producto.nombreproducto}`;
+                    descripc += `,${producto.nombreproducto}`;
                 }
                 //console.log(producto.nombreproducto);
             }
@@ -849,10 +849,7 @@ async function mostrarUnProductoListaDeseados(producto, productsContainer) {
 
     const descripcion = document.createElement('div');
     descripcion.classList.add('descripción');
-    descripcion.innerHTML = `<h1>${producto.nombreproducto + " " + producto.precio} €</h1>
-    <p>Llegada el: ${producto.llegada}</p>
-    <h2>Cantidad: ${cantidad} </h2 style="font-size: 18px;">
-    <button onclick="eliminarProducto(${producto.idproducto})">Quitar</button>`;
+    descripcion.innerHTML = `<h1>${producto.nombreproducto + " " + producto.precio} €</h1>`;
 
     // Añadir elementos al contenedor del producto
     productDiv.appendChild(img);
