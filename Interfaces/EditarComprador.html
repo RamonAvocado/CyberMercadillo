@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cyber Mercadillo</title>
     <link rel="stylesheet" href="styleEditarProducto.css">
+    <link rel="stylesheet" href="styleNuevoUsuario.css">
     <style>
         /* Alinea los textos de las etiquetas a la izquierda */
         label {
@@ -135,15 +136,15 @@
                 <div class="image-group">
                     <div class="image-container">
                         <div class="recommended-products">
-                            <img src="Imagenes/userSinFoto.png" alt="Imagen 5">
+                            <img id = "imagen" src="Imagenes/userSinFoto.png" alt="Imagen 5">
                         </div>
                         <br> 
                         <input type="text" id="nuevo-url-imagen" name="nuevo-url-imagen" placeholder="Nuevo URL de Imagen">
-                        <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br><br> <br><br> <br><br> <br><br> <br><br> 
+                        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
                         <!--<button onclick="cambiarImagen()">Cambiar Imagen</button><br><br><br><br><br><br><br><br>-->
                         
                     </div>
-                    <button onclick = "ActualizarProducto(localStorage.getItem('itemID'),localStorage.getItem('UsuarioID'))" class="search-history-btn">Confirmar</button>
+                    <button onclick = "ActualizarComprador()" class="search-history-btn">Confirmar</button>
                 </div>
         </div>
     </form>

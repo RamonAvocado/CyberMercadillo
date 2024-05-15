@@ -32,6 +32,7 @@ class FachadaDBB{
         var tecnicos = await supabase.From<Tecnico>().Get();
         var compras = await supabase.From<Compra>().Get();
         var carritos = await supabase.From<CarritosDeCompra>().Get();
+        var listaDes = await supabase.From<ListaDeseados>().Get();
 
         foreach (var producto in productos.Models){
             tienda.Productos.Add(producto);
@@ -40,19 +41,22 @@ class FachadaDBB{
             tienda.Busquedas.Add(busqueda);
         }
         foreach (var comprador in compradores.Models){
-            tienda.Compradores.Add(comprador);
+            tienda.Usuarios.Add(comprador);
         }
         foreach (var vendedor in vendedores.Models){
-            tienda.Vendedores.Add(vendedor);
+            tienda.Usuarios.Add(vendedor);
         }
         foreach (var tecnico in tecnicos.Models){
-            tienda.Tecnicos.Add(tecnico);
+            tienda.Usuarios.Add(tecnico);
         }
         foreach (var compra in compras.Models){
             tienda.Compras.Add(compra);
         }
         foreach(var carrito in carritos.Models){
             tienda.CarritosDeCompra.Add(carrito);
+        }
+        foreach(var listaDeseados in listaDes.Models){
+            tienda.ListaDeseados.Add(listaDeseados);
         }
         
         TodoCargadoCargados = true;   
@@ -75,12 +79,14 @@ class FachadaDBB{
         var busquedas = tienda.Busquedas;
         var compradores = tienda.Compradores;
         var vendedores = tienda.Vendedores;
+        var usuarios = tienda.Usuarios;
         var tecnicos = tienda.Tecnicos;
         var compras = tienda.Compras;
         var carritos = tienda.CarritosDeCompra;
+        var listaDes = tienda.ListaDeseados;
         
-        await supabase.From<Producto>().Where(x => x.categoria != "string random que para que eliga lo contrario").Delete();
-        await supabase.From<Producto>().Insert(productos);
+        //await supabase.From<Producto>().Where(x => x.categoria != "string random que para que eliga lo contrario").Delete();
+        //await supabase.From<Producto>().Insert(productos);
 
         await supabase.From<Busqueda>().Where(x => x.idbusqueda != 0).Delete();
         await supabase.From<Busqueda>().Insert(busquedas);
@@ -88,7 +94,6 @@ class FachadaDBB{
         await supabase.From<Comprador>().Where(x => x.idusuario != 0).Delete();
         await supabase.From<Comprador>().Insert(compradores);
 
-        
         await supabase.From<Vendedor>().Where(x => x.idusuario != 0).Delete();
         await supabase.From<Vendedor>().Insert(vendedores);
 /*

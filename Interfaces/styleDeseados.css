@@ -62,47 +62,6 @@ header h1 {
     max-width: 470%; /* Hacemos que los elementos ocupen todo el ancho disponible */
 }
 
-
-/* Barra de búsqueda */
-.search-bar {
-    display: flex;
-    align-items: center;
-    background-color: #6a0572;
-    flex: 1;
-}
-
-
-/* Aplicamos estilos básicos para los elementos de la barra de búsqueda */
-.search-bar input[type="text"]
-{
-    margin-left: 20px; /* Espacio entre los elementos */
-    margin-right: 10px; /* Espacio entre los elementos */
-    padding: 8px; /* Espaciado interno */
-    border: 1px solid #ccc; /* Borde */
-    border-radius: 5px; /* Borde redondeado */
-    font-size: 16px; /* Tamaño de fuente */
-    width: 100%; /* Hacemos que los elementos ocupen todo el ancho disponible */
-}
-
-.search-bar select {
-    
-    width: auto; /* El select se ajusta automáticamente al tamaño de su contenido */
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin: 10px;
-}
-
-.search-bar button {
-    background-color: #8a2f91;
-    color: #ffffff;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 0 5px;
-}
-
 .grupo-nav-list{
     background-color: #d9d9d9;
     padding: 1px;
@@ -141,35 +100,6 @@ header h1 {
     background-color: #D9D9D9;
     text-align: center; /* Centrar los productos */
 }
-/* Sección de recomendaciones */
-.recommended-products-container {
-    flex-direction: row;
-    padding: 10px;
-    border: 1px solid #1f0404;
-    border-radius: 20px;
-    margin-top: 20px;
-    margin-left: 50px;
-    margin-right: 50px;
-    margin-bottom: 20px;
-    background-color: #D9D9D9;
-    text-align: center; /* Centrar los productos */
-}
-
-.resultado-busqueda-container {
-    padding: 10px;
-    border: 1px solid #1f0404;
-    border-radius: 20px;
-    margin-top: 20px;
-    margin-left: 50px;
-    margin-right: 50px;
-    margin-bottom: 20px;
-    background-color: #D9D9D9;
-    text-align: center; /* Centrar los productos */
-    overflow-y: scroll;
-    height: 800px; /* Establecer una altura máxima para la visualización de los productos */
-    width: 1500px; /* Establecer una altura máxima para la visualización de los productos */
-}
-
 
 .pagina-item {
     display: inline-block;

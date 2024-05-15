@@ -73,6 +73,14 @@ class Tienda
         private set { carritos = value; }
     }
 
+    private List<ListaDeseados> listaDes = new List<ListaDeseados>();
+
+    public List<ListaDeseados> ListaDeseados
+    {
+        get { return listaDes; }
+        private set { listaDes = value; }
+    } 
+
 
     private Usuario usuarioRegistrado = new Comprador(0,"x", 1, "x", "x", "x", 1, "x", 1, "x","x");
     public Usuario UsuarioRegistrado
@@ -98,6 +106,18 @@ class Tienda
 
 
     public void CrearCarrito(int idusuario){
+        CarritosDeCompra carrito = new CarritosDeCompra
+        {
+            idusuario = idusuario,
+            estado = "En espera de pago"
+        };
+ 
+        Console.WriteLine("Se ha creado un carrito de compra ");
+        Console.WriteLine("Ahora hay: " + CarritosDeCompra.Count() + " CarritoDeCompras");
+        CarritosDeCompra.Add(carrito);
+    }
+    
+    public void CrearListaDeseados(int idusuario){
         CarritosDeCompra carrito = new CarritosDeCompra
         {
             idusuario = idusuario,
@@ -152,6 +172,44 @@ class Tienda
     return true;
     }
 
+
+    public bool AñadirADeseos(int idusuario, string idproducto)
+    {
+        if (ListaDeseados.Any(c => c.idusuario == idusuario && c.idproductos.Contains(idproducto)))
+        {
+            Console.WriteLine("El usuario ya tiene este producto en la Lista de Deseados así que no lo guardo");
+            return false;
+        }
+        else{
+            var listaUser = ListaDeseados.FirstOrDefault(c => c.idusuario == idusuario);
+
+            if (listaUser != null)
+            {
+                listaUser.idproductos += "," + idproducto;
+            }
+            else // Si el usuario no tiene lista, la crea
+            {
+                ListaDeseados listaDeseados = new ListaDeseados
+                {
+                    idusuario = idusuario,
+                    idproductos = idproducto
+                };
+
+                Console.WriteLine("Se ha creado una lista de deseados ");
+                Console.WriteLine("Ahora hay: " + ListaDeseados.Count() + " Lista de Deseados");
+
+                ListaDeseados.Add(listaDeseados);
+
+                return true;
+            }
+        }
+        
+    Console.WriteLine("Ahora hay: " + ListaDeseados.Count() + " Productos en Lista de Deseados");
+            
+    return true;
+    }
+
+//AñadirADeseos
     public bool TramitarPedido(int idusuario)
     {
         var hecho = false;
@@ -210,6 +268,13 @@ class Tienda
         carritoDeCompras = CarritosDeCompra.Where(c => c.idusuario == idusuario && c.estado == "En espera de pago").ToList();
 
         return carritoDeCompras;
+    }
+
+    public List<ListaDeseados> ObtenerListaDeseados(int idusuario){
+        
+        List<ListaDeseados> listadeDeseados = new List<ListaDeseados>();
+        listadeDeseados = ListaDeseados.Where(c => c.idusuario == idusuario).ToList();
+        return listadeDeseados;
     }
 
     public List<Producto> ObtenerProductos(String idproductos){
@@ -591,6 +656,21 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
             Usuario usuarioFalso = new Tecnico(0,"Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se", "Tecnico");
             Usuario usuarioEncontrado;
 
+            usuarioEncontrado = Usuarios.Find(u => u.correo == correo && u.contraseña == password) ?? usuarioFalso;
+            if(usuarioEncontrado.correo == correo && usuarioEncontrado.contraseña == password){
+                UsuarioRegistrado = usuarioEncontrado;
+                return usuarioEncontrado;
+            }
+
+            else{return usuarioFalso;}
+    }
+
+/*
+public Usuario buscarUsuario(String correo, String password)
+    {
+            Usuario usuarioFalso = new Tecnico(0,"Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se", "Tecnico");
+            Usuario usuarioEncontrado;
+
             usuarioEncontrado = Compradores.Find(u => u.correo == correo && u.contraseña == password) ?? usuarioFalso;
             if(usuarioEncontrado.correo == correo && usuarioEncontrado.contraseña == password){
                 UsuarioRegistrado = usuarioEncontrado;
@@ -610,8 +690,7 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
             }
 
             else{return usuarioFalso;}
-    }
-
+    }*/
     public Usuario ObtenerInfoUsuario(int idusuario)
     {
             Usuario usuarioFalso = new Tecnico(0,"Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se", "Tecnico");
@@ -911,51 +990,25 @@ return productos;
     }
 
     public Vendedor buscarUserVendedor(string idbuscado){
-        Vendedor vendedor = new Vendedor
-        {
-            //por si no existe ese id
-            idusuario = -1
-        };
-        foreach (Vendedor user in Vendedores)
-            {
-                if (user.idusuario.ToString() == idbuscado)
-                {
-                    vendedor = user;
-                }
-            }
+        var usuarioEncontrado = Usuarios.Find(u => u.idusuario.ToString() == idbuscado);
+        if (usuarioEncontrado != null) {
+            return (Vendedor) usuarioEncontrado;
+        } else {
+            Vendedor vendedor = new Vendedor{
+                idusuario = -1
+            };
             return vendedor;
+        }
     }
 
     public Comprador buscarUserComprador(string idbuscado){
-        Comprador comprador = new Comprador
-        {
-            //por si no existe ese id
-            idusuario = -1
-        };
-        foreach (Comprador user in Compradores)
-            {
-                if (user.idusuario.ToString() == idbuscado)
-                {
-                    comprador = user;
-                }
-            }
-            return comprador;
+        var usuarioEncontrado = Usuarios.Find(u => u.idusuario.ToString() == idbuscado);
+        return (Comprador) usuarioEncontrado;
     }
 
     public Vendedor actualizarVendedor(string nombre, int movil, string correo, string contraseña,
                                    string direccion, string nombreTienda,int telefonoTienda,string imagPerfil,string idvendedor){
-            Vendedor vendedor = new Vendedor
-            {
-                //por si no existe ese id
-                idusuario = -1
-            };
-            foreach (Vendedor user in Vendedores)
-                {
-                    if (user.idusuario.ToString() == idvendedor)
-                    {
-                        vendedor = user;
-                    }
-                }
+            var vendedor = (Vendedor) Usuarios.Find(u => u.idusuario.ToString() == idvendedor);
             vendedor.nombre=nombre;
             vendedor.movil=movil;
             vendedor.correo=correo;
@@ -967,5 +1020,23 @@ return productos;
             return vendedor;
     }
 
+    public Comprador actualizarComprador(string nombre, int movil, string correo, string contraseña,
+                                   string direccionEnvio, string fechaCaducidad,string direccionFacturacion,int NumTarjeta,
+                                   int cvv,string imgPerfil,string idcomprador){
+            var comprador = (Comprador) Usuarios.Find(u => u.idusuario.ToString() == idcomprador);
+            comprador.nombre=nombre;
+            comprador.movil=movil;
+            comprador.correo=correo;
+            comprador.contraseña=contraseña;
+            comprador.direccion=direccionEnvio;
+            comprador.fechaCaducidad=fechaCaducidad;
+            comprador.direccionFacturacion=direccionFacturacion;
+            comprador.numeroTarjeta=NumTarjeta;
+            comprador.CVV=cvv;
+            comprador.fotoPerfil=imgPerfil;
+            return comprador;
+    }
 }
+
+
     

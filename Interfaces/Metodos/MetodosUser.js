@@ -11,7 +11,8 @@ var paginaAnterior;
 var searchTerm;
 var category;
 var TipoUsuarioRegistrado;
-
+let formSubmitEventListenerAddedVend = false;
+let formSubmitEventListenerAddedComp = false;
 
 var lugarDeEjecucion = "http://localhost:5169";
 
@@ -50,7 +51,7 @@ async function IniciarSesion(){
             console.log("El usuario ha iniciado sesión");
             const data = await response.json();
             idUsuarioIniciado = data.Id;
-            //console.log(data.TipoUsuario);
+            console.log(idUsuarioIniciado);
             //console.log('TipoUsuario:', typeof data.TipoUsuario);
             localStorage.setItem('UsuarioID', idUsuarioIniciado);
             // Determinar el tipo de usuario
@@ -219,8 +220,8 @@ function mostrarPedidos(carritos){
 
             if (response.ok) {
                 const data = await response.json();
+                console.log(data);
                 const user = data.objeto[0];
-                console.log(user);
                 document.getElementById('nombreUsu').value = user.nombre;
                 document.getElementById('TelUsu').value = user.movil;
                 document.getElementById('CorreoUsu').value = user.correo;
@@ -283,29 +284,115 @@ function mostrarPedidos(carritos){
         }
     }
 
-    async function ActualizarVendedor()
+    function ActualizarVendedor() {
+        if (!formSubmitEventListenerAddedVend) {
+            document.getElementById('agregarProductoForm7').addEventListener('submit', async (event) => {
+                event.preventDefault();
+                await handleFormSubmitVend();
+            });
+            formSubmitEventListenerAddedVend = true;
+        }
+    }
+    async function handleFormSubmitVend() 
     {
+        var errorMessage = document.getElementById('error-message');
+        if (errorMessage.style.display == 'block') {
+            alert("Por favor ingrese los datos correctamente");
+        } else {
+                const formData = new FormData(event.target);             
+                //var imagen = localStorage.getItem('UrlImg');
+                var img2 = formData.get('nuevo-url-imagen');
+                console.log(img2);
+                var imagen;
+                if (img2 !== "") {
+                    imagen = img2;
+                }else{
+                    imagen = document.getElementById('imagen').src
+                }
+
+                var requestBody = {
+                    nombreUsu: formData.get('nombreUsu'),
+                    telefono: formData.get('TelUsu'),
+                    correoUsu: formData.get('CorreoUsu'),
+                    contraseña: formData.get('ContraseñaUsu'),
+                    contraseñaR: formData.get('RContraseñaUsu'),
+                    direccion: formData.get('DirUsu'),
+                    telTienda: parseInt(formData.get('TelUsuT')),
+                    nombreTienda: formData.get('NomTUsu'),
+                    idvendedor:localStorage.getItem('UsuarioID'),
+                    imgPerfil: imagen 
+                };
+
+                try {
+                    const response = await fetch(`${lugarDeEjecucion}/ActualizarVendedor`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(requestBody)
+                    });
+            
+                    if (response.ok) {
+                        const data = await response.json();
+                        const user = data.objeto[0];
+                        console.log(user);
+                        //const data = await response.json();
+                        console.log('Usuario actualizado correctamente');
+                        //mostrarResultado(data.resultado); 
+
+                        window.location.reload();
+                    } else {
+                        console.error('Error al actualizar el producto:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error inesperado:', error);
+                }  
+        } 
+}
+
+function ActualizarComprador() {
+    if (!formSubmitEventListenerAddedComp) {
         document.getElementById('agregarProductoForm7').addEventListener('submit', async (event) => {
             event.preventDefault();
-            
+            await handleFormSubmitCompr();
+        });
+        formSubmitEventListenerAddedComp = true;
+    }
+}
+
+async function handleFormSubmitCompr()
+{   var errorMessage = document.getElementById('error-message');
+    if (errorMessage.style.display == 'block') {
+        alert("Por favor ingrese los datos correctamente");
+    } else {
             const formData = new FormData(event.target);             
-            var imagen = localStorage.getItem('UrlImg');
+            //var imagen = localStorage.getItem('UrlImg');
             var img2 = formData.get('nuevo-url-imagen');
+            console.log(img2);
+            var imagen;
+            if (img2 !== "") {
+                imagen = img2;
+            }else{
+                imagen = document.getElementById('imagen').src
+            }
+
             var requestBody = {
-                nombreUsu: formData.get('nombreUsu'),
-                telefono: formData.get('TelUsu'),
-                correoUsu: formData.get('CorreoUsu'),
+                nombreUsu: formData.get('nombreUsuC'),
+                telefono: formData.get('TelUsuC'),
+                correoUsu: formData.get('CorreoUsuC'),
                 contraseña: formData.get('ContraseñaUsu'),
                 contraseñaR: formData.get('RContraseñaUsu'),
-                direccion: formData.get('DirUsu'),
-                telTienda: parseInt(formData.get('TelUsuT')),
-                nombreTienda: formData.get('NomTUsu'),
-                idvendedor:localStorage.getItem('UsuarioID'),
-                imgPerfil:img2 ?? formData.get('imagen') 
+                direccion: formData.get('DirUsuEnvio'),
+                dirFacturacion: formData.get('DirUsuFact'),
+                NumTarjeta: parseInt(formData.get('NumTarj')),
+                cvv: parseInt(formData.get('CVV')),
+                fechaCaducidad: formData.get('FechaCad'),
+                idcomprador:localStorage.getItem('UsuarioID'),
+                imgPerfil: imagen 
             };
 
             try {
-                const response = await fetch(`${lugarDeEjecucion}/ActualizarVendedor`, {
+                const response = await fetch(`${lugarDeEjecucion}/ActualizarComprador`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -318,7 +405,7 @@ function mostrarPedidos(carritos){
                     const user = data.objeto[0];
                     console.log(user);
                     //const data = await response.json();
-                    console.log('Producto actualizado correctamente');
+                    console.log('Usuario actualizado correctamente');
                     //mostrarResultado(data.resultado); 
 
                     window.location.reload();
@@ -328,6 +415,5 @@ function mostrarPedidos(carritos){
             } catch (error) {
                 console.error('Error inesperado:', error);
             }
-        });
+    }
 }
-

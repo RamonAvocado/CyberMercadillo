@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cyber Mercadillo</title>
-    <link rel="stylesheet" href="styleBuscador.css">
+    <link rel="stylesheet" href="styleDeseados.css">
 </head>
 <body>
     <header>
@@ -43,12 +43,11 @@
     </div>
     <div class = "texto-titulo">
         <h2>Lista De Deseados</h2>
-        <h3> Faltan añadir los productos deseados, estos son los primeros de la BD:</h3>
     </div>
     <div class="featured-products-container">
-        <!-- Productos destacados (similar a la imagen) -->
-        <div class="featured-products">
         
+        <div class="featured-products">
+                <!-- Aqui van los productos de lista deseados -->
         </div>
         <div class="num-pagina">
             <ul id="paginasDest"></ul>
@@ -75,11 +74,12 @@
     <script src="./Metodos/MetodosUser.js"></script>
     <script src="./Metodos/MetodosNavegacion.js"></script>
     <script src="./Metodos/MetodosBusquedas.js"></script>
+    <script src="./Metodos/MetodosProducto.js"></script>
     
     
     <script>
         // Llama a la función buscar cuando la página se cargue
-        window.addEventListener('load', CargarProductosDestacados);
+        window.addEventListener('load', CargaListaDeseados);
         window.addEventListener('unload', GuardarBDD);
     </script>
     <script>
@@ -88,3 +88,4 @@
     </script>
 </body>
 </html>
+

@@ -211,8 +211,13 @@ class Servicios{
                     var userData = JsonConvert.DeserializeObject<JObject>(requestBody);
                     var idUserSelect = userData["idusuario"].ToObject<string>();
                     var vendedor = fachadaLogica.buscarVendedor(idUserSelect ?? "0");
-
-                    devolverFrontEnd(context, new List<Vendedor>{vendedor});
+                    if (vendedor != null){
+                        devolverFrontEnd(context, new List<Vendedor>{vendedor});
+                    }else{
+                        var jsonResponse = new { mensaje = "User no existe"};
+                        context.Response.ContentType = "application/json";
+                        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                    }              
                 }catch (Exception ex){errorDefault(context,ex);}
         });
         
@@ -508,6 +513,25 @@ class Servicios{
             }catch (Exception ex){errorDefault(context,ex);}
         });
 
+        app.MapPost("/AñadirADeseos", async (HttpContext context, Supabase.Client client) =>
+        {
+            // Leer el cuerpo de la solicitud para obtener la información de búsqueda
+            using var reader = new StreamReader(context.Request.Body);
+            try{
+                var requestBody = await reader.ReadToEndAsync();
+                var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
+
+                var idBuscado = searchData["idusuario"].ToObject<int>();
+                var idproducto = searchData["idproducto"].ToObject<string>();
+                //recupero los productos con esta categoría
+                var recupero = fachadaLogica.returnTienda().AñadirADeseos(idBuscado, idproducto??"1");
+
+                //Console.WriteLine("idBuscado: " + idBuscado + ", idproducto: " + idproducto);
+
+                devolverFrontEnd(context, new List<Boolean> {recupero});
+            }catch (Exception ex){errorDefault(context,ex);}
+        });
+
         app.MapPost("/ObtenerCarritoCompra", async (HttpContext context, Supabase.Client client) =>
         {
             using var reader = new StreamReader(context.Request.Body);
@@ -523,6 +547,22 @@ class Servicios{
                 devolverFrontEnd(context, carritoCompra);
             }catch (Exception ex){errorDefault(context,ex);}
         });
+
+        app.MapPost("/ObtenerListaDeseados", async (HttpContext context, Supabase.Client client) =>
+        {
+            using var reader = new StreamReader(context.Request.Body);
+            try{
+                var requestBody = await reader.ReadToEndAsync();
+                var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
+                
+                var idusuario = searchData["idusuario"].ToObject<int>();
+
+                var listaDeseados = fachadaLogica.returnTienda().ObtenerListaDeseados(idusuario);
+                devolverFrontEnd(context, listaDeseados);
+                
+            }catch (Exception ex){errorDefault(context,ex);}
+         });
+         
 
         app.MapPost("/TramitarPedido", async (HttpContext context, Supabase.Client client) =>
         {
@@ -794,6 +834,46 @@ app.MapPost("/ActualizarVendedor", async (HttpContext context, Supabase.Client c
                         await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
                     }
     
+            }catch (Exception ex){errorDefault(context,ex);}
+        });
+
+        app.MapPost("/ActualizarComprador", async (HttpContext context, Supabase.Client client) =>
+        {
+            using var reader = new StreamReader(context.Request.Body);
+            try{      
+                var requestBody = await reader.ReadToEndAsync();
+                var userData = JsonConvert.DeserializeObject<JObject>(requestBody);
+
+                    var correo = userData["correoUsu"].ToObject<string>();
+                    //var user = fachadaLogica.buscarCorreoUsu(correo ?? "");
+                        var nombreC = userData["nombreUsu"].ToObject<string>();
+                        var contraseña = userData["contraseña"].ToObject<string>();
+                        var direccionEnvio = userData["direccion"].ToObject<string>();
+                        var direccionFacturacion = userData["dirFacturacion"].ToObject<string>();
+                        var idcomprador = userData["idcomprador"].ToObject<string>();
+                        var imgPerfil = userData["imgPerfil"].ToObject<string>();
+                        var fechaCaducidad = userData["fechaCaducidad"].ToObject<string>();
+                        var movilV = userData["telefono"].ToObject<int>();
+                        var NumTarjeta = userData["NumTarjeta"].ToObject<int>();
+                        var cvv = userData["cvv"].ToObject<int>();
+                        var comprador= fachadaLogica.actualizarComprador(
+                            nombreC ?? "Usuario de Serie Creación",
+                            movilV,
+                            correo ?? "Correo Usuario",
+                            contraseña ?? "xxxx",
+                            direccionEnvio ?? "direccion usuario",
+                            fechaCaducidad ?? "nombre tienda",
+                            direccionFacturacion,
+                            NumTarjeta,
+                            cvv,
+                            imgPerfil,
+                            idcomprador
+                        );
+                        devolverFrontEnd(context, new List<Comprador>{comprador});
+                        /*var jsonResponse = new { mensaje = "Usuario actualizada correctamente", existe = true };
+                        context.Response.ContentType = "application/json";
+                        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+  */
             }catch (Exception ex){errorDefault(context,ex);}
         });
 

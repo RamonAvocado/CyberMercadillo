@@ -456,6 +456,19 @@ function mostrarUnProducto(producto) {
     });
 
 
+
+    //Agregar el producto a la lista de deseos
+        deseosButton.addEventListener("click", function() {
+        idUsuarioIniciado = localStorage.getItem('UsuarioID');
+        idProductoSeleccionado = localStorage.getItem('itemID');
+
+        idUsuarioIniciado= parseInt(idUsuarioIniciado);
+        idProductoSeleccionado= parseInt(idProductoSeleccionado);
+
+        AñadirListaDeseos(idUsuarioIniciado, idProductoSeleccionado);
+        });
+
+
     selectCantidad.addEventListener('change', function() {
         const cantidadSeleccionada = parseInt(selectCantidad.value);
         localStorage.setItem('itemCantSelec', cantidadSeleccionada);
@@ -510,6 +523,52 @@ async function añadirCarritoCompra(idusuario, idproducto, cantProducto){
     }
 }
 
+async function AñadirListaDeseos(idusuario, idproducto){
+
+    var requestBody = {
+        idusuario: idusuario,
+        idproducto: idproducto,
+    };
+
+    try {
+        const response = await fetch(`${lugarDeEjecucion}/AñadirADeseos`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody)
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            
+            if(data.objeto == true){
+                //console.log('Producto añadido al carrito de compra');
+
+                var titulo = "¡Producto guardado!";
+                var mensaje = "El producto ha sido guardado en la Lista de Deseados.";
+            
+                // Mostrar la ventana emergente con el título y el mensaje
+                alert(titulo + "\n\n" + mensaje);
+
+            }else {
+                var titulo = "¡Producto en Lista de Deseados!";
+                var mensaje = "El producto ya está en la Lista de Deseados.";
+            
+                // Mostrar la ventana emergente con el título y el mensaje
+                alert(titulo + "\n\n" + mensaje);
+                
+                //console.error("El usuario ya tiene este producto en el carrito de compra, así que no lo guardo");
+            }
+
+        } else {
+            console.error('Problema con la solicitud a servicios: ', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
 async function CargaCarritoCompra(){
     try{
         idUsuarioIniciado = localStorage.getItem('UsuarioID');
@@ -549,6 +608,51 @@ async function CargaCarritoCompra(){
 
             //le paso la información a esta función para recuperar los productos
             mostrarCarritoCompra(carritoCompra)
+
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado al cargar el carrito de compra:', error);
+    }
+}
+
+async function CargaListaDeseados(){
+    try{
+        idUsuarioIniciado = localStorage.getItem('UsuarioID');
+        idUsuarioIniciado= parseInt(idUsuarioIniciado);
+        console.log("usuario: " +idUsuarioIniciado);
+
+        var requestBody = {
+            idusuario: idUsuarioIniciado,
+        };
+
+        //obtengo el carrito de compra, los id's y su cantidad
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerListaDeseados`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody)
+        });
+
+        //obtengo la información del usuario para la tarjeta de crédito
+        const respuestaUser = await fetch(`${lugarDeEjecucion}/ObtenerInfoComprador`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody)
+        });
+
+        if(response.ok){
+            const data = await response.json();
+            const listaDeseoProd = data.objeto;
+            //console.log("carrito compra: "+carritoCompra);
+            console.log(listaDeseoProd);
+
+            //le paso la información a esta función para recuperar los productos
+            mostrarListaDeseados(listaDeseoProd)
 
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
@@ -649,7 +753,59 @@ async function mostrarCarritoCompra (carrCompra){
     localStorage.setItem('totalPrecio', totalPrecio);
 }
 
+async function mostrarListaDeseados (listaDes){
+    const productsContainer = document.querySelector('.featured-products');
+    // let totalPrecio = 0;
+    let descripc = "";
+    
+    if(listaDes.length == 0){
+        //creo el elemento div y luego añado un p para decir que no hay productos
+        const Noproduct = document.createElement('h1');
 
+        Noproduct.textContent = `No hay productos en la Lista de Deseados`;
+        Noproduct.style.fontSize = '30px';
+        productsContainer.appendChild(Noproduct);
+        
+    }else{
+
+        var listaDeseados = listaDes[0];
+        var totalProd = contarProds(listaDeseados.idproductos);
+        //console.log("carrito compra: " + totalProd);
+
+
+                    // Obtener el ID del producto y su cantidad
+        console.log(listaDeseados.idproductos);
+        //para cada producto, quiero hacer mostrarUnProductoCompra
+        for (var i = 0; i< totalProd; i++) {
+            //var carritoItem = DevolverSubcadena(carritoCompra[0]);
+
+            const idProducto = DevolverSubCadena(listaDeseados.idproductos, i);
+            // Hacer una solicitud al servidor para obtener la información completa del producto por su ID
+            console.log("Aqui aqui: " +idProducto);
+            const response = await fetch(`${lugarDeEjecucion}/ObtenerProductoPorID?idproducto=${idProducto}`);
+
+            if (response.ok) {
+                const data = await response.json();
+                const producto = data.objeto[0];
+                //console.log(data.objeto[0]);
+
+                // Mostrar la información del producto
+                mostrarUnProductoListaDeseados(producto, productsContainer);
+
+                // Construir la descripción de los productos en el carrito
+                if (descripc == "") {
+                    descripc += `${producto.nombreproducto}`;
+                } else {
+                    descripc += `,${producto.nombreproducto}`;
+                }
+                //console.log(producto.nombreproducto);
+            }
+        }
+
+    }
+
+    localStorage.setItem('descripc', descripc);
+}
 async function GuardarCarritoBDD(){
     await fetch(`${lugarDeEjecucion}/GuardarCarritoBDD`);
 }
@@ -671,6 +827,29 @@ async function mostrarUnProductoCompra(producto, cantidad, productsContainer) {
     <button onclick="aumentarCantidad( ${producto.idproducto}, ${cantidad}, ${producto.cantidad})">+</button>
     <button onclick="disminuirCantidad(${producto.idproducto}, ${cantidad})">-</button>
     <button onclick="eliminarProducto(${producto.idproducto})">Quitar</button>`;
+
+    // Añadir elementos al contenedor del producto
+    productDiv.appendChild(img);
+    productDiv.appendChild(descripcion);
+    
+    productDiv.addEventListener('dblclick', () => {
+        irAInfoProd(producto);
+    });
+
+    productsContainer.appendChild(productDiv);
+}
+
+async function mostrarUnProductoListaDeseados(producto, productsContainer) {
+    const productDiv = document.createElement('div');
+    productDiv.classList.add('product-compra');
+
+    // Crear elementos para la información del producto
+    const img = document.createElement('img');
+    img.src = producto.imagenes.split(' ')[0]; // Obtener la primera imagen
+
+    const descripcion = document.createElement('div');
+    descripcion.classList.add('descripción');
+    descripcion.innerHTML = `<h1>${producto.nombreproducto + " " + producto.precio} €</h1>`;
 
     // Añadir elementos al contenedor del producto
     productDiv.appendChild(img);
