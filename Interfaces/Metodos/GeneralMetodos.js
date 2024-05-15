@@ -11,6 +11,9 @@ var paginaAnterior;
 var searchTerm;
 var category;
 var TipoUsuarioRegistrado;
+let formSubmitEventListenerAdded = false;
+let formSubmitEventListenerAdded2 = false;
+
 
 
 
@@ -141,25 +144,36 @@ function irAInfoProducto2(productoParaInfo) {
     historialBtn.style.display = 'none';
 }
 */
-async function agregarUsuarioVendedor(TipoUsuarioRegistrado){
-    document.getElementById('agregarVendedorForm').addEventListener('submit', async (event) => {
-        event.preventDefault();
-        console.log(TipoUsuarioRegistrado);
-        const formData = new FormData(event.target);
+function agregarUsuarioVendedor(TipoUsuarioRegistrado) {
+    if (!formSubmitEventListenerAdded) {
+        document.getElementById('agregarVendedorForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            await handleFormSubmit(TipoUsuarioRegistrado);
+        });
+        formSubmitEventListenerAdded = true;
+    }
+}
+
+async function handleFormSubmit(TipoUsuarioRegistrado) {
+    console.log(TipoUsuarioRegistrado);
+    var errorMessage = document.getElementById('error-message');
+    if (errorMessage.style.display == 'block') {
+        alert("Por favor ingrese los datos correctamente");
+    } else {
+        const formData = new FormData(document.getElementById('agregarVendedorForm'));
         var requestBody = {
-            nombreUsu : formData.get('nombreUsu'),
-            telefono : formData.get('TelUsu'),
-            correoUsu : formData.get('CorreoUsu'),
-            contraseña : formData.get('ContraseñaUsu'),
-            contraseñaR : formData.get('RContraseñaUsu'),
-            direccion : formData.get('DirUsu'),
-            telTienda : parseInt(formData.get('TelUsuT')),
-            nombreTienda : formData.get('NomTUsu'),
+            nombreUsu: formData.get('nombreUsu'),
+            telefono: formData.get('TelUsu'),
+            correoUsu: formData.get('CorreoUsu'),
+            contraseña: formData.get('ContraseñaUsu'),
+            contraseñaR: formData.get('RContraseñaUsu'),
+            direccion: formData.get('DirUsu'),
+            telTienda: parseInt(formData.get('TelUsuT')),
+            nombreTienda: formData.get('NomTUsu'),
             tipoUsu: TipoUsuarioRegistrado
         };
 
         try {
-
             const response = await fetch(`${lugarDeEjecucion}/AgregarVendedor`, {
                 method: 'POST',
                 headers: {
@@ -167,72 +181,146 @@ async function agregarUsuarioVendedor(TipoUsuarioRegistrado){
                 },
                 body: JSON.stringify(requestBody)
             });
-    
+
             if (response.ok) {
-                //const data = await response.json();
-                console.log('Usuario creado correctamente');
-                //mostrarResultado(data.resultado); 
-                window.location.href = `../index.html`
+                const jsonResponse = await response.json();
+                const message = jsonResponse.mensaje;
+                const existe = jsonResponse.existe;
+
+                if (existe == true)
+                    alert("Usuario ya existe con ese correo")
+                else {
+                    alert(message);
+                    window.location.href = `../index.html`
+                }
             } else {
                 console.error('Error al crear el usuario:', response.statusText);
             }
         } catch (error) {
             console.error('Error inesperado:', error);
         }
-        //alert("Error crear Producto")
-        //window.location.reload();
+    }
+}
+/*
+async function agregarUsuarioComprador(TipoUsuarioRegistrado){
+    document.getElementById('agregarCompradorForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+            var errorMessage = document.getElementById('error-message');
+            if (errorMessage.style.display == 'block'){
+                alert("Por favor ingrese los datos correctamente");
+            }else{
+                const formData = new FormData(event.target);
+                const cvv = formData.get('CVV');
+                const numTarj = formData.get('NumTarj');
+                const fechaCad = formData.get('FechaCad');
+                var requestBody = {
+                    nombreUsu : formData.get('nombreUsuC'),
+                    telefono : formData.get('TelUsuC'),
+                    correoUsu : formData.get('CorreoUsuC'),
+                    contraseña : formData.get('ContraseñaUsu'),
+                    contraseñaR : formData.get('RContraseñaUsu'),
+                    direccion : formData.get('DirUsuEnvio'),
+                    cvv : cvv ? parseInt(cvv) : 0,
+                    numTarj : numTarj ? parseInt(numTarj) : 0,
+                    FechaCad : fechaCad ? fechaCad : "",
+                    tipoUsu: TipoUsuarioRegistrado,
+                    dirFacturaccion : formData.get('DirUsuFact'),
+                };
+
+                console.log('Llegamos acá');
+                // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
+                
+                try {
+
+                    const response = await fetch(`${lugarDeEjecucion}/AgregarComprador`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(requestBody)
+                    });
+
+                    if (response.ok) {
+                        //const data = await response.json();
+                        console.log('Usuario creado correctamente');
+                        //mostrarResultado(data.resultado); 
+                        //window.location.reload();
+                        window.location.href = `../index.html`
+                    } else {
+                        console.error('Error al crear el usuario:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error inesperado:', error);
+                }
+                //alert("Error crear Producto")
+                //window.location.reload();
+            }
     });
+}*/
+
+function agregarUsuarioComprador(TipoUsuarioRegistrado) {
+    if (!formSubmitEventListenerAdded2) {
+        document.getElementById('agregarCompradorForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            await handleFormSubmitComprador(TipoUsuarioRegistrado);
+        });
+        formSubmitEventListenerAdded2 = true;
+    }
 }
 
-async function agregarUsuarioComprador(TipoUsuarioRegistrado){
-document.getElementById('agregarCompradorForm').addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const cvv = formData.get('CVV');
-    const numTarj = formData.get('NumTarj');
-    const fechaCad = formData.get('FechaCad');
-    var requestBody = {
-        nombreUsu : formData.get('nombreUsuC'),
-        telefono : formData.get('TelUsuC'),
-        correoUsu : formData.get('CorreoUsuC'),
-        contraseña : formData.get('ContraseñaUsuC'),
-        contraseñaR : formData.get('RContraseñaUsuC'),
-        direccion : formData.get('DirUsuEnvio'),
-        cvv : cvv ? parseInt(cvv) : 0,
-        numTarj : numTarj ? parseInt(numTarj) : 0,
-        FechaCad : fechaCad ? fechaCad : "",
-        tipoUsu: TipoUsuarioRegistrado,
-        dirFacturaccion : formData.get('DirUsuFact'),
-    };
+async function handleFormSubmitComprador(TipoUsuarioRegistrado) {
+    var errorMessage = document.getElementById('error-message');
+    if (errorMessage.style.display == 'block') {
+        alert("Por favor ingrese los datos correctamente");
+    } else {
+        const formData = new FormData(document.getElementById('agregarCompradorForm'));
+        const cvv = formData.get('CVV');
+        const numTarj = formData.get('NumTarj');
+        const fechaCad = formData.get('FechaCad');
+        var requestBody = {
+            nombreUsu: formData.get('nombreUsuC'),
+            telefono: formData.get('TelUsuC'),
+            correoUsu: formData.get('CorreoUsuC'),
+            contraseña: formData.get('ContraseñaUsu'),
+            contraseñaR: formData.get('RContraseñaUsu'),
+            direccion: formData.get('DirUsuEnvio'),
+            cvv: cvv ? parseInt(cvv) : 0,
+            numTarj: numTarj ? parseInt(numTarj) : 0,
+            FechaCad: fechaCad ? fechaCad : "",
+            tipoUsu: TipoUsuarioRegistrado,
+            dirFacturaccion: formData.get('DirUsuFact'),
+        };
 
-    console.log('Llegamos acá');
-    // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
-    
-    try {
+        console.log('Llegamos acá');
+        // Realizar una solicitud GET al backend para obtener todos los productos del vendedor
 
-        const response = await fetch(`${lugarDeEjecucion}/AgregarComprador`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(requestBody)
-        });
+        try {
+            const response = await fetch(`${lugarDeEjecucion}/AgregarComprador`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody)
+            });
 
-        if (response.ok) {
-            //const data = await response.json();
-            console.log('Usuario creado correctamente');
-            //mostrarResultado(data.resultado); 
-            //window.location.reload();
-            window.location.href = `../index.html`
-        } else {
-            console.error('Error al crear el usuario:', response.statusText);
+            if (response.ok) {
+                const jsonResponse = await response.json();
+                const message = jsonResponse.mensaje;
+                const existe = jsonResponse.existe;
+
+                if (existe == true)
+                    alert("Usuario ya existe con ese correo")
+                else {
+                    alert(message);
+                    window.location.href = `../index.html`
+                }
+            } else {
+                console.error('Error al crear el usuario:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error inesperado:', error);
         }
-    } catch (error) {
-        console.error('Error inesperado:', error);
     }
-    //alert("Error crear Producto")
-    //window.location.reload();
-});
 }
 
 function irAPagianValidaciones() {
@@ -667,4 +755,16 @@ async function CierroSesionCuenta() {
     localStorage.removeItem('UsuarioID');
     alert("Estas cerrando sesion en tu cuenta");
     window.location.href = '../index.html';
+}
+
+function validatePasswords() {
+    var password = document.getElementById('ContraseñaUsu').value;
+    var repeatPassword = document.getElementById('RContraseñaUsu').value;
+    var errorMessage = document.getElementById('error-message');
+
+    if (password !== repeatPassword) {
+        errorMessage.style.display = 'block';
+    } else {
+        errorMessage.style.display = 'none';
+    }
 }

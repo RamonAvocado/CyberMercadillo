@@ -654,27 +654,39 @@ class Servicios{
             try{      
                 var requestBody = await reader.ReadToEndAsync();
                 var userData = JsonConvert.DeserializeObject<JObject>(requestBody);
-                    var nombreV = userData["nombreUsu"].ToObject<string>();
-                    var nombreTiendaV = userData["nombreTienda"].ToObject<string>();
-                    var tipoUsuario = userData["tipoUsu"].ToObject<string>();
+
                     var correo = userData["correoUsu"].ToObject<string>();
-                    var contraseña = userData["contraseña"].ToObject<string>();
-                    var direccion = userData["direccion"].ToObject<string>();
-                    var movilV = userData["telefono"].ToObject<int>();
-                    var telefonotienda = userData["telTienda"].ToObject<int>();
-                    fachadaLogica.agregarUsuario(
-                        tipoUsuario ?? "Usuario por defecto",
-                        nombreV ?? "Usuario de Serie Creación",
-                        movilV,
-                        correo ?? "Correo Usuario",
-                        contraseña ?? "xxxx",
-                        direccion ?? "direccion usuario",
-                        nombreTiendaV ?? "nombre tienda",
-                        telefonotienda,
-                        0,
-                        0,
-                        "",
-                        "");
+                    var user = fachadaLogica.buscarCorreoUsu(correo ?? "");
+                    if(user == true){
+                        var jsonResponse = new { mensaje = "Usuario ya registrado con ese correo", existe = true };
+                        context.Response.ContentType = "application/json";
+                        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                    }else{
+                        var nombreV = userData["nombreUsu"].ToObject<string>();
+                        var nombreTiendaV = userData["nombreTienda"].ToObject<string>();
+                        var tipoUsuario = userData["tipoUsu"].ToObject<string>();
+                        var contraseña = userData["contraseña"].ToObject<string>();
+                        var direccion = userData["direccion"].ToObject<string>();
+                        var movilV = userData["telefono"].ToObject<int>();
+                        var telefonotienda = userData["telTienda"].ToObject<int>();
+                        fachadaLogica.agregarUsuario(
+                            tipoUsuario ?? "Usuario por defecto",
+                            nombreV ?? "Usuario de Serie Creación",
+                            movilV,
+                            correo ?? "Correo Usuario",
+                            contraseña ?? "xxxx",
+                            direccion ?? "direccion usuario",
+                            nombreTiendaV ?? "nombre tienda",
+                            telefonotienda,
+                            0,
+                            0,
+                            "",
+                            "");
+                        var jsonResponse = new { mensaje = "Usuario registrado correctamente", existe = false };
+                        context.Response.ContentType = "application/json";
+                        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                    }
+                    
     
             }catch (Exception ex){errorDefault(context,ex);}
         });
@@ -685,30 +697,40 @@ class Servicios{
             try{      
                 var requestBody = await reader.ReadToEndAsync();
                 var userData = JsonConvert.DeserializeObject<JObject>(requestBody);
-                    
-                    var nombreV = userData["nombreUsu"].ToObject<string>();
-                    var tipoUsuario = userData["tipoUsu"].ToObject<string>();
                     var correo = userData["correoUsu"].ToObject<string>();
-                    var contraseña = userData["contraseña"].ToObject<string>();
-                    var direccion = userData["direccion"].ToObject<string>();
-                    var movilV = userData["telefono"].ToObject<int>();
-                    var cvv = userData["cvv"].ToObject<int>();
-                    var numTarj = userData["numTarj"].ToObject<int>();
-                    var FechaCad = userData["FechaCad"].ToObject<string>();
-                    var dirFact = userData["dirFacturaccion"].ToObject<string>();
-                    fachadaLogica.agregarUsuario(
-                        tipoUsuario ?? "Usuario por defecto",
-                        nombreV ?? "Usuario de Serie Creación",
-                        movilV,
-                        correo ?? "Correo Usuario",
-                        contraseña ?? "xxxx",
-                        direccion ?? "direccion usuario",
-                        "Sin tienda",
-                        0000,
-                        cvv,
-                        numTarj,
-                        FechaCad ?? "00/00/0000",
-                        dirFact ?? "direccion  de facturacion");
+                    var user = fachadaLogica.buscarCorreoUsu(correo ?? "");
+                    if(user == true){
+                        var jsonResponse = new { mensaje = "Usuario ya registrado con ese correo", existe = true };
+                        context.Response.ContentType = "application/json";
+                        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                    }else{
+
+                        var nombreV = userData["nombreUsu"].ToObject<string>();
+                        var tipoUsuario = userData["tipoUsu"].ToObject<string>();
+                        var contraseña = userData["contraseña"].ToObject<string>();
+                        var direccion = userData["direccion"].ToObject<string>();
+                        var movilV = userData["telefono"].ToObject<int>();
+                        var cvv = userData["cvv"].ToObject<int>();
+                        var numTarj = userData["numTarj"].ToObject<int>();
+                        var FechaCad = userData["FechaCad"].ToObject<string>();
+                        var dirFact = userData["dirFacturaccion"].ToObject<string>();
+                        fachadaLogica.agregarUsuario(
+                            tipoUsuario ?? "Usuario por defecto",
+                            nombreV ?? "Usuario de Serie Creación",
+                            movilV,
+                            correo ?? "Correo Usuario",
+                            contraseña ?? "xxxx",
+                            direccion ?? "direccion usuario",
+                            "Sin tienda",
+                            0000,
+                            cvv,
+                            numTarj,
+                            FechaCad ?? "00/00/0000",
+                            dirFact ?? "direccion  de facturacion"); 
+                        var jsonResponse = new { mensaje = "Usuario registrado correctamente", existe = false };
+                        context.Response.ContentType = "application/json";
+                        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                    }
     
             }catch (Exception ex){errorDefault(context,ex);}
         });

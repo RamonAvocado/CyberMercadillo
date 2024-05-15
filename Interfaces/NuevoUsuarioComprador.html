@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cyber Mercadillo</title>
     <link rel="stylesheet" href="styleNuevoProducto.css">
+    <link rel="stylesheet" href="styleNuevoUsuario.css">
     <style>
         /* Alinea los textos de las etiquetas a la izquierda */
         label {
@@ -95,14 +96,16 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="ContraseñaUsuC">*Contraseña:</label>
-                        <input type="text" id="ContraseñaUsuC" name="ContraseñaUsuC" required><br>
+                        <label for="ContraseñaUsu">*Contraseña:</label>
+                        <input type="password" id="ContraseñaUsu" name="ContraseñaUsu" required style="width: 200px; height: 30px;" oninput="validatePasswords()"><br>
                     </div>
 
                     <div class="form-group">
-                        <label for="RContraseñaUsuC">*Repetir Contraseña:</label>
-                        <input type="text" id="RContraseñaUsuC" name="RContraseñaUsuC" required><br>
+                        <label for="RContraseñaUsu">*Repetir Contraseña:</label>
+                        <input type="password" id="RContraseñaUsu" name="RContraseñaUsu" required style="width: 200px; height: 30px;" oninput="validatePasswords()"><br>
                     </div>
+                    
+                    <div id="error-message" class="error" style="display: none;">Las contraseñas no coinciden</div>
 
                     <div class="form-group">
                         <label for="DirUsuEnvio">*Direccion de Envio:</label>

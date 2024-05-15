@@ -50,19 +50,19 @@ async function IniciarSesion(){
             console.log("El usuario ha iniciado sesión");
             const data = await response.json();
             idUsuarioIniciado = data.Id;
-            console.log(data);
+            //console.log(data.TipoUsuario);
+            //console.log('TipoUsuario:', typeof data.TipoUsuario);
             localStorage.setItem('UsuarioID', idUsuarioIniciado);
             // Determinar el tipo de usuario
             let tipoUsuario;
             
-            
-            if (data.TipoUsuario === "Vendedor") {
+            if (data.TipoUsuario === "Vendedor" || data.TipoUsuario === "vendedor") {
                 tipoUsuario = "vendedor";
                 window.location.href = `./Interfaces/InterfazVendedor.html`;
-            } else if (data.TipoUsuario === "Tecnico") {
+            } else if (data.TipoUsuario === "Tecnico" || data.TipoUsuario === "tecnico") {
                 tipoUsuario = "tecnico";
                 window.location.href = `./Interfaces/ValidarProductos.html`;
-            } else if (data.TipoUsuario === "Comprador") {
+            } else if (data.TipoUsuario === "Comprador" || data.TipoUsuario === "comprador") {
                 tipoUsuario = "comprador";
                 window.location.href = `./Interfaces/InterfazComprador.html`;
             }

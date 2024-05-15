@@ -1,0 +1,11 @@
+input[type="password"] {
+    font-size: 24px; /* Aumenta el tamaño de los puntos */
+    letter-spacing: 3px; /* Espacio entre los puntos */
+    padding: 5px;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+}
+

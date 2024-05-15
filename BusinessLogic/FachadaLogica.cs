@@ -140,4 +140,8 @@ class FachadaLogica{
             return tienda.desasignarPro(idbuscado);
     }
 
+    public bool buscarCorreoUsu(string correo){
+        return tienda.buscarCorreo(correo);
+    }
+
 }

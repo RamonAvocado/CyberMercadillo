@@ -479,6 +479,7 @@ public bool ActualizarCantidadProducto(int idusuario, int idproducto, int nuevaC
     }
 
     public void agregarUser(Usuario usuario){
+        Usuarios.Add(usuario);
         if (usuario is Tecnico tecnico) {
             tecnicos.Add(tecnico);
         } else if (usuario is Vendedor vendedor) {
@@ -899,5 +900,15 @@ return productos;
             Vendedores.Remove((Vendedor)usuarioEncontrado);
         }
     }
+
+    public bool buscarCorreo(string correo){
+            var usuarioEncontrado = Usuarios.Find(u => u.correo == correo);
+            if(usuarioEncontrado != null){
+                return true;
+            }else{
+                return false;
+            }
+    }
+
 }
     
