@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/LTMsa54qgrSZyIoPsd34Ric1wQvnuwdfDNO7URozQ4eW6XmxAQuA+UwH1nqC0bJ1+Q93QW1ERDV8HsQ80dJzQ==",
+  "dgSpecHash": "lO9PxPquRxJrQV1wZ02ElcR9rXZE7WFSG2/+OHXedyLMNFLo3fGW7BWI0kjRxxsmTZ84YANtrYREOwfzR67m1w==",
   "success": true,
-  "projectFilePath": "c:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
+  "projectFilePath": "C:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Jordi\\.nuget\\packages\\functions-csharp\\1.3.1\\functions-csharp.1.3.1.nupkg.sha512",
     "C:\\Users\\Jordi\\.nuget\\packages\\gotrue-csharp\\4.2.6\\gotrue-csharp.4.2.6.nupkg.sha512",
