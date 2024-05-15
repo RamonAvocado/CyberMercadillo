@@ -144,7 +144,7 @@ function irAInfoProducto2(productoParaInfo) {
 async function agregarUsuarioVendedor(TipoUsuarioRegistrado){
     document.getElementById('agregarVendedorForm').addEventListener('submit', async (event) => {
         event.preventDefault();
-
+        console.log(TipoUsuarioRegistrado);
         const formData = new FormData(event.target);
         var requestBody = {
             nombreUsu : formData.get('nombreUsu'),

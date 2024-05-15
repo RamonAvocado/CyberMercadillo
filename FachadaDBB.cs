@@ -88,10 +88,10 @@ class FachadaDBB{
         await supabase.From<Comprador>().Where(x => x.idusuario != 0).Delete();
         await supabase.From<Comprador>().Insert(compradores);
 
-        /*
+        
         await supabase.From<Vendedor>().Where(x => x.idusuario != 0).Delete();
         await supabase.From<Vendedor>().Insert(vendedores);
-
+/*
         await supabase.From<Tecnico>().Where(x => x.idusuario != 0).Delete();
         await supabase.From<Tecnico>().Insert(tecnicos);
 
@@ -147,7 +147,7 @@ class FachadaDBB{
     }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-    public async Task AgregarProductoBDD(Producto prod){
+   /* public async Task AgregarProductoBDD(Producto prod){
         try
         {
             await client.From<Producto>().Insert(new List<Producto> { prod });
@@ -157,6 +157,6 @@ class FachadaDBB{
             // Manejar cualquier excepción que pueda ocurrir durante la inserción
             Console.WriteLine($"Error al agregar el producto en la base de datos: {ex.Message}");
         }
-    }
+    }*/
 }
 

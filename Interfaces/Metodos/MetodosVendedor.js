@@ -746,10 +746,9 @@ function cambiarImagen() {
 
 //PODRIA IR EN GENERAL +++++ NO DEPENDE DE NADIE
 function irRegistroVendedor() {
-
+    localStorage.setItem('tipoUsuRegistro', "Vendedor");
     window.location.href = `./NuevoUsuarioVendedor.html`;
-    localStorage.setItem('tipoUsuRegistro', "vendedor");
-    console.log("vendedor");
+    console.log(localStorage.getItem('tipoUsuRegistro'));
 }
 
 

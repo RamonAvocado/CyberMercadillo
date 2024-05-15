@@ -50,10 +50,11 @@ async function IniciarSesion(){
             console.log("El usuario ha iniciado sesión");
             const data = await response.json();
             idUsuarioIniciado = data.Id;
+            console.log(data);
             localStorage.setItem('UsuarioID', idUsuarioIniciado);
             // Determinar el tipo de usuario
             let tipoUsuario;
-            console.log(data.TipoUsuario);
+            
             
             if (data.TipoUsuario === "Vendedor") {
                 tipoUsuario = "vendedor";
@@ -61,8 +62,8 @@ async function IniciarSesion(){
             } else if (data.TipoUsuario === "Tecnico") {
                 tipoUsuario = "tecnico";
                 window.location.href = `./Interfaces/ValidarProductos.html`;
-            } else {
-                tipoUsuario = "usuario";
+            } else if (data.TipoUsuario === "Comprador") {
+                tipoUsuario = "comprador";
                 window.location.href = `./Interfaces/InterfazComprador.html`;
             }
             
@@ -123,9 +124,8 @@ function iniciarSesionUser() {
 //en ningun sitio
 function irRegistroComprador() {
     // Obtener el ID del producto y la categoría de los atributos de datos (data-*) de la tarjeta de producto
-
+    localStorage.setItem('tipoUsuRegistro', "Comprador");
     window.location.href = `./NuevoUsuarioComprador.html`;
-    localStorage.setItem('tipoUsuRegistro', "comprador");
     console.log("comprador");
 }
 
