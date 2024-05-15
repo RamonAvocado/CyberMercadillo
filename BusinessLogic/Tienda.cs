@@ -73,6 +73,14 @@ class Tienda
         private set { carritos = value; }
     }
 
+    private List<ListaDeseados> listaDes = new List<ListaDeseados>();
+
+    public List<ListaDeseados> ListaDeseados
+    {
+        get { return listaDes; }
+        private set { listaDes = value; }
+    } 
+
 
     private Usuario usuarioRegistrado = new Comprador(0,"x", 1, "x", "x", "x", 1, "x", 1, "x","x");
     public Usuario UsuarioRegistrado
@@ -98,6 +106,18 @@ class Tienda
 
 
     public void CrearCarrito(int idusuario){
+        CarritosDeCompra carrito = new CarritosDeCompra
+        {
+            idusuario = idusuario,
+            estado = "En espera de pago"
+        };
+ 
+        Console.WriteLine("Se ha creado un carrito de compra ");
+        Console.WriteLine("Ahora hay: " + CarritosDeCompra.Count() + " CarritoDeCompras");
+        CarritosDeCompra.Add(carrito);
+    }
+    
+    public void CrearListaDeseados(int idusuario){
         CarritosDeCompra carrito = new CarritosDeCompra
         {
             idusuario = idusuario,
@@ -152,6 +172,44 @@ class Tienda
     return true;
     }
 
+
+    public bool AñadirADeseos(int idusuario, string idproducto)
+    {
+        if (ListaDeseados.Any(c => c.idusuario == idusuario && c.idproductos.Contains(idproducto)))
+        {
+            Console.WriteLine("El usuario ya tiene este producto en la Lista de Deseados así que no lo guardo");
+            return false;
+        }
+        else{
+            var listaUser = ListaDeseados.FirstOrDefault(c => c.idusuario == idusuario);
+
+            if (listaUser != null)
+            {
+                listaUser.idproductos += "," + idproducto;
+            }
+            else // Si el usuario no tiene lista, la crea
+            {
+                ListaDeseados listaDeseados = new ListaDeseados
+                {
+                    idusuario = idusuario,
+                    idproductos = idproducto
+                };
+
+                Console.WriteLine("Se ha creado una lista de deseados ");
+                Console.WriteLine("Ahora hay: " + ListaDeseados.Count() + " Lista de Deseados");
+
+                ListaDeseados.Add(listaDeseados);
+
+                return true;
+            }
+        }
+        
+    Console.WriteLine("Ahora hay: " + ListaDeseados.Count() + " Productos en Lista de Deseados");
+            
+    return true;
+    }
+
+//AñadirADeseos
     public bool TramitarPedido(int idusuario)
     {
         var hecho = false;
@@ -210,6 +268,13 @@ class Tienda
         carritoDeCompras = CarritosDeCompra.Where(c => c.idusuario == idusuario && c.estado == "En espera de pago").ToList();
 
         return carritoDeCompras;
+    }
+
+    public List<ListaDeseados> ObtenerListaDeseados(int idusuario){
+        
+        List<ListaDeseados> listadeDeseados = new List<ListaDeseados>();
+        listadeDeseados = ListaDeseados.Where(c => c.idusuario == idusuario).ToList();
+        return listadeDeseados;
     }
 
     public List<Producto> ObtenerProductos(String idproductos){

@@ -383,7 +383,19 @@ footer a {
     margin-left: auto; /* Margen izquierdo automático para que los botones se alineen a la derecha */
 }
 
-.deseosButton,
+.deseosButton{
+
+    width: 400px; /* Establece un ancho fijo para todos los botones */
+    height: 50px; /* Establece una altura fija para todos los botones */
+    padding: 15px 40px;
+    font-size: 22px;
+    border: none;
+    cursor: pointer;
+    background-color: #f9a825;
+    color: #fff;
+    border-radius: 20px;
+    margin-top: 20px; /* Espacio entre los botones y el label de cantidad */
+}
 .comprarButton,
 .carritoButton{
     width: 400px; /* Establece un ancho fijo para todos los botones */

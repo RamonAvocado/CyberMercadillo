@@ -32,6 +32,7 @@ class FachadaDBB{
         var tecnicos = await supabase.From<Tecnico>().Get();
         var compras = await supabase.From<Compra>().Get();
         var carritos = await supabase.From<CarritosDeCompra>().Get();
+        var listaDes = await supabase.From<ListaDeseados>().Get();
 
         foreach (var producto in productos.Models){
             tienda.Productos.Add(producto);
@@ -53,6 +54,9 @@ class FachadaDBB{
         }
         foreach(var carrito in carritos.Models){
             tienda.CarritosDeCompra.Add(carrito);
+        }
+        foreach(var listaDeseados in listaDes.Models){
+            tienda.ListaDeseados.Add(listaDeseados);
         }
         
         TodoCargadoCargados = true;   
@@ -78,9 +82,10 @@ class FachadaDBB{
         var tecnicos = tienda.Tecnicos;
         var compras = tienda.Compras;
         var carritos = tienda.CarritosDeCompra;
+        var listaDes = tienda.ListaDeseados;
         
-        await supabase.From<Producto>().Where(x => x.categoria != "string random que para que eliga lo contrario").Delete();
-        await supabase.From<Producto>().Insert(productos);
+        // await supabase.From<Producto>().Where(x => x.categoria != "string random que para que eliga lo contrario").Delete();
+        // await supabase.From<Producto>().Insert(productos);
 
         await supabase.From<Busqueda>().Where(x => x.idbusqueda != 0).Delete();
         await supabase.From<Busqueda>().Insert(busquedas);

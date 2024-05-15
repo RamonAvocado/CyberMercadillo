@@ -508,6 +508,25 @@ class Servicios{
             }catch (Exception ex){errorDefault(context,ex);}
         });
 
+        app.MapPost("/AñadirADeseos", async (HttpContext context, Supabase.Client client) =>
+        {
+            // Leer el cuerpo de la solicitud para obtener la información de búsqueda
+            using var reader = new StreamReader(context.Request.Body);
+            try{
+                var requestBody = await reader.ReadToEndAsync();
+                var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
+
+                var idBuscado = searchData["idusuario"].ToObject<int>();
+                var idproducto = searchData["idproducto"].ToObject<string>();
+                //recupero los productos con esta categoría
+                var recupero = fachadaLogica.returnTienda().AñadirADeseos(idBuscado, idproducto??"1");
+
+                //Console.WriteLine("idBuscado: " + idBuscado + ", idproducto: " + idproducto);
+
+                devolverFrontEnd(context, new List<Boolean> {recupero});
+            }catch (Exception ex){errorDefault(context,ex);}
+        });
+
         app.MapPost("/ObtenerCarritoCompra", async (HttpContext context, Supabase.Client client) =>
         {
             using var reader = new StreamReader(context.Request.Body);
@@ -523,6 +542,22 @@ class Servicios{
                 devolverFrontEnd(context, carritoCompra);
             }catch (Exception ex){errorDefault(context,ex);}
         });
+
+        app.MapPost("/ObtenerListaDeseados", async (HttpContext context, Supabase.Client client) =>
+        {
+            using var reader = new StreamReader(context.Request.Body);
+            try{
+                var requestBody = await reader.ReadToEndAsync();
+                var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
+                
+                var idusuario = searchData["idusuario"].ToObject<int>();
+
+                var listaDeseados = fachadaLogica.returnTienda().ObtenerListaDeseados(idusuario);
+                devolverFrontEnd(context, listaDeseados);
+                
+            }catch (Exception ex){errorDefault(context,ex);}
+         });
+         
 
         app.MapPost("/TramitarPedido", async (HttpContext context, Supabase.Client client) =>
         {
