@@ -312,7 +312,7 @@ async function CargaUnProducto(){
             var usuarioLogueado = localStorage.getItem('UsuarioID');
             var tipoUsuarioLogueado = localStorage.getItem('tipoUserID');
             console.log(usuarioLogueado);
-            if (usuarioLogueado && tipoUsuarioLogueado == "usuario") {
+            if (usuarioLogueado && tipoUsuarioLogueado == "comprador") {
                 console.log(data.objeto[0]);
 
                 mostrarUnProducto(data.objeto[0]);
@@ -797,7 +797,7 @@ async function eliminarProducto(idprod) {
 
 
 function mostrarUnProductoNoLogeado(respuesta) {
-    const producto = respuesta.producto;
+    const producto = respuesta[0];
     const container = document.querySelector('.product-container');
     container.innerHTML = '';
 
