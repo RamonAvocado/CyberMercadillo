@@ -910,5 +910,37 @@ return productos;
             }
     }
 
+    public Vendedor buscarUserVendedor(string idbuscado){
+        Vendedor vendedor = new Vendedor
+        {
+            //por si no existe ese id
+            idusuario = -1
+        };
+        foreach (Vendedor user in Vendedores)
+            {
+                if (user.idusuario.ToString() == idbuscado)
+                {
+                    vendedor = user;
+                }
+            }
+            return vendedor;
+    }
+
+    public Comprador buscarUserComprador(string idbuscado){
+        Comprador comprador = new Comprador
+        {
+            //por si no existe ese id
+            idusuario = -1
+        };
+        foreach (Comprador user in Compradores)
+            {
+                if (user.idusuario.ToString() == idbuscado)
+                {
+                    comprador = user;
+                }
+            }
+            return comprador;
+    }
+
 }
     

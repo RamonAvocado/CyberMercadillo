@@ -201,3 +201,81 @@ function mostrarPedidos(carritos){
         tabla.appendChild(carrito);
     }
 }
+
+
+    async function mostrarVendedor() {
+        try {
+            var idUser= localStorage.getItem('UsuarioID');
+            console.log('ID del vendedor seleccionado:', idUser);
+            const response = await fetch(`${lugarDeEjecucion}/buscarVendedor`,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    idusuario: idUser
+                }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const user = data.objeto[0];
+                console.log(user);
+                document.getElementById('nombreUsu').value = user.nombre;
+                document.getElementById('TelUsu').value = user.movil;
+                document.getElementById('CorreoUsu').value = user.correo;
+                document.getElementById('ContraseñaUsu').value = user.contraseña;
+                document.getElementById('RContraseñaUsu').value = user.contraseña;
+                document.getElementById('DirUsu').value = user.direccion;
+                document.getElementById('NomTUsu').value = user.nombretienda;
+                document.getElementById('TelUsuT').value = user.telefonotienda;
+                //document.getElementById('imagen').src = user.nombreproducto;
+
+            } else {
+                console.error('Error al obtener los detalles del vendedor:', response.statusText);
+            }
+
+        } catch (error) {
+            console.error('Error inesperado:', error);
+        }
+    }
+
+    async function mostrarComprador() {
+        try {
+            var idUser= localStorage.getItem('UsuarioID');
+            console.log('ID del vendedor seleccionado:', idUser);
+            const response = await fetch(`${lugarDeEjecucion}/buscarComprador`,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    idusuario: idUser
+                }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const user = data.objeto[0];
+                console.log(user);
+                document.getElementById('nombreUsuC').value = user.nombre;
+                document.getElementById('TelUsuC').value = user.movil;
+                document.getElementById('CorreoUsuC').value = user.correo;
+                document.getElementById('ContraseñaUsu').value = user.contraseña;
+                document.getElementById('RContraseñaUsu').value = user.contraseña;
+                document.getElementById('DirUsuEnvio').value = user.direccion;
+                document.getElementById('DirUsuFact').value = user.direccionFacturacion;
+                document.getElementById('NumTarj').value = user.numeroTarjeta;
+                document.getElementById('CVV').value = user.CVV;
+                document.getElementById('FechaCad').value = user.fechaCaducidad;
+                //document.getElementById('imagen').src = user.nombreproducto;
+
+            } else {
+                console.error('Error al obtener los detalles del vendedor:', response.statusText);
+            }
+
+        } catch (error) {
+            console.error('Error inesperado:', error);
+        }
+    }
+

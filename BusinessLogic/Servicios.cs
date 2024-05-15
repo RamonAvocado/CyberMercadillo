@@ -203,6 +203,32 @@ class Servicios{
                 }catch (Exception ex){errorDefault(context,ex);}
         });
 
+        app.MapPost("/buscarVendedor", async (HttpContext context, Supabase.Client client) =>
+        {
+            using var reader = new StreamReader(context.Request.Body);
+                try{
+                    var requestBody = await reader.ReadToEndAsync();
+                    var userData = JsonConvert.DeserializeObject<JObject>(requestBody);
+                    var idUserSelect = userData["idusuario"].ToObject<string>();
+                    var vendedor = fachadaLogica.buscarVendedor(idUserSelect ?? "0");
+
+                    devolverFrontEnd(context, new List<Vendedor>{vendedor});
+                }catch (Exception ex){errorDefault(context,ex);}
+        });
+        
+        app.MapPost("/buscarComprador", async (HttpContext context, Supabase.Client client) =>
+        {
+            using var reader = new StreamReader(context.Request.Body);
+                try{
+                    var requestBody = await reader.ReadToEndAsync();
+                    var userData = JsonConvert.DeserializeObject<JObject>(requestBody);
+                    var idUserSelect = userData["idusuario"].ToObject<string>();
+                    var comprador = fachadaLogica.buscarComprador(idUserSelect ?? "0");
+
+                    devolverFrontEnd(context, new List<Comprador>{comprador});
+                }catch (Exception ex){errorDefault(context,ex);}
+        });
+
         app.MapPost("/validarProductoGuardado", async (HttpContext context, Supabase.Client client) =>
         {
             using var reader = new StreamReader(context.Request.Body);

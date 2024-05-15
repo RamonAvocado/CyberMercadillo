@@ -144,4 +144,12 @@ class FachadaLogica{
         return tienda.buscarCorreo(correo);
     }
 
+    public Vendedor buscarVendedor(string idbuscado){
+        return tienda.buscarUserVendedor(idbuscado);
+    }
+
+    public Comprador buscarComprador(string idbuscado){
+        return tienda.buscarUserComprador(idbuscado);
+    }
+
 }

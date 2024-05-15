@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Mercadillo</title>
+    <link rel="stylesheet" href="styleEditarProducto.css">
+    <link rel="stylesheet" href="styleNuevoUsuario.css">
+    <style>
+        /* Alinea los textos de las etiquetas a la izquierda */
+        label {
+            text-align: left;
+        }
+    </style>
+    <!--<script src="Metodos.js"></script>-->
+</head>
+<body>
+    <header>
+        <div  class="parte-superior">
+            <div class="img-logo">   
+                <img src="Imagenes/Logo.png"  alt="Logo Cyber Mercadillo">
+            </div>
+            <h1>
+                <span>Cyber </span><br>
+                <span>Mercadillo</span>
+            </h1>
+        </div>
+        <style>
+            .botones-vendedor {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px;
+                background-color: #f0f0f0;
+            }
+    
+            .izquierda {
+                display: flex; /* Permite que los botones se coloquen uno al lado del otro */
+                margin-right: 10px;
+                margin-left: 10px;
+                gap: 10px;
+            }
+    
+            .derecha {
+                display: flex; /* Permite que los botones se coloquen uno al lado del otro */
+                margin-right: 10px;
+                margin-left: 10px;
+                gap: 10px;
+            }
+    
+            .boton {
+                margin-right: 10px;
+                margin-left: 10px;  /* Espacio entre los botones */
+                gap: 10px;
+            }
+        </style>
+    </header>
+    <div class = "grupo-nav-list">
+        <nav>
+            <ul class="nav-list">
+                <li>
+                    <div class="back-button">
+                        <a href="#" onclick="volverPaginaAnterior()">Volver atrás</a>
+                    </div>
+                </li>
+                <li><a href="./NewPaginaPrincipal.html">Principal</a></li>
+                <li id="sesion-user-link"></li>
+                <li id="sesion-link"></li>
+                <li>
+                    <div class="user-icons">
+                        <!-- Iconos de usuario (por ejemplo, inicio de sesión, carrito de compras) -->
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class = "texto-titulo">
+    </div>
+    <div class="featured-products-container">
+        <form id="agregarProductoForm7" >
+            <div class="container" style="margin-left: auto; margin-right: auto; width: 50%;">
+                <div class="form-group">
+                    <h2>Editar Perfil</h2>
+                    <div class="form-group">
+                        <label for="nombreUsu" style="width: 150px;">Nombre:</label>
+                        <input type="text" id="nombreUsu" name="nombreUsu" required style="width: 350px;"><br>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="TelUsu" style="width: 150px;">Telefono:</label>
+                        <input type="text" id="TelUsu" name="TelUsu" required style="width: 350px;"><br>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="CorreoUsu" style="width: 150px;">Correo Electrónico:</label>
+                        <input type="text" id="CorreoUsu" name="CorreoUsu" required style="width: 350px;"><br>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="ContraseñaUsu" style="width: 150px;">Contraseña:</label>
+                        <input type="password" id="ContraseñaUsu" name="ContraseñaUsu" required style="width: 250px; height: 30px;" oninput="validatePasswords()"><br>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="RContraseñaUsu" style="width: 150px;">Repetir Contraseña:</label>
+                        <input type="password" id="RContraseñaUsu" name="RContraseñaUsu" required style="width: 250px; height: 30px;" oninput="validatePasswords()"><br>
+                    </div>
+            
+                    <div id="error-message" class="error" style="display: none; width: 400px; margin-left: -50px;">Las contraseñas no coinciden</div>
+                    <br>
+                    <div class="form-group">
+                        <label for="DirUsu" style="width: 150px;">Direccion:</label>
+                        <input type="text" id="DirUsu" name="DirUsu" required style="width: 350px;"><br>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="TelUsuT" style="width: 150px;">Telefono Tienda:</label>
+                        <input type="number" id="TelUsuT" name="TelUsuT" required style="width: 350px;"><br>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="NomTUsu" style="width: 150px;">Nombre Tienda:</label>
+                        <input type="text" id="NomTUsu" name="NomTUsu" required style="width: 350px;"><br>
+                    </div>
+                </div>
+                <div class="image-group">
+                    <div class="image-container">
+                        <div class="recommended-products">
+                            <img id = "imagen" src="Imagenes/userSinFoto.png" alt="Imagen 5">
+                        </div>
+                        <br> 
+                        <input type="text" id="nuevo-url-imagen" name="nuevo-url-imagen" placeholder="Nuevo URL de Imagen">
+                        <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+                        <!--<button onclick="cambiarImagen()">Cambiar Imagen</button><br><br><br><br><br><br><br><br>-->
+                        
+                    </div>
+                    <button onclick = "irAEditarPerfil(localStorage.getItem('tipoUserID'))" class="search-history-btn">Confirmar</button>
+                </div>
+        </div>
+    </form>
+        </div>
+    </body>
+    </div>
+    <div class="botones-vendedor">
+        <div class="izquierda">
+            <button onclick = "volverPaginaAnterior()" class="search-history-btn">Volver</button>
+        </div>
+    </div>     
+    <footer>
+        <div class="separador">
+        </div>
+    </footer>
+    <script src="./Metodos/MetodosProducto.js"></script>
+    <script src="./Metodos/MetodosVendedor.js"></script>
+    <script src="./Metodos/MetodosUser.js"></script>
+    <script src="./Metodos/MetodosNavegacion.js"></script>
+    <script src="./Metodos/GeneralMetodos.js"></script>
+    
+    <script>
+        window.addEventListener('unload', GuardarBDD);
+        mostrarVendedor();
+    </script>
+    <script>
+        // Llamar a la función para agregar el enlace de Iniciar Sesión o Cerrar Sesión
+        agregarCerrarSesion();
+    </script>
+</body>
+</html>

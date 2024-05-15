@@ -146,6 +146,14 @@ async function irAListaDeDeseos() {
     window.location.href = `./ListaDeseados.html`
 }
 
+async function irAEditarPerfil(tipoUsuario) {
+    if (tipoUsuario == "Vendedor" || tipoUsuario == "vendedor"){
+        window.location.href = `./EditarVendedor.html`
+    }else{
+        window.location.href = `./EditarComprador.html`	
+    }
+}
+
 
 
 
