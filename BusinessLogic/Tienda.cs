@@ -10,7 +10,7 @@ using Microsoft.Extensions.Hosting;
 using System.Reflection;
 using Microsoft.AspNetCore.SignalR;
 
-class Tienda
+public class Tienda
 {
     private UnitOfWork<Producto> unitOfWorkProducto = new UnitOfWork<Producto>();
     private UnitOfWork<Busqueda> unitOfWorkBusqueda = new UnitOfWork<Busqueda>();
@@ -726,7 +726,7 @@ public Usuario buscarUsuario(String correo, String password)
         }
         return busquedasUsuario;
     }
-       
+    // Esta operacion seria la de buscar() en patron comando   
     public List<Producto> GetProductosBusqueda(string searchTerm, int idBuscado)
     {
         List<Producto> productos = new List<Producto>();
