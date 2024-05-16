@@ -62,7 +62,7 @@ class FachadaDBB{
         }
         
         TodoCargadoCargados = true;   
-        tienda.pregunta();     
+        tienda.Pregunta();     
         }
         else{
             Console.WriteLine("Ya has cargado todo lo de la base de datos, y no puedes volver a cargarlo  :p");

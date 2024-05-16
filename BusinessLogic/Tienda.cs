@@ -69,7 +69,7 @@ public class Tienda
         private set { usuarioRegistrado = value; }
     }
 
-    public void pregunta()
+    public void Pregunta()
     {
             Console.WriteLine("Hay " + Busquedas.Count + " busquedas ");
             Console.WriteLine("Hay " + Productos.Count + " productos ");
@@ -121,14 +121,15 @@ public class Tienda
         else{
             //cogo el carrito que estoy bucando
             var carritoUsuario = CarritosDeCompra.FirstOrDefault(c => c.idusuario == idusuario && c.estado== "En espera de pago");
+            var carritoUsuarioAntesDeMod = carritoUsuario;
 
             // Si el carrito de compra no es null, añadir el producto y su cantidad
             if (carritoUsuario != null)
             {
                 carritoUsuario.idproductos += "," + idproducto;
                 carritoUsuario.cantidadProds += "," + cantProducto;
-                //RAMON AQUI HACE FALTA ACTUALIZAR EL UNITOFWORK DE CARRITO?
-                //unitOfWorkCarritos.AddedList.Append(carrito);
+                //RAMON AQUI HACE FALTA ACTUALIZAR EL UNITOFWORK DE CARRITO? -> como se hace?
+                unitOfWorkCarritos.UpdateItem(carritoUsuarioAntesDeMod, carritoUsuario);
 
             }
             else // Si el usuario no tiene un carrito de compra existente, crear uno nuevo
