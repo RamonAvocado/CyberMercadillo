@@ -86,21 +86,39 @@ class FachadaDBB{
 
         //var compradores = tienda.Compradores;
         //var vendedores = tienda.Vendedores;
-        var usuarios = tienda.Usuarios;
+        //var usuarios = tienda.Usuarios;
         //var tecnicos = tienda.Tecnicos;
         var carritos = tienda.CarritosDeCompra;
 
-/*
+
         var usuarios = tienda.unitOfWorkUsuario;
         var usu = usuarios.AddedList;
         while (usu.Count > 0)
         {
             var u = usu.Pop();
-            if (u.GetType().FullName == "Comprador")
+            if (u.GetType().FullName == "CyberMercadillo.Entities.Comprador")
             {
                 await supabase.From<Comprador>().Insert((Comprador) u);
+            } else if (u.GetType().FullName == "CyberMercadillo.Entities.Vendedor")
+            {
+                await supabase.From<Vendedor>().Insert((Vendedor) u);
             }
         }
+        
+        usu = usuarios.DeletedList;
+        Console.WriteLine("Count de usuarios borrados " + usu.Count);
+        while (usu.Count > 0)
+        {
+            var u = usu.Pop();
+            if (u.GetType().FullName == "CyberMercadillo.Entities.Comprador")
+            {
+                await supabase.From<Comprador>().Delete((Comprador) u);
+            } else if (u.GetType().FullName == "CyberMercadillo.Entities.Vendedor")
+            {
+                await supabase.From<Vendedor>().Delete((Vendedor) u);
+            }
+        }
+        /*
         var listaDes = tienda.ListaDeseados;
         var listaDes = tienda.ListaDeseados;
         

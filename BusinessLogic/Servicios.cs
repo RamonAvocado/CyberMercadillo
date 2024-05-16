@@ -793,115 +793,113 @@ app.MapPost("/ActualizarVendedor", async (HttpContext context, Supabase.Client c
             }catch (Exception ex){errorDefault(context,ex);}
         });
 
-        app.MapPost("/AgregarComprador", async (HttpContext context, Supabase.Client client) =>
-        {
-            using var reader = new StreamReader(context.Request.Body);
-            try{      
-                var requestBody = await reader.ReadToEndAsync();
-                var userData = JsonConvert.DeserializeObject<JObject>(requestBody);
-                    var correo = userData["correoUsu"].ToObject<string>();
-                    var user = fachadaLogica.buscarCorreoUsu(correo ?? "");
-                    if(user == true){
-                        var jsonResponse = new { mensaje = "Usuario ya registrado con ese correo", existe = true };
-                        context.Response.ContentType = "application/json";
-                        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-                    }else{
+    app.MapPost("/AgregarComprador", async (HttpContext context, Supabase.Client client) =>
+    {
+        using var reader = new StreamReader(context.Request.Body);
+        try{      
+            var requestBody = await reader.ReadToEndAsync();
+            var userData = JsonConvert.DeserializeObject<JObject>(requestBody);
+                var correo = userData["correoUsu"].ToObject<string>();
+                var user = fachadaLogica.buscarCorreoUsu(correo ?? "");
+                if(user == true){
+                    var jsonResponse = new { mensaje = "Usuario ya registrado con ese correo", existe = true };
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                }else{
 
-                        var nombreV = userData["nombreUsu"].ToObject<string>();
-                        var tipoUsuario = userData["tipoUsu"].ToObject<string>();
-                        var contraseña = userData["contraseña"].ToObject<string>();
-                        var direccion = userData["direccion"].ToObject<string>();
-                        var movilV = userData["telefono"].ToObject<int>();
-                        var cvv = userData["cvv"].ToObject<int>();
-                        var numTarj = userData["numTarj"].ToObject<int>();
-                        var FechaCad = userData["FechaCad"].ToObject<string>();
-                        var dirFact = userData["dirFacturaccion"].ToObject<string>();
-                        fachadaLogica.agregarUsuario(
-                            tipoUsuario ?? "Usuario por defecto",
-                            nombreV ?? "Usuario de Serie Creación",
-                            movilV,
-                            correo ?? "Correo Usuario",
-                            contraseña ?? "xxxx",
-                            direccion ?? "direccion usuario",
-                            "Sin tienda",
-                            0000,
-                            cvv,
-                            numTarj,
-                            FechaCad ?? "00/00/0000",
-                            dirFact ?? "direccion  de facturacion"); 
-                        var jsonResponse = new { mensaje = "Usuario registrado correctamente", existe = false };
-                        context.Response.ContentType = "application/json";
-                        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-                    }
-    
-            }catch (Exception ex){errorDefault(context,ex);}
-        });
+                    var nombreV = userData["nombreUsu"].ToObject<string>();
+                    var tipoUsuario = userData["tipoUsu"].ToObject<string>();
+                    var contraseña = userData["contraseña"].ToObject<string>();
+                    var direccion = userData["direccion"].ToObject<string>();
+                    var movilV = userData["telefono"].ToObject<int>();
+                    var cvv = userData["cvv"].ToObject<int>();
+                    var numTarj = userData["numTarj"].ToObject<int>();
+                    var FechaCad = userData["FechaCad"].ToObject<string>();
+                    var dirFact = userData["dirFacturaccion"].ToObject<string>();
+                    fachadaLogica.agregarUsuario(
+                        tipoUsuario ?? "Usuario por defecto",
+                        nombreV ?? "Usuario de Serie Creación",
+                        movilV,
+                        correo ?? "Correo Usuario",
+                        contraseña ?? "xxxx",
+                        direccion ?? "direccion usuario",
+                        "Sin tienda",
+                        0000,
+                        cvv,
+                        numTarj,
+                        FechaCad ?? "00/00/0000",
+                        dirFact ?? "direccion  de facturacion"); 
+                    var jsonResponse = new { mensaje = "Usuario registrado correctamente", existe = false };
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                }
 
-        app.MapPost("/ActualizarComprador", async (HttpContext context, Supabase.Client client) =>
-        {
-            using var reader = new StreamReader(context.Request.Body);
-            try{      
-                var requestBody = await reader.ReadToEndAsync();
-                var userData = JsonConvert.DeserializeObject<JObject>(requestBody);
+        }catch (Exception ex){errorDefault(context,ex);}
+    });
 
-                    var correo = userData["correoUsu"].ToObject<string>();
-                    //var user = fachadaLogica.buscarCorreoUsu(correo ?? "");
-                        var nombreC = userData["nombreUsu"].ToObject<string>();
-                        var contraseña = userData["contraseña"].ToObject<string>();
-                        var direccionEnvio = userData["direccion"].ToObject<string>();
-                        var direccionFacturacion = userData["dirFacturacion"].ToObject<string>();
-                        var idcomprador = userData["idcomprador"].ToObject<string>();
-                        var imgPerfil = userData["imgPerfil"].ToObject<string>();
-                        var fechaCaducidad = userData["fechaCaducidad"].ToObject<string>();
-                        var movilV = userData["telefono"].ToObject<int>();
-                        var NumTarjeta = userData["NumTarjeta"].ToObject<int>();
-                        var cvv = userData["cvv"].ToObject<int>();
-                        var comprador= fachadaLogica.actualizarComprador(
-                            nombreC ?? "Usuario de Serie Creación",
-                            movilV,
-                            correo ?? "Correo Usuario",
-                            contraseña ?? "xxxx",
-                            direccionEnvio ?? "direccion usuario",
-                            fechaCaducidad ?? "nombre tienda",
-                            direccionFacturacion,
-                            NumTarjeta,
-                            cvv,
-                            imgPerfil,
-                            idcomprador
-                        );
-                        devolverFrontEnd(context, new List<Comprador>{comprador});
-                        /*var jsonResponse = new { mensaje = "Usuario actualizada correctamente", existe = true };
-                        context.Response.ContentType = "application/json";
-                        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-  */
-            }catch (Exception ex){errorDefault(context,ex);}
-        });
+    app.MapPost("/ActualizarComprador", async (HttpContext context, Supabase.Client client) =>
+    {
+        using var reader = new StreamReader(context.Request.Body);
+        try{      
+            var requestBody = await reader.ReadToEndAsync();
+            var userData = JsonConvert.DeserializeObject<JObject>(requestBody);
 
-        app.MapGet("/borrarCuenta", async(HttpContext context, Supabase.Client client) =>
-        {
+                var correo = userData["correoUsu"].ToObject<string>();
+                //var user = fachadaLogica.buscarCorreoUsu(correo ?? "");
+                    var nombreC = userData["nombreUsu"].ToObject<string>();
+                    var contraseña = userData["contraseña"].ToObject<string>();
+                    var direccionEnvio = userData["direccion"].ToObject<string>();
+                    var direccionFacturacion = userData["dirFacturacion"].ToObject<string>();
+                    var idcomprador = userData["idcomprador"].ToObject<string>();
+                    var imgPerfil = userData["imgPerfil"].ToObject<string>();
+                    var fechaCaducidad = userData["fechaCaducidad"].ToObject<string>();
+                    var movilV = userData["telefono"].ToObject<int>();
+                    var NumTarjeta = userData["NumTarjeta"].ToObject<int>();
+                    var cvv = userData["cvv"].ToObject<int>();
+                    var comprador= fachadaLogica.actualizarComprador(
+                        nombreC ?? "Usuario de Serie Creación",
+                        movilV,
+                        correo ?? "Correo Usuario",
+                        contraseña ?? "xxxx",
+                        direccionEnvio ?? "direccion usuario",
+                        fechaCaducidad ?? "nombre tienda",
+                        direccionFacturacion,
+                        NumTarjeta,
+                        cvv,
+                        imgPerfil,
+                        idcomprador
+                    );
+                    devolverFrontEnd(context, new List<Comprador>{comprador});
+                    /*var jsonResponse = new { mensaje = "Usuario actualizada correctamente", existe = true };
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+*/
+        }catch (Exception ex){errorDefault(context,ex);}
+    });
+
+    app.MapGet("/borrarCuenta", async(HttpContext context, Supabase.Client client) =>
+    {
+        using var reader = new StreamReader(context.Request.Body);
             try{
-                using (var reader = new StreamReader(context.Request.Body))
-                    {
-                        var requestBody = await reader.ReadToEndAsync();
-                        var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
+                var requestBody = await reader.ReadToEndAsync();
+                var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
 
-                        var idusuario = searchData["idusuario"].ToObject<int>();
-                        fachadaLogica.borrarCuenta(idusuario, "Comprador");
-                    }
+                var idusuario = searchData["idusuario"].ToObject<int>();
+                fachadaLogica.borrarCuenta(idusuario, "Comprador");
             }catch (Exception ex){errorDefault(context,ex);}
-        });
+    });
 
-        async static void errorDefault(HttpContext context,Exception ex){
-            context.Response.StatusCode = 500;
-            context.Response.ContentType = "text/plain";
-            await context.Response.WriteAsync($"Error al guardar el producto: {ex.Message}");
-        }
-
-        async static void devolverFrontEnd<T>(HttpContext context,List<T> objeto){
-            var jsonResponse = new {objeto};
-            context.Response.ContentType = "application/json";
-            await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-        }
+    async static void errorDefault(HttpContext context,Exception ex){
+        context.Response.StatusCode = 500;
+        context.Response.ContentType = "text/plain";
+        await context.Response.WriteAsync($"Error al guardar el producto: {ex.Message}");
     }
-        
+
+    async static void devolverFrontEnd<T>(HttpContext context,List<T> objeto){
+        var jsonResponse = new {objeto};
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+    }
+}
+    
 }

@@ -7,7 +7,7 @@ namespace CyberMercadillo.BusinessLogic{
         private Dictionary<T, T> UpdatedDictionary = new Dictionary<T, T>();
 
         public Stack<T> AddedList = new Stack<T>();
-        private Stack<T> DeletedList = new Stack<T>();
+        public Stack<T> DeletedList = new Stack<T>();
 
         public void UpdateItem(T currentItem, T updatedItem)
         {

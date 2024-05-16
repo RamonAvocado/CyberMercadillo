@@ -538,3 +538,22 @@ async function getBusquedas() {
         console.error('Error inesperado:', error);
     }
 }
+
+async function borrarCuenta() {
+    try{
+
+        var requestBody = {
+            idusuario: localStorage.getItem('UsuarioID'),
+        };
+        
+        await fetch(`${lugarDeEjecucion}/borrarCuenta`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody) 
+        });
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
