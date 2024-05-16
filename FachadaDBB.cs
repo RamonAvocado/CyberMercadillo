@@ -32,7 +32,7 @@ class FachadaDBB{
         var tecnicos = await supabase.From<Tecnico>().Get();
         var carritos = await supabase.From<CarritosDeCompra>().Get();
         var listaDes = await supabase.From<ListaDeseados>().Get();
-        var listaDes = await supabase.From<ListaDeseados>().Get();
+        //var listaDes = await supabase.From<ListaDeseados>().Get();
 
         foreach (var producto in productos.Models){
             tienda.Productos.Add(producto);
@@ -42,17 +42,14 @@ class FachadaDBB{
         }
         foreach (var comprador in compradores.Models){
             tienda.Usuarios.Add(comprador);
-            tienda.Usuarios.Add(comprador);
+            //tienda.Usuarios.Add(comprador);
         }
         foreach (var vendedor in vendedores.Models){
             tienda.Usuarios.Add(vendedor);
-            tienda.Usuarios.Add(vendedor);
+            //tienda.Usuarios.Add(vendedor);
         }
         foreach (var tecnico in tecnicos.Models){
             tienda.Usuarios.Add(tecnico);
-        }
-        foreach (var compra in compras.Models){
-            tienda.Compras.Add(compra);
         }
         foreach(var carrito in carritos.Models){
             tienda.CarritosDeCompra.Add(carrito);
@@ -82,10 +79,15 @@ class FachadaDBB{
     { 
         var productos = tienda.Productos;
         var busquedas = tienda.Busquedas;
-        var compradores = tienda.Compradores;
-        var vendedores = tienda.Vendedores;
+
+//      las comentadas, no vamos a usar tienda.vendedores, sino tienda. unitofworkvendedores
+
+// RAMON, Aqui tenemos que igualar el var usuarios = tienda.UnitOfWorkUsuario? y así con todas no?
+
+        //var compradores = tienda.Compradores;
+        //var vendedores = tienda.Vendedores;
         var usuarios = tienda.Usuarios;
-        var tecnicos = tienda.Tecnicos;
+        //var tecnicos = tienda.Tecnicos;
         var carritos = tienda.CarritosDeCompra;
 
 /*

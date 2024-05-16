@@ -16,6 +16,8 @@ class Tienda
     private UnitOfWork<Busqueda> unitOfWorkBusqueda = new UnitOfWork<Busqueda>();
     private UnitOfWork<CarritosDeCompra> unitOfWorkCarritos = new UnitOfWork<CarritosDeCompra>();
     public UnitOfWork<Usuario> unitOfWorkUsuario = new UnitOfWork<Usuario>();
+    public UnitOfWork<ListaDeseados> unitOfWorkListaDeseados = new UnitOfWork<ListaDeseados>();
+
     // public UnitOfWork<Usuario> unitOfWorkUsuario(){
     //     return unitOfWorkUsuario;
     // }
@@ -31,9 +33,9 @@ class Tienda
 
     public List<Comprador> Compradores = new List<Comprador>();
 
-    public List<Vendedor> Vendedores = new List<Vendedor>();
+    //public List<Vendedor> Vendedores = new List<Vendedor>();
 
-    public List<Tecnico> Tecnicos = new List<Tecnico>();
+    //public List<Tecnico> Tecnicos = new List<Tecnico>();
 
     
     private List<Usuario> usuarios = new List<Usuario>();
@@ -71,9 +73,9 @@ class Tienda
     {
             Console.WriteLine("Hay " + Busquedas.Count + " busquedas ");
             Console.WriteLine("Hay " + Productos.Count + " productos ");
-            Console.WriteLine("Hay " + Compradores.Count + " Compradores ");
-            Console.WriteLine("Hay " + Vendedores.Count + " Vendedores ");
-            Console.WriteLine("Hay " + Tecnicos.Count + " Tecnicos ");
+            //Console.WriteLine("Hay " + Compradores.Count + " Compradores ");
+            //Console.WriteLine("Hay " + Vendedores.Count + " Vendedores ");
+            //Console.WriteLine("Hay " + Tecnicos.Count + " Tecnicos ");
             Console.WriteLine("Hay " + Usuarios.Count + " Usuarios ");
             Console.WriteLine("Hay " + CarritosDeCompra.Count + " CarritoDeCompras ");
             
@@ -90,18 +92,21 @@ class Tienda
         Console.WriteLine("Se ha creado un carrito de compra ");
         Console.WriteLine("Ahora hay: " + CarritosDeCompra.Count() + " CarritoDeCompras");
         CarritosDeCompra.Add(carrito);
+        unitOfWorkCarritos.AddedList.Append(carrito);
     }
     
     public void CrearListaDeseados(int idusuario){
-        CarritosDeCompra carrito = new CarritosDeCompra
+        ListaDeseados lisDes = new ListaDeseados
         {
             idusuario = idusuario,
-            estado = "En espera de pago"
+            //jordi echale un ojo a esto
+            //estado = "En espera de pago"
         };
  
-        Console.WriteLine("Se ha creado un carrito de compra ");
-        Console.WriteLine("Ahora hay: " + CarritosDeCompra.Count() + " CarritoDeCompras");
-        CarritosDeCompra.Add(carrito);
+        Console.WriteLine("Se ha creado una lista de deseado ");
+        Console.WriteLine("Ahora hay: " + ListaDeseados.Count() + " CarritoDeCompras");
+        ListaDeseados.Add(lisDes);
+        unitOfWorkListaDeseados.AddedList.Append(lisDes);
     }
 
     public bool AñadirAlCarritoCompra(int idusuario, string idproducto, string cantProducto)
@@ -122,6 +127,9 @@ class Tienda
             {
                 carritoUsuario.idproductos += "," + idproducto;
                 carritoUsuario.cantidadProds += "," + cantProducto;
+                //RAMON AQUI HACE FALTA ACTUALIZAR EL UNITOFWORK DE CARRITO?
+                //unitOfWorkCarritos.AddedList.Append(carrito);
+
             }
             else // Si el usuario no tiene un carrito de compra existente, crear uno nuevo
             {
@@ -137,6 +145,8 @@ class Tienda
                 Console.WriteLine("Ahora hay: " + CarritosDeCompra.Count() + " CarritoDeCompras");
 
                 CarritosDeCompra.Add(carrito);
+                unitOfWorkCarritos.AddedList.Append(carrito);
+
 
                 return true;
             }
@@ -525,6 +535,7 @@ public bool ActualizarCantidadProducto(int idusuario, int idproducto, int nuevaC
 
     public void agregarProducto(Producto prod){
         Productos.Add(prod);
+        unitOfWorkProducto.AddedList.Append(prod);
     }
 
     public void actualizarProdGuardado(string idbuscado,string nombreProd, string precioProd, string categoriaProd,string descripcionProd,
@@ -617,7 +628,8 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
             fecha = DateTime.Now,
             idusuario = idBuscado,
         };
-            Busquedas.Add(busqueda);         
+            Busquedas.Add(busqueda);  
+            unitOfWorkBusqueda.AddedList.Append(busqueda);       
     }
 
     public Usuario buscarUsuario(String correo, String password)
@@ -625,6 +637,9 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
             Usuario usuarioFalso = new Tecnico(0,"Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se", "Tecnico");
             Usuario usuarioEncontrado;
 
+        foreach(Usuario u in Usuarios){
+            Console.WriteLine("u.correo: "+ u.correo + "  password: "+ u.contraseña + " tipoUsuario: "+ u.tipoUsuario);
+        }
             usuarioEncontrado = Usuarios.Find(u => u.correo == correo && u.contraseña == password) ?? usuarioFalso;
             if(usuarioEncontrado.correo == correo && usuarioEncontrado.contraseña == password){
                 UsuarioRegistrado = usuarioEncontrado;
@@ -665,7 +680,7 @@ public Usuario buscarUsuario(String correo, String password)
             Usuario usuarioFalso = new Tecnico(0,"Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se", "Tecnico");
             Usuario usuarioEncontrado;
 
-            usuarioEncontrado = Compradores.Find(u => u.idusuario == idusuario) ?? usuarioFalso;
+            /*usuarioEncontrado = Compradores.Find(u => u.idusuario == idusuario) ?? usuarioFalso;
             if(usuarioEncontrado.idusuario == idusuario){
                 return usuarioEncontrado;
             }
@@ -676,6 +691,10 @@ public Usuario buscarUsuario(String correo, String password)
             }
 
             usuarioEncontrado = Tecnicos.Find(u => u.idusuario == idusuario) ?? usuarioFalso;
+            if(usuarioEncontrado.idusuario == idusuario){
+                return usuarioEncontrado;
+            }*/
+            usuarioEncontrado = Usuarios.Find(u => u.idusuario == idusuario)?? usuarioFalso;
             if(usuarioEncontrado.idusuario == idusuario){
                 return usuarioEncontrado;
             }
@@ -939,14 +958,17 @@ return productos;
     } 
 
     public void borrarCuenta(int idusuario, string tipoUsuario){
-        Comprador usuarioFalso1 = new Comprador(0,"Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se",1 , "Tecnico", 1, "Yo que se", "Yo que se");
-        Vendedor usuarioFalso2 = new Vendedor(0,"Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se","Yo que se",1 , "Tecnico");
+        Usuario usuarioFalso1 = new Comprador(0,"Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se",1 , "Tecnico", 1, "Yo que se", "Yo que se");
+        //Vendedor usuarioFalso2 = new Vendedor(0,"Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se","Yo que se",1 , "Tecnico");
+        /*lo que había antes
         Usuario usuarioEncontrado = Compradores.Find(x => x.idusuario == idusuario) ?? usuarioFalso1;
         if(tipoUsuario == "Comprador"){
             Compradores.Remove((Comprador)usuarioEncontrado);
         }else{
             Vendedores.Remove((Vendedor)usuarioEncontrado);
-        }
+        }*/
+        Usuario usuarioEncontrado = Usuarios.Find(x => x.idusuario == idusuario) ?? usuarioFalso1;
+        Usuarios.Remove(usuarioEncontrado);
     }
 
     public bool buscarCorreo(string correo){

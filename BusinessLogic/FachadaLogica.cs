@@ -67,6 +67,10 @@ class FachadaLogica{
         return tienda.TramitarPedido(idusuario);
     }
 
+    public Usuario buscarUsuario(string correoUsuario, string contraUsuario){
+        return tienda.buscarUsuario(correoUsuario, contraUsuario);
+    }
+
     public List<CarritosDeCompra> CargarPedidos(int idusuario){
         return tienda.CargarPedidos(idusuario);
     }

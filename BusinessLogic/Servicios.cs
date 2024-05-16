@@ -391,7 +391,7 @@ class Servicios{
                 var contraUsuario = context.Request.Form["contraseña"].ToString();
 
                 // Buscar el usuario por su correo electrónico
-                var user = fachadaLogica.returnTienda().buscarUsuario(correoUsuario, contraUsuario);
+                var user = fachadaLogica.buscarUsuario(correoUsuario, contraUsuario);
 
                 var jsonResponse = new Dictionary<string, object>
                         {
