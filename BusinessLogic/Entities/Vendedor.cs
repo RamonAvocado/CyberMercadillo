@@ -20,5 +20,6 @@ namespace CyberMercadillo.Entities
             this.telefonotienda = telefonotienda;
         }
 
+        
     }
 }

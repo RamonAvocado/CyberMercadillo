@@ -30,7 +30,6 @@ class FachadaDBB{
         var compradores = await supabase.From<Comprador>().Get();
         var vendedores = await supabase.From<Vendedor>().Get();
         var tecnicos = await supabase.From<Tecnico>().Get();
-        var compras = await supabase.From<Compra>().Get();
         var carritos = await supabase.From<CarritosDeCompra>().Get();
         var listaDes = await supabase.From<ListaDeseados>().Get();
         var listaDes = await supabase.From<ListaDeseados>().Get();
@@ -43,8 +42,10 @@ class FachadaDBB{
         }
         foreach (var comprador in compradores.Models){
             tienda.Usuarios.Add(comprador);
+            tienda.Usuarios.Add(comprador);
         }
         foreach (var vendedor in vendedores.Models){
+            tienda.Usuarios.Add(vendedor);
             tienda.Usuarios.Add(vendedor);
         }
         foreach (var tecnico in tecnicos.Models){
@@ -85,13 +86,24 @@ class FachadaDBB{
         var vendedores = tienda.Vendedores;
         var usuarios = tienda.Usuarios;
         var tecnicos = tienda.Tecnicos;
-        var compras = tienda.Compras;
         var carritos = tienda.CarritosDeCompra;
+
+/*
+        var usuarios = tienda.unitOfWorkUsuario;
+        var usu = usuarios.AddedList;
+        while (usu.Count > 0)
+        {
+            var u = usu.Pop();
+            if (u.GetType().FullName == "Comprador")
+            {
+                await supabase.From<Comprador>().Insert((Comprador) u);
+            }
+        }
         var listaDes = tienda.ListaDeseados;
         var listaDes = tienda.ListaDeseados;
         
-        //await supabase.From<Producto>().Where(x => x.categoria != "string random que para que eliga lo contrario").Delete();
-        //await supabase.From<Producto>().Insert(productos);
+        await supabase.From<Producto>().Where(x => x.categoria != "string random que para que eliga lo contrario").Delete();
+        await supabase.From<Producto>().Insert(productos);
 
         await supabase.From<Busqueda>().Where(x => x.idbusqueda != 0).Delete();
         await supabase.From<Busqueda>().Insert(busquedas);
@@ -101,13 +113,6 @@ class FachadaDBB{
 
         await supabase.From<Vendedor>().Where(x => x.idusuario != 0).Delete();
         await supabase.From<Vendedor>().Insert(vendedores);
-/*
-        await supabase.From<Tecnico>().Where(x => x.idusuario != 0).Delete();
-        await supabase.From<Tecnico>().Insert(tecnicos);
-
-        /*
-        await supabase.From<Compra>().Where(x => x.idcompra != 0).Delete();
-        await supabase.From<Compra>().Insert(compras);
 
         await supabase.From<CarritosDeCompra>().Where(x => x.idusuario != 0).Delete();
         await supabase.From<CarritosDeCompra>().Insert(carritos);
@@ -157,16 +162,5 @@ class FachadaDBB{
     }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-   /* public async Task AgregarProductoBDD(Producto prod){
-        try
-        {
-            await client.From<Producto>().Insert(new List<Producto> { prod });
-        }
-        catch (Exception ex)
-        {
-            // Manejar cualquier excepción que pueda ocurrir durante la inserción
-            Console.WriteLine($"Error al agregar el producto en la base de datos: {ex.Message}");
-        }
-    }*/
 }
 

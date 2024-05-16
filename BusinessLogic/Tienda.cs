@@ -12,51 +12,29 @@ using Microsoft.AspNetCore.SignalR;
 
 class Tienda
 {
-    private List<Producto> productos = new List<Producto>();
-    public List<Producto> Productos
-    {
-        get { return productos; }
-        private set { productos = value; }
-    }
+    private UnitOfWork<Producto> unitOfWorkProducto = new UnitOfWork<Producto>();
+    private UnitOfWork<Busqueda> unitOfWorkBusqueda = new UnitOfWork<Busqueda>();
+    private UnitOfWork<CarritosDeCompra> unitOfWorkCarritos = new UnitOfWork<CarritosDeCompra>();
+    public UnitOfWork<Usuario> unitOfWorkUsuario = new UnitOfWork<Usuario>();
+    // public UnitOfWork<Usuario> unitOfWorkUsuario(){
+    //     return unitOfWorkUsuario;
+    // }
+
+    public List<Producto> Productos = new List<Producto>();
+
 
 //esto son los productos de la búsqueda, para aplicar filtros sobre ellos
-    private List<Producto> productosBus = new List<Producto>();
-    public List<Producto> ProductosBus
-    {
-        get { return productosBus; }
-        private set { productosBus = value; }
-    }
+//DEJARLO PARA EL FINAL
+    public List<Producto> ProductosBus = new List<Producto>();
 
-    private List<Busqueda> busquedas= new List<Busqueda>();
-    public List<Busqueda> Busquedas
-    {
-        get { return busquedas; }
-        private set { busquedas = value; }
-    }
-    private List<Comprador> compradores= new List<Comprador>();
-    public List<Comprador> Compradores
-    {
-        get { return compradores; }
-        private set { compradores = value; }
-    }
-    private List<Vendedor> vendedores= new List<Vendedor>();
-    public List<Vendedor> Vendedores
-    {
-        get { return vendedores; }
-        private set { vendedores = value; }
-    }
-    private List<Tecnico> tecnicos= new List<Tecnico>();
-    public List<Tecnico> Tecnicos
-    {
-        get { return tecnicos; }
-        private set { tecnicos = value; }
-    }
-    private List<Compra> compras = new List<Compra>();
-    public List<Compra> Compras
-    {
-        get { return compras; }
-        private set { compras = value; }
-    }
+    public List<Busqueda> Busquedas = new List<Busqueda>();
+
+    public List<Comprador> Compradores = new List<Comprador>();
+
+    public List<Vendedor> Vendedores = new List<Vendedor>();
+
+    public List<Tecnico> Tecnicos = new List<Tecnico>();
+
     
     private List<Usuario> usuarios = new List<Usuario>();
     public List<Usuario> Usuarios
@@ -95,9 +73,6 @@ class Tienda
             Console.WriteLine("Hay " + Productos.Count + " productos ");
             Console.WriteLine("Hay " + Compradores.Count + " Compradores ");
             Console.WriteLine("Hay " + Vendedores.Count + " Vendedores ");
-            foreach(var tecnico in tecnicos){
-                Console.WriteLine("Nombre tecnico" + tecnico.nombre);
-            }
             Console.WriteLine("Hay " + Tecnicos.Count + " Tecnicos ");
             Console.WriteLine("Hay " + Usuarios.Count + " Usuarios ");
             Console.WriteLine("Hay " + CarritosDeCompra.Count + " CarritoDeCompras ");
@@ -545,13 +520,7 @@ public bool ActualizarCantidadProducto(int idusuario, int idproducto, int nuevaC
 
     public void agregarUser(Usuario usuario){
         Usuarios.Add(usuario);
-        if (usuario is Tecnico tecnico) {
-            tecnicos.Add(tecnico);
-        } else if (usuario is Vendedor vendedor) {
-            vendedores.Add(vendedor);
-        } else if (usuario is Comprador comprador) {
-            compradores.Add(comprador);
-        }
+        unitOfWorkUsuario.AddedList.Append(usuario);
     }
 
     public void agregarProducto(Producto prod){
