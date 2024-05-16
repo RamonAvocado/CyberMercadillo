@@ -32,17 +32,17 @@ class FachadaLogica{
     public void eliminarProductoID(string idproductoSeleccionado){
         eliminarProductoID(idproductoSeleccionado);
     }
-/*
+
     public  List<Producto> GetProductosBusqueda(string searchTerm, int idBuscado){
         var comandoBusqueda = new ComandoBusqueda(tienda, searchTerm, idBuscado);
         gestorBusqueda.SetComando(comandoBusqueda);
         return gestorBusqueda.solicitarBusqueda();
     }
-*/
     
+   /*
     public  List<Producto> GetProductosBusqueda(string searchTerm, int idBuscado){
         return tienda.GetProductosBusqueda(searchTerm, idBuscado);
-    }
+    }*/
 
     public List<Producto> GetProdBusquedaFiltro(string category){
         return tienda.GetProdBusquedaFiltro(category);
