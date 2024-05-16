@@ -877,7 +877,7 @@ app.MapPost("/ActualizarVendedor", async (HttpContext context, Supabase.Client c
         }catch (Exception ex){errorDefault(context,ex);}
     });
 
-    app.MapGet("/borrarCuenta", async(HttpContext context, Supabase.Client client) =>
+    app.MapPost("/borrarCuenta", async(HttpContext context, Supabase.Client client) =>
     {
         using var reader = new StreamReader(context.Request.Body);
             try{

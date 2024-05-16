@@ -553,6 +553,9 @@ async function borrarCuenta() {
             },
             body: JSON.stringify(requestBody) 
         });
+        alert("Cuenta borrada con éxito");
+        localStorage.removeItem('UsuarioID');
+        window.location.href = `./NewPaginaPrincipal.html`
     } catch (error) {
         console.error('Error inesperado:', error);
     }

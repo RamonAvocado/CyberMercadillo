@@ -76,7 +76,7 @@
             <button onclick="volverPaginaAnterior()" class="search-volver-btn">Volver</button>
         </div>
         <div class="boton-eliminar-cuenta">
-            <button onclick="" class="search-delete-btn">Eliminar Cuenta</button>
+            <button onclick="borrarCuenta()" class="search-delete-btn">Eliminar Cuenta</button>
         </div>
     </div>
 
@@ -98,12 +98,10 @@
             </div>
         </div>
     </footer>
-    <!-- <script src="Metodos.js"></script> -->
     <script src="./Metodos/GeneralMetodos.js"></script>
-    <!-- <script src="./Metodos/MetodosCompra.js"></script> -->
     <script src="./Metodos/MetodosNavegacion.js"></script>
     <script src="./Metodos/MetodosUser.js"></script>
-    <!-- <script src="./Metodos/MetodosBusquedas.js"></script> -->
+     <script src="./Metodos/MetodosBusquedas.js"></script> 
     <script>
         window.addEventListener('unload', GuardarBDD);
     </script>
