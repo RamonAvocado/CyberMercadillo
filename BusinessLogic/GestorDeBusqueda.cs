@@ -1,3 +1,5 @@
+using CyberMercadillo.Entities;
+
 namespace CyberMercadillo.BusinessLogic{ 
     public class GestorDeBusqueda
     {
@@ -8,9 +10,9 @@ namespace CyberMercadillo.BusinessLogic{
             comando = comando;
         }
 
-        public void solicitarBusqueda()
+        public List<Producto> solicitarBusqueda()
         {
-            comando?.Ejecutar();
+            return comando?.Ejecutar();
         }
     }
 }

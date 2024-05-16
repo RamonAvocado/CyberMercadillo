@@ -3,20 +3,20 @@ using CyberMercadillo.BusinessLogic;
 
 namespace CyberMercadillo.BusinessLogic{ 
     public class ComandoBusqueda : IComando{
-        private readonly Tienda _tienda;
-        private readonly string _searchTerm;
-        private readonly int _idBuscado;
+        private Tienda tienda;
+        private string searchTerm;
+        private int idBuscado;
 
         public ComandoBusqueda(Tienda tienda, string searchTerm, int idBuscado)
         {
-            _tienda = tienda;
-            _searchTerm = searchTerm;
-            _idBuscado = idBuscado;
+            tienda = tienda;
+            searchTerm = searchTerm;
+            idBuscado = idBuscado;
         }
 
-        public void Ejecutar()
+        public List<Producto> Ejecutar()
         {
-           // _tienda.BuscarProductos(searchTerm, idBuscado);
+            return tienda.GetProductosBusqueda(searchTerm, idBuscado);
         }
     }
 }

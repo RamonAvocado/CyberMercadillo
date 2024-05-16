@@ -4,11 +4,13 @@ using CyberMercadillo.BusinessLogic;
 class FachadaLogica{
 
     private Tienda tienda;
+    private GestorDeBusqueda gestorBusqueda;
 
     private FabricaDeUsuarios fabrica;
     public FachadaLogica(){
         tienda = new Tienda();
         fabrica = new FabricaDeUsuarios();
+        gestorBusqueda = new GestorDeBusqueda();
     }
 
     public Tienda returnTienda(){
@@ -30,7 +32,14 @@ class FachadaLogica{
     public void eliminarProductoID(string idproductoSeleccionado){
         eliminarProductoID(idproductoSeleccionado);
     }
-
+/*
+    public  List<Producto> GetProductosBusqueda(string searchTerm, int idBuscado){
+        var comandoBusqueda = new ComandoBusqueda(tienda, searchTerm, idBuscado);
+        gestorBusqueda.SetComando(comandoBusqueda);
+        return gestorBusqueda.solicitarBusqueda();
+    }
+*/
+    
     public  List<Producto> GetProductosBusqueda(string searchTerm, int idBuscado){
         return tienda.GetProductosBusqueda(searchTerm, idBuscado);
     }
