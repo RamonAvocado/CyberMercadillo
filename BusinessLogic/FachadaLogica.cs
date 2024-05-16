@@ -15,6 +15,70 @@ class FachadaLogica{
         return tienda;
     }
 
+    public List<Producto> GetProductos(){
+        return tienda.GetProductos();
+    }
+
+    public Producto buscarIDTodos(string idBuscado){
+        return tienda.buscarIDTodos(idBuscado);
+    }
+
+    public List<String> GetCategorías(){
+        return tienda.GetCategorías();
+    }
+
+    public void eliminarProductoID(string idproductoSeleccionado){
+        eliminarProductoID(idproductoSeleccionado);
+    }
+
+    public  List<Producto> GetProductosBusqueda(string searchTerm, int idBuscado){
+        return tienda.GetProductosBusqueda(searchTerm, idBuscado);
+    }
+
+    public List<Producto> GetProdBusquedaFiltro(string category){
+        return tienda.GetProdBusquedaFiltro(category);
+    }
+
+    public void GuardarBusqueda(string searchTerm, int idBuscado){
+        tienda.GuardarBusqueda(searchTerm, idBuscado);
+    }
+
+    public List<Producto> FiltrarProductosPorPrecio(List<Producto>productosCat, int precioMin, int precioMax, string category){
+        return tienda.FiltrarProductosPorPrecio(productosCat, precioMin, precioMax, category);
+    }
+
+    public List<Producto> FiltrarProductosPorValoracion(List<Producto>productosCat,List<Producto>productosPrec, int valoracion, string category){
+        return tienda.FiltrarProductosPorValoracion(productosCat,productosPrec, valoracion, category);
+    }
+
+    public bool AñadirAlCarritoCompra(int idBuscado, string idproducto, string cantProducto){
+        return tienda.AñadirAlCarritoCompra(idBuscado, idproducto, cantProducto);
+    }
+
+    public bool AñadirADeseos(int idBuscado, string idproducto){
+        return tienda.AñadirADeseos(idBuscado, idproducto);
+    }
+
+    public List<ListaDeseados> ObtenerListaDeseados(int idusuario){
+        return tienda.ObtenerListaDeseados(idusuario);
+    }
+
+    public Usuario ObtenerInfoUsuario(int idusuario){
+        return tienda.ObtenerInfoUsuario(idusuario);
+    }
+
+    public List<CarritosDeCompra> ObtenerCarritoCompra(int idusuario){
+        return tienda.ObtenerCarritoCompra(idusuario);
+    }
+
+    public bool ActualizarCantidadProducto(int idusuario, int idproducto,int nuevaCantidad){
+        return tienda.ActualizarCantidadProducto(idusuario, idproducto, nuevaCantidad);
+    }
+
+    public void EliminarProductoDelCarrito(int idusuario, string idproducto){
+        tienda.EliminarProductoDelCarrito(idusuario, idproducto);
+    }
+
     public FabricaDeUsuarios returnFabrica(){
         return fabrica;
     }

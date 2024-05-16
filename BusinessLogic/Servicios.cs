@@ -14,7 +14,7 @@ class Servicios{
         app.MapGet("/ObtenerProductosDestacados",(HttpContext context, Supabase.Client client) =>
         {
             try{
-                var productos = fachadaLogica.returnTienda().GetProductos();
+                var productos = fachadaLogica.GetProductos();
                 devolverFrontEnd(context, productos);
             }catch (Exception ex){errorDefault(context,ex);}
         });
@@ -24,7 +24,7 @@ class Servicios{
         {
             try{
                 //HABRÁ QUE HACER LA LÓGICA PARA CARGAR LOS PRODCUTOS RECOMENDADOS EN BASE A BUSQUEDAS Y COMPRAS
-                var productos = fachadaLogica.returnTienda().GetProductos();
+                var productos = fachadaLogica.GetProductos();
                 devolverFrontEnd(context, productos);
             }catch (Exception ex){errorDefault(context,ex);}
         });
@@ -34,7 +34,7 @@ class Servicios{
         {
             try{
                 //HABRÁ QUE HACER LA LÓGICA PARA CARGAR LOS PRODCUTOS RECOMENDADOS EN BASE A BUSQUEDAS Y COMPRAS
-                var productos = fachadaLogica.returnTienda().GetProductos();
+                var productos = fachadaLogica.GetProductos();
                 devolverFrontEnd(context, productos);
             }catch (Exception ex){errorDefault(context,ex);}
         });
@@ -44,7 +44,7 @@ class Servicios{
             try{
                 var idBuscado = context.Request.Query["idproducto"].ToString();
 
-                var producto = fachadaLogica.returnTienda().buscarIDTodos(idBuscado);
+                var producto = fachadaLogica.buscarIDTodos(idBuscado);
                 devolverFrontEnd(context, new List<Producto>{producto});
             }catch (Exception ex){errorDefault(context,ex);}
         });
@@ -61,7 +61,7 @@ class Servicios{
                 var idproducto = datosProducto["idproducto"].ToObject<int>();
                 var nuevaCantidad = datosProducto["nuevaCantidad"].ToObject<int>();
 
-                var guay = fachadaLogica.returnTienda().ActualizarCantidadProducto(idusuario, idproducto, nuevaCantidad);
+                var guay = fachadaLogica.ActualizarCantidadProducto(idusuario, idproducto, nuevaCantidad);
 
                 devolverFrontEnd(context, new List<Boolean> {guay});
             }catch (Exception ex){errorDefault(context,ex);}
@@ -79,7 +79,7 @@ class Servicios{
                 var idproducto = datosProducto["idproducto"].ToObject<string>();
 
 
-                fachadaLogica.returnTienda().EliminarProductoDelCarrito(idusuario, idproducto??"1");
+                fachadaLogica.EliminarProductoDelCarrito(idusuario, idproducto??"1");
                 
                 //HERNAN ES NECESARIO ESTE JSONRESPONSE???
                 var jsonResponse = new { };
@@ -93,7 +93,7 @@ class Servicios{
         {
             try{
                 //HABRÁ QUE HACER LA LÓGICA PARA CARGAR LOS PRODCUTOS RECOMENDADOS EN BASE A BUSQUEDAS Y COMPRAS
-                var categorias = fachadaLogica.returnTienda().GetCategorías();
+                var categorias = fachadaLogica.GetCategorías();
                 devolverFrontEnd(context, categorias);
             }catch (Exception ex){errorDefault(context,ex);}
         });
@@ -197,7 +197,7 @@ class Servicios{
                     var idProductoBuscado = productoData["idproducto"].ToObject<string>();
 
                     
-                    var producto = fachadaLogica.returnTienda().buscarIDTodos(idProductoBuscado ?? "0");
+                    var producto = fachadaLogica.buscarIDTodos(idProductoBuscado ?? "0");
 
                     devolverFrontEnd(context, new List<Producto>{producto});
                 }catch (Exception ex){errorDefault(context,ex);}
@@ -340,7 +340,7 @@ class Servicios{
                 
                 var idproductoSeleccionado = productoData["idproducto"].ToObject<string>();
 
-                fachadaLogica.returnTienda().eliminarProductoID(idproductoSeleccionado ?? "0");
+                fachadaLogica.eliminarProductoID(idproductoSeleccionado ?? "0");
             }catch (Exception ex){errorDefault(context,ex);}
         });
 
@@ -419,7 +419,7 @@ class Servicios{
                 var searchTerm = searchData["searchTerm"].ToObject<string>();
 
                 //recupero los productos con esta categoría
-                var productos = fachadaLogica.returnTienda().GetProductosBusqueda(searchTerm ?? "", idBuscado);
+                var productos = fachadaLogica.GetProductosBusqueda(searchTerm ?? "", idBuscado);
                 devolverFrontEnd(context, productos);
             }catch (Exception ex){errorDefault(context,ex);}
         });
@@ -437,8 +437,8 @@ class Servicios{
                 var idBuscado = searchData["idBuscado"].ToObject<int>();
 
                 //recupero los productos con esta categoría
-                var productos = fachadaLogica.returnTienda().GetProdBusquedaFiltro(category ?? "Todas las categorias");
-                fachadaLogica.returnTienda().GuardarBusqueda(searchTerm ?? "", idBuscado);
+                var productos = fachadaLogica.GetProdBusquedaFiltro(category ?? "Todas las categorias");
+                fachadaLogica.GuardarBusqueda(searchTerm ?? "", idBuscado);
 
                 devolverFrontEnd(context, productos);
             }catch (Exception ex){errorDefault(context,ex);}
@@ -458,8 +458,8 @@ class Servicios{
                 
 
                 Console.WriteLine("Preciomin y PrecioMax" + precioMin + " " + precioMax); 
-                var productosCat = fachadaLogica.returnTienda().GetProdBusquedaFiltro(category ?? "Todas las categorías");
-                var productos = fachadaLogica.returnTienda().FiltrarProductosPorPrecio(productosCat, precioMin, precioMax, category ?? "Todas las categorías");
+                var productosCat = fachadaLogica.GetProdBusquedaFiltro(category ?? "Todas las categorías");
+                var productos = fachadaLogica.FiltrarProductosPorPrecio(productosCat, precioMin, precioMax, category ?? "Todas las categorías");
 
                 devolverFrontEnd(context, productos);
             }catch (Exception ex){errorDefault(context,ex);}
@@ -483,9 +483,9 @@ class Servicios{
                 
 
                 Console.WriteLine("Preciomin y PrecioMax" + minPrice + " " + maxPrice); 
-                var productosCat = fachadaLogica.returnTienda().GetProdBusquedaFiltro(category ?? "");
-                var productosPrec = fachadaLogica.returnTienda().FiltrarProductosPorPrecio(productosCat, minPrice, maxPrice, category ?? "Todas las categorías");
-                var productos = fachadaLogica.returnTienda().FiltrarProductosPorValoracion(productosCat,productosPrec, valoracion, category ?? "Todas las categorías");
+                var productosCat = fachadaLogica.GetProdBusquedaFiltro(category ?? "");
+                var productosPrec = fachadaLogica.FiltrarProductosPorPrecio(productosCat, minPrice, maxPrice, category ?? "Todas las categorías");
+                var productos = fachadaLogica.FiltrarProductosPorValoracion(productosCat,productosPrec, valoracion, category ?? "Todas las categorías");
 
                 devolverFrontEnd(context, productos);
             }catch (Exception ex){errorDefault(context,ex);}
@@ -505,7 +505,7 @@ class Servicios{
                 var cantProducto = searchData["cantProducto"].ToObject<string>();
 
                 //recupero los productos con esta categoría
-                var guay = fachadaLogica.returnTienda().AñadirAlCarritoCompra(idBuscado, idproducto??"1", cantProducto??"1");
+                var guay = fachadaLogica.AñadirAlCarritoCompra(idBuscado, idproducto??"1", cantProducto??"1");
 
                 //Console.WriteLine("idBuscado: " + idBuscado + ", idproducto: " + idproducto);
 
@@ -524,7 +524,7 @@ class Servicios{
                 var idBuscado = searchData["idusuario"].ToObject<int>();
                 var idproducto = searchData["idproducto"].ToObject<string>();
                 //recupero los productos con esta categoría
-                var recupero = fachadaLogica.returnTienda().AñadirADeseos(idBuscado, idproducto??"1");
+                var recupero = fachadaLogica.AñadirADeseos(idBuscado, idproducto??"1");
 
                 //Console.WriteLine("idBuscado: " + idBuscado + ", idproducto: " + idproducto);
 
@@ -542,7 +542,7 @@ class Servicios{
                 var idusuario = searchData["idusuario"].ToObject<int>();
 
                 //recupero los productos con esta categoría
-                var carritoCompra = fachadaLogica.returnTienda().ObtenerCarritoCompra(idusuario);
+                var carritoCompra = fachadaLogica.ObtenerCarritoCompra(idusuario);
 
                 devolverFrontEnd(context, carritoCompra);
             }catch (Exception ex){errorDefault(context,ex);}
@@ -557,7 +557,7 @@ class Servicios{
                 
                 var idusuario = searchData["idusuario"].ToObject<int>();
 
-                var listaDeseados = fachadaLogica.returnTienda().ObtenerListaDeseados(idusuario);
+                var listaDeseados = fachadaLogica.ObtenerListaDeseados(idusuario);
                 devolverFrontEnd(context, listaDeseados);
                 
             }catch (Exception ex){errorDefault(context,ex);}
@@ -622,7 +622,7 @@ class Servicios{
                 var idusuario = searchData["idusuario"].ToObject<int>();
 
                 //recupero la información del usuairo por su id
-                var info = fachadaLogica.returnTienda().ObtenerInfoUsuario(idusuario);
+                var info = fachadaLogica.ObtenerInfoUsuario(idusuario);
 
                 var jsonResponse = new { info };
 
