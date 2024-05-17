@@ -23,8 +23,10 @@ class Servicios{
         app.MapGet("/ObtenerProductosRecomendados",(HttpContext context, Supabase.Client client) =>
         {
             try{
-                //HABRÁ QUE HACER LA LÓGICA PARA CARGAR LOS PRODCUTOS RECOMENDADOS EN BASE A BUSQUEDAS Y COMPRAS
-                var productos = fachadaLogica.GetProductos();
+                var productos = fachadaLogica.GetProductosRecomendados();
+                foreach (Producto p in productos){
+                    Console.WriteLine(p.nombreproducto + " " + p.descuento);
+                }
                 devolverFrontEnd(context, productos);
             }catch (Exception ex){errorDefault(context,ex);}
         });
@@ -905,6 +907,7 @@ app.MapPost("/ActualizarVendedor", async (HttpContext context, Supabase.Client c
                 var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
 
                 var idusuario = searchData["idusuario"].ToObject<int>();
+
                 fachadaLogica.borrarCuenta(idusuario, "Comprador");
             }catch (Exception ex){errorDefault(context,ex);}
     });

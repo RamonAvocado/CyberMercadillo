@@ -355,18 +355,17 @@ async function InicializarProductos() {
 async function CargarProductosRecomendados(){
     try {
         console.log("Entra funcion cargarProductosRecomendados");
-        // Realizar una solicitud GET al backend para obtener los 6 primeros productos
         const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosRecomendados`);
         if (response.ok) {
             const data = await response.json();
             const productos = data.objeto;
+
 
             const productosPorPagina = 6;
             const totalPaginas = Math.ceil(productos.length / productosPorPagina);
 
             // Mostrar los productos de la primera página en la interfaz de usuario
             mostrarProductosRecomendados(productos, "Todas las categorias", productosPorPagina);
-
             // Generar enlaces de paginación
             generarEnlacesPaginacionRec(totalPaginas);
         } else {
@@ -462,9 +461,9 @@ function mostrarProductosRecomendados(productos, categoria, cantidad) {
     console.log("CATEGORIA PRODUCTO SELEC : " + cantidad);
     // Itera sobre los productos y crea elementos para mostrarlos
     productos.forEach((producto) => {
-        if(producto.categoria == categoria && cant < cantidad && producto.idproducto != localStorage.getItem("itemID")){
+        if(cant < cantidad && producto.idproducto != localStorage.getItem("itemID")){
             const productCard = document.createElement('div');
-            productCard.classList.add('product-card');
+            productCard.classList.add('recommended-products');
             //imagenes de cada producto
             const imagenes = producto.imagenes.split(' ');
             const primeraImagen = imagenes[0];
@@ -472,9 +471,10 @@ function mostrarProductosRecomendados(productos, categoria, cantidad) {
 
             // Agrega la imagen, nombre y precio del producto dentro de un enlace       
             productCard.innerHTML = `
-                <button class="favorite-btn"></button> <!-- Botón de favoritos -->
+                <button class="favorite-btn"></button>
                 <img src="${primeraImagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
                 <h3>${truncate(producto.nombreproducto)}</h3>
+                <p class="descuento"> - ${producto.descuento} %</p>
                 <p class="price">${producto.precio} €</p>
                 <p class="description">${truncate(producto.descripcion)}</p>
                 <div hidden>

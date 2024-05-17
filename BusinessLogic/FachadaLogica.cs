@@ -30,7 +30,7 @@ class FachadaLogica{
     }
 
     public void eliminarProductoID(string idproductoSeleccionado){
-        eliminarProductoID(idproductoSeleccionado);
+        tienda.eliminarProductoID(idproductoSeleccionado);
     }
 
     public  List<Producto> GetProductosBusqueda(string searchTerm, int idBuscado){
@@ -50,6 +50,10 @@ class FachadaLogica{
 
     public void GuardarBusqueda(string searchTerm, int idBuscado){
         tienda.GuardarBusqueda(searchTerm, idBuscado);
+    }
+
+    public List<Producto> GetProductosRecomendados(){
+        return tienda.GetProductosRecomendados();
     }
 
     public List<Producto> FiltrarProductosPorPrecio(List<Producto>productosCat, int precioMin, int precioMax, string category){

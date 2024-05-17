@@ -12,10 +12,17 @@ using Microsoft.AspNetCore.SignalR;
 
 public class Tienda
 {
-    private UnitOfWork<Producto> unitOfWorkProducto = new UnitOfWork<Producto>();
-    private UnitOfWork<Busqueda> unitOfWorkBusqueda = new UnitOfWork<Busqueda>();
-    private UnitOfWork<CarritosDeCompra> unitOfWorkCarritos = new UnitOfWork<CarritosDeCompra>();
+    //PRODUCTO TODO AÑADIDO
+    public UnitOfWork<Producto> unitOfWorkProducto = new UnitOfWork<Producto>();
+    //BUSQUEDA SOLO SE AÑADEN COSAS, NO NOS HAN PEDIDO QUE PUEDAS BORRAR EL HISTORIAL
+    public UnitOfWork<Busqueda> unitOfWorkBusqueda = new UnitOfWork<Busqueda>();
+    //HERNAN, TE LO DEJO A TI PORQUE HAS HECHO LOS CARRITOS, SI NO TE ACLARAS AVISA
+    public UnitOfWork<CarritosDeCompra> unitOfWorkCarritos = new UnitOfWork<CarritosDeCompra>();
+
+    //AÑADIDO UNITOFWORK DE USUARIOS AÑADIDOS Y BORRADOS, AMBOS FUNCIONALES
     public UnitOfWork<Usuario> unitOfWorkUsuario = new UnitOfWork<Usuario>();
+
+    //IGUAL HERNAN TE LO DEJO PORQUE LO HAS AÑADIDO TU
     public UnitOfWork<ListaDeseados> unitOfWorkListaDeseados = new UnitOfWork<ListaDeseados>();
 
     // public UnitOfWork<Usuario> unitOfWorkUsuario(){
@@ -73,9 +80,6 @@ public class Tienda
     {
             Console.WriteLine("Hay " + Busquedas.Count + " busquedas ");
             Console.WriteLine("Hay " + Productos.Count + " productos ");
-            //Console.WriteLine("Hay " + Compradores.Count + " Compradores ");
-            //Console.WriteLine("Hay " + Vendedores.Count + " Vendedores ");
-            //Console.WriteLine("Hay " + Tecnicos.Count + " Tecnicos ");
             Console.WriteLine("Hay " + Usuarios.Count + " Usuarios ");
             Console.WriteLine("Hay " + CarritosDeCompra.Count + " CarritoDeCompras ");
             
@@ -263,17 +267,6 @@ public class Tienda
         return listadeDeseados;
     }
 
-    public List<Producto> ObtenerProductos(String idproductos){
-            
-        List<Producto> prod = new List<Producto>();
-
-        //prod = Productos.Where(c => c.idproducto == idproducto).ToList();
-
-        return prod;
-    }
-
-
-    
     public List<String> GetCategorías(){
 
         List<string> categoriasUnicas = new List<string>();
@@ -520,6 +513,17 @@ public bool ActualizarCantidadProducto(int idusuario, int idproducto, int nuevaC
         }else return false;
     }
 
+    public List<Producto> GetProductosRecomendados(){
+        List<Producto> productosRecomendados = new List<Producto>();
+        foreach (Producto prod in Productos) {
+            if (prod.descuento != 0){
+                productosRecomendados.Add(prod);
+            }
+        }
+        productosRecomendados = productosRecomendados.OrderByDescending(p => p.descuento).ToList();
+        return productosRecomendados;
+    }
+
 
     public bool validarProductoGuardado(string idBuscado)
     {
@@ -606,6 +610,7 @@ public bool ActualizarCantidadProducto(int idusuario, int idproducto, int nuevaC
         producto.puntuacionEco = puntHuella;
         producto.certificadoEco = certiH;
         producto.descuento = descuento;
+        unitOfWorkProducto.UpdatedList.Push(producto);
     }
 
 public void actualizarProd(string idbuscado, string precioProd,string descripcionProd, int cantProd, int descuento)
@@ -642,6 +647,7 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
                 if (prod.idproducto.ToString() == idbuscado)
                 {
                     Productos.Remove(prod);
+                    unitOfWorkProducto.DeletedList.Push(prod);
                 }
             }
     }
@@ -692,51 +698,11 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
             else{return usuarioFalso;}
     }
 
-/*
-public Usuario buscarUsuario(String correo, String password)
-    {
-            Usuario usuarioFalso = new Tecnico(0,"Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se", "Tecnico");
-            Usuario usuarioEncontrado;
-
-            usuarioEncontrado = Compradores.Find(u => u.correo == correo && u.contraseña == password) ?? usuarioFalso;
-            if(usuarioEncontrado.correo == correo && usuarioEncontrado.contraseña == password){
-                UsuarioRegistrado = usuarioEncontrado;
-                return usuarioEncontrado;
-            }
-
-            usuarioEncontrado = Vendedores.Find(u => u.correo == correo && u.contraseña == password) ?? usuarioFalso;
-            if(usuarioEncontrado.correo == correo && usuarioEncontrado.contraseña == password){
-                UsuarioRegistrado = usuarioEncontrado;
-                return usuarioEncontrado;
-            }
-
-            usuarioEncontrado = Tecnicos.Find(u => u.correo == correo && u.contraseña == password) ?? usuarioFalso;
-            if(usuarioEncontrado.correo == correo && usuarioEncontrado.contraseña == password){
-                UsuarioRegistrado = usuarioEncontrado;
-                return usuarioEncontrado;
-            }
-
-            else{return usuarioFalso;}
-    }*/
     public Usuario ObtenerInfoUsuario(int idusuario)
     {
             Usuario usuarioFalso = new Tecnico(0,"Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se", "Tecnico");
             Usuario usuarioEncontrado;
 
-            /*usuarioEncontrado = Compradores.Find(u => u.idusuario == idusuario) ?? usuarioFalso;
-            if(usuarioEncontrado.idusuario == idusuario){
-                return usuarioEncontrado;
-            }
-
-            usuarioEncontrado = Vendedores.Find(u => u.idusuario == idusuario) ?? usuarioFalso;
-            if(usuarioEncontrado.idusuario == idusuario){
-                return usuarioEncontrado;
-            }
-
-            usuarioEncontrado = Tecnicos.Find(u => u.idusuario == idusuario) ?? usuarioFalso;
-            if(usuarioEncontrado.idusuario == idusuario){
-                return usuarioEncontrado;
-            }*/
             usuarioEncontrado = Usuarios.Find(u => u.idusuario == idusuario)?? usuarioFalso;
             if(usuarioEncontrado.idusuario == idusuario){
                 return usuarioEncontrado;
@@ -977,6 +943,7 @@ return productos;
         else 
             return false; 
     } 
+
 
     public bool desasignarPro(string idbuscado)
     {

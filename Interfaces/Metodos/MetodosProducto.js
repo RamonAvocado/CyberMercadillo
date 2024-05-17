@@ -1177,6 +1177,7 @@ function mostrarUnProductoBasico(respuesta) {
 
 //RECOMENDACION DE PRODUCTOS DENTRO DE INFO DE UN PRODUCTO
 //PODRIA IR EN GENERAL+++++
+/*
 async function CargarProductosRecomendadosInfoProd(){
     try {
         // Realizar una solicitud GET al backend para obtener los 6 primeros productos
@@ -1197,6 +1198,7 @@ async function CargarProductosRecomendadosInfoProd(){
         console.error('Error inesperado:', error);
     }
 }
+*/
 
 function handleFileSelect(event) {
     const fileInput = event.target;

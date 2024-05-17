@@ -32,7 +32,6 @@ class FachadaDBB{
         var tecnicos = await supabase.From<Tecnico>().Get();
         var carritos = await supabase.From<CarritosDeCompra>().Get();
         var listaDes = await supabase.From<ListaDeseados>().Get();
-        //var listaDes = await supabase.From<ListaDeseados>().Get();
 
         foreach (var producto in productos.Models){
             tienda.Productos.Add(producto);
@@ -42,20 +41,15 @@ class FachadaDBB{
         }
         foreach (var comprador in compradores.Models){
             tienda.Usuarios.Add(comprador);
-            //tienda.Usuarios.Add(comprador);
         }
         foreach (var vendedor in vendedores.Models){
             tienda.Usuarios.Add(vendedor);
-            //tienda.Usuarios.Add(vendedor);
         }
         foreach (var tecnico in tecnicos.Models){
             tienda.Usuarios.Add(tecnico);
         }
         foreach(var carrito in carritos.Models){
             tienda.CarritosDeCompra.Add(carrito);
-        }
-        foreach(var listaDeseados in listaDes.Models){
-            tienda.ListaDeseados.Add(listaDeseados);
         }
         foreach(var listaDeseados in listaDes.Models){
             tienda.ListaDeseados.Add(listaDeseados);
@@ -77,66 +71,39 @@ class FachadaDBB{
 
     app.MapGet("/guardarBDD", async (HttpContext context, Supabase.Client supabase) =>
     { 
-        var productos = tienda.Productos;
-        var busquedas = tienda.Busquedas;
-
-//      las comentadas, no vamos a usar tienda.vendedores, sino tienda. unitofworkvendedores
-
-// RAMON, Aqui tenemos que igualar el var usuarios = tienda.UnitOfWorkUsuario? y así con todas no?
-
-        //var compradores = tienda.Compradores;
-        //var vendedores = tienda.Vendedores;
-        //var usuarios = tienda.Usuarios;
-        //var tecnicos = tienda.Tecnicos;
-        var carritos = tienda.CarritosDeCompra;
-
-
         var usuarios = tienda.unitOfWorkUsuario;
         var usu = usuarios.AddedList;
         while (usu.Count > 0)
         {
             var u = usu.Pop();
             if (u.GetType().FullName == "CyberMercadillo.Entities.Comprador")
-            {
-                await supabase.From<Comprador>().Insert((Comprador) u);
-            } else if (u.GetType().FullName == "CyberMercadillo.Entities.Vendedor")
-            {
-                await supabase.From<Vendedor>().Insert((Vendedor) u);
-            }
+            {await supabase.From<Comprador>().Insert((Comprador) u);} 
+            else if (u.GetType().FullName == "CyberMercadillo.Entities.Vendedor")
+            {await supabase.From<Vendedor>().Insert((Vendedor) u);}
         }
-        
+
         usu = usuarios.DeletedList;
-        Console.WriteLine("Count de usuarios borrados " + usu.Count);
         while (usu.Count > 0)
         {
             var u = usu.Pop();
             if (u.GetType().FullName == "CyberMercadillo.Entities.Comprador")
-            {
-                await supabase.From<Comprador>().Delete((Comprador) u);
-            } else if (u.GetType().FullName == "CyberMercadillo.Entities.Vendedor")
-            {
-                await supabase.From<Vendedor>().Delete((Vendedor) u);
-            }
+            {await supabase.From<Comprador>().Delete((Comprador) u);} 
+            else if (u.GetType().FullName == "CyberMercadillo.Entities.Vendedor")
+            {await supabase.From<Vendedor>().Delete((Vendedor) u);}
         }
-        /*
-        var listaDes = tienda.ListaDeseados;
-        var listaDes = tienda.ListaDeseados;
-        
-        await supabase.From<Producto>().Where(x => x.categoria != "string random que para que eliga lo contrario").Delete();
-        await supabase.From<Producto>().Insert(productos);
 
-        await supabase.From<Busqueda>().Where(x => x.idbusqueda != 0).Delete();
-        await supabase.From<Busqueda>().Insert(busquedas);
+        var productos = tienda.unitOfWorkProducto;
+        var pro = productos.AddedList;
+        while (pro.Count > 0){var p = pro.Pop();await supabase.From<Producto>().Insert(p);}
 
-        await supabase.From<Comprador>().Where(x => x.idusuario != 0).Delete();
-        await supabase.From<Comprador>().Insert(compradores);
+        pro = productos.DeletedList;
+        while (pro.Count > 0){var p = pro.Pop();await supabase.From<Producto>().Delete(p);}
 
-        await supabase.From<Vendedor>().Where(x => x.idusuario != 0).Delete();
-        await supabase.From<Vendedor>().Insert(vendedores);
+        pro = productos.UpdatedList;
+        while (pro.Count > 0){var p = pro.Pop();await supabase.From<Producto>().Update(p);}
 
-        await supabase.From<CarritosDeCompra>().Where(x => x.idusuario != 0).Delete();
-        await supabase.From<CarritosDeCompra>().Insert(carritos);
-        */
+        var busquedas = tienda.unitOfWorkBusqueda.AddedList;
+        while (busquedas.Count > 0){var b = busquedas.Pop();await supabase.From<Busqueda>().Insert(b);}
 
         Console.WriteLine("Ha actualizado las tablas");
     });

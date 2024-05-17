@@ -8,6 +8,7 @@ namespace CyberMercadillo.BusinessLogic{
 
         public Stack<T> AddedList = new Stack<T>();
         public Stack<T> DeletedList = new Stack<T>();
+        public Stack<T> UpdatedList = new Stack<T>();
 
         public void UpdateItem(T currentItem, T updatedItem)
         {
