@@ -754,7 +754,7 @@ async function mostrarCarritoCompra (carrCompra){
 }
 
 async function mostrarListaDeseados (listaDes){
-    const productsContainer = document.querySelector('.featured-products');
+    const productsContainer = document.querySelector('.deseados-products');
     // let totalPrecio = 0;
     let descripc = "";
     
