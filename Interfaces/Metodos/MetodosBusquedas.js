@@ -176,6 +176,22 @@ function mostrarProductosCat(productos) {
             console.log(idProductoSeleccionado);
             irAInfoProducto(event.currentTarget);
         });
+        productCard.addEventListener('dblclick', (event) => {
+            irAInfoProducto(event.currentTarget);
+        });
+        const favoriteBtn = productCard.querySelector('.favorite-btn');
+        favoriteBtn.addEventListener('click', function() {
+            idUsuarioIniciado = localStorage.getItem('UsuarioID');
+            idProductoSeleccionado = localStorage.getItem('itemID');
+
+            idUsuarioIniciado= parseInt(idUsuarioIniciado);
+            idProductoSeleccionado= parseInt(idProductoSeleccionado);
+
+        AñadirListaDeseos(idUsuarioIniciado, idProductoSeleccionado);
+            
+            
+        });
+        
         container.appendChild(productCard);
     });
 

@@ -494,6 +494,21 @@ function mostrarProductosRecomendados(productos, categoria, cantidad) {
             productCard.addEventListener('dblclick', (event) => {
                 irAInfoProducto(event.currentTarget);
             });
+            productCard.addEventListener('dblclick', (event) => {
+                irAInfoProducto(event.currentTarget);
+            });
+            const favoriteBtn = productCard.querySelector('.favorite-btn');
+            favoriteBtn.addEventListener('click', function() {
+                idUsuarioIniciado = localStorage.getItem('UsuarioID');
+                idProductoSeleccionado = localStorage.getItem('itemID');
+    
+                idUsuarioIniciado= parseInt(idUsuarioIniciado);
+                idProductoSeleccionado= parseInt(idProductoSeleccionado);
+    
+            AñadirListaDeseos(idUsuarioIniciado, idProductoSeleccionado);
+                
+                
+            });
 
             container.appendChild(productCard);
             }
@@ -614,6 +629,21 @@ function mostrarProductosDestacados(productos) {
         productCard.addEventListener('dblclick', (event) => {
             irAInfoProducto(event.currentTarget);
         });
+        productCard.addEventListener('dblclick', (event) => {
+            irAInfoProducto(event.currentTarget);
+        });
+        const favoriteBtn = productCard.querySelector('.favorite-btn');
+        favoriteBtn.addEventListener('click', function() {
+            idUsuarioIniciado = localStorage.getItem('UsuarioID');
+            idProductoSeleccionado = localStorage.getItem('itemID');
+
+            idUsuarioIniciado= parseInt(idUsuarioIniciado);
+            idProductoSeleccionado= parseInt(idProductoSeleccionado);
+
+        AñadirListaDeseos(idUsuarioIniciado, idProductoSeleccionado);
+            
+            
+        });
         container.appendChild(productCard);
     });
 }
@@ -704,6 +734,18 @@ function mostrarTodosProductos(productos) {
         // Agregar evento de doble clic para ir a la página de información del producto
         productCard.addEventListener('dblclick', (event) => {
             irAInfoProducto(event.currentTarget);
+        });
+        const favoriteBtn = productCard.querySelector('.favorite-btn');
+        favoriteBtn.addEventListener('click', function() {
+            idUsuarioIniciado = localStorage.getItem('UsuarioID');
+            idProductoSeleccionado = localStorage.getItem('itemID');
+
+            idUsuarioIniciado= parseInt(idUsuarioIniciado);
+            idProductoSeleccionado= parseInt(idProductoSeleccionado);
+
+        AñadirListaDeseos(idUsuarioIniciado, idProductoSeleccionado);
+            
+            
         });
 
         container.appendChild(productCard);
