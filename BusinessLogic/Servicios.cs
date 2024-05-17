@@ -88,6 +88,26 @@ class Servicios{
             }catch (Exception ex){errorDefault(context,ex);}
         });
 
+        app.MapPost("/EliminarProductoDeListaDeseados", async (HttpContext context, Supabase.Client client) =>
+        {
+            using var reader = new StreamReader(context.Request.Body);
+            try{
+                //Leer frontend
+                var requestBody = await reader.ReadToEndAsync();
+                var datosProducto = JsonConvert.DeserializeObject<JObject>(requestBody);
+
+                var idusuario = datosProducto["idusuario"].ToObject<int>();
+                var idproducto = datosProducto["idproducto"].ToObject<string>();
+
+
+                fachadaLogica.EliminarProductoDeListaDeseados(idusuario, idproducto??"1");
+                
+                var jsonResponse = new { };
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+            }catch (Exception ex){errorDefault(context,ex);}
+        });
+
         //que las categorías de todos los productos
         app.MapGet("/CargarCategorias", (HttpContext context, Supabase.Client client) =>
         {

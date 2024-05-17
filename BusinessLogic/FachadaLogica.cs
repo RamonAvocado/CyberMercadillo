@@ -87,6 +87,9 @@ class FachadaLogica{
     public void EliminarProductoDelCarrito(int idusuario, string idproducto){
         tienda.EliminarProductoDelCarrito(idusuario, idproducto);
     }
+    public void EliminarProductoDeListaDeseados(int idusuario, string idproducto){
+        tienda.EliminarProductoDeListaDeseados(idusuario, idproducto);
+    }
 
     public FabricaDeUsuarios returnFabrica(){
         return fabrica;

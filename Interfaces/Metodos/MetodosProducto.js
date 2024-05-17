@@ -841,7 +841,7 @@ async function mostrarUnProductoCompra(producto, cantidad, productsContainer) {
 
 async function mostrarUnProductoListaDeseados(producto, productsContainer) {
     const productDiv = document.createElement('div');
-    productDiv.classList.add('product-compra');
+    productDiv.classList.add('product-deseado');
 
     // Crear elementos para la información del producto
     const img = document.createElement('img');
@@ -849,7 +849,8 @@ async function mostrarUnProductoListaDeseados(producto, productsContainer) {
 
     const descripcion = document.createElement('div');
     descripcion.classList.add('descripción');
-    descripcion.innerHTML = `<h1>${producto.nombreproducto + " " + producto.precio} €</h1>`;
+    descripcion.innerHTML = `<h1>${producto.nombreproducto + " " + producto.precio} €</h1>
+    <button onclick="eliminarProductoDeseado(${producto.idproducto})">Quitar</button>`;
 
     // Añadir elementos al contenedor del producto
     productDiv.appendChild(img);
@@ -974,6 +975,40 @@ async function eliminarProducto(idprod) {
     }
 }
 
+async function eliminarProductoDeseado(idprod) {
+    console.log("Eliminar este producto de la Lista: "+ idprod);
+    idUsuarioIniciado = localStorage.getItem('UsuarioID');
+
+
+    try{    
+        var requestBody = {
+            idproducto: idprod,
+            idusuario:idUsuarioIniciado,
+        };
+
+        const response = await fetch(`${lugarDeEjecucion}/EliminarProductoDeListaDeseados`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody)
+        });
+
+        if(response.ok){
+            console.log("El producto ha sido eliminado de la lista");
+
+            var titulo = "¡Producto eliminado!";
+            var mensaje = "El producto se ha eliminado de la lista de deseados";
+            alert(titulo + "\n\n" + mensaje);
+
+            
+            //recargo la página para mostrar la nueva cantidad
+            window.location.href = `./ListaDeseados.html`;
+        }
+    }catch (error) {
+        console.error('Error al eliminar el producto dela lista deseados:', error);
+    }
+}
 
 function mostrarUnProductoNoLogeado(respuesta) {
     const producto = respuesta[0];

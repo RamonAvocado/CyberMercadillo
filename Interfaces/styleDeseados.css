@@ -185,10 +185,50 @@ footer a {
 
 #sesion-link {
     margin-left: auto; /* Mover el elemento de cierre de sesión a la derecha */
+}   
+
+
+.deseados-products {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los productos se ajusten a la siguiente fila */
+    justify-content: center; /* Centra los productos horizontalmente */
+    gap: 20px; /* Espacio entre los productos */
 }
 
+/* Estilo para los productos */
+.product-deseado {
+    width: calc(33.333% - 20px); /* Ajusta el ancho para tres productos por fila, menos el espacio del gap */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #ffffff;
+}
 
-.product-card.selected {
-    border: 2px solid blue; /* Cambia el borde a azul para indicar selección */
-    box-shadow: 0 0 5px blue; /* Añade una sombra azul para resaltar */
-}           
+.product-deseado img {
+    width: 100%;
+    max-width: 200px; 
+    height: auto; 
+    object-fit: cover; /* Asegura que la imagen cubra el área sin distorsión */
+    margin-bottom: 10px; 
+}
+
+/* Estilo para la descripción */
+.product-deseado .descripción {
+    text-align: center;
+}
+.product-deseado .descripción h1 {
+    font-size: 18px; /* Tamaño de fuente para el título del producto */
+    margin-bottom: 10px; /* Espacio inferior del título */
+}
+
+.product-deseado .descripción button {
+    background-color: #f39c12;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}

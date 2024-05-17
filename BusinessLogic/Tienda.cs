@@ -456,6 +456,48 @@ public bool ActualizarCantidadProducto(int idusuario, int idproducto, int nuevaC
         }
     }
 
+
+    public void EliminarProductoDeListaDeseados(int idusuario, string idproducto)
+    {
+        var listaUser = ListaDeseados.FirstOrDefault(c => c.idusuario == idusuario);
+
+        if (listaUser != null)
+        {
+            // Separar los id de los productos y cantidades en listas
+            List<string> productos = listaUser.idproductos.Split(',').ToList();
+
+            // Buscar la posición del producto en la lista
+            int index = productos.IndexOf(idproducto);
+
+            if (index != -1)
+            {
+                // Eliminar el producto y su cantidad
+                productos.RemoveAt(index);
+
+                // Actualizar el carrito
+                listaUser.idproductos = string.Join(",", productos);
+                // Si no quedan productos, eliminar el carrito
+                if (productos.Count == 0)
+                {
+                    ListaDeseados.Remove(listaUser);
+                    Console.WriteLine("Lista de Deseados eliminada");
+                }
+                else
+                {
+                    Console.WriteLine("Producto eliminado de la Lista de Deseados");
+                }
+            }
+            else
+            {
+                Console.WriteLine("El producto no esta en Lista de Deseados");
+            }
+        }
+        else
+        {
+            Console.WriteLine("No se encontró Lista de Deseados para el usuario especificado");
+        }
+    }
+
     public bool validarUnProducto(string idBuscado)
     {
         Producto producto = new Producto
