@@ -219,7 +219,7 @@ async function mostrarVentanaEmergenteCompra() {
         }
         return true;
     } else {
-        alert('Los datos de su tarjeta no han sido guardados.');
+        alert('Los datos de su tarjeta NO han sido guardados.');
     }
 }
 

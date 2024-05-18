@@ -346,3 +346,5 @@ c:\Users\Jordi\Documents\GitHub\CyberMercadillo\bin\Debug\net7.0\itext.commons.d
 c:\Users\Jordi\Documents\GitHub\CyberMercadillo\bin\Debug\net7.0\Microsoft.DotNet.PlatformAbstractions.dll
 c:\Users\Jordi\Documents\GitHub\CyberMercadillo\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
 c:\Users\Jordi\Documents\GitHub\CyberMercadillo\bin\Debug\net7.0\BouncyCastle.Crypto.dll
+C:\Users\2003h\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\Testing\obj\project.assets.json
+C:\Users\2003h\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\Testing\obj\Testing.csproj.nuget.dgspec.json

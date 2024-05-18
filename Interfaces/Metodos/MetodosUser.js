@@ -189,12 +189,11 @@ function mostrarPedidos(carritos){
 
         // Formatear la fecha y la hora
         const fechaFormateada = `${fechaCompra.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`;
-        const horaFormateada = `${fechaCompra.getHours()}:${('0' + fechaCompra.getMinutes()).slice(-2)}`;
 
         // Información de cada carrito
         const info = document.createElement("div");
         info.classList.add('fecha');
-        info.innerHTML = `<h2>Compra realizada el día: ${fechaFormateada} a la hora: ${horaFormateada}</h2>
+        info.innerHTML = `<h2>Compra realizada el día: ${fechaFormateada}</h2>
         <h2>${carritos[i].estado}</h2>`;
 
         carrito.appendChild(info);

@@ -38,7 +38,7 @@ public class Tienda
 
     public List<Busqueda> Busquedas = new List<Busqueda>();
 
-    public List<Comprador> Compradores = new List<Comprador>();
+    //public List<Comprador> Compradores = new List<Comprador>();
 
     //public List<Vendedor> Vendedores = new List<Vendedor>();
 
@@ -96,7 +96,6 @@ public class Tienda
         Console.WriteLine("Se ha creado un carrito de compra ");
         Console.WriteLine("Ahora hay: " + CarritosDeCompra.Count() + " CarritoDeCompras");
         CarritosDeCompra.Add(carrito);
-        unitOfWorkCarritos.AddedList.Push(carrito);
     }
     
     public void CrearListaDeseados(int idusuario){
@@ -110,7 +109,6 @@ public class Tienda
         Console.WriteLine("Se ha creado una lista de deseado ");
         Console.WriteLine("Ahora hay: " + ListaDeseados.Count() + " CarritoDeCompras");
         ListaDeseados.Add(lisDes);
-        unitOfWorkListaDeseados.AddedList.Push(lisDes);
     }
 
     public bool AñadirAlCarritoCompra(int idusuario, string idproducto, string cantProducto)
@@ -133,7 +131,7 @@ public class Tienda
                 carritoUsuario.idproductos += "," + idproducto;
                 carritoUsuario.cantidadProds += "," + cantProducto;
                 //RAMON AQUI HACE FALTA ACTUALIZAR EL UNITOFWORK DE CARRITO? -> como se hace?
-                unitOfWorkCarritos.UpdateItem(carritoUsuarioAntesDeMod, carritoUsuario);
+                //unitOfWorkCarritos.UpdateItem(carritoUsuarioAntesDeMod, carritoUsuario);
 
             }
             else // Si el usuario no tiene un carrito de compra existente, crear uno nuevo
@@ -150,9 +148,6 @@ public class Tienda
                 Console.WriteLine("Ahora hay: " + CarritosDeCompra.Count() + " CarritoDeCompras");
 
                 CarritosDeCompra.Add(carrito);
-                unitOfWorkCarritos.AddedList.Push(carrito);
-
-
                 return true;
             }
         }
@@ -227,6 +222,8 @@ public class Tienda
                         {
                             productoEnLista.cantidad -= cantidad;
                             Console.WriteLine("Ahora hay " + productoEnLista.cantidad + " unidades de " + productoEnLista.nombreproducto);
+                            unitOfWorkProducto.UpdatedList.Push(productoEnLista);
+                            unitOfWorkCarritos.AddedList.Push(carritoUsuario);
                         }
                     }
                 }
@@ -713,12 +710,17 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
 
     public bool GuardarDatosUsuario(int idusuario, int numTarjeta, string fechaCaducidad, int cvv){
     var ok= false;
-        foreach(Comprador usuario in Compradores){
+    Console.WriteLine("idusuario buscado: " + idusuario);
+        foreach(Usuario usuario in Usuarios){
+            //Console.WriteLine("usuario id de cada: " + usuario.idusuario);
             if(usuario.idusuario == idusuario){
-                usuario.numeroTarjeta = numTarjeta;
-                usuario.fechaCaducidad = fechaCaducidad;
-                usuario.CVV = cvv;
+                var comprador = usuario as Comprador;
+                comprador.numeroTarjeta = numTarjeta;
+                comprador.fechaCaducidad = fechaCaducidad;
+                comprador.CVV = cvv;
                 ok = true;
+                unitOfWorkUsuario.UpdatedList.Push(usuario);
+                Console.WriteLine("Usuario modificado");
                 //Console.WriteLine("ok: " + ok + ", numTarjeta: " + usuario.numeroTarjeta + ", fechaCaducidad: " + usuario.fechaCaducidad + ", cvv: " + usuario.CVV);
 
             }

@@ -25,7 +25,7 @@ class Servicios{
             try{
                 var productos = fachadaLogica.GetProductosRecomendados();
                 foreach (Producto p in productos){
-                    Console.WriteLine(p.nombreproducto + " " + p.descuento);
+                    //Console.WriteLine(p.nombreproducto + " descuento: " + p.descuento);
                 }
                 devolverFrontEnd(context, productos);
             }catch (Exception ex){errorDefault(context,ex);}
@@ -665,9 +665,6 @@ class Servicios{
                 var numTarjeta = searchData["numTarjeta"].ToObject<int>();
                 var fechaCaducidad = searchData["fechaCaducidad"].ToObject<string>();
                 var cvv = searchData["cvv"].ToObject<int>();
-
-                //Console.WriteLine("idUsuarioIniciado: " + idusuario + ", numTarjeta: " + numTarjeta + ", fechaCaducidad: " + fechaCaducidad + ", cvv: " + cvv);
-
 
                 //recupero la información del usuairo por su id
                 var guay = fachadaLogica.GuardarDatosUsuario(idusuario, numTarjeta, fechaCaducidad??"0", cvv);
