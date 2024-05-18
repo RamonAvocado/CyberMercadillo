@@ -207,7 +207,7 @@ function mostrarPedidos(carritos){
         try {
             var idUser= localStorage.getItem('UsuarioID');
             console.log('ID del vendedor seleccionado:', idUser);
-            const response = await fetch(`${lugarDeEjecucion}/buscarVendedor`,{
+            const response = await fetch(`${lugarDeEjecucion}/buscarUsuario`,{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -246,7 +246,7 @@ function mostrarPedidos(carritos){
         try {
             var idUser= localStorage.getItem('UsuarioID');
             console.log('ID del vendedor seleccionado:', idUser);
-            const response = await fetch(`${lugarDeEjecucion}/buscarComprador`,{
+            const response = await fetch(`${lugarDeEjecucion}/buscarUsuario`,{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

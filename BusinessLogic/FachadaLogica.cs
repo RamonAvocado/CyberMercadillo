@@ -75,11 +75,6 @@ class FachadaLogica{
     public List<ListaDeseados> ObtenerListaDeseados(int idusuario){
         return tienda.ObtenerListaDeseados(idusuario);
     }
-
-    public Usuario ObtenerInfoUsuario(int idusuario){
-        return tienda.ObtenerInfoUsuario(idusuario);
-    }
-
     public List<CarritosDeCompra> ObtenerCarritoCompra(int idusuario){
         return tienda.ObtenerCarritoCompra(idusuario);
     }
@@ -94,11 +89,6 @@ class FachadaLogica{
     public void EliminarProductoDeListaDeseados(int idusuario, string idproducto){
         tienda.EliminarProductoDeListaDeseados(idusuario, idproducto);
     }
-
-    public FabricaDeUsuarios returnFabrica(){
-        return fabrica;
-    }
-
 
     public List<Producto> GetTodosProductosVendedor(int user){
         List<Producto> prod = tienda.GetProductosVendedor(user);
@@ -151,12 +141,16 @@ class FachadaLogica{
         return tienda.buscarUsuario(correoUsuario, contraUsuario);
     }
 
+    public Usuario buscarUsuario(int idusuario){
+        return tienda.buscarUsuario(idusuario);
+    }
+
     public List<CarritosDeCompra> CargarPedidos(int idusuario){
         return tienda.CargarPedidos(idusuario);
     }
 
-    public void borrarCuenta(int idusuario, string tipoUsuario){
-        tienda.borrarCuenta(idusuario, tipoUsuario);
+    public void borrarCuenta(int idusuario){
+        tienda.borrarCuenta(idusuario);
     }
 
     public void actualizarProducto(string precioProd,string descripcionProd, int cantProd,string idProducto, int descuento){

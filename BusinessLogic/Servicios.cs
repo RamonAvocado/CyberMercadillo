@@ -225,6 +225,19 @@ class Servicios{
                     devolverFrontEnd(context, new List<Producto>{producto});
                 }catch (Exception ex){errorDefault(context,ex);}
         });
+        app.MapPost("/buscarUsuario", async (HttpContext context, Supabase.Client client) =>
+        {
+            using var reader = new StreamReader(context.Request.Body);
+                try{
+                    var requestBody = await reader.ReadToEndAsync();
+                    var userData = JsonConvert.DeserializeObject<JObject>(requestBody);
+                    var idUserSelect = userData["idusuario"].ToObject<int>();
+                    var usuario = fachadaLogica.buscarUsuario(idUserSelect);
+
+                    if (usuario != null){devolverFrontEnd(context, new List<Usuario>{usuario});
+                    }else{devolverFrontEnd(context, new List<String>{"User no existe"});}              
+                }catch (Exception ex){errorDefault(context,ex);}
+        });
 
         app.MapPost("/buscarVendedor", async (HttpContext context, Supabase.Client client) =>
         {
@@ -646,7 +659,7 @@ class Servicios{
                 var idusuario = searchData["idusuario"].ToObject<int>();
 
                 //recupero la información del usuairo por su id
-                var info = fachadaLogica.ObtenerInfoUsuario(idusuario);
+                var info = fachadaLogica.buscarUsuario(idusuario);
 
                 var jsonResponse = new { info };
 
@@ -803,14 +816,11 @@ app.MapPost("/ActualizarVendedor", async (HttpContext context, Supabase.Client c
                             direccion ?? "direccion usuario",
                             nombreTiendaV ?? "nombre tienda",
                             telefonotienda,
-                            imgPerfil,
-                            idvendedor
+                            //CAMBIAR PONER DIRECCION DE LA FOTO DEFAULT
+                            imgPerfil ?? "imagenDefault",
+                            idvendedor ?? "0"
                         );
                         devolverFrontEnd(context, new List<Vendedor>{vendedor});
-                        /*var jsonResponse = new { mensaje = "Usuario actualizada correctamente", existe = true };
-                        context.Response.ContentType = "application/json";
-                        await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-  */
             }catch (Exception ex){errorDefault(context,ex);}
         });
 
@@ -884,17 +894,14 @@ app.MapPost("/ActualizarVendedor", async (HttpContext context, Supabase.Client c
                         contraseña ?? "xxxx",
                         direccionEnvio ?? "direccion usuario",
                         fechaCaducidad ?? "nombre tienda",
-                        direccionFacturacion,
+                        direccionFacturacion ?? "direccion",
                         NumTarjeta,
                         cvv,
-                        imgPerfil,
-                        idcomprador
+                        //CAMBIAR PONER DIRECCION DE LA FOTO DEFAULT
+                        imgPerfil ?? "imagenDefault",
+                        idcomprador ?? "0"
                     );
                     devolverFrontEnd(context, new List<Comprador>{comprador});
-                    /*var jsonResponse = new { mensaje = "Usuario actualizada correctamente", existe = true };
-                    context.Response.ContentType = "application/json";
-                    await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
-*/
         }catch (Exception ex){errorDefault(context,ex);}
     });
 
@@ -907,7 +914,7 @@ app.MapPost("/ActualizarVendedor", async (HttpContext context, Supabase.Client c
 
                 var idusuario = searchData["idusuario"].ToObject<int>();
 
-                fachadaLogica.borrarCuenta(idusuario, "Comprador");
+                fachadaLogica.borrarCuenta(idusuario);
             }catch (Exception ex){errorDefault(context,ex);}
     });
 

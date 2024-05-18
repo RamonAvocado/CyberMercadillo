@@ -25,9 +25,6 @@ public class Tienda
     //IGUAL HERNAN TE LO DEJO PORQUE LO HAS AÑADIDO TU
     public UnitOfWork<ListaDeseados> unitOfWorkListaDeseados = new UnitOfWork<ListaDeseados>();
 
-    // public UnitOfWork<Usuario> unitOfWorkUsuario(){
-    //     return unitOfWorkUsuario;
-    // }
 
     public List<Producto> Productos = new List<Producto>();
 
@@ -106,6 +103,7 @@ public class Tienda
                 carritoUsuario.idproductos += "," + idproducto;
                 carritoUsuario.cantidadProds += "," + cantProducto;
                 //RAMON AQUI HACE FALTA ACTUALIZAR EL UNITOFWORK DE CARRITO? -> como se hace?
+                //CAMBIAR
                 //unitOfWorkCarritos.UpdateItem(carritoUsuarioAntesDeMod, carritoUsuario);
 
             }
@@ -167,8 +165,7 @@ public class Tienda
             }
         }
         
-    Console.WriteLine("\nAhora hay: " + ListaDeseados.Count() + " Listas de Deseados");
-            
+    Console.WriteLine("\nAhora hay: " + ListaDeseados.Count() + " Listas de Deseados");      
     return true;
     }
 
@@ -222,24 +219,17 @@ public class Tienda
 
 //cargo los pedidos, independientemente de si han sido pagados o no
     public List<CarritosDeCompra> CargarPedidos(int idusuario){
-
         List<CarritosDeCompra> carritos = new List<CarritosDeCompra>();
-
         foreach(var carrito in CarritosDeCompra){
-            if(carrito.idusuario == idusuario){
-                carritos.Add(carrito);
-            }
+            if(carrito.idusuario == idusuario){carritos.Add(carrito);}
         }
 
         return carritos;
     }
 
     public List<CarritosDeCompra> ObtenerCarritoCompra(int idusuario){
-            
         List<CarritosDeCompra> carritoDeCompras = new List<CarritosDeCompra>();
-
         carritoDeCompras = CarritosDeCompra.Where(c => c.idusuario == idusuario && c.estado == "En espera de pago").ToList();
-
         return carritoDeCompras;
     }
 
@@ -266,29 +256,19 @@ public class Tienda
 
     public Producto buscarID(string idbuscado)
     {
-        Producto producto = new Producto
-        {
-            //por si no existe ese id
-            idproducto = -1
-        };
+                Producto producto = new Producto{idproducto = -1};
+
         //Buscar en la lista de productos de la tienda el id y devolver ese productos
         foreach (Producto prod in Productos)
             {
-                if (prod.idproducto.ToString() == idbuscado)
-                {
-                    producto = prod;
-                }
+                if (prod.idproducto.ToString() == idbuscado){producto = prod;}
             }
             return producto;
     }
 
     public Producto buscarIDTodos(string idbuscado)
     {
-        Producto producto = new Producto
-        {
-            //por si no existe ese id
-            idproducto = -1
-        };
+        Producto producto = new Producto{idproducto = -1};
         //Buscar en la lista de productos de la tienda el id y devolver ese productos
         foreach (Producto prod in Productos)
             {
@@ -302,54 +282,6 @@ public class Tienda
     }
 
 
-/* ANTIGUO ACTUALIZAR CANTIDAD
-public bool ActualizarCantidadProducto(int idusuario, int idproducto, int nuevaCantidad)
-{
-    var productoEncontrado = false;
-    foreach (Producto prod in Productos)
-    {
-        if (prod.idproducto == idproducto)
-        {
-            // Actualizar la cantidad del producto
-            prod.cantidad -= nuevaCantidad;
-            productoEncontrado = true;
-
-            //la lógica para cambiar el estado del producto en el carrito del usuario 
-            var carritoUsuario = CarritosDeCompra.FirstOrDefault(c => c.idusuario == idusuario && c.estado== "En espera de pago");
-            //ahora quiero actualizar  su respectiva cantidad, que está en la misam posición que el idprodcuto
-            
-            if (carritoUsuario != null)
-            {
-                // Encontrar la posición del producto en el carrito del usuario
-                int index = Array.IndexOf(carritoUsuario.idproductos.Split(','), idproducto.ToString());
-
-            if (index != -1)
-                {
-                    // Convertir la cantidad de productos a un array de strings
-                    string[] cantidades = carritoUsuario.cantidadProds.Split(',');
-
-                    // Actualizar la cantidad del producto en el carrito del usuario
-                    int cantidadActual = int.Parse(cantidades[index]);
-                    cantidadActual -= nuevaCantidad;
-                    cantidades[index] = cantidadActual.ToString();
-
-                    // Unir el array de cantidades en una cadena
-                    carritoUsuario.cantidadProds = string.Join(',', cantidades);
-                }
-            }
-        }
-    }
-
-    if (productoEncontrado)
-    {
-        //guardar el carrito en la base de datos y eliminar el producto actual
-        Console.WriteLine("Cantidad producto acutalizada");
-    }
-    
-    return productoEncontrado;
-}
-
-*/
 public bool ActualizarCantidadProducto(int idusuario, int idproducto, int nuevaCantidad)
 {
     var productoEncontrado = false;
@@ -479,18 +411,10 @@ public bool ActualizarCantidadProducto(int idusuario, int idproducto, int nuevaC
 
     public bool validarUnProducto(string idBuscado)
     {
-        Producto producto = new Producto
-        {
-            //por si no existe ese id
-            idproducto = -1
-        };
-
+        Producto producto = new Producto{idproducto = -1};
         foreach (Producto prod in Productos)
         {
-            if (prod.idproducto.ToString() == idBuscado)
-            {
-                producto = prod;
-            }
+            if (prod.idproducto.ToString() == idBuscado){producto = prod;}
         }
         if(producto.idproducto != -1 && producto.validado == false){
             producto.validado = true;
@@ -502,10 +426,7 @@ public bool ActualizarCantidadProducto(int idusuario, int idproducto, int nuevaC
     public List<Producto> GetProductosRecomendados(){
         List<Producto> productosRecomendados = new List<Producto>();
         foreach (Producto prod in Productos) {
-            if (prod.descuento != 0){
-                productosRecomendados.Add(prod);
-            }
-        }
+        if (prod.descuento != 0){productosRecomendados.Add(prod);}}
         productosRecomendados = productosRecomendados.OrderByDescending(p => p.descuento).ToList();
         return productosRecomendados;
     }
@@ -513,18 +434,10 @@ public bool ActualizarCantidadProducto(int idusuario, int idproducto, int nuevaC
 
     public bool validarProductoGuardado(string idBuscado)
     {
-        Producto producto = new Producto
-        {
-            //por si no existe ese id
-            idproducto = -1
-        };
-
+        Producto producto = new Producto{idproducto = -1};
         foreach (Producto prod in Productos)
         {
-            if (prod.idproducto.ToString() == idBuscado)
-            {
-                prod.guardado = false;
-            }
+            if (prod.idproducto.ToString() == idBuscado){prod.guardado = false;}
         }
         if(producto.idproducto != -1 && producto.validado == false){
             return true;
@@ -535,29 +448,20 @@ public bool ActualizarCantidadProducto(int idusuario, int idproducto, int nuevaC
     public int MayorIDProd()
     {
         int mayorID = 0;
-
         foreach (Producto prod in Productos)
         {
-            if (prod.idproducto > mayorID)
-            {
-                mayorID = prod.idproducto ?? 0;
-            }
+            if (prod.idproducto > mayorID){mayorID = prod.idproducto ?? 0;}
         }
 
         return mayorID;
     }
 
-     public int MayorIDUsuario(){
+    public int MayorIDUsuario(){
         int mayorID = 0;
-
         foreach (Usuario usu in Usuarios)
         {
-            if (usu.idusuario > mayorID)
-            {
-                mayorID = usu.idusuario;
-            }
+            if (usu.idusuario > mayorID){mayorID = usu.idusuario;}
         }
-
         return mayorID;
     }
 
@@ -574,18 +478,11 @@ public bool ActualizarCantidadProducto(int idusuario, int idproducto, int nuevaC
     public void actualizarProdGuardado(string idbuscado,string nombreProd, string precioProd, string categoriaProd,string descripcionProd,
                                                         string imgProd, int cantProd,int puntHuella,string certiH,int descuento)
     {
-        Producto producto = new Producto
-        {
-            //por si no existe ese id
-            idproducto = -1
-        };
+        Producto producto = new Producto{idproducto = -1};
         //Buscar en la lista de productos de la tienda el id y devolver ese productos
         foreach (Producto prod in Productos)
             {
-                if (prod.idproducto.ToString() == idbuscado)
-                {
-                    producto = prod;
-                }
+                if (prod.idproducto.ToString() == idbuscado){producto = prod;}
             }
         producto.nombreproducto = nombreProd;    
         producto.precio = precioProd;
@@ -601,18 +498,11 @@ public bool ActualizarCantidadProducto(int idusuario, int idproducto, int nuevaC
 
 public void actualizarProd(string idbuscado, string precioProd,string descripcionProd, int cantProd, int descuento)
     {
-        Producto producto = new Producto
-        {
-            //por si no existe ese id
-            idproducto = -1
-        };
+        Producto producto = new Producto{idproducto = -1};
         //Buscar en la lista de productos de la tienda el id y devolver ese productos
         foreach (Producto prod in Productos)
             {
-                if (prod.idproducto.ToString() == idbuscado)
-                {
-                    producto = prod;
-                }
+                if (prod.idproducto.ToString() == idbuscado){producto = prod;}
             }   
         producto.precio = precioProd;
         producto.descripcion = descripcionProd;
@@ -622,11 +512,7 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
 
     public void eliminarProductoID(string idbuscado)
     {
-        Producto producto = new Producto
-        {
-            //por si no existe ese id
-            idproducto = -1
-        };
+        Producto producto = new Producto{idproducto = -1};
         //Buscar en la lista de productos de la tienda el id y devolver ese productos
         foreach (Producto prod in Productos)
             {
@@ -639,17 +525,12 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
     }
 
     public List<Producto> GetProductosVendedor(int idVendedor)
-    {
-            
+    {     
         List<Producto> productos = new List<Producto>();
-
         //Buscar en la lista de productos de la tienda el id y devolver ese productos
         foreach (Producto prod in Productos)
             {
-                if (prod.idvendedor == idVendedor && prod.validado == true)
-                {
-                    productos.Add(prod);
-                }
+                if (prod.idvendedor == idVendedor && prod.validado == true){productos.Add(prod);}
             }
         return productos;
     }
@@ -672,9 +553,6 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
             Usuario usuarioFalso = new Tecnico(0,"Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se", "Tecnico");
             Usuario usuarioEncontrado;
 
-        foreach(Usuario u in Usuarios){
-            Console.WriteLine("u.correo: "+ u.correo + "  password: "+ u.contraseña + " tipoUsuario: "+ u.tipoUsuario);
-        }
             usuarioEncontrado = Usuarios.Find(u => u.correo == correo && u.contraseña == password) ?? usuarioFalso;
             if(usuarioEncontrado.correo == correo && usuarioEncontrado.contraseña == password){
                 UsuarioRegistrado = usuarioEncontrado;
@@ -684,24 +562,17 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
             else{return usuarioFalso;}
     }
 
-    public Usuario ObtenerInfoUsuario(int idusuario)
-    {
-            Usuario usuarioFalso = new Tecnico(0,"Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se", "Tecnico");
-            Usuario usuarioEncontrado;
+    public Usuario buscarUsuario(int idusuario){
+        Usuario usuarioFalso = new Tecnico(0,"Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se", "Tecnico");
+        Usuario usuarioEncontrado;
 
-            usuarioEncontrado = Usuarios.Find(u => u.idusuario == idusuario)?? usuarioFalso;
-            if(usuarioEncontrado.idusuario == idusuario){
-                return usuarioEncontrado;
-            }
-
-            else{return usuarioFalso;}
+        usuarioEncontrado = Usuarios.Find(u => u.idusuario == idusuario) ?? usuarioFalso;
+        return usuarioEncontrado;
     }
 
     public bool GuardarDatosUsuario(int idusuario, int numTarjeta, string fechaCaducidad, int cvv){
     var ok= false;
-    Console.WriteLine("\nidusuario buscado: " + idusuario);
         foreach(Usuario usuario in Usuarios){
-            //Console.WriteLine("usuario id de cada: " + usuario.idusuario);
             if(usuario.idusuario == idusuario){
                 var comprador = usuario as Comprador;
                 comprador.numeroTarjeta = numTarjeta;
@@ -710,8 +581,6 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
                 ok = true;
                 unitOfWorkUsuario.UpdatedList.Push(usuario);
                 Console.WriteLine("Usuario modificado\n");
-                //Console.WriteLine("ok: " + ok + ", numTarjeta: " + usuario.numeroTarjeta + ", fechaCaducidad: " + usuario.fechaCaducidad + ", cvv: " + usuario.CVV);
-
             }
         }
         return ok;
@@ -744,7 +613,6 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
             
         //guardo la búsqueda
         GuardarBusqueda(searchTerm,idBuscado);
-        //
         ProductosBus = productos;
 
         return ProductosBus;
@@ -890,36 +758,26 @@ return productos;
         //Buscar en la lista de productos de la tienda el id y devolver ese productos
         foreach (Producto prod in Productos)
             {
-                if (prod.idvendedor == idVendedor && prod.guardado == true)
-                {
-                    productos.Add(prod);
-                }
+                if (prod.idvendedor == idVendedor && prod.guardado == true){productos.Add(prod);}
             }
         return productos;
     }
 
     public List<Producto> GetProductosAValidarTecnico(int idTecnico){
             
-            List<Producto> productos = new List<Producto>();
+        List<Producto> productos = new List<Producto>();
 
         //Buscar en la lista de productos de la tienda el id y devolver ese productos
         foreach (Producto prod in Productos)
             {
-                if (prod.idtecnico == idTecnico && prod.validado == false)
-                {
-                    productos.Add(prod);
-                }
+                if (prod.idtecnico == idTecnico && prod.validado == false){productos.Add(prod);}
             }
         return productos;
     }
 
     public bool asignarPro(string idbuscado,int idusu)
     {
-        Producto producto = new Producto
-        {
-            //por si no existe ese id
-            idproducto = -1
-        };
+        Producto producto = new Producto{idproducto = -1};
         //Buscar en la lista de productos de la tienda el id y devolver ese productos
         foreach (Producto prod in Productos)
             {
@@ -938,11 +796,7 @@ return productos;
 
     public bool desasignarPro(string idbuscado)
     {
-        Producto producto = new Producto
-        {
-            //por si no existe ese id
-            idproducto = -1
-        };
+        Producto producto = new Producto{idproducto = -1};
         //Buscar en la lista de productos de la tienda el id y devolver ese productos
         foreach (Producto prod in Productos)
             {
@@ -958,10 +812,9 @@ return productos;
             return false; 
     } 
 
-    public void borrarCuenta(int idusuario, string tipoUsuario){
+    public void borrarCuenta(int idusuario){
         Usuario usuarioFalso = new Comprador(0,"Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se",1 , "Tecnico", 1, "Yo que se", "Yo que se");
         Usuario usuarioEncontrado = Usuarios.Find(x => x.idusuario == idusuario) ?? usuarioFalso;
-        Console.WriteLine(usuarioEncontrado.correo);
         Usuarios.Remove(usuarioEncontrado);
         unitOfWorkUsuario.DeletedList.Push(usuarioEncontrado);
     }
@@ -975,6 +828,8 @@ return productos;
             }
     }
 
+    //VANESA HE HECHO LA FUNCION BUSCARUSUARIO(IDUSUARIO), CREO QUE FUNCIONA IGUAL, COMPRUEBA QUE ES VERDAD
+    //Y BORRA LO DE BUSCARUSERVENDEDOR Y BUSCARUSERCOMPRADOR
     public Vendedor buscarUserVendedor(string idbuscado){
         var usuarioEncontrado = Usuarios.Find(u => u.idusuario.ToString() == idbuscado);
         if (usuarioEncontrado != null) {
