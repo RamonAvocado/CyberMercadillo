@@ -335,9 +335,7 @@ function irAPagianVendedor() {
 //INICIO METODOS CARGA/MUESTRA PRODUCTOS
 
 async function InicializarProductos() {
-    try {
-        console.log("Entra funcion InicializarProductos");
-        
+    try {        
         const response = await fetch(`${lugarDeEjecucion}/inicializar`);
     
         if (response.ok) {
@@ -365,7 +363,7 @@ async function CargarProductosRecomendados(){
             const totalPaginas = Math.ceil(productos.length / productosPorPagina);
 
             // Mostrar los productos de la primera página en la interfaz de usuario
-            mostrarProductosRecomendados(productos, "Todas las categorias", productosPorPagina);
+            mostrarProductosRecomendados(productos.slice(0, productosPorPagina));
             // Generar enlaces de paginación
             generarEnlacesPaginacionRec(totalPaginas);
         } else {
@@ -388,7 +386,8 @@ async function cargarProductosPorPaginaRec(numeroPagina) {
             const fin = numeroPagina * productosPorPagina;
             const productosPagina = productos.slice(inicio, fin);
 
-            mostrarProductosRecomendados(productos, "Todas las categorias", productosPorPagina);
+            mostrarProductosRecomendados(productos.slice(0, productosPorPagina));
+
         } else {
             console.error('Error en la solicitud al backend:', response.statusText);
         }
@@ -453,28 +452,25 @@ async function cargarProductosPorPaginaDest(numeroPagina) {
     }
 }
 
-function mostrarProductosRecomendados(productos, categoria, cantidad) {
-    var cant = 0;
+function mostrarProductosRecomendados(productos) {
     const container = document.querySelector('.recommended-products');
     container.innerHTML = '';
-    console.log("HAY TANTOS PRODUCTOS : " + productos.length);
-    console.log("CATEGORIA PRODUCTO SELEC : " + cantidad);
+    console.log("HAY: " + productos.length + " PRODUCTOS con descuento");
+
     // Itera sobre los productos y crea elementos para mostrarlos
     productos.forEach((producto) => {
-        if(cant < cantidad && producto.idproducto != localStorage.getItem("itemID")){
             const productCard = document.createElement('div');
-            productCard.classList.add('recommended-products');
+            productCard.classList.add('product-card');
             //imagenes de cada producto
             const imagenes = producto.imagenes.split(' ');
             const primeraImagen = imagenes[0];
-            cant++;
-
+            
             // Agrega la imagen, nombre y precio del producto dentro de un enlace       
             productCard.innerHTML = `
                 <button class="favorite-btn"></button>
                 <img src="${primeraImagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
                 <h3>${truncate(producto.nombreproducto)}</h3>
-                <p class="descuento"> - ${producto.descuento} %</p>
+                <p class="descuento"> Descuento del ${producto.descuento} %</p>
                 <p class="price">${producto.precio} €</p>
                 <p class="description">${truncate(producto.descripcion)}</p>
                 <div hidden>
@@ -511,7 +507,6 @@ function mostrarProductosRecomendados(productos, categoria, cantidad) {
             });
 
             container.appendChild(productCard);
-            }
     });
 }
 
@@ -535,9 +530,37 @@ function generarEnlacesPaginacionRec(totalPaginas) {
         });
     }
 }
+
+//Relacionados DE un PRODUCTOS DENTRO DE INFO DE UN PRODUCTO
 /*
-function generarEnlacesPaginacion(totalPaginas,idUsuarioIniciado) {
-    const paginasContainer = document.getElementById('paginas');
+async function CargarProductosRelacionados(){
+    try {
+        var categoria = localStorage.getItem('categoria')
+        console.log("CATEGORIA PRODUCTO SELEC : " + categoria);
+
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosDestacados`);
+    
+        if (response.ok) {
+            const data = await response.json();
+            const productos = data.objeto;
+            
+            const productosPorPagina = 6;
+            const totalPaginas = Math.ceil(productos.length / productosPorPagina);
+
+            // Mostrar los productos de la primera página en la interfaz de usuario
+            mostrarProductosRelacionados(productos.slice(0, productosPorPagina), categoria);
+            // Generar enlaces de paginación
+            //generarEnlacesPaginacionRel(totalPaginas);
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+function generarEnlacesPaginacionRel(totalPaginas) {
+    const paginasContainer = document.getElementById('paginasRec');
     paginasContainer.innerHTML = ''; // Limpiar los enlaces de paginación antes de generarlos nuevamente
 
     for (let i = 1; i <= totalPaginas; i++) {
@@ -552,11 +575,95 @@ function generarEnlacesPaginacion(totalPaginas,idUsuarioIniciado) {
         // Agregar event listener para cargar los productos de la página seleccionada
         enlace.addEventListener('click', async function(event) {
             event.preventDefault();
-            await cargarProductosPorPagina(i,idUsuarioIniciado);
+            await cargarProductosPorPaginaRel(i);
         });
     }
 }
+
+async function cargarProductosPorPaginaRel(numeroPagina) {
+    const productosPorPagina = 6;
+    try {
+        var categoria = localStorage.getItem('categoria')
+        console.log("CATEGORIA PRODUCTO SELEC : " + categoria);
+
+        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosDestacados`);
+    
+        if (response.ok) {
+            const data = await response.json();
+            const productos = data.objeto;
+                        
+            mostrarProductosRelacionados(productos.slice(numeroPagina, productosPorPagina), categoria);
+
+        } else {
+            console.error('Error en la solicitud al backend:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
+    }
+}
+
+async function mostrarProductosRelacionados(productos, category){
+    const container = document.querySelector('.recommended-products');
+    container.innerHTML = '';
+
+    // Itera sobre los productos y crea elementos para mostrarlos
+    productos.forEach((producto) => {
+        var idProductoSeleccionado = localStorage.getItem('itemID');
+        if(producto.categoria == category && producto.idproducto!= idProductoSeleccionado){
+            const productCard = document.createElement('div');
+            productCard.classList.add('product-card');
+            //imagenes de cada producto
+            const imagenes = producto.imagenes.split(' ');
+            const primeraImagen = imagenes[0];
+            
+            // Agrega la imagen, nombre y precio del producto dentro de un enlace       
+            productCard.innerHTML = `
+                <button class="favorite-btn"></button>
+                <img src="${primeraImagen}" alt="${producto.nombreproducto}"  style="width: 200px; height: 240px;">
+                <h3>${truncate(producto.nombreproducto)}</h3>
+                <p class="price">${producto.precio} €</p>
+                <p class="description">${truncate(producto.descripcion)}</p>
+                <div hidden>
+                    <div id="CategoriaSelec" data-info="${producto.categoria}"> </div>
+                    <div id="idProducto" data-info="${producto.idproducto}"> </div>
+                    <div id="categoriaProducto" data-info="${producto.categoria}"> </div>
+                    <p> Puntuación de Huella Ecológica:  ${producto.puntuacionEco}</p style="font-size: 18px;">
+                </div>
+            `;
+
+            // Agregar evento de clic para seleccionar el producto
+            productCard.addEventListener('click', (event) => {
+                seleccionarProducto(event.currentTarget);
+            });
+
+            // Agregar evento de doble clic para ir a la página de información del producto
+            productCard.addEventListener('dblclick', (event) => {
+                irAInfoProducto(event.currentTarget);
+            });
+            productCard.addEventListener('dblclick', (event) => {
+                irAInfoProducto(event.currentTarget);
+            });
+            const favoriteBtn = productCard.querySelector('.favorite-btn');
+            favoriteBtn.addEventListener('click', function() {
+                idUsuarioIniciado = localStorage.getItem('UsuarioID');
+                idProductoSeleccionado = localStorage.getItem('itemID');
+    
+                idUsuarioIniciado= parseInt(idUsuarioIniciado);
+                idProductoSeleccionado= parseInt(idProductoSeleccionado);
+    
+            AñadirListaDeseos(idUsuarioIniciado, idProductoSeleccionado);
+                
+                
+            });
+
+            container.appendChild(productCard);
+        }
+    });
+}
+
 */
+
+//productos destacados
 
 async function CargarProductosDestacados() {
     try {
@@ -629,16 +736,14 @@ function mostrarProductosDestacados(productos) {
         productCard.addEventListener('dblclick', (event) => {
             irAInfoProducto(event.currentTarget);
         });
-        productCard.addEventListener('dblclick', (event) => {
-            irAInfoProducto(event.currentTarget);
-        });
+
         const favoriteBtn = productCard.querySelector('.favorite-btn');
         favoriteBtn.addEventListener('click', function() {
             idUsuarioIniciado = localStorage.getItem('UsuarioID');
-            idProductoSeleccionado = localStorage.getItem('itemID');
-
+            //idProductoSeleccionado = localStorage.getItem('itemID');
+            console.log("idProductoSeleccionado: " + producto.idproducto);
             idUsuarioIniciado= parseInt(idUsuarioIniciado);
-            idProductoSeleccionado= parseInt(idProductoSeleccionado);
+            idProductoSeleccionado= parseInt(producto.idproducto);
 
         AñadirListaDeseos(idUsuarioIniciado, idProductoSeleccionado);
             

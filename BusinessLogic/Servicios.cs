@@ -19,6 +19,7 @@ class Servicios{
             }catch (Exception ex){errorDefault(context,ex);}
         });
 
+
         // Obtinene los 6 primeros productos, ya que no hay productos destacados
         app.MapGet("/ObtenerProductosRecomendados",(HttpContext context, Supabase.Client client) =>
         {
@@ -545,6 +546,7 @@ class Servicios{
 
                 var idBuscado = searchData["idusuario"].ToObject<int>();
                 var idproducto = searchData["idproducto"].ToObject<string>();
+                Console.WriteLine("idBuscado: " + idBuscado + ", idproducto: " + idproducto);
                 //recupero los productos con esta categoría
                 var recupero = fachadaLogica.AñadirADeseos(idBuscado, idproducto??"1");
 

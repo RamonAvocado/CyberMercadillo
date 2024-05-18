@@ -11,7 +11,8 @@ namespace CyberMercadillo.Entities
 {       
     public partial class ListaDeseados{
         public ListaDeseados(){}
-        public ListaDeseados(int usuarioCompr, string idsprod) {
+        public ListaDeseados(int listid, int usuarioCompr, string idsprod) {
+            idlistdes = listid;
             idusuario = usuarioCompr;
             idproductos = idsprod;
         }

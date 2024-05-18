@@ -78,37 +78,12 @@ public class Tienda
 
     public void Pregunta()
     {
-            Console.WriteLine("Hay " + Busquedas.Count + " busquedas ");
+            Console.WriteLine("\nHay " + Busquedas.Count + " busquedas ");
             Console.WriteLine("Hay " + Productos.Count + " productos ");
             Console.WriteLine("Hay " + Usuarios.Count + " Usuarios ");
-            Console.WriteLine("Hay " + CarritosDeCompra.Count + " CarritoDeCompras ");
+            Console.WriteLine("Hay " + CarritosDeCompra.Count + " CarritoDeCompras");
+            Console.WriteLine("Hay " + ListaDeseados.Count + " ListaDeseados");
             
-    }
-
-
-    public void CrearCarrito(int idusuario){
-        CarritosDeCompra carrito = new CarritosDeCompra
-        {
-            idusuario = idusuario,
-            estado = "En espera de pago"
-        };
- 
-        Console.WriteLine("Se ha creado un carrito de compra ");
-        Console.WriteLine("Ahora hay: " + CarritosDeCompra.Count() + " CarritoDeCompras");
-        CarritosDeCompra.Add(carrito);
-    }
-    
-    public void CrearListaDeseados(int idusuario){
-        ListaDeseados lisDes = new ListaDeseados
-        {
-            idusuario = idusuario,
-            //jordi echale un ojo a esto
-            //estado = "En espera de pago"
-        };
- 
-        Console.WriteLine("Se ha creado una lista de deseado ");
-        Console.WriteLine("Ahora hay: " + ListaDeseados.Count() + " CarritoDeCompras");
-        ListaDeseados.Add(lisDes);
     }
 
     public bool AñadirAlCarritoCompra(int idusuario, string idproducto, string cantProducto)
@@ -152,7 +127,7 @@ public class Tienda
             }
         }
         
-    Console.WriteLine("Ahora hay: " + CarritosDeCompra.Count() + " Productos en CarritoDeCompras");
+    Console.WriteLine("Ahora hay: " + CarritosDeCompra.Count() + " CarritoDeCompras");
             
     return true;
     }
@@ -171,6 +146,8 @@ public class Tienda
             if (listaUser != null)
             {
                 listaUser.idproductos += "," + idproducto;
+                Console.WriteLine("Se ha añadido un producto a la Lista de Deseados");
+                unitOfWorkListaDeseados.UpdatedList.Push(listaUser);
             }
             else // Si el usuario no tiene lista, la crea
             {
@@ -180,6 +157,7 @@ public class Tienda
                     idproductos = idproducto
                 };
 
+                unitOfWorkListaDeseados.AddedList.Push(listaDeseados);
                 Console.WriteLine("Se ha creado una lista de deseados ");
                 Console.WriteLine("Ahora hay: " + ListaDeseados.Count() + " Lista de Deseados");
 
@@ -189,12 +167,11 @@ public class Tienda
             }
         }
         
-    Console.WriteLine("Ahora hay: " + ListaDeseados.Count() + " Productos en Lista de Deseados");
+    Console.WriteLine("\nAhora hay: " + ListaDeseados.Count() + " Listas de Deseados");
             
     return true;
     }
 
-//AñadirADeseos
     public bool TramitarPedido(int idusuario)
     {
         var hecho = false;
@@ -221,14 +198,23 @@ public class Tienda
                         if (int.TryParse(cantidadesCarrito[i], out int cantidad))
                         {
                             productoEnLista.cantidad -= cantidad;
-                            Console.WriteLine("Ahora hay " + productoEnLista.cantidad + " unidades de " + productoEnLista.nombreproducto);
-                            unitOfWorkProducto.UpdatedList.Push(productoEnLista);
-                            unitOfWorkCarritos.AddedList.Push(carritoUsuario);
+                            Console.WriteLine("\nAhora hay " + productoEnLista.cantidad + " unidades de " + productoEnLista.nombreproducto);
+                            if(productoEnLista.cantidad == 0){
+                            Console.WriteLine("El producto " + productoEnLista.nombreproducto + " se eliminará en BDD porque hay: "+ productoEnLista.cantidad +" unidades");
+                                Productos.Remove(productoEnLista);
+                                unitOfWorkProducto.DeletedList.Push(productoEnLista);
+                            }
+                            else
+                            {
+                                unitOfWorkProducto.UpdatedList.Push(productoEnLista);
+                            }
                         }
                     }
                 }
             }
-            hecho = true;
+        //guardar el carrito siempre
+        unitOfWorkCarritos.AddedList.Push(carritoUsuario);
+        hecho = true;
         }
         return hecho;
     }
@@ -470,11 +456,14 @@ public bool ActualizarCantidadProducto(int idusuario, int idproducto, int nuevaC
                 if (productos.Count == 0)
                 {
                     ListaDeseados.Remove(listaUser);
+                    unitOfWorkListaDeseados.DeletedList.Push(listaUser);
                     Console.WriteLine("Lista de Deseados eliminada");
                 }
                 else
                 {
                     Console.WriteLine("Producto eliminado de la Lista de Deseados");
+                    unitOfWorkListaDeseados.UpdatedList.Push(listaUser);
+
                 }
             }
             else
@@ -710,7 +699,7 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
 
     public bool GuardarDatosUsuario(int idusuario, int numTarjeta, string fechaCaducidad, int cvv){
     var ok= false;
-    Console.WriteLine("idusuario buscado: " + idusuario);
+    Console.WriteLine("\nidusuario buscado: " + idusuario);
         foreach(Usuario usuario in Usuarios){
             //Console.WriteLine("usuario id de cada: " + usuario.idusuario);
             if(usuario.idusuario == idusuario){
@@ -720,7 +709,7 @@ public void actualizarProd(string idbuscado, string precioProd,string descripcio
                 comprador.CVV = cvv;
                 ok = true;
                 unitOfWorkUsuario.UpdatedList.Push(usuario);
-                Console.WriteLine("Usuario modificado");
+                Console.WriteLine("Usuario modificado\n");
                 //Console.WriteLine("ok: " + ok + ", numTarjeta: " + usuario.numeroTarjeta + ", fechaCaducidad: " + usuario.fechaCaducidad + ", cvv: " + usuario.CVV);
 
             }

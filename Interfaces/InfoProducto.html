@@ -81,6 +81,7 @@
 
     <div class = "texto-titulo">
         <h2>Más Información</h2>
+        
     </div>
     
         <div class="recommended-products-container">
@@ -89,6 +90,9 @@
                 <div class="recommended-products">
                     <!-- Aquí se mostrarán los productos recomendados -->
                 </div>
+                <div class="num-pagina">
+                    <ul id="paginasRec"></ul>
+                </div>  
                 <div class="comentarios-container">
                     <h2>Comentarios</h2>
                     <!-- Aquí se mostrarán los comentarios -->
@@ -140,7 +144,7 @@
         //CargaUnProducto(localStorage.getItem('UsuarioID'));
     </script>
     <script>
-        window.addEventListener('DOMContentLoaded', CargarProductosRecomendadosInfoProd);  
+        window.addEventListener('DOMContentLoaded', CargarProductosRecomendados);  
     </script>
     <script>
         // Llamar a la función para agregar el enlace de Iniciar Sesión o Cerrar Sesión

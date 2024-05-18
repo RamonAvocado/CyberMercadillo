@@ -12,10 +12,13 @@ namespace CyberMercadillo.Entities
     [Table("CarritosDeCompra")]
     public partial class CarritosDeCompra : BaseModel
     {
-        [PrimaryKey("idusuario", false)]
+        [PrimaryKey("idcarrito", false)]
+        public int? idcarrito { get; set; }
+        
+        [Column("idusuario")]
         public int idusuario { get; set; }
 
-        [PrimaryKey("idproductos", false)]
+        [Column("idproductos")]
         public string idproductos { get; set; }
 
         [Column("cantidadProds")]

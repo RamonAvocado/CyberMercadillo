@@ -147,43 +147,21 @@ class FachadaDBB{
         }
 
         //busquedas nuevas (solo tiene busquedas nuevas)
-        /*var busquedas = tienda.unitOfWorkBusqueda.AddedList;
+        var busquedas = tienda.unitOfWorkBusqueda.AddedList;
         while (busquedas.Count > 0)
         {
             var b = busquedas.Pop();
             Console.WriteLine("Busqueda nueva: " + b.texto);
             await supabase.From<Busqueda>().Insert(b);
-        }*/
+        } 
 
         //carritos nuevos
         var carritos = tienda.unitOfWorkCarritos.AddedList;
         while (carritos.Count > 0)
         {
             var c = carritos.Pop();
-            
-            Console.WriteLine($"Debug: Procesando carrito con idusuario: {c.idusuario}, idproductos: {c.idproductos}, estado: {c.estado}, cantidadProds: {c.cantidadProds}, fecha: {c.fecha}");
-
-            if (c.idusuario == null)
-            {
-                Console.WriteLine("Error: idusuario es nulo antes de la inserción");
-                continue;
-            }
-
-            var nuevoCarrito = new CarritosDeCompra {
-                idusuario = c.idusuario, // Asegúrate de que este valor no sea nulo
-                idproductos = c.idproductos.ToString(), 
-                estado = c.estado,
-                cantidadProds = c.cantidadProds.ToString(), 
-                fecha = c.fecha,
-            };            
-            try
-            {
-                await supabase.From<CarritosDeCompra>().Insert(nuevoCarrito);
-            }
-            catch (PostgrestException ex)
-            {
-                Console.WriteLine("Failed to insert carrito: " + ex.Message);
-            }
+            Console.WriteLine("Carrito nuevo: " + c.idproductos);
+            await supabase.From<CarritosDeCompra>().Insert(c);
         }
 
 
@@ -192,49 +170,31 @@ class FachadaDBB{
         while (lisDes.Count > 0)
         {
             var lis = lisDes.Pop();
-            Console.WriteLine("Carrito modificado: " + lis.idproductos);
+            Console.WriteLine("Lista nueva: " + lis.idproductos);
             await supabase.From<ListaDeseados>().Insert(lis);
         }
 
-        Console.WriteLine("Ha actualizado las tablas");
+        //Lista deseados actualizada
+        lisDes = tienda.unitOfWorkListaDeseados.UpdatedList;
+        while (lisDes.Count > 0)
+        {
+            var lis = lisDes.Pop();
+            Console.WriteLine("Lista modif: " + lis.idproductos);
+            await supabase.From<ListaDeseados>().Update(lis);
+        }
+
+        //Lista deseados eliminada
+        /*lisDes = tienda.unitOfWorkListaDeseados.DeletedList;
+        while (lisDes.Count > 0)
+        {
+            var lis = lisDes.Pop();
+            Console.WriteLine("Lista eliminada: " + lis.idlistdes);
+            await supabase.From<ListaDeseados>().Delete(lis);
+        }*/
+
+        Console.WriteLine("\nHa actualizado las tablas");
     });
 
-    //Este metodo guarda el carrito de compra en la base de datos para no guardar todo, que es peligroso
-    //cambiar el estado
-/*
-    app.MapGet("/GuardarCarritoBDD", async (HttpContext context, Supabase.Client supabase) =>
-    { 
-        //tengo que coger el carrito cuando lo haya actualizado
-        var Carrito = tienda.CarritoDeCompras;
-        
-        if(Carrito.Count == 0){
-            Console.WriteLine("nada, no hay productos en el carrito");
-        }
-        else
-        {
-            // Insertar los nuevos registros del carrito de compra
-            foreach(var prod in tienda.CarritoDeCompras)
-            {//cambiar el estado
-                Console.WriteLine("Id ususario: " + prod.idusuario + ", id producto: " + prod.idproducto + ", cantidad: " + prod.cantidad + ", estado: " + prod.estado);
-
-                // Eliminar todos los registros del carrito de compra asociados al usuario, para actualizarlo
-                await supabase.From<CarritoDeCompra>().Where(x => x.idusuario == prod.idusuario).Delete();
-                //Console.WriteLine(producto);
-
-                    CarritoDeCompra producto = new CarritoDeCompra {
-                    idusuario = prod.idusuario,
-                    idproducto = prod.idproducto,
-                    cantidad = prod.cantidad,
-                    //cambiar el estado
-                    //estado = prod.estado,
-                    };
-
-                await supabase.From<CarritoDeCompra>().Insert(producto);
-            }
-
-            Console.WriteLine("Ha actualizado el carrito de compra en la base de datos");
-        }
-    });*/
 
     app.Run();
     }

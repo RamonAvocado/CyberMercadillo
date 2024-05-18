@@ -525,6 +525,8 @@ async function añadirCarritoCompra(idusuario, idproducto, cantProducto){
 
 async function AñadirListaDeseos(idusuario, idproducto){
 
+    console.log("idusuario: " + idusuario + ", idproducto: " + idproducto);
+
     var requestBody = {
         idusuario: idusuario,
         idproducto: idproducto,
@@ -1175,30 +1177,6 @@ function mostrarUnProductoBasico(respuesta) {
     productCard.dataset.productId = producto.idproducto;
 }
 
-//RECOMENDACION DE PRODUCTOS DENTRO DE INFO DE UN PRODUCTO
-//PODRIA IR EN GENERAL+++++
-/*
-async function CargarProductosRecomendadosInfoProd(){
-    try {
-        // Realizar una solicitud GET al backend para obtener los 6 primeros productos
-        const response = await fetch(`${lugarDeEjecucion}/ObtenerProductosRecomendados`);
-        if (response.ok) {
-            const data = await response.json();
-            const productos = data.objeto;
-
-            const productosPorPagina = 8;
-            const totalPaginas = Math.ceil(productos.length / productosPorPagina);
-
-            // Mostrar los productos de la primera página en la interfaz de usuario
-            mostrarProductosRecomendados(productos, localStorage.getItem('categoria'), productosPorPagina);
-        } else {
-            console.error('Error en la solicitud al backend:', response.statusText);
-        }
-    } catch (error) {
-        console.error('Error inesperado:', error);
-    }
-}
-*/
 
 function handleFileSelect(event) {
     const fileInput = event.target;

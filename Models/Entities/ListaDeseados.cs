@@ -12,10 +12,13 @@ namespace CyberMercadillo.Entities
     [Table("ListaDeseados")]
     public partial class ListaDeseados : BaseModel
     {
-        [PrimaryKey("idusuario", false)]
+        [PrimaryKey("idlistdes", false)]
+        public int idlistdes { get; set; }
+
+        [Column ("idusuario")]
         public int idusuario { get; set; }
 
-        [PrimaryKey("idproductos", false)]
+        [Column ("idproductos")]
         public string idproductos { get; set; }
     }
 

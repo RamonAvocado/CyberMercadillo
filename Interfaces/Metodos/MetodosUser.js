@@ -103,8 +103,8 @@ async function agregarCerrarSesion() {
         }else if(tipoUsuarioLogueado == "tecnico"){
             sesionSUserLink.innerHTML = '<a onclick="irAPagianValidaciones()">Validaciones</a>';
         }else{ 
-            sesionSUserLink.innerHTML += '<a href="./ListaDeseados.html">Lista Deseados</a>';
             sesionSUserLink.innerHTML += '<a href="./CarritoDeCompra.html">Carrito De Compra</a>';
+            sesionSUserLink.innerHTML += '<a href="./ListaDeseados.html">Lista Deseados</a>';
             sesionSUserLink.innerHTML += '<a href="./MisPedidos.html">Mis pedidos</a>';
             sesionSUserLink.innerHTML += '<a href="./InterfazComprador.html">Mi Cuenta</a>';
         }      
