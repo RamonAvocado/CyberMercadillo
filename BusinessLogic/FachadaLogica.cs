@@ -96,8 +96,6 @@ class FachadaLogica{
     }
 
     public List<Producto> GetProductosVendedorGuardados(int user){
-        //Vendedor seller = tienda.Vendedores.FirstOrDefault(v => v.idusuario == user);
-        //return seller.GetProductosVendedorG();
         List<Producto> prod = tienda.GetProductosVendedorG(user);
         return prod;
     }

@@ -374,6 +374,13 @@ footer a {
     margin: 5px 0;
 }
 
+.product-card .descuento {
+    color: red;
+    font-size: 28px;
+    font-weight: bold;
+    transform: translateY(-150px) rotate(-35deg);
+}
+
 
 
 .product-buttons {
@@ -639,10 +646,4 @@ select {
     justify-content: space-between; /* Separa los elementos con el espacio disponible */
     margin-left: 50px; /* Añade margen a la izquierda */
     margin-right: 100px; /* Añade margen a la derecha */
-}
-
-/*RAMON*/
-.descuento {
-    color: blue; /* Cambiar el color del texto a azul */
-    font-size: 40px; /* Cambiar el tamaño de la fuente a 16px */
 }

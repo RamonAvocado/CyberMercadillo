@@ -134,15 +134,6 @@ class FachadaDBB{
         //Lista deseados actualizada
         lisDes = tienda.unitOfWorkListaDeseados.UpdatedList;
         while (lisDes.Count > 0){var lis = lisDes.Pop();await supabase.From<ListaDeseados>().Update(lis);}
-
-        //Lista deseados eliminada
-        /*lisDes = tienda.unitOfWorkListaDeseados.DeletedList;
-        while (lisDes.Count > 0)
-        {
-            var lis = lisDes.Pop();
-            await supabase.From<ListaDeseados>().Delete(lis);
-        }*/
-
         Console.WriteLine("\nHa actualizado las tablas");
     });
 
