@@ -12,66 +12,25 @@ using Microsoft.AspNetCore.SignalR;
 
 public class Tienda
 {
-    //PRODUCTO TODO AÑADIDO
     public UnitOfWork<Producto> unitOfWorkProducto = new UnitOfWork<Producto>();
-    //BUSQUEDA SOLO SE AÑADEN COSAS, NO NOS HAN PEDIDO QUE PUEDAS BORRAR EL HISTORIAL
     public UnitOfWork<Busqueda> unitOfWorkBusqueda = new UnitOfWork<Busqueda>();
-    //HERNAN, TE LO DEJO A TI PORQUE HAS HECHO LOS CARRITOS, SI NO TE ACLARAS AVISA
     public UnitOfWork<CarritosDeCompra> unitOfWorkCarritos = new UnitOfWork<CarritosDeCompra>();
-
-    //AÑADIDO UNITOFWORK DE USUARIOS AÑADIDOS Y BORRADOS, AMBOS FUNCIONALES
     public UnitOfWork<Usuario> unitOfWorkUsuario = new UnitOfWork<Usuario>();
-
-    //IGUAL HERNAN TE LO DEJO PORQUE LO HAS AÑADIDO TU
     public UnitOfWork<ListaDeseados> unitOfWorkListaDeseados = new UnitOfWork<ListaDeseados>();
 
 
     public List<Producto> Productos = new List<Producto>();
 
-
     //esto son los productos de la búsqueda, para aplicar filtros sobre ellos
     //DEJARLO PARA EL FINAL
     public List<Producto> ProductosBus = new List<Producto>();
-
     public List<Busqueda> Busquedas = new List<Busqueda>();
-
-    //public List<Comprador> Compradores = new List<Comprador>();
-
-    //public List<Vendedor> Vendedores = new List<Vendedor>();
-
-    //public List<Tecnico> Tecnicos = new List<Tecnico>();
-
-    
-    private List<Usuario> usuarios = new List<Usuario>();
-    public List<Usuario> Usuarios
-    {
-        get { return usuarios; }
-        private set { usuarios = value; }
-    }
-
-    private List<CarritosDeCompra> carritos = new List<CarritosDeCompra>();
-
-    public List<CarritosDeCompra> CarritosDeCompra
-    {
-        get { return carritos; }
-        private set { carritos = value; }
-    }
-
-    private List<ListaDeseados> listaDes = new List<ListaDeseados>();
-
-    public List<ListaDeseados> ListaDeseados
-    {
-        get { return listaDes; }
-        private set { listaDes = value; }
-    } 
+    public List<Usuario> Usuarios = new List<Usuario>();
+    public List<CarritosDeCompra> CarritosDeCompra = new List<CarritosDeCompra>();
+    public List<ListaDeseados> ListaDeseados = new List<ListaDeseados>();
 
 
-    private Usuario usuarioRegistrado = new Comprador(0,"x", 1, "x", "x", "x", 1, "x", 1, "x","x");
-    public Usuario UsuarioRegistrado
-    {
-        get { return usuarioRegistrado;}
-        private set { usuarioRegistrado = value; }
-    }
+    public Usuario UsuarioRegistrado = new Comprador(0,"x", 1, "x", "x", "x", 1, "x", 1, "x","x");
 
     public void Pregunta()
     {
