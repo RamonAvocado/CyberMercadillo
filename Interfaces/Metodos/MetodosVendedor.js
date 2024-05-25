@@ -538,15 +538,15 @@ async function mostrarProdGuardado(idProductoSeleccionado) {
             var tipoUsuarioLogueado = localStorage.getItem('tipoUserID');
             var botonValidar = document.getElementById('ValidarProdGua');
             var descuento = document.getElementById('descuento');
-            var textDescuento = document.getElementById('textDescuento');
+            //var textDescuento = document.getElementById('textDescuento');
             var input = document.getElementById("nuevo-url-imagen");
             input.style.visibility = "hidden";
             // Verificar si el botón existe
             if (botonValidar && tipoUsuarioLogueado == "tecnico") {
                 // Ocultar el botón estableciendo su propiedad de visualización en "none"
                 botonValidar.style.display = "none";
-                descuento.style.display = "none";
-                textDescuento.style.display = "none";
+                //descuento.style.display = "none";
+                //textDescuento.style.display = "none";
             }
             
                 const container = document.querySelector('.recommended-products');
