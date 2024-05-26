@@ -1,94 +1,9 @@
-/* Estilos generales */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f7f7f7;
-}
-
-/* Estilos para el encabezado */
-header {
-    background-color: #6a0572;
-    color: #ffffff;
-    padding: 10px 20px;
-    text-align: center;
-}
-
-header h1 {
-    font-size: 24px;
-    margin: 0;
-}
-
-
-.img-logo img {
-    width: 180px; /* Ajusta el tamaño del logo según tus necesidades */
-}
-
-
-/*Logo, texto y buscador*/
-.parte-superior {
-    display: flex;
-    align-items: center;
-}
-
-.parte-superior h1 {
-    font-size: 20px;
-    margin-right: 20px;
-    text-align: left;
-}
-
-.barra-busqueda{
-    width: 110%; /* Hacemos que los elementos ocupen todo el ancho disponible */
-}
-
-/* Estilos para el botón de búsqueda */
-.barra-busqueda button {
-    cursor: pointer;
-    margin-left: 20px; /* Espacio entre los elementos */
-    margin-right: 10px; /* Espacio entre los elementos */
-    width: 90%; /* Hacemos que los elementos ocupen todo el ancho disponible */
-}
-/* Estilos para el botón de búsqueda */
-.barra-busqueda button {
-    background-color: #8a2f91;
-    color: #ffffff;
-    border: none;
-    border-radius: 5px; /* Borde redondeado */
-    font-size: 20px; /* Tamaño de fuente */
-    padding: 8px 15px;
-    cursor: pointer;
-    margin-left: 20px; /* Espacio entre los elementos */
-    margin-right: 10px; /* Espacio entre los elementos */
-    max-width: 470%; /* Hacemos que los elementos ocupen todo el ancho disponible */
-}
-
-.grupo-nav-list{
-    background-color: #d9d9d9;
-    padding: 1px;
-    text-align: center;
-}
-/* Estilos para la lista de navegación */
-.nav-list {
-    list-style: none;
-    display: flex;
-    gap: 20px; /* Espacio entre los elementos de la lista */
-}
-
-.nav-list li {
-    margin: 0;
-}
-
-.nav-list a {
-    color: #0e4c82;
-    text-decoration: none;
-    margin: 0 10px;
-}
-
 .texto-titulo{
     margin-left: 50px;
 }
 
-/* Sección de productos destacados */
+/* RECICLADO DE PRODUCTOS DESTACADOS PQ VALE IGUAL */
+
 .deseados-products-container {
     padding: 10px;
     border: 1px solid #1f0404;
@@ -100,93 +15,6 @@ header h1 {
     background-color: #D9D9D9;
     text-align: center; /* Centrar los productos */
 }
-
-/* Estilo del botón de favoritos */
-.product-card .favorite-btn {
-    border: 3px solid #333; /* Borde del círculo */
-    background-color: transparent; /* Fondo transparente */
-    position: relative; /* Establecer posición relativa */
-    float: left; /* Alinear a la izquierda */
-    background-image: url("Imagenes/estrella.png"); /* Fondo de la imagen de la estrella */
-    background-size: contain; /* Ajustar el tamaño de la imagen */
-    background-repeat: no-repeat; /* Evitar que la imagen se repita */
-    width: 38px; /* Ancho del botón */
-    height: 38px; /* Altura del botón */
-    margin-top: -15px; /* Ajustar el margen superior para alinear con el borde superior */
-    margin-left: -15px; /* Ajustar el margen izquierdo para alinear con el borde izquierdo */
-    z-index: 1; /* Asegurar que esté por encima del contenido */
-    cursor: pointer; /* Cambiar el cursor al pasar por encima */
-    border-radius: 50px;
-}
-
-
-/* Pie de página */
-footer {
-    background-color: #6a0572;
-    color: #ffffff;
-    text-align: center;
-    padding: 20px;
-}
-.footer-parte-izuierda{
-    text-align: left;
-}
-
-.info{
-    font-size: 24px;
-}
-
-
-footer a {
-    color: #000000;
-    text-decoration: none;
-    margin: 0 10px;
-}
-
-
-
-.num-paginaDest {
-    background-color: #d9d9d9;
-    padding: 1px;
-    text-align: center;
-    list-style: none;
-    display: flex; /* Corregir: Eliminar '= 1' */
-    justify-content: center; /* Centrar horizontalmente */
-    align-items: center; /* Centrar verticalmente */
-    gap: 20px; /* Espacio entre los elementos de la lista */
-}
-
-.boton-Volver {
-    margin: 20px; /* Ajusta el valor según sea necesario */
-    margin-left: 50px; /* Agrega una sangría de 50px a la izquierda */
-    display: flex; /* Para que el elemento ocupe el ancho disponible */
-    justify-content: flex-start; /* Alinea el contenido al principio del contenedor */
-    align-items: center; /* Centra verticalmente el contenido */
-}
-.volver-btn {
-    background-color: #f39c12;
-    color: rgb(0, 0, 0);
-    padding: 10px 56px;
-    border-radius: 20px;
-    font-size: 24px;
-    border: none;
-    cursor: pointer;
-}
-.product-container{
-    padding: 10px;
-    border: 1px solid #1f0404;
-    border-radius: 20px;
-    margin-top: 20px;
-    margin-left: 50px;
-    margin-right: 50px;
-    margin-bottom: 20px;
-    background-color: #D9D9D9;
-    text-align: center; /* Centrar los productos */
-}
-
-#sesion-link {
-    margin-left: auto; /* Mover el elemento de cierre de sesión a la derecha */
-}   
-
 
 .deseados-products {
     display: flex;
@@ -215,14 +43,16 @@ footer a {
     margin-bottom: 10px; 
 }
 
-/* Estilo para la descripción */
-.product-deseado .descripción {
-    text-align: center;
-}
+
 .product-deseado .descripción h1 {
     font-size: 18px; /* Tamaño de fuente para el título del producto */
     margin-bottom: 10px; /* Espacio inferior del título */
 }
+
+
+
+/* BOTÓN QUITAR */
+
 
 .product-deseado .descripción button {
     background-color: #f39c12;

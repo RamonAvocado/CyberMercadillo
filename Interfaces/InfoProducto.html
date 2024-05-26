@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cyber Mercadillo</title>
-    <link rel="stylesheet" href="styleBuscador.css">
+    <link rel="stylesheet" href="styleGeneral.css">
+    <link rel="stylesheet" href="styleMuestraProducto.css">
 </head>
 <body>
     <input type="hidden" id="idUsuario" value="-1">
@@ -12,15 +13,20 @@
     <header>
         <div  class="parte-superior">
             <div class="img-logo">   
-                <img src="Imagenes/Logo.png"  alt="Logo Cyber Mercadillo">
+                <!-- Utiliza un botón en lugar de una imagen -->
+                <button onclick="redirigirABusqueda()" class="logo-button">
+                    <!-- Coloca la imagen dentro del botón -->
+                    <img src="Imagenes/Logo.png" alt="Logo Cyber Mercadillo" style="width: 180px; height: auto;">
+                </button>
             </div>
             <h1>
                 <span>Cyber </span><br>
                 <span>Mercadillo</span>
             </h1>
             <div class="barra-busqueda">
-                <button id="searchButton" onclick="IrABuquedaProducto()">Buscar Producto ...</button>
-            </div>
+                <button class="cta-button" onclick="IrABuquedaProducto()">
+                    <span class="hover-underline-animation"> ¡Empezar a comprar ! </span>
+                </button>            </div>
         </div>
         <div id = "resultados"></div>
         <style>
@@ -108,7 +114,15 @@
             </div>
         </div>
     <div class="boton-Volver">
-        <button onclick = "volverPaginaAnterior()" class="volver-btn">Volver</button>
+        <button onclick="volverPaginaAnterior()" class="volver-btn">
+            <svg viewBox="0 0 384 512" class="svgIcon">
+                <path
+                    d="M41.4 214.6c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L141.2 288H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H141.2l105.5-105.5c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"
+                ></path>
+            </svg>
+        </button>
+        
+          
     </div>
     <footer>
         <div class="separador">

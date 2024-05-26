@@ -1,0 +1,78 @@
+/* ESTO ES PARA ORGANIZAR LOS BOTONES INFERIORES */
+
+.botones-vendedor2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #ddd;
+}
+
+
+#validarBtn {
+    background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
+    color: white; /* Color del texto del botón cuando está deshabilitado */
+}
+#validarVddBtn {
+    background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
+    color: white; /* Color del texto del botón cuando está deshabilitado */
+}
+#desasignarBtn {
+    background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
+    color: white; /* Color del texto del botón cuando está deshabilitado */
+}
+
+#validarBtn:enabled {
+    background-color: #f39c12;
+    color: rgb(0, 0, 0);
+    padding: 10px 56px;
+    border-radius: 20px;
+    font-size: 24px;
+    border: none;
+    cursor: pointer; /* Color del texto del botón cuando está habilitado */
+}
+#validarVddBtn:enabled {
+    background-color: #f39c12;
+    color: rgb(0, 0, 0);
+    padding: 10px 56px;
+    border-radius: 20px;
+    font-size: 24px;
+    border: none;
+    cursor: pointer; /* Color del texto del botón cuando está habilitado */
+}
+
+#desasignarBtn:enabled {
+    background-color: #f39c12;
+    color: rgb(0, 0, 0);
+    padding: 10px 56px;
+    border-radius: 20px;
+    font-size: 24px;
+    border: none;
+    cursor: pointer; /* Color del texto del botón cuando está habilitado */
+}
+#eliminarBtn {
+    background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
+    color: white; /* Color del texto del botón cuando está deshabilitado */
+}
+#editarBtn {
+    background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
+    color: white; /* Color del texto del botón cuando está deshabilitado */
+}
+#editarBtn:enabled {
+    background-color: #f39c12;
+    color: rgb(0, 0, 0);
+    padding: 10px 56px;
+    border-radius: 20px;
+    font-size: 24px;
+    border: none;
+    cursor: pointer; /* Color del texto del botón cuando está habilitado */
+}
+#eliminarBtn:enabled {
+    background-color: #f39c12;
+    color: rgb(0, 0, 0);
+    padding: 10px 56px;
+    border-radius: 20px;
+    font-size: 24px;
+    border: none;
+    cursor: pointer; /* Color del texto del botón cuando está habilitado */
+}

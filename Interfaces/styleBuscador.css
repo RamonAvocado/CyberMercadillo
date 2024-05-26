@@ -1,67 +1,3 @@
-/* Estilos generales */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f7f7f7;
-}
-
-/* Estilos para el encabezado */
-header {
-    background-color: #6a0572;
-    color: #ffffff;
-    padding: 10px 20px;
-    text-align: center;
-}
-
-header h1 {
-    font-size: 24px;
-    margin: 0;
-}
-
-
-.img-logo img {
-    width: 180px; /* Ajusta el tamaño del logo según tus necesidades */
-}
-
-
-/*Logo, texto y buscador*/
-.parte-superior {
-    display: flex;
-    align-items: center;
-}
-
-.parte-superior h1 {
-    font-size: 20px;
-    margin-right: 20px;
-    text-align: left;
-}
-
-.barra-busqueda{
-    width: 110%; /* Hacemos que los elementos ocupen todo el ancho disponible */
-}
-
-/* Estilos para el botón de búsqueda */
-.barra-busqueda button {
-    cursor: pointer;
-    margin-left: 20px; /* Espacio entre los elementos */
-    margin-right: 10px; /* Espacio entre los elementos */
-    width: 90%; /* Hacemos que los elementos ocupen todo el ancho disponible */
-}
-/* Estilos para el botón de búsqueda */
-.barra-busqueda button {
-    background-color: #8a2f91;
-    color: #ffffff;
-    border: none;
-    border-radius: 5px; /* Borde redondeado */
-    font-size: 20px; /* Tamaño de fuente */
-    padding: 8px 15px;
-    cursor: pointer;
-    margin-left: 20px; /* Espacio entre los elementos */
-    margin-right: 10px; /* Espacio entre los elementos */
-    max-width: 470%; /* Hacemos que los elementos ocupen todo el ancho disponible */
-}
-
 
 /* Barra de búsqueda */
 .search-bar {
@@ -103,28 +39,7 @@ header h1 {
     margin: 0 5px;
 }
 
-.grupo-nav-list{
-    background-color: #d9d9d9;
-    padding: 1px;
-    text-align: center;
-}
-/* Estilos para la lista de navegación */
-.nav-list {
-    list-style: none;
-    display: flex;
-    gap: 20px; /* Espacio entre los elementos de la lista */
-}
-
-.nav-list li {
-    margin: 0;
-}
-
-.nav-list a {
-    color: #0e4c82;
-    text-decoration: none;
-    margin: 0 10px;
-}
-
+/*  PRODUCTOS DESTACADOS PRINCIPAL */
 .texto-titulo{
     margin-left: 50px;
 }
@@ -155,225 +70,6 @@ header h1 {
     text-align: center; /* Centrar los productos */
 }
 
-.resultado-busqueda-container {
-    padding: 10px;
-    border: 1px solid #1f0404;
-    border-radius: 20px;
-    margin-top: 20px;
-    margin-left: 50px;
-    margin-right: 50px;
-    margin-bottom: 20px;
-    background-color: #D9D9D9;
-    text-align: center; /* Centrar los productos */
-    overflow-y: scroll;
-    height: 800px; /* Establecer una altura máxima para la visualización de los productos */
-    width: 1500px; /* Establecer una altura máxima para la visualización de los productos */
-}
-
-
-.pagina-item {
-    display: inline-block;
-    margin-right: 20px; /* Espacio entre los números de página */
-}
-
-/*Productos*/
-.product-card {
-    background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 20px;
-    padding: 10px;
-    margin: 10px;
-    width: calc(33% - 100px);
-    box-sizing: border-box;
-    display: inline-block;
-    vertical-align: top;
-}
-
-.product-card img {
-    width: 100%; /* La imagen se ajusta automáticamente al ancho del contenedor */
-    height: auto; /* Altura ajustada automáticamente según la proporción de la imagen */
-}
-
-.product-card h3 {
-    font-size: 16px;
-    color: #000000;
-    margin: 10px 0;
-}
-
-.product-card p {
-    font-size: 14px;
-    color: #888888;
-}
-
-/* Estilo del enlace*/
-.product-card a {
-    text-decoration: none; /* Eliminar subrayado */
-    color: #333; /* Cambiar el color del texto */
-}
-
-.product-card.selected {
-    border: 2px solid blue; /* Cambia el borde a azul para indicar selección */
-    box-shadow: 0 0 5px blue; /* Añade una sombra azul para resaltar */
-}
-
-/* Estilo del botón de favoritos */
-.product-card .favorite-btn {
-    border: 3px solid #333; /* Borde del círculo */
-    background-color: transparent; /* Fondo transparente */
-    position: relative; /* Establecer posición relativa */
-    float: left; /* Alinear a la izquierda */
-    background-image: url("Imagenes/estrella.png"); /* Fondo de la imagen de la estrella */
-    background-size: contain; /* Ajustar el tamaño de la imagen */
-    background-repeat: no-repeat; /* Evitar que la imagen se repita */
-    width: 38px; /* Ancho del botón */
-    height: 38px; /* Altura del botón */
-    margin-top: -15px; /* Ajustar el margen superior para alinear con el borde superior */
-    margin-left: -15px; /* Ajustar el margen izquierdo para alinear con el borde izquierdo */
-    z-index: 1; /* Asegurar que esté por encima del contenido */
-    cursor: pointer; /* Cambiar el cursor al pasar por encima */
-    border-radius: 50px;
-}
-
-.product-card .favorite-btn:focus {
-    background-color: #ff0000; /* Cambiar color de fondo al ser clickeado */
-    border-radius: 50px;
-}
-
-.product-card .favorite-btn:hover {
-    opacity: 0.5; /* Reducir opacidad al pasar el mouse */
-}
-
-
-/* Pie de página */
-footer {
-    background-color: #6a0572;
-    color: #ffffff;
-    text-align: center;
-    padding: 20px;
-}
-.footer-parte-izuierda{
-    text-align: left;
-}
-
-.info{
-    font-size: 24px;
-}
-.footer-parte-derecha{
-    text-align: right;
-}
-
-footer a {
-    color: #000000;
-    text-decoration: none;
-    margin: 0 10px;
-}
-
-.num-paginaDest {
-    background-color: #d9d9d9;
-    padding: 1px;
-    text-align: center;
-    list-style: none;
-    display: flex; /* Corregir: Eliminar '= 1' */
-    justify-content: center; /* Centrar horizontalmente */
-    align-items: center; /* Centrar verticalmente */
-    gap: 20px; /* Espacio entre los elementos de la lista */
-}
-
-.boton-historial{
-    margin: 20px; /* Ajusta el valor según sea necesario */
-    margin-right: 50px; /* Agrega una sangría de 50px a la derecha */
-    margin-left: auto; /* Mueve el elemento hacia la derecha */
-    display: flex; /* Para que el elemento ocupe el ancho disponible */
-    justify-content: flex-end; /* Alinea el contenido al final del contenedor */
-    align-items: center; /* Centra verticalmente el contenido */
-}
-
-.boton-Volver {
-    margin: 20px; /* Ajusta el valor según sea necesario */
-    margin-left: 50px; /* Agrega una sangría de 50px a la izquierda */
-    display: flex; /* Para que el elemento ocupe el ancho disponible */
-    justify-content: flex-start; /* Alinea el contenido al principio del contenedor */
-    align-items: center; /* Centra verticalmente el contenido */
-}
-
-.botones-vendedor{
-    margin: 20px; /* Ajusta el valor según sea necesario */
-    margin-right: 50px; /* Agrega una sangría de 50px a la derecha */
-    margin-left: 50px; /* Mueve el elemento hacia la derecha */
-    display: flex; /* Para que el elemento ocupe el ancho disponible */
-    justify-content: flex-end; /* Alinea el contenido al final del contenedor */
-    align-items: center; /* Centra verticalmente el contenido */
-}
-
-
-.cart-btn{
-    margin: 20px; /* Ajusta el valor según sea necesario */
-}
-.cart-btn,
-.search-history-btn,
-.volver-btn {
-    background-color: #f39c12;
-    color: rgb(0, 0, 0);
-    padding: 10px 56px;
-    border-radius: 20px;
-    font-size: 24px;
-    border: none;
-    cursor: pointer;
-}
-/*borrar esta*/
-
-/* Seccion de un producto*/
-.product-container{
-    padding: 10px;
-    border: 1px solid #1f0404;
-    border-radius: 20px;
-    margin-top: 20px;
-    margin-left: 50px;
-    margin-right: 50px;
-    margin-bottom: 20px;
-    background-color: #D9D9D9;
-    text-align: center; /* Centrar los productos */
-}
-
-.product-element {
-    display: flex;
-    align-items: center; /* Alinear elementos al inicio */
-    gap: 20px;
-}
-
-.product-element img {
-    margin-left: 50px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    margin-right: 20px; /* Espacio entre la imagen y la siguiente sección */
-    border-radius: 20px;
-}
-
-
-/* Flecha semi visible */
-.contenedor-flecha {
-    position: relative;
-    cursor: pointer;
-}
-
-.flecha-semi-visible {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
-}
-
-/* Información del producto */
-.product-info h3 {
-    font-size: 18px;
-    margin: 0;
-}
-
-.product-info p {
-    font-size: 14px;
-    margin: 5px 0;
-}
-
 .product-card .descuento {
     color: red;
     font-size: 28px;
@@ -383,114 +79,22 @@ footer a {
 
 
 
-.product-buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    margin-left: auto; /* Margen izquierdo automático para que los botones se alineen a la derecha */
+/* FIN PRINCIPAL */
+
+/* ESTOS NO HACE NADA, ESTA COPIADO DIRECTAMENTE EN LOS HTML QUE LOS USAN
+   LOS DEJO POR SI LUEGO LOS QUITO TODOS Y DEJO SOLO ESTOS */
+/* .izquierda {
+    display: flex;  Permite que los botones se coloquen uno al lado del otro 
+    margin-right: 10px;
+    margin-left: 10px;
+    gap: 10px;
+} 
+ .boton {
+    margin-right: 10px;
+    margin-left: 10px;   Espacio entre los botones 
+    gap: 10px;
 }
 
-.deseosButton{
-
-    width: 400px; /* Establece un ancho fijo para todos los botones */
-    height: 50px; /* Establece una altura fija para todos los botones */
-    padding: 15px 40px;
-    font-size: 22px;
-    border: none;
-    cursor: pointer;
-    background-color: #f9a825;
-    color: #fff;
-    border-radius: 20px;
-    margin-top: 20px; /* Espacio entre los botones y el label de cantidad */
-}
-.comprarButton,
-.carritoButton{
-    width: 400px; /* Establece un ancho fijo para todos los botones */
-    height: 60px; /* Establece una altura fija para todos los botones */
-    padding: 15px 60px;
-    font-size: 22px;
-    border: none;
-    cursor: pointer;
-    background-color: #f9a825;
-    color: #fff;
-    border-radius: 20px;
-    margin-top: 20px; /* Espacio entre los botones y el label de cantidad */
-
-}
-
-select {
-    padding: 5px;
-    font-size: 14px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-/* Lista de deseos */
-.deseosButton {
-    background-color: #4285f4;
-}
-
-.carritoButton {
-    background-color: #f9a825; /* Establece el color de fondo del botón de carrito igual que los otros botones */
-}
-
-
-
-
-/* Establecer el tamaño máximo y agregar puntos suspensivos */
-.product-info h3,
-.product-info p {
-    max-width: 200px; /* Tamaño máximo */
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis; /* Agrega puntos suspensivos si el contenido se sobrepasa */
-}
-
-.fecha-historial {
-    font-size: 12px;
-    color: #777;
-    text-align: right;
-}
-
-.texto-historial {
-    font-size: 18px;
-    font-weight: bold; /* Texto en negrita */
-    color: #333; /* Gris más oscuro */
-    text-align: left;
-    margin-right: auto; /* Alinear a la izquierda */
-    margin-left: 10px; /* Espacio entre el texto y la fecha */
-}
-
-.busqueda-historial {
-    background-color: #ddd; /* Fondo gris más claro */
-    display: flex;
-    justify-content: space-between;
-    padding: 10px; /* Agregar espacio interno */
-    margin-bottom: 5px; /* Espacio entre elementos de historial */
-    margin-top: 5px; /* Espacio entre elementos de historial */
-    border-radius: 10px; /* Bordes redondeados */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
-}
-
-
-#sesion-link {
-    margin-left: auto; /* Mover el elemento de cierre de sesión a la derecha */
-}
-
-.main-section {
-    display: flex;
-
-}
-
-.filters-section {
-    flex: 30%;
-    border: 1px solid #1f0404;
-    background-color: #D9D9D9;
-    border-radius: 20px;
-    padding: 20px;
-    max-width: 230px;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Aquí he añadido un recuadro alrededor de los filtros */
-}
 
 .botones-vendedor {
     display: flex;
@@ -499,151 +103,93 @@ select {
     padding: 10px;
     background-color: #f0f0f0;
 }
-.botones-vendedor2 {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background-color: #ddd;
+*/
+
+.primary-button {
+    font-family: 'Ropa Sans', sans-serif;
+    color: #0E1822; /* Color del texto del botón en estado normal */
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 0.05rem;
+    border: 1px solid #FF4655; /* Borde del botón en estado normal */
+    padding: 0.8rem 2.1rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 531.28 200'%3E%3Cdefs%3E%3Cstyle%3E .shape %7B fill: %23FF4655 %7D %3C/style%3E%3C/defs%3E%3Cg id='Layer_2' data-name='Layer 2'%3E%3Cg id='Layer_1-2' data-name='Layer 1'%3E%3Cpolygon class='shape' points='415.81 200 0 200 115.47 0 531.28 0 415.81 200' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E%0A");
+    background-color: white; /* Color de fondo del botón en estado normal */
+    background-size: 200%;
+    background-position: 200%;
+    background-repeat: no-repeat;
+    transition: 0.3s ease-in-out;
+    transition-property: background-position, border, color;
+    position: relative;
+    z-index: 1;
 }
 
-.izquierda {
-    display: flex; /* Permite que los botones se coloquen uno al lado del otro */
-    margin-right: 10px;
-    margin-left: 10px;
-    gap: 10px;
+.primary-button:hover {
+    border: 1px solid #FF4655; /* Borde del botón en estado hover */
+    color: white; /* Color del texto del botón en estado hover */
+    background-position: 40%;
 }
 
-.derecha {
-    display: flex; /* Permite que los botones se coloquen uno al lado del otro */
-    margin-right: 10px;
-    margin-left: 10px;
-    gap: 10px;
+.primary-button:before {
+    content: "";
+    position: absolute;
+    background-color: white; /* Color de fondo antes del hover */
+    width: 0.2rem;
+    height: 0.2rem;
+    top: -1px;
+    left: -1px;
+    transition: background-color 0.15s ease-in-out;
 }
 
-.boton {
-    margin-right: 10px;
-    margin-left: 10px;  /* Espacio entre los botones */
-    gap: 10px;
+.primary-button:hover:before {
+    background-color: white; /* Color de fondo antes del hover */
 }
 
-.product-card.selected {
-    border: 2px solid blue; /* Cambia el borde a azul para indicar selección */
-    box-shadow: 0 0 5px blue; /* Añade una sombra azul para resaltar */
-}           
-#validarBtn {
-    background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
-    color: white; /* Color del texto del botón cuando está deshabilitado */
-}
-#validarVddBtn {
-    background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
-    color: white; /* Color del texto del botón cuando está deshabilitado */
-}
-#desasignarBtn {
-    background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
-    color: white; /* Color del texto del botón cuando está deshabilitado */
-}
-#eliminarBtn {
-    background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
-    color: white; /* Color del texto del botón cuando está deshabilitado */
-}
-#editarBtn {
-    background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
-    color: white; /* Color del texto del botón cuando está deshabilitado */
-}
-#editarBtn:enabled {
-    background-color: #f39c12;
-    color: rgb(0, 0, 0);
-    padding: 10px 56px;
-    border-radius: 20px;
-    font-size: 24px;
-    border: none;
-    cursor: pointer; /* Color del texto del botón cuando está habilitado */
-}
-#validarBtn:enabled {
-    background-color: #f39c12;
-    color: rgb(0, 0, 0);
-    padding: 10px 56px;
-    border-radius: 20px;
-    font-size: 24px;
-    border: none;
-    cursor: pointer; /* Color del texto del botón cuando está habilitado */
-}
-#validarVddBtn:enabled {
-    background-color: #f39c12;
-    color: rgb(0, 0, 0);
-    padding: 10px 56px;
-    border-radius: 20px;
-    font-size: 24px;
-    border: none;
-    cursor: pointer; /* Color del texto del botón cuando está habilitado */
-}
-#desasignarBtn:enabled {
-    background-color: #f39c12;
-    color: rgb(0, 0, 0);
-    padding: 10px 56px;
-    border-radius: 20px;
-    font-size: 24px;
-    border: none;
-    cursor: pointer; /* Color del texto del botón cuando está habilitado */
-}
-#eliminarBtn:enabled {
-    background-color: #f39c12;
-    color: rgb(0, 0, 0);
-    padding: 10px 56px;
-    border-radius: 20px;
-    font-size: 24px;
-    border: none;
-    cursor: pointer; /* Color del texto del botón cuando está habilitado */
+.primary-button:hover:after {
+    background-color: white; /* Color de fondo después del hover */
 }
 
-.pagina-item {
-    display: inline-block;
-    margin-right: 20px; /* Espacio entre los números de página */
-}
-/* Estilos para el contenedor de pedidos */
-.carritos-container {
-    display: flex; /* Establece el contenedor como flexbox */
-    flex-direction: column; /* Orienta los elementos en columna */
-    overflow-y: scroll; /* Habilita el scroll vertical */
-    overflow-x: hidden;
-    max-height: 600px; /* Establece una altura máxima para el contenedor */
-    padding: 10px; /* Añade espacio interno */
-    width: 100%; /* Ocupa todo el espacio horizontal disponible */
-    margin-right: 10px;
-    align-items: center;
+.primary-button:after {
+    content: "";
+    position: absolute;
+    background-color: #FF4655; /* Color de fondo después del hover */
+    width: 0.3rem;
+    height: 0.3rem;
+    bottom: -1px;
+    right: -1px;
+    transition: background-color 0.15s ease-in-out;
 }
 
-/* Estilos para cada pedido */
-.pedido {
-    display: flex; /* Establece el pedido como flexbox */
-    flex-direction: column; /* Orienta los elementos en columna */
-    background-color: #d7d7d7;
-    border: 1px solid #e0e0e0;
-    border-radius: 50px;
-    padding: 10px;
-    margin: 10px;
-    width: 95%; /* Ocupa todo el espacio horizontal disponible */
+.button-borders {
+    position: relative;
+    width: fit-content;
+    height: fit-content;
 }
 
-/* Estilos para el estado "Recibido" */
-.pedido.Recibido {
-    background-color: green; /* Cambia el color de fondo a verde */
+.button-borders:before {
+    content: "";
+    position: absolute;
+    width: calc(100% + 0.5em);
+    height: 50%;
+    left: -0.3em;
+    top: -0.3em;
+    border: 1px solid #FF4655; /* Borde en estado normal */
+    border-bottom: 0px;
 }
 
-/* Estilos para el estado "En espera de pago" */
-.pedido.EnEspera {
-    background-color: red; /* Cambia el color de fondo a rojo */
+.button-borders:after {
+    content: "";
+    position: absolute;
+    width: calc(100% + 0.5em);
+    height: 50%;
+    left: -0.3em;
+    bottom: -0.3em;
+    border: 1px solid #FF4655; /* Borde en estado normal */
+    border-top: 0px;
+    z-index: 0;
 }
 
-/* Estilos para el estado "Enviado" */
-.pedido.Enviado {
-    background-color: yellow; /* Cambia el color de fondo a amarillo */
-}
-
-.fecha {
-    display: flex; /* Establece la fecha como flexbox */
-    justify-content: space-between; /* Separa los elementos con el espacio disponible */
-    margin-left: 50px; /* Añade margen a la izquierda */
-    margin-right: 100px; /* Añade margen a la derecha */
-}
+.shape {
+    fill: #0E1822;
+}    

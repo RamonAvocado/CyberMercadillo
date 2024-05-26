@@ -1,0 +1,89 @@
+
+
+
+/* ESTO MUESTRA LA INFO DEL PRODUCTO UNA VEZ DENTRO */
+
+.product-container{
+    padding: 10px;
+    border: 1px solid #1f0404;
+    border-radius: 20px;
+    margin-top: 20px;
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-bottom: 20px;
+    background-color: #D9D9D9;
+    text-align: center; /* Centrar los productos */
+}
+
+.product-element {
+    display: flex;
+    align-items: center; /* Alinear elementos al inicio */
+    gap: 20px;
+}
+
+.product-element img {
+    margin-left: 50px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-right: 20px; /* Espacio entre la imagen y la siguiente sección */
+    border-radius: 20px;
+}
+
+
+
+
+/* FLECHA SEMI VISIBLE DE IMAGENES PRODUCTO */
+.contenedor-flecha {
+    position: relative;
+    cursor: pointer;
+}
+
+.flecha-semi-visible {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}
+
+
+
+
+/* ORGANIZACIÓN DE BOTONES DE INFO PRODUCTO */
+
+.product-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-left: auto; /* Margen izquierdo automático para que los botones se alineen a la derecha */
+}
+
+
+
+/* ESTILO DE BOTONES CARRITO Y LISTA DESEADOS */
+
+.deseosButton{
+
+    width: 400px; /* Establece un ancho fijo para todos los botones */
+    height: 50px; /* Establece una altura fija para todos los botones */
+    padding: 15px 40px;
+    font-size: 22px;
+    border: none;
+    cursor: pointer;
+    background-color: #4285f4;
+    color: #fff;
+    border-radius: 20px;
+    margin-top: 20px; /* Espacio entre los botones y el label de cantidad */
+}
+.carritoButton{
+    width: 400px; /* Establece un ancho fijo para todos los botones */
+    height: 60px; /* Establece una altura fija para todos los botones */
+    padding: 15px 60px;
+    font-size: 22px;
+    border: none;
+    cursor: pointer;
+    background-color: #f9a825;
+    color: #fff;
+    border-radius: 20px;
+    margin-top: 20px; /* Espacio entre los botones y el label de cantidad */
+
+}

@@ -1,0 +1,25 @@
+.fecha-historial {
+    font-size: 12px;
+    color: #777;
+    text-align: right;
+}
+
+.texto-historial {
+    font-size: 18px;
+    font-weight: bold; /* Texto en negrita */
+    color: #333; /* Gris más oscuro */
+    text-align: left;
+    margin-right: auto; /* Alinear a la izquierda */
+    margin-left: 10px; /* Espacio entre el texto y la fecha */
+}
+
+.busqueda-historial {
+    background-color: #ddd; /* Fondo gris más claro */
+    display: flex;
+    justify-content: space-between;
+    padding: 10px; /* Agregar espacio interno */
+    margin-bottom: 5px; /* Espacio entre elementos de historial */
+    margin-top: 5px; /* Espacio entre elementos de historial */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}

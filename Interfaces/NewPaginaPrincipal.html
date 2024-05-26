@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cyber Mercadillo</title>
     <link rel="stylesheet" href="styleBuscador.css">
+    <link rel="stylesheet" href="styleGeneral.css">
+
 </head>
 <body>
     <input type="hidden" id="idUsuario" value="-1">
@@ -19,8 +21,10 @@
                 <span>Mercadillo</span>
             </h1>
             <div class="barra-busqueda">
-                <button id="searchButton" onclick="IrABuquedaProducto()">Buscar Producto ...</button>
-            </div>
+                <button class="cta-button" onclick="IrABuquedaProducto()">
+                    <span class="hover-underline-animation"> ¡Empezar a comprar ! </span>
+                </button>
+            </div>            
         </div>
         <div id = "resultados"></div>
     </header>
@@ -32,7 +36,6 @@
                         <a href="#" onclick="volverPaginaAnterior()">Volver atrás</a>
                     </div>
                 </li>
-                <li><a href="./NewPaginaPrincipal.html">Principal</a></li>
                 <li id="sesion-user-link"></li>
                 <li id="sesion-link"></li>
                 <li>
@@ -42,6 +45,10 @@
                 </li>
             </ul>
         </nav>
+    </div>
+    <div class="button-borders">
+        <button class="primary-button"> BUTTON
+        </button>
     </div>
     <div class="boton-historial">
         <button onclick = "irAHistorialDeBúsqueda()" class="search-history-btn">Historial de Búsqueda</button>
