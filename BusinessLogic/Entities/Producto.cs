@@ -56,7 +56,6 @@ namespace CyberMercadillo.Entities
         }
 
         
-
         public bool estaCertificado(){
             if (puntuacionEco > 0){
                 return false;
