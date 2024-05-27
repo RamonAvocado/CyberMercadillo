@@ -142,9 +142,6 @@ header {
     text-decoration: none;
     margin: 0 10px;
 }
-#sesion-link {
-    margin-left: auto; /* Mover el elemento de cierre de sesión a la derecha */
-}
 
 
 /* BOTÓN DE VOLVER ATRÁS */
@@ -192,31 +189,35 @@ header {
 .volver-btn::before {
     position: absolute;
     bottom: -20px;
-    content: "Volver atrás";
-    color: white;
-    /* transition-duration: .3s; */
-    font-size: 0px;
+    content: "VOLVER ATRÁS";
+    font-size: 18px;
+    color: #0e0b0d;
+    font-family: inherit;
+    font-weight: 800;
+    text-transform: uppercase;
+    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition-duration: 400ms;
+    transition-property: color, font-size, bottom;
 }
   
 .volver-btn:hover::before {
-    font-size: 13px;
+    font-size: 18px;
     opacity: 1;
-    bottom: unset;
-    /* transform: translateY(-30px); */
+    bottom: 50%;
+    transform: translateY(50%);
+    color: #0b0b0b;
     transition-duration: 0.3s;
 }
-
-
+  
 /* ESTO MARCA LA POSICIÓN DEL BOTÓN VOLVER */
-
-
 .boton-Volver {
-    margin: 20px; /* Ajusta el valor según sea necesario */
-    margin-left: 50px; /* Agrega una sangría de 50px a la izquierda */
+    margin: 5px; /* Ajusta el valor según sea necesario */
+    margin-left: 10px; /* Agrega una sangría de 50px a la izquierda */
     display: flex; /* Para que el elemento ocupe el ancho disponible */
     justify-content: flex-start; /* Alinea el contenido al principio del contenedor */
     align-items: center; /* Centra verticalmente el contenido */
 }
+
 
 
 
@@ -413,9 +414,9 @@ footer a {
 /* BOTON HITORIAL DE BUSQUEDA */
 /* BOTONES A QUITAR/EDITAR+++++++++++  */
 
-
+/* 
 .cart-btn{
-    margin: 20px; /* Ajusta el valor según sea necesario */
+    margin: 20px; 
 }
 .cart-btn,
 .search-history-btn {
@@ -429,10 +430,62 @@ footer a {
 }
 
 .boton-historial{
-    margin: 20px; /* Ajusta el valor según sea necesario */
-    margin-right: 50px; /* Agrega una sangría de 50px a la derecha */
-    margin-left: auto; /* Mueve el elemento hacia la derecha */
-    display: flex; /* Para que el elemento ocupe el ancho disponible */
-    justify-content: flex-end; /* Alinea el contenido al final del contenedor */
-    align-items: center; /* Centra verticalmente el contenido */
+    margin: 20px; 
+    margin-right: 50px; 
+    margin-left: auto; 
+    display: flex;
+    justify-content: flex-end; 
+    align-items: center; 
+} */
+
+
+/* ESTO ES PARA LOS BOTONES SUPERIORES */
+.styled-button {
+    font-size: 18px;
+    color: #c61284;
+    font-family: inherit;
+    font-weight: 800;
+    cursor: pointer;
+    position: relative;
+    border: none;
+    background: none;
+    text-transform: uppercase;
+    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition-duration: 400ms;
+    transition-property: color;
+  }
+  
+  .styled-button:focus,
+  .styled-button:hover {
+    color: #0b0b0b;
+  }
+  
+  .styled-button:focus:after,
+  .styled-button:hover:after {
+    width: 100%;
+    left: 0%;
+  }
+  
+  .styled-button:after {
+    content: "";
+    pointer-events: none;
+    bottom: -2px;
+    left: 50%;
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background-color: #0b0b0b;
+    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition-duration: 400ms;
+    transition-property: width, left;
+  }
+
+  .flex-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#sesion-carro-link {
+    margin-left: auto; /* Mover el elemento de CARRITO DE COMPRA a la derecha */
 }

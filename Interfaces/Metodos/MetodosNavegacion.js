@@ -27,6 +27,11 @@ function redirigirABusqueda(){
     window.location.href = `./NewPaginaPrincipal.html`
 }
 
+function IrAMisPedidos(){
+    window.location.href = `./MisPedidos.html`
+}
+
+
 function volverPaginaAnterior(){
     if(contadorBusquedas > 0){
         var busquedasAnteriores = JSON.parse(localStorage.getItem('busquedasAnteriores'));
@@ -153,6 +158,7 @@ async function irAEditarPerfil(tipoUsuario) {
         window.location.href = `./EditarComprador.html`	
     }
 }
+
 
 
 

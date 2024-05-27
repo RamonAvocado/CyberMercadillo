@@ -92,24 +92,28 @@ async function agregarCerrarSesion() {
     var usuarioLogueado = localStorage.getItem('UsuarioID');
     var tipoUsuarioLogueado = localStorage.getItem('tipoUserID');
     var sesionLink = document.getElementById('sesion-link');
-    var sesionSUserLink = document.getElementById('sesion-user-link');
+    var sesionUserLink = document.getElementById('sesion-user-link');
+    var sesionSUserLink = document.getElementById('sesion-carro-link');
+
     if (!usuarioLogueado) {
-        sesionLink.innerHTML = '<a href="../index.html">Iniciar Sesión</a>';
+        sesionLink.innerHTML = '<button class="styled-button" onclick="location.href=\'../index.html\'">Iniciar Sesión</button>';
     } else {
-        sesionLink.innerHTML = '<a href="#" onclick="cerrarSesion()">Cerrar Sesión</a>';
-        if(tipoUsuarioLogueado == "vendedor"){
-            sesionSUserLink.innerHTML += '<a href="./PaginaVendedor.html">Productos</a>';
-            sesionSUserLink.innerHTML += '<a href="./InterfazVendedor.html">Mi Cuenta</a>';
-        }else if(tipoUsuarioLogueado == "tecnico"){
-            sesionSUserLink.innerHTML = '<a onclick="irAPagianValidaciones()">Validaciones</a>';
-        }else{ 
-            sesionSUserLink.innerHTML += '<a href="./CarritoDeCompra.html">Carrito De Compra</a>';
-            sesionSUserLink.innerHTML += '<a href="./ListaDeseados.html">Lista Deseados</a>';
-            sesionSUserLink.innerHTML += '<a href="./MisPedidos.html">Mis pedidos</a>';
-            sesionSUserLink.innerHTML += '<a href="./InterfazComprador.html">Mi Cuenta</a>';
+        // sesionLink.innerHTML = '<button class="styled-button" onclick="cerrarSesion()">Cerrar Sesión</button>';
+        if (tipoUsuarioLogueado == "vendedor") {
+            sesionUserLink.innerHTML = '<button class="styled-button" onclick="location.href=\'./InterfazVendedor.html\'">Mi Cuenta</button>';
+            sesionUserLink.innerHTML += '<button class="styled-button" onclick="location.href=\'./PaginaVendedor.html\'">Productos</button>';
+        } else if (tipoUsuarioLogueado == "tecnico") {
+            sesionUserLink.innerHTML = '<button class="styled-button" onclick="irAPagianValidaciones()">Validaciones</button>';
+        } else { 
+            sesionUserLink.innerHTML = '<button class="styled-button" onclick="location.href=\'./InterfazComprador.html\'">Mi Cuenta</button>';
+            sesionUserLink.innerHTML += '<button class="styled-button" onclick="location.href=\'./ListaDeseados.html\'">Lista de Deseados</button>';
+            sesionSUserLink.innerHTML += '<button class="styled-button" onclick="location.href=\'./CarritoDeCompra.html\'" style="margin-left:auto;">Carrito de Compra</button>';
         }      
     }
 }
+
+
+
 
 
 function cerrarSesion() {

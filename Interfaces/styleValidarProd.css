@@ -13,10 +13,7 @@
     background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
     color: white; /* Color del texto del botón cuando está deshabilitado */
 }
-#validarVddBtn {
-    background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
-    color: white; /* Color del texto del botón cuando está deshabilitado */
-}
+
 #desasignarBtn {
     background-color: gray; /* Color de fondo del botón cuando está deshabilitado */
     color: white; /* Color del texto del botón cuando está deshabilitado */
@@ -31,15 +28,19 @@
     border: none;
     cursor: pointer; /* Color del texto del botón cuando está habilitado */
 }
-#validarVddBtn:enabled {
+/* #validarVddBtn:enabled {
     background-color: #f39c12;
     color: rgb(0, 0, 0);
     padding: 10px 56px;
     border-radius: 20px;
     font-size: 24px;
     border: none;
-    cursor: pointer; /* Color del texto del botón cuando está habilitado */
+    cursor: pointer; 
 }
+#validarVddBtn {
+    background-color: gray; 
+    color: white; 
+} */
 
 #desasignarBtn:enabled {
     background-color: #f39c12;
