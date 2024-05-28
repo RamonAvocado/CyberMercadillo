@@ -10,49 +10,81 @@
         label {
             text-align: left;
         }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content {
+            flex: 1;
+        }
+
+        footer {
+            background-color: #6a0572;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .botones-vendedor {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #f0f0f0;
+        }
+
+        .izquierda {
+            display: flex; /* Permite que los botones se coloquen uno al lado del otro */
+            margin-right: 10px;
+            margin-left: 10px;
+            gap: 10px;
+        }
+
+        .derecha {
+            display: flex; /* Permite que los botones se coloquen uno al lado del otro */
+            margin-right: 10px;
+            margin-left: 10px;
+            gap: 10px;
+        }
+
+        .boton {
+            margin-right: 10px;
+            margin-left: 10px;  /* Espacio entre los botones */
+            gap: 10px;
+        }
     </style>
 </head>
 <body>
     <header>
+<<<<<<< Updated upstream
         <div  class="parte-superior">
             <div class="img-logo">   
                 <img src="Imagenes/Logo.png"  alt="Logo Cyber Mercadillo">
+=======
+        <div class="parte-superior">
+            <div class="img-logo">
+                <button onclick="redirigirABusqueda()" class="logo-button">
+                    <!-- Coloca la imagen dentro del botón -->
+                    <img src="Imagenes/Logo.png" alt="Logo Cyber Mercadillo" style="width: 180px; height: auto;">
+                </button>
+>>>>>>> Stashed changes
             </div>
             <h1>
                 <span>Cyber </span><br>
                 <span>Mercadillo</span>
             </h1>
         </div>
-        <style>
-            .botones-vendedor {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 10px;
-                background-color: #f0f0f0;
-            }
-    
-            .izquierda {
-                display: flex; /* Permite que los botones se coloquen uno al lado del otro */
-                margin-right: 10px;
-                margin-left: 10px;
-                gap: 10px;
-            }
-    
-            .derecha {
-                display: flex; /* Permite que los botones se coloquen uno al lado del otro */
-                margin-right: 10px;
-                margin-left: 10px;
-                gap: 10px;
-            }
-    
-            .boton {
-                margin-right: 10px;
-                margin-left: 10px;  /* Espacio entre los botones */
-                gap: 10px;
-            }
-        </style>
     </header>
+<<<<<<< Updated upstream
     <div class = "grupo-nav-list">
         <nav>
             <ul class="nav-list">
@@ -71,28 +103,29 @@
                 </li>
             </ul>
         </nav>
+=======
+    <div class="boton-Volver">
+        <button onclick="volverPaginaAnterior()" class="volver-btn">
+            <svg viewBox="0 0 384 512" class="svgIcon">
+                <path d="M41.4 214.6c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L141.2 288H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H141.2l105.5-105.5c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"></path>
+            </svg>
+        </button>
+>>>>>>> Stashed changes
     </div>
-    <div class = "texto-titulo">
-    </div>
-    <div class="featured-products-container">
-        <br><br><h1>Elija el tipo de Usuario</h1>
-            <div class="container">    
-                <br><br><button onclick = "irRegistroVendedor()" class="search-history-btn">Soy Vendedor</button><br><br>
-                <button onclick = "irRegistroComprador()" class="search-history-btn">Soy Comprador</button><br><br>
+    <div class="content">
+        <div class="texto-titulo">
+        </div>
+        <div class="featured-products-container">
+            <br><br><h1>Elija el tipo de Usuario</h1>
+            <div class="container">
+                <br><br><button onclick="irRegistroVendedor()" class="search-history-btn">Soy Vendedor</button><br><br>
+                <button onclick="irRegistroComprador()" class="search-history-btn">Soy Comprador</button><br><br>
                 <p style="font-size: 1.2em;">¿Ya tienes cuenta?
-                <a href="../index.html" style="color: blue; text-decoration: underline;">Iniciar Sesión</a></p>
+                    <a href="../index.html" style="color: blue; text-decoration: underline;">Iniciar Sesión</a></p>
             </div>
         </div>
-    </body>
     </div>
-    <div class="botones-vendedor">
-        <div class="izquierda">
-            <button onclick = "volverPaginaAnterior()" class="search-history-btn">Volver</button>
-        </div>
-    </div>     
     <footer>
-        <div class="separador">
-        </div>
     </footer>
 
     <!-- <script src="Metodos.js"></script> -->

@@ -1,0 +1,501 @@
+
+
+/* ESTO ES PARA QUE NO SALGA LA BARRA DE DESPLAZAMIENTO INFERIOR
+   Y QUE RESULTADOS DE BUSQUEDA TENGA UN ESTILO ESTÁTICO */
+
+
+.main-section {
+    display: flex;
+
+}
+
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+}
+
+
+
+
+
+/* Estilos para el encabezado */
+header {
+    background-color: #6a0572;
+    color: #ffffff;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+/* lo centra todo */
+.parte-superior {
+    display: flex;
+    align-items: center;
+}
+
+
+
+
+/* IMAGEN BOTON LOGO */
+.img-logo img {
+    width: 180px; /* Ajusta el tamaño del logo según tus necesidades */
+}
+
+.logo-button {
+    /* Aplica las mismas medidas al botón */
+    width: 180px;
+    height: auto;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer
+}
+
+/* TEXTO CyberMercadillo */
+.parte-superior h1 {
+    font-size: 20px;
+    margin-right: 20px;
+    text-align: left;
+}
+
+
+
+
+/* BOTÓN IR A RESULTADO BÚSQUEDA */
+.cta-button {
+    font-size: 28px; /* Aumentado el tamaño de la fuente de forma moderada */
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: inline-block;
+    text-align: center;
+    font-weight: bold;
+    padding: 1.1em 3.5em; /* Aumentado el padding de forma moderada */
+    border: 4px solid #FF0072; /* Mantener el grosor del borde */
+    border-radius: 4px; /* Mantener el radio del borde */
+    position: relative;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.2), 0 7px 9px rgba(0, 0, 0, 0.1); /* Ajuste leve del tamaño de la sombra */
+    color: #FF0072;
+    text-decoration: none;
+    transition: 0.3s ease all;
+    z-index: 1;
+    margin-left: 450px;
+}
+
+.cta-button:before {
+    transition: 0.5s all ease;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    right: 50%;
+    bottom: 0;
+    opacity: 0;
+    content: '';
+    background-color: #FF0072;
+    z-index: -1;
+}
+
+.cta-button:hover, .cta-button:focus {
+    color: white;
+}
+
+.cta-button:hover:before, .cta-button:focus:before {
+    transition: 0.5s all ease;
+    left: 0;
+    right: 0;
+    opacity: 1;
+}
+
+.cta-button:active {
+    transform: scale(0.9);
+}
+
+
+
+
+
+/* LINKS A OTRAS VENTANAS */
+
+
+.grupo-nav-list{
+    background-color: #d9d9d9;
+    padding: 1px;
+    text-align: center;
+}
+/* Estilos para la lista de navegación */
+.nav-list {
+    list-style: none;
+    display: flex;
+    gap: 20px; /* Espacio entre los elementos de la lista */
+    padding: 0;
+    margin: 0;
+}
+
+.nav-list li {
+    margin: 0;
+    padding: 0;
+}
+
+.nav-list a {
+    color: #0e4c82;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+
+/* BOTÓN DE VOLVER ATRÁS */
+
+.volver-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgb(20, 20, 20);
+    border: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 0px 0px 4px rgba(180, 160, 255, 0.253);
+    cursor: pointer;
+    transition-duration: 0.3s;
+    overflow: hidden;
+    position: relative;
+}
+  
+.volver-btn .svgIcon {
+    width: 12px;
+    transition-duration: 0.3s;
+}
+  
+.volver-btn .svgIcon path {
+    fill: white;
+}
+  
+.volver-btn:hover {
+    width: 140px;
+    border-radius: 50px;
+    transition-duration: 0.3s;
+    background-color: rgb(181, 160, 255);
+    align-items: center;
+}
+  
+.volver-btn:hover .svgIcon {
+    /* width: 20px; */
+    transition-duration: 0.3s;
+    transform: translateY(-200%);
+}
+  
+.volver-btn::before {
+    position: absolute;
+    bottom: -20px;
+    content: "VOLVER ATRÁS";
+    font-size: 18px;
+    color: #0e0b0d;
+    font-family: inherit;
+    font-weight: 800;
+    text-transform: uppercase;
+    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition-duration: 400ms;
+    transition-property: color, font-size, bottom;
+}
+  
+.volver-btn:hover::before {
+    font-size: 18px;
+    opacity: 1;
+    bottom: 50%;
+    transform: translateY(50%);
+    color: #0b0b0b;
+    transition-duration: 0.3s;
+}
+  
+/* ESTO MARCA LA POSICIÓN DEL BOTÓN VOLVER */
+.boton-Volver {
+    margin: 5px; /* Ajusta el valor según sea necesario */
+    margin-left: 50px; /* Agrega una sangría de 50px a la izquierda */
+    margin-top: 20px;
+    display: flex; /* Para que el elemento ocupe el ancho disponible */
+    justify-content: flex-start; /* Alinea el contenido al principio del contenedor */
+    align-items: center; /* Centra verticalmente el contenido */
+}
+
+
+
+
+
+/* CSS DE MOSTRAR PRODUCTOS */
+
+
+.pagina-item {
+    display: inline-block;
+    margin-right: 20px; /* Espacio entre los números de página */
+}
+
+/*Productos*/
+.product-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    padding: 10px;
+    margin: 10px;
+    width: calc(33% - 100px);
+    box-sizing: border-box;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.product-card img {
+    width: 100%; /* La imagen se ajusta automáticamente al ancho del contenedor */
+    height: auto; /* Altura ajustada automáticamente según la proporción de la imagen */
+}
+
+.product-card h3 {
+    font-size: 16px;
+    color: #000000;
+    margin: 10px 0;
+}
+
+.product-card p {
+    font-size: 14px;
+    color: #888888;
+}
+
+/* Estilo del enlace*/
+.product-card a {
+    text-decoration: none; /* Eliminar subrayado */
+    color: #333; /* Cambiar el color del texto */
+}
+
+.product-card.selected {
+    border: 2px solid blue; /* Cambia el borde a azul para indicar selección */
+    box-shadow: 0 0 5px blue; /* Añade una sombra azul para resaltar */
+}
+
+/* Estilo del botón de favoritos */
+.product-card .favorite-btn {
+    border: 3px solid #333; /* Borde del círculo */
+    background-color: transparent; /* Fondo transparente */
+    position: relative; /* Establecer posición relativa */
+    float: left; /* Alinear a la izquierda */
+    background-image: url("Imagenes/estrella.png"); /* Fondo de la imagen de la estrella */
+    background-size: contain; /* Ajustar el tamaño de la imagen */
+    background-repeat: no-repeat; /* Evitar que la imagen se repita */
+    width: 38px; /* Ancho del botón */
+    height: 38px; /* Altura del botón */
+    margin-top: -15px; /* Ajustar el margen superior para alinear con el borde superior */
+    margin-left: -15px; /* Ajustar el margen izquierdo para alinear con el borde izquierdo */
+    z-index: 1; /* Asegurar que esté por encima del contenido */
+    cursor: pointer; /* Cambiar el cursor al pasar por encima */
+    border-radius: 50px;
+}
+
+.product-card .favorite-btn:focus {
+    background-color: #ff0000; /* Cambiar color de fondo al ser clickeado */
+    border-radius: 50px;
+}
+
+.product-card .favorite-btn:hover {
+    opacity: 0.5; /* Reducir opacidad al pasar el mouse */
+}
+
+
+/* PIE DE PÁGINA */
+
+
+footer {
+    background-color: #6a0572;
+    color: #ffffff;
+    text-align: center;
+    padding: 20px;
+}
+.footer-parte-izuierda{
+    text-align: left;
+}
+
+.info{
+    font-size: 24px;
+}
+
+
+
+/*ESTOS TAMBIÉN VALE PARA LOS COMENTARIOS, POR ESO LOS PONGO EN GENERAL TB*/
+.recommended-products-container {
+    flex-direction: row;
+    padding: 10px;
+    border: 1px solid #1f0404;
+    border-radius: 20px;
+    margin-top: 20px;
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-bottom: 20px;
+    background-color: #D9D9D9;
+    text-align: center; /* Centrar los productos */
+}
+.texto-titulo{
+    margin-left: 50px;
+}
+
+
+
+/* ESTO ES PARA LOS BOTONES DE GUARDAR PRODUCTO, USUARIO, ETC... */
+
+.cart-btn,
+.search-history-btn {
+    background-color: #f39c12;
+    color: rgb(0, 0, 0);
+    padding: 10px 56px;
+    border-radius: 20px;
+    font-size: 24px;
+    border: none;
+    cursor: pointer;
+}
+
+
+/* ESTO NO CAMBIA NADA, LO DEJO COMENTADO PQ PUEDE QUE ME HAYA DEJADO
+   ALGUN HTML */
+/* 
+ .product-card.selected {
+    border: 2px solid blue; 
+    box-shadow: 0 0 5px blue; 
+}    */
+
+
+/*     NO SE QUE HACE ESTO+++++ */
+
+/* Información del producto */
+ /* .product-info h3 {
+    font-size: 18px;
+    margin: 0;
+}
+
+.product-info p {
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+
+.product-info h3,
+.product-info p {
+    max-width: 200px; 
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; 
+} 
+
+
+/*     NO SE QUE HACE ESTO+++++ */
+/* 
+select {
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+} 
+
+
+.num-paginaDest {
+    background-color: #d9d9d9;
+    padding: 1px;
+    text-align: center;
+    list-style: none;
+    display: flex; 
+    justify-content: center;  
+    align-items: center;  
+    gap: 20px;  
+}
+
+
+
+.botones-vendedor{
+    margin: 20px;  
+    margin-right: 50px;   
+    margin-left: 50px; 
+    display: flex;  
+    justify-content: flex-end;  
+    align-items: center;   
+} */
+
+
+
+
+/* BOTON HITORIAL DE BUSQUEDA */
+/* BOTONES A QUITAR/EDITAR+++++++++++  */
+
+ 
+/* .cart-btn{
+    margin: 20px; 
+} */
+
+
+/* .boton-historial{
+    margin: 20px; 
+    margin-right: 50px; 
+    margin-left: auto; 
+    display: flex;
+    justify-content: flex-end; 
+    align-items: center; 
+}  */
+
+
+
+
+/* ESTO ES PARA LOS BOTONES SUPERIORES */
+.styled-button {
+    font-size: 18px;
+    /* margin-left: 100px; */
+    color: #c61284;
+    font-family: inherit;
+    font-weight: 800;
+    cursor: pointer;
+    position: relative;
+    border: none;
+    background: none;
+    text-transform: uppercase;
+    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition-duration: 400ms;
+    transition-property: color;
+    padding: 5px 10px; /* Reducir el padding para hacerlos más compactos */
+
+  }
+  
+  .styled-button:focus,
+  .styled-button:hover {
+    color: #0b0b0b;
+  }
+  
+  .styled-button:focus:after,
+  .styled-button:hover:after {
+    width: 100%;
+    left: 0%;
+  }
+  
+  .styled-button:after {
+    content: "";
+    pointer-events: none;
+    bottom: -2px;
+    left: 50%;
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background-color: #0b0b0b;
+    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition-duration: 400ms;
+    transition-property: width, left;
+  }
+
+  .flex-container {
+    display: flex;
+    gap: 50px;
+    align-items: center;
+    justify-content: center;    
+}
+
+#sesion-user-link .styled-button:first-child {
+    margin-left: 150px;
+}
+
+#sesion-carro-link {
+    margin-left: auto; /* Mover el elemento de CARRITO DE COMPRA a la derecha */
+    margin-top: 10px;
+}

@@ -96,6 +96,7 @@ async function agregarCerrarSesion() {
     if (!usuarioLogueado) {
         sesionLink.innerHTML = '<a href="../index.html">Iniciar Sesión</a>';
     } else {
+<<<<<<< Updated upstream
         sesionLink.innerHTML = '<a href="#" onclick="cerrarSesion()">Cerrar Sesión</a>';
         if(tipoUsuarioLogueado == "vendedor"){
             sesionSUserLink.innerHTML += '<a href="./PaginaVendedor.html">Productos</a>';
@@ -107,6 +108,19 @@ async function agregarCerrarSesion() {
             sesionSUserLink.innerHTML += '<a href="./ListaDeseados.html">Lista Deseados</a>';
             sesionSUserLink.innerHTML += '<a href="./MisPedidos.html">Mis pedidos</a>';
             sesionSUserLink.innerHTML += '<a href="./InterfazComprador.html">Mi Cuenta</a>';
+=======
+        // sesionLink.innerHTML = '<button class="styled-button" onclick="cerrarSesion()">Cerrar Sesión</button>';
+        if (tipoUsuarioLogueado == "vendedor") {
+            sesionUserLink.innerHTML = '<button class="styled-button" onclick="location.href=\'./InterfazVendedor.html\'">Mi Cuenta</button>';
+            sesionUserLink.innerHTML += '<button class="styled-button" onclick="location.href=\'./PaginaVendedor.html\'">Mis Productos</button>';
+        } else if (tipoUsuarioLogueado == "tecnico") {
+            sesionUserLink.innerHTML = '<button class="styled-button" onclick="location.href=\'./InterfazVendedor.html\'">Mi Cuenta</button>';
+            sesionUserLink.innerHTML += '<button class="styled-button" onclick="irAPagianValidaciones()">Validaciones</button>';
+        } else { 
+            sesionUserLink.innerHTML = '<button class="styled-button" onclick="location.href=\'./InterfazComprador.html\'">Mi Cuenta</button>';
+            sesionUserLink.innerHTML += '<button class="styled-button" onclick="location.href=\'./ListaDeseados.html\'">Lista de Deseados</button>';
+            sesionSUserLink.innerHTML += '<button class="styled-button" onclick="location.href=\'./CarritoDeCompra.html\'" style="margin-left:auto;">Carrito de Compra</button>';
+>>>>>>> Stashed changes
         }      
     }
 }
