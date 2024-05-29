@@ -103,7 +103,8 @@ async function agregarCerrarSesion() {
             sesionUserLink.innerHTML = '<button class="styled-button" onclick="location.href=\'./InterfazVendedor.html\'">Mi Cuenta</button>';
             sesionUserLink.innerHTML += '<button class="styled-button" onclick="location.href=\'./PaginaVendedor.html\'">Productos</button>';
         } else if (tipoUsuarioLogueado == "tecnico") {
-            sesionUserLink.innerHTML = '<button class="styled-button" onclick="irAPagianValidaciones()">Validaciones</button>';
+            sesionUserLink.innerHTML = '<button class="styled-button" onclick="location.href=\'./InterfazVendedor.html\'">Mi Cuenta</button>';
+            sesionUserLink.innerHTML += '<button class="styled-button" onclick="irAPagianValidaciones()">Validaciones</button>';
         } else { 
             sesionUserLink.innerHTML = '<button class="styled-button" onclick="location.href=\'./InterfazComprador.html\'">Mi Cuenta</button>';
             sesionUserLink.innerHTML += '<button class="styled-button" onclick="location.href=\'./ListaDeseados.html\'">Lista de Deseados</button>';

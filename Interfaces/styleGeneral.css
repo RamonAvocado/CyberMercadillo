@@ -1,10 +1,6 @@
-
-
 /* ESTO ES PARA QUE NO SALGA LA BARRA DE DESPLAZAMIENTO INFERIOR
    Y QUE RESULTADOS DE BUSQUEDA TENGA UN ESTILO ESTÁTICO */
-
-
-.main-section {
+   .main-section {
     display: flex;
 
 }
@@ -21,10 +17,7 @@ body {
 
 
 
-/* PARTE SUPERIOR (es para organizar todo) */
-.barra-busqueda{
-    width: 110%; 
-}
+
 /* Estilos para el encabezado */
 header {
     background-color: #6a0572;
@@ -84,6 +77,7 @@ header {
     text-decoration: none;
     transition: 0.3s ease all;
     z-index: 1;
+    margin-left: 450px;
 }
 
 .cta-button:before {
@@ -131,10 +125,13 @@ header {
     list-style: none;
     display: flex;
     gap: 20px; /* Espacio entre los elementos de la lista */
+    padding: 0;
+    margin: 0;
 }
 
 .nav-list li {
     margin: 0;
+    padding: 0;
 }
 
 .nav-list a {
@@ -212,7 +209,8 @@ header {
 /* ESTO MARCA LA POSICIÓN DEL BOTÓN VOLVER */
 .boton-Volver {
     margin: 5px; /* Ajusta el valor según sea necesario */
-    margin-left: 10px; /* Agrega una sangría de 50px a la izquierda */
+    margin-left: 50px; /* Agrega una sangría de 50px a la izquierda */
+    margin-top: 20px;
     display: flex; /* Para que el elemento ocupe el ancho disponible */
     justify-content: flex-start; /* Alinea el contenido al principio del contenedor */
     align-items: center; /* Centra verticalmente el contenido */
@@ -314,15 +312,6 @@ footer {
 .info{
     font-size: 24px;
 }
-.footer-parte-derecha{
-    text-align: right;
-}
-
-footer a {
-    color: #000000;
-    text-decoration: none;
-    margin: 0 10px;
-}
 
 
 
@@ -345,19 +334,33 @@ footer a {
 
 
 
+/* ESTO ES PARA LOS BOTONES DE GUARDAR PRODUCTO, USUARIO, ETC... */
+
+.cart-btn,
+.search-history-btn {
+    background-color: #f39c12;
+    color: rgb(0, 0, 0);
+    padding: 10px 56px;
+    border-radius: 20px;
+    font-size: 24px;
+    border: none;
+    cursor: pointer;
+}
+
+
 /* ESTO NO CAMBIA NADA, LO DEJO COMENTADO PQ PUEDE QUE ME HAYA DEJADO
    ALGUN HTML */
-
-/* .product-card.selected {
+/* 
+ .product-card.selected {
     border: 2px solid blue; 
     box-shadow: 0 0 5px blue; 
-}   */
+}    */
 
 
 /*     NO SE QUE HACE ESTO+++++ */
 
 /* Información del producto */
-/* .product-info h3 {
+ /* .product-info h3 {
     font-size: 18px;
     margin: 0;
 }
@@ -374,11 +377,12 @@ footer a {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis; 
-} */
+} 
 
 
 /*     NO SE QUE HACE ESTO+++++ */
-/* select {
+/* 
+select {
     padding: 5px;
     font-size: 14px;
     border: 1px solid #ddd;
@@ -391,57 +395,51 @@ footer a {
     padding: 1px;
     text-align: center;
     list-style: none;
-    display: flex;  Corregir: Eliminar '= 1' 
-    justify-content: center;  Centrar horizontalmente 
-    align-items: center;  Centrar verticalmente 
-    gap: 20px;  Espacio entre los elementos de la lista 
+    display: flex; 
+    justify-content: center;  
+    align-items: center;  
+    gap: 20px;  
 }
 
 
 
 .botones-vendedor{
-    margin: 20px;  Ajusta el valor según sea necesario 
-    margin-right: 50px;  Agrega una sangría de 50px a la derecha 
-    margin-left: 50px;  Mueve el elemento hacia la derecha 
-    display: flex;  Para que el elemento ocupe el ancho disponible 
-    justify-content: flex-end;  Alinea el contenido al final del contenedor 
-    align-items: center;  Centra verticalmente el contenido 
-}
+    margin: 20px;  
+    margin-right: 50px;   
+    margin-left: 50px; 
+    display: flex;  
+    justify-content: flex-end;  
+    align-items: center;   
+} */
 
-*/
+
 
 
 /* BOTON HITORIAL DE BUSQUEDA */
 /* BOTONES A QUITAR/EDITAR+++++++++++  */
 
-/* 
-.cart-btn{
+ 
+/* .cart-btn{
     margin: 20px; 
-}
-.cart-btn,
-.search-history-btn {
-    background-color: #f39c12;
-    color: rgb(0, 0, 0);
-    padding: 10px 56px;
-    border-radius: 20px;
-    font-size: 24px;
-    border: none;
-    cursor: pointer;
-}
+} */
 
-.boton-historial{
+
+/* .boton-historial{
     margin: 20px; 
     margin-right: 50px; 
     margin-left: auto; 
     display: flex;
     justify-content: flex-end; 
     align-items: center; 
-} */
+}  */
+
+
 
 
 /* ESTO ES PARA LOS BOTONES SUPERIORES */
 .styled-button {
     font-size: 18px;
+    /* margin-left: 100px; */
     color: #c61284;
     font-family: inherit;
     font-weight: 800;
@@ -453,6 +451,8 @@ footer a {
     transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
     transition-duration: 400ms;
     transition-property: color;
+    padding: 5px 10px; /* Reducir el padding para hacerlos más compactos */
+
   }
   
   .styled-button:focus,
@@ -482,10 +482,16 @@ footer a {
 
   .flex-container {
     display: flex;
+    gap: 50px;
     align-items: center;
-    gap: 10px;
+    justify-content: center;    
+}
+
+#sesion-user-link .styled-button:first-child {
+    margin-left: 150px;
 }
 
 #sesion-carro-link {
     margin-left: auto; /* Mover el elemento de CARRITO DE COMPRA a la derecha */
+    margin-top: 10px;
 }
