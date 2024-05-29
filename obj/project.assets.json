@@ -2095,6 +2095,12 @@
             "related": ".xml"
           }
         }
+      },
+      "xunit.runner.visualstudio/2.4.3": {
+        "type": "package",
+        "build": {
+          "build/netcoreapp2.1/xunit.runner.visualstudio.props": {}
+        }
       }
     }
   },
@@ -6406,6 +6412,37 @@
         "xunit.extensibility.execution.2.8.0.nupkg.sha512",
         "xunit.extensibility.execution.nuspec"
       ]
+    },
+    "xunit.runner.visualstudio/2.4.3": {
+      "sha512": "kZZSmOmKA8OBlAJaquPXnJJLM9RwQ27H7BMVqfMLUcTi9xHinWGJiWksa3D4NEtz0wZ/nxd2mogObvBgJKCRhQ==",
+      "type": "package",
+      "path": "xunit.runner.visualstudio/2.4.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "License.txt",
+        "build/net452/xunit.abstractions.dll",
+        "build/net452/xunit.runner.reporters.net452.dll",
+        "build/net452/xunit.runner.utility.net452.dll",
+        "build/net452/xunit.runner.visualstudio.props",
+        "build/net452/xunit.runner.visualstudio.testadapter.dll",
+        "build/netcoreapp2.1/xunit.abstractions.dll",
+        "build/netcoreapp2.1/xunit.runner.reporters.netcoreapp10.dll",
+        "build/netcoreapp2.1/xunit.runner.utility.netcoreapp10.dll",
+        "build/netcoreapp2.1/xunit.runner.visualstudio.dotnetcore.testadapter.dll",
+        "build/netcoreapp2.1/xunit.runner.visualstudio.props",
+        "build/uap10.0.16299/xunit.runner.reporters.netstandard15.dll",
+        "build/uap10.0.16299/xunit.runner.utility.netstandard15.dll",
+        "build/uap10.0.16299/xunit.runner.utility.uwp10.dll",
+        "build/uap10.0.16299/xunit.runner.utility.uwp10.pri",
+        "build/uap10.0.16299/xunit.runner.visualstudio.props",
+        "build/uap10.0.16299/xunit.runner.visualstudio.targets",
+        "build/uap10.0.16299/xunit.runner.visualstudio.uwp.testadapter.dll",
+        "build/uap10.0.16299/xunit.runner.visualstudio.uwp.testadapter.pri",
+        "logo-512-transparent.png",
+        "xunit.runner.visualstudio.2.4.3.nupkg.sha512",
+        "xunit.runner.visualstudio.nuspec"
+      ]
     }
   },
   "projectFileDependencyGroups": {
@@ -6415,23 +6452,24 @@
       "Swashbuckle.AspNetCore >= 6.5.0",
       "itext7 >= 7.2.0",
       "supabase-csharp >= 0.15.0",
-      "xunit >= 2.8.0"
+      "xunit >= 2.8.0",
+      "xunit.runner.visualstudio >= 2.4.3"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Jordi\\.nuget\\packages\\": {}
+    "C:\\Users\\ramon\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
+      "projectUniqueName": "C:\\Users\\ramon\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
       "projectName": "CyberMercadillo",
-      "projectPath": "C:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
-      "packagesPath": "C:\\Users\\Jordi\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\obj\\",
+      "projectPath": "C:\\Users\\ramon\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
+      "packagesPath": "C:\\Users\\ramon\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ramon\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Jordi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ramon\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6480,6 +6518,10 @@
           "xunit": {
             "target": "Package",
             "version": "[2.8.0, )"
+          },
+          "xunit.runner.visualstudio": {
+            "target": "Package",
+            "version": "[2.4.3, )"
           }
         },
         "imports": [
@@ -6504,13 +6546,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file C:\\Users\\Jordi\\Documents\\GitHub\\CyberMercadillo\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    }
-  ]
+  }
 }

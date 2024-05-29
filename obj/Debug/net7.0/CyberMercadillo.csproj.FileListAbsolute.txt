@@ -585,3 +585,6 @@ C:\Users\Jordi\Documents\GitHub\CyberMercadillo\bin\Debug\net7.0\zh-Hans\Microso
 C:\Users\Jordi\Documents\GitHub\CyberMercadillo\bin\Debug\net7.0\zh-Hant\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
 C:\Users\Jordi\Documents\GitHub\CyberMercadillo\bin\Debug\net7.0\zh-Hant\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
 C:\Users\Jordi\Documents\GitHub\CyberMercadillo\bin\Debug\net7.0\zh-Hant\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\xunit.runner.reporters.netcoreapp10.dll
+C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\xunit.runner.utility.netcoreapp10.dll
