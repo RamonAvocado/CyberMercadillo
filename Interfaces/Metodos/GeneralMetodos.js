@@ -269,8 +269,22 @@ function agregarUsuarioComprador(TipoUsuarioRegistrado) {
 }
 
 async function handleFormSubmitComprador(TipoUsuarioRegistrado) {
-    var errorMessage = document.getElementById('error-message');
-    if (errorMessage.style.display == 'block') {
+    var errorMessage1 = document.getElementById('error-message');
+    var errorMessage2 = document.getElementById('TelUsuError');
+    var errorMessage3 = document.getElementById('CorreoUsuError');
+    var errorMessage4 = document.getElementById('NumTarjError1');
+    var errorMessage5 = document.getElementById('NumTarjError2');
+    var errorMessage6 = document.getElementById('CVVError1');
+    var errorMessage7 = document.getElementById('CVVError2');
+    var errorMessage8 = document.getElementById('FechaCadError1');
+    var errorMessage9 = document.getElementById('FechaCadError2');
+    var errorMessage10 = document.getElementById('FechaCadError3');
+    if (errorMessage1.style.display == 'block' || errorMessage2.style.display == 'block' ||
+        errorMessage3.style.display == 'block' || errorMessage4.style.display == 'block' ||
+        errorMessage5.style.display == 'block' || errorMessage6.style.display == 'block' ||
+        errorMessage7.style.display == 'block' || errorMessage8.style.display == 'block' ||
+        errorMessage9.style.display == 'block' || errorMessage10.style.display == 'block' 
+    ) {
         alert("Por favor ingrese los datos correctamente");
     } else {
         const formData = new FormData(document.getElementById('agregarCompradorForm'));
@@ -1002,4 +1016,170 @@ function validatePasswords() {
     } else {
         errorMessage.style.display = 'none';
     }
+}
+
+function validateTel() {
+    var telefonoInput = document.getElementById('TelUsu');
+    var telefonoInputT = document.getElementById('TelUsuT');
+    var errorSpan = document.getElementById('TelUsuError');
+    var errorSpan2 = document.getElementById('TelUsuError2');
+    
+    // Verificar si el valor es un número entero
+    if (!Number.isInteger(Number(telefonoInput.value))) {
+        // Muestra el mensaje de error si no es un número entero
+        errorSpan.style.display = 'block';
+    } else {
+        // Oculta el mensaje de error si es un número entero
+        errorSpan.style.display = 'none';
+    }
+
+    if (!Number.isInteger(Number(telefonoInputT.value))) {
+        // Muestra el mensaje de error si no es un número entero
+        errorSpan2.style.display = 'block';
+    } else {
+        // Oculta el mensaje de error si es un número entero
+        errorSpan2.style.display = 'none';
+    }
+    
+}
+
+function validateTelComprador() {
+    var telefonoInputC = document.getElementById('TelUsuC');
+    var errorSpan = document.getElementById('TelUsuError');
+    
+    // Verificar si el valor es un número entero
+    if (!Number.isInteger(Number(telefonoInputC.value))) {
+        // Muestra el mensaje de error si no es un número entero
+        errorSpan.style.display = 'block';
+    } else {
+        // Oculta el mensaje de error si es un número entero
+        errorSpan.style.display = 'none';
+    }
+    
+}
+function validateEmail() {
+    var correoInput = document.getElementById('CorreoUsu');
+    var errorSpan = document.getElementById('CorreoUsuError');
+
+    // Expresión regular para validar correo electrónico
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Verificar si el valor es un correo electrónico válido
+    if (!emailRegex.test(correoInput.value)) {
+        // Muestra el mensaje de error si no es válido
+        errorSpan.style.display = 'block';
+        return false;
+    } else {
+        // Oculta el mensaje de error si es válido
+        errorSpan.style.display = 'none';
+        return true;
+    }
+}
+
+function validateEmailComprador() {
+    var correoInput = document.getElementById('CorreoUsuC');
+    var errorSpan = document.getElementById('CorreoUsuError');
+
+    // Expresión regular para validar correo electrónico
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Verificar si el valor es un correo electrónico válido
+    if (!emailRegex.test(correoInput.value)) {
+        // Muestra el mensaje de error si no es válido
+        errorSpan.style.display = 'block';
+        return false;
+    } else {
+        // Oculta el mensaje de error si es válido
+        errorSpan.style.display = 'none';
+        return true;
+    }
+}
+
+function validarCVV() {
+    var cvv = document.getElementById("CVV").value;
+    var errorSpan = document.getElementById('CVVError1');
+    var errorSpan2 = document.getElementById('CVVError2');
+
+    // Verificar que el CVV tenga la longitud correcta
+    if (cvv != ""){
+        if (cvv.length !== 3 && cvv.length !== 4) {
+            errorSpan.style.display = 'block';
+            return;
+        }else{
+            errorSpan.style.display = 'none';
+        }
+
+        // Verificar que el CVV sea numérico
+        if (isNaN(cvv)) {
+            errorSpan2.style.display = 'block';
+            return;
+        }else{
+            errorSpan2.style.display = 'none';
+        }
+    }else{
+        errorSpan.style.display = 'none';
+        errorSpan2.style.display = 'none';
+    }
+}
+
+function validarFechaDeCaducidad() {
+    var fechaCaducidad = document.getElementById("FechaCad").value;
+    var errorSpan1 = document.getElementById('FechaCadError1');
+    var errorSpan2 = document.getElementById('FechaCadError2');
+    var errorSpan3 = document.getElementById('FechaCadError3');
+
+    // Verificar que se haya ingresado una fecha
+    if (fechaCaducidad != "") {
+        // Verificar el formato de la fecha (MM/AA)
+        var fechaArray = fechaCaducidad.split('/');
+        if (fechaArray.length !== 2) {
+            errorSpan1.style.display = 'block';
+            return;
+        }else errorSpan1.style.display = 'none';
+
+        var mes = parseInt(fechaArray[0], 10);
+        var ano = parseInt(fechaArray[1], 10);
+
+        // Verificar que el mes esté entre 1 y 12
+        if (mes < 1 || mes > 12) {
+            errorSpan2.style.display = 'block';
+            return;
+        }else errorSpan2.style.display = 'none';
+
+        // Obtener el año actual
+        var fechaActual = new Date();
+        var anoActual = fechaActual.getFullYear() % 100; // Obtenemos los últimos dos dígitos del año actual
+
+        // Verificar que el año sea mayor o igual al año actual
+        if (ano < anoActual) {
+            errorSpan3.style.display = 'block';
+            return;
+        }else errorSpan3.style.display = 'none';
+    }else{  errorSpan1.style.display = 'none';
+            errorSpan2.style.display = 'none';
+            errorSpan3.style.display = 'none';
+    }
+}
+
+function validarNumeroTarjeta() {
+    var numTarjeta = document.getElementById("NumTarj").value;
+    var errorSpan1 = document.getElementById('NumTarjError1');
+    var errorSpan2 = document.getElementById('NumTarjError2');
+ 
+    // Verificar que se haya ingresado un número de tarjeta
+    if (numTarjeta != "") {
+        // Verificar la longitud del número de tarjeta (generalmente entre 12 y 19 dígitos)
+        if (numTarjeta.length < 12 || numTarjeta.length > 19) {
+            errorSpan1.style.display = 'block';
+            return;
+        }else errorSpan1.style.display = 'none';
+        if (isNaN(numTarjeta)) {
+            errorSpan2.style.display = 'block';
+            return;
+        }else{
+            errorSpan2.style.display = 'none';
+        }
+    }else{errorSpan1.style.display = 'none';
+          errorSpan2.style.display = 'none';
+         } 
 }

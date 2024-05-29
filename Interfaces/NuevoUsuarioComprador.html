@@ -80,12 +80,15 @@
 
                     <div class="form-group">
                         <label for="TelUsuC">*Telefono:</label>
-                        <input type="text" id="TelUsuC" name="TelUsuC" required><br>
+                        <input type="text" id="TelUsuC" name="TelUsuC" required oninput="validateTelComprador()">
+                        <span class="error" id="TelUsuError" style="display: none;">Por favor, ingrese solo números.</span>
+                        <br>
                     </div>
 
                     <div class="form-group">
                         <label for="CorreoUsuC">*Correo Electrónico:</label>
-                        <input type="text" id="CorreoUsuC" name="CorreoUsuC" required><br>
+                        <input type="text" id="CorreoUsuC" name="CorreoUsuC" required oninput="validateEmailComprador()"><br>
+                        <span class="error" id="CorreoUsuError" style="display: none;">Por favor, ingrese un correo electrónico válido.</span>
                     </div>
 
                     <div class="form-group">
@@ -116,17 +119,26 @@
                     </div>                    
                     <div class="form-group">
                         <label for="NumTarj">Numero Tarjeta:</label>
-                        <input type="number" id="NumTarj" name="NumTarj" ><br>
+                        <input type="text" id="NumTarj" name="NumTarj" oninput="validarNumeroTarjeta()"><br>
+                        <span class="error" id="NumTarjError1" style="display: none;">El número de tarjeta debe tener entre 12 y 19 dígitos</span>
+                        <span class="error" id="NumTarjError2" style="display: none;">El número de tarjeta debe ser un número</span>
                     </div>
 
                     <div class="form-group">
                         <label for="CVV">CVV:</label>
-                        <input type="number" id="CVV" name="CVV" ><br>
+                        <input type="text" id="CVV" name="CVV" oninput="validarCVV()">
+                        <span class="error" id="CVVError1" style="display: none;">El CVV debe tener 3 o 4 dígitos.</span>
+                        <span class="error" id="CVVError2" style="display: none;">El CVV debe ser un número.</span>
+                        <br>
                     </div>
 
                     <div class="form-group">
                         <label for="FechaCad">Fecha de Caducidad:</label>
-                        <input type="text" id="FechaCad" name="FechaCad" ><br>
+                        <input type="text" id="FechaCad" name="FechaCad" oninput="validarFechaDeCaducidad()">
+                        <span class="error" id="FechaCadError1" style="display: none;">El formato de la fecha debe ser MM/AA</span>
+                        <span class="error" id="FechaCadError2" style="display: none;">El mes de la fecha de caducidad no es válido</span>
+                        <span class="error" id="FechaCadError3" style="display: none;">El año de la fecha de caducidad no es válido</span>
+                        <br>
                     </div>
                     
                     <button onclick = "agregarUsuarioComprador(localStorage.getItem('tipoUsuRegistro'))" class="search-history-btn">Confirmar</button>
@@ -158,7 +170,7 @@
     </script>
     <script>
         // Llamar a la función para agregar el enlace de Iniciar Sesión o Cerrar Sesión
-        agregarCerrarSesion();
+        //agregarCerrarSesion();
     </script>
 </body>
 </html>
