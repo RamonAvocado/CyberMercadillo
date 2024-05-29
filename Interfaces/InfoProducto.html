@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cyber Mercadillo</title>
-    <link rel="stylesheet" href="styleBuscador.css">
+    <link rel="stylesheet" href="styleGeneral.css">
+    <link rel="stylesheet" href="styleMuestraProducto.css">
 </head>
 <body>
     <input type="hidden" id="idUsuario" value="-1">
@@ -12,21 +13,20 @@
     <header>
         <div  class="parte-superior">
             <div class="img-logo">   
-                <img src="Imagenes/Logo.png"  alt="Logo Cyber Mercadillo">
+                <!-- Utiliza un botón en lugar de una imagen -->
+                <button onclick="redirigirABusqueda()" class="logo-button">
+                    <!-- Coloca la imagen dentro del botón -->
+                    <img src="Imagenes/Logo.png" alt="Logo Cyber Mercadillo" style="width: 180px; height: auto;">
+                </button>
             </div>
             <h1>
                 <span>Cyber </span><br>
                 <span>Mercadillo</span>
             </h1>
             <div class="barra-busqueda">
-<<<<<<< Updated upstream
-                <button id="searchButton" onclick="IrABuquedaProducto()">Buscar Producto ...</button>
-            </div>
-=======
                 <button class="cta-button" onclick="IrABuquedaProducto()">
                     <span class="hover-underline-animation"> ¡Empezar a comprar! </span>
                 </button>            </div>
->>>>>>> Stashed changes
         </div>
         <div id = "resultados"></div>
         <style>
@@ -59,19 +59,8 @@
     <div class = "grupo-nav-list">
         <nav>
             <ul class="nav-list">
-                <li>
-<<<<<<< Updated upstream
-                    <div class="back-button">
-                        <a href="#" onclick="volverPaginaAnterior()">Volver atrás</a>
-                    </div>
-                </li>
-                <li><a href="/Interfaces/NewPaginaPrincipal.html">Principal</a></li>
-                <li id="sesion-user-link"></li>
-=======
-                </li>
-                <li id="sesion-user-link" class="flex-container"></li>
-                <li id="sesion-carro-link"></li>
->>>>>>> Stashed changes
+            <li id="sesion-user-link" class="flex-container"></li>
+            <li id="sesion-carro-link"></li>
                 <li id="sesion-link"></li>
                 <li>
                     <div class="user-icons">
@@ -80,7 +69,7 @@
                 </li>
             </ul>
         </nav>
-    </div> 
+    </div>
     <div class="boton-Volver">
         <button onclick="volverPaginaAnterior()" class="volver-btn">
             <svg viewBox="0 0 384 512" class="svgIcon">
@@ -90,9 +79,9 @@
             </svg>
         </button>
     </div>
-    <div class="boton-historial">
+    <!-- <div class="boton-historial">
         <button onclick = "irAHistorialDeBúsqueda()" class="search-history-btn">Historial de Búsqueda</button>
-    </div>
+    </div> -->
     <div class = "texto-titulo">
         <h2>Descripción del Producto</h2>
     </div>
@@ -101,13 +90,12 @@
     </div>
 
     <div class = "texto-titulo">
-        <h2>Más Información</h2>
+        <h2>Productos Relacionados</h2>
         
     </div>
     
         <div class="recommended-products-container">
             <div class = "sub-container">
-                <h2>Productos Relacionados</h2>
                 <div class="related-products">
                     <!-- Aquí se mostrarán los productos recomendados -->
                 </div>
@@ -128,9 +116,6 @@
                 </div>
             </div>
         </div>
-    <div class="boton-Volver">
-        <button onclick = "volverPaginaAnterior()" class="volver-btn">Volver</button>
-    </div>
     <footer>
         <div class="separador">
             <div class = "footer-parte-izuierda">

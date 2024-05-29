@@ -6,6 +6,7 @@
     <title>Cyber Mercadillo</title>
     <link rel="stylesheet" href="styleEditarProducto.css">
     <link rel="stylesheet" href="styleNuevoUsuario.css">
+    <link rel="stylesheet" href="styleGeneral.css">
     <style>
         /* Alinea los textos de las etiquetas a la izquierda */
         label {
@@ -18,7 +19,10 @@
     <header>
         <div  class="parte-superior">
             <div class="img-logo">   
-                <img src="Imagenes/Logo.png"  alt="Logo Cyber Mercadillo">
+                <button onclick="redirigirABusqueda()" class="logo-button">
+                    <!-- Coloca la imagen dentro del botón -->
+                    <img src="Imagenes/Logo.png" alt="Logo Cyber Mercadillo" style="width: 180px; height: auto;">
+                </button>
             </div>
             <h1>
                 <span>Cyber </span><br>
@@ -26,13 +30,6 @@
             </h1>
         </div>
         <style>
-            .botones-vendedor {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 10px;
-                background-color: #f0f0f0;
-            }
     
             .izquierda {
                 display: flex; /* Permite que los botones se coloquen uno al lado del otro */
@@ -60,12 +57,10 @@
         <nav>
             <ul class="nav-list">
                 <li>
-                    <div class="back-button">
-                        <a href="#" onclick="volverPaginaAnterior()">Volver atrás</a>
+                    <div class="boton-Volver">
                     </div>
                 </li>
-                <li><a href="./NewPaginaPrincipal.html">Principal</a></li>
-                <li id="sesion-user-link"></li>
+                <li id="sesion-user-link"class="flex-container"></li>
                 <li id="sesion-link"></li>
                 <li>
                     <div class="user-icons">
@@ -85,6 +80,13 @@
         </button>
 >>>>>>> Stashed changes
     </div>
+    <button onclick="volverPaginaAnterior()" class="volver-btn">
+        <svg viewBox="0 0 384 512" class="svgIcon">
+            <path
+                d="M41.4 214.6c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L141.2 288H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H141.2l105.5-105.5c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"
+            ></path>
+        </svg>
+    </button>
     <div class = "texto-titulo">
     </div>
     <div class="featured-products-container">
@@ -151,7 +153,7 @@
     </form>
         </div>
     </body>
-    </div>    
+    </div>     
     <footer>
         <div class="separador">
         </div>

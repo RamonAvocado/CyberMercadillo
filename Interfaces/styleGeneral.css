@@ -1,10 +1,6 @@
-
-
 /* ESTO ES PARA QUE NO SALGA LA BARRA DE DESPLAZAMIENTO INFERIOR
    Y QUE RESULTADOS DE BUSQUEDA TENGA UN ESTILO ESTÁTICO */
-
-
-.main-section {
+   .main-section {
     display: flex;
 
 }

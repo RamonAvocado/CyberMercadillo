@@ -5,12 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cyber Mercadillo</title>
     <link rel="stylesheet" href="styleBuscador.css">
+    <link rel="stylesheet" href="styleGeneral.css">
+    <link rel="stylesheet" href="styleResultados.css">
+
+    
+
 </head>
 <body>
     <header>
         <div  class="parte-superior">
             <div class="img-logo">   
-                <img src="Imagenes/Logo.png"  alt="Logo Cyber Mercadillo">
+                <button onclick="redirigirABusqueda()" class="logo-button">
+                    <!-- Coloca la imagen dentro del botón -->
+                    <img src="Imagenes/Logo.png" alt="Logo Cyber Mercadillo" style="width: 180px; height: auto;">
+                </button>
             </div>
             <h1>
                 <span>Cyber </span><br>
@@ -26,19 +34,8 @@
     <div class = "grupo-nav-list">
         <nav>
             <ul class="nav-list">
-                <li>
-<<<<<<< Updated upstream
-                    <div class="back-button">
-                        <a href="#" onclick="volverPaginaAnterior()">Volver atrás</a>
-                    </div>
-                </li>
-                <li><a href="./NewPaginaPrincipal.html">Principal</a></li>
-                <li id="sesion-user-link"></li>
-=======
-                </li>
-                <li id="sesion-user-link" class="flex-container"></li>
+                <li id="sesion-user-link"class="flex-container"></li>
                 <li id="sesion-carro-link"></li>
->>>>>>> Stashed changes
                 <li id="sesion-link"></li>
                 <li>
                     <div class="user-icons">
@@ -47,8 +44,8 @@
                 </li>
             </ul>
         </nav>
-    </div> 
-    <div class="boton-Volver" style ="margin-bottom: 20px;" >
+    </div>
+    <div class="boton-Volver">
         <button onclick="volverPaginaAnterior()" class="volver-btn">
             <svg viewBox="0 0 384 512" class="svgIcon">
                 <path
@@ -57,9 +54,9 @@
             </svg>
         </button>
     </div>
-    <div class="boton-historial">
+    <!-- <div class="boton-historial">
         <button onclick = "irAHistorialDeBúsqueda()" class="search-history-btn">Historial de Búsqueda</button>
-    </div>
+    </div> -->
 
     <div class="main-section">
         <div class="filters-section">
@@ -90,10 +87,6 @@
             
             </div>
         </div>
-    </div>
-
-    <div class="boton-Volver">
-        <button onclick = "volverPaginaAnterior()" class="volver-btn">Volver</button>
     </div>
     <footer>
         <div class="separador">

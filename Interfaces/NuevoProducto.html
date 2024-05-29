@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cyber Mercadillo</title>
     <link rel="stylesheet" href="styleNuevoProducto.css">
+    <link rel="stylesheet" href="styleGeneral.css">
     <style>
         /* Alinea los textos de las etiquetas a la izquierda */
         label {
@@ -16,21 +17,16 @@
     <header>
         <div  class="parte-superior">
             <div class="img-logo">   
-                <img src="Imagenes/Logo.png"  alt="Logo Cyber Mercadillo">
-            </div>
+                <button onclick="redirigirABusqueda()" class="logo-button">
+                    <!-- Coloca la imagen dentro del botón -->
+                    <img src="Imagenes/Logo.png" alt="Logo Cyber Mercadillo" style="width: 180px; height: auto;">
+                </button>            </div>
             <h1>
                 <span>Cyber </span><br>
                 <span>Mercadillo</span>
             </h1>
         </div>
         <style>
-            .botones-vendedor {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 10px;
-                background-color: #f0f0f0;
-            }
     
             .izquierda {
                 display: flex; /* Permite que los botones se coloquen uno al lado del otro */
@@ -57,13 +53,7 @@
     <div class = "grupo-nav-list">
         <nav>
             <ul class="nav-list">
-                <li>
-                    <div class="back-button">
-                        <a href="#" onclick="volverPaginaAnterior()">Volver atrás</a>
-                    </div>
-                </li>
-                <li><a href="./NewPaginaPrincipal.html">Principal</a></li>
-                <li id="sesion-user-link"></li>
+                <li id="sesion-user-link"class="flex-container"></li>
                 <li id="sesion-link"></li>
                 <li>
                     <div class="user-icons">
@@ -72,8 +62,7 @@
                 </li>
             </ul>
         </nav>
-=======
-    </header> 
+    </div>
     <div class="boton-Volver">
         <button onclick="volverPaginaAnterior()" class="volver-btn">
             <svg viewBox="0 0 384 512" class="svgIcon">
@@ -82,7 +71,6 @@
                 ></path>
             </svg>
         </button>
->>>>>>> Stashed changes
     </div>
     <div class = "texto-titulo">
     </div>
@@ -167,9 +155,7 @@
             </div>
         </div>
     </body>
-    </div>
-    <div class="botones-vendedor">
-    </div>     
+    </div>   
     <footer>
         <div class="separador">
         </div>
