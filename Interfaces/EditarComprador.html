@@ -91,12 +91,13 @@
 
                     <div class="form-group" id="repeat-password-container" style="display: none;">
                         <label for="RContraseñaUsu" style="width: 150px;">Repetir Contraseña:</label>
-                        <input type="password" id="RContraseñaUsu" name="RContraseñaUsu" required style="width: 250px; height: 30px;" oninput="combinedFunction()"><br>
+                        <input type="password" id="RContraseñaUsu" name="RContraseñaUsu" required style="width: 250px; height: 30px;" oninput="comprobarContra()">
                     </div>
                     
                     <div id="error-message1" class="error" style="display: none;">Las contraseñas no coinciden</div>
                     <div id="error-message2" class="error" style="display: none;">La nueva contraseña es igual que la anterior</div>
 
+                
                     <div class="form-group">
                         <label for="DirUsuEnvio" style="width: 150px;">Direccion de Envio:</label>
                         <input type="text" id="DirUsuEnvio" name="DirUsuEnvio" required style="width: 350px;"><br>

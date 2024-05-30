@@ -671,3 +671,6 @@ C:\Users\vane_\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\xunit
 C:\Users\vane_\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\xunit.runner.reporters.netcoreapp10.dll
 C:\Users\vane_\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\xunit.runner.utility.netcoreapp10.dll
 >>>>>>> 98041cac0da6885a72e70fa9dfdff6368a64d7a3
+C:\Users\2003h\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+C:\Users\2003h\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\xunit.runner.reporters.netcoreapp10.dll
+C:\Users\2003h\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\xunit.runner.utility.netcoreapp10.dll

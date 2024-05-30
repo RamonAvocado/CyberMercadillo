@@ -1013,6 +1013,25 @@ async function CierroSesionCuenta() {
 function showRepeatPassword() {
     var repeatPasswordContainer = document.getElementById('repeat-password-container');
     repeatPasswordContainer.style.display = 'block';
+    comprobarContra();
+}
+//cambiar hasta aqui
+
+
+function comprobarContra() {
+    var password = document.getElementById('ContraseñaUsu').value;
+    var repeatPassword = document.getElementById('RContraseñaUsu').value;
+    var errorMessage1 = document.getElementById('error-message1');
+    var errorMessage2 = document.getElementById('error-message2');
+
+    // Validar si las contraseñas coinciden
+    if (password !== repeatPassword) {
+        errorMessage1.style.display = 'block';
+        errorMessage2.style.display = 'none';
+    } else {
+        errorMessage1.style.display = 'none';
+        combinedFunction(); // Llama a la función combinada para la verificación adicional
+    }
 }
 
 async function combinedFunction() {
@@ -1023,8 +1042,6 @@ async function combinedFunction() {
 
     // Validar si las contraseñas coinciden
     if (password !== repeatPassword) {
-        errorMessage1.style.display = 'block';
-        errorMessage2.style.display = 'none';
         return; // Salir de la función si las contraseñas no coinciden
     } else {
         errorMessage1.style.display = 'none';
