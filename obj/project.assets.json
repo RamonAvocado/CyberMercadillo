@@ -2095,6 +2095,12 @@
             "related": ".xml"
           }
         }
+      },
+      "xunit.runner.visualstudio/2.4.3": {
+        "type": "package",
+        "build": {
+          "build/netcoreapp2.1/xunit.runner.visualstudio.props": {}
+        }
       }
     }
   },
@@ -6406,6 +6412,37 @@
         "xunit.extensibility.execution.2.8.0.nupkg.sha512",
         "xunit.extensibility.execution.nuspec"
       ]
+    },
+    "xunit.runner.visualstudio/2.4.3": {
+      "sha512": "kZZSmOmKA8OBlAJaquPXnJJLM9RwQ27H7BMVqfMLUcTi9xHinWGJiWksa3D4NEtz0wZ/nxd2mogObvBgJKCRhQ==",
+      "type": "package",
+      "path": "xunit.runner.visualstudio/2.4.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "License.txt",
+        "build/net452/xunit.abstractions.dll",
+        "build/net452/xunit.runner.reporters.net452.dll",
+        "build/net452/xunit.runner.utility.net452.dll",
+        "build/net452/xunit.runner.visualstudio.props",
+        "build/net452/xunit.runner.visualstudio.testadapter.dll",
+        "build/netcoreapp2.1/xunit.abstractions.dll",
+        "build/netcoreapp2.1/xunit.runner.reporters.netcoreapp10.dll",
+        "build/netcoreapp2.1/xunit.runner.utility.netcoreapp10.dll",
+        "build/netcoreapp2.1/xunit.runner.visualstudio.dotnetcore.testadapter.dll",
+        "build/netcoreapp2.1/xunit.runner.visualstudio.props",
+        "build/uap10.0.16299/xunit.runner.reporters.netstandard15.dll",
+        "build/uap10.0.16299/xunit.runner.utility.netstandard15.dll",
+        "build/uap10.0.16299/xunit.runner.utility.uwp10.dll",
+        "build/uap10.0.16299/xunit.runner.utility.uwp10.pri",
+        "build/uap10.0.16299/xunit.runner.visualstudio.props",
+        "build/uap10.0.16299/xunit.runner.visualstudio.targets",
+        "build/uap10.0.16299/xunit.runner.visualstudio.uwp.testadapter.dll",
+        "build/uap10.0.16299/xunit.runner.visualstudio.uwp.testadapter.pri",
+        "logo-512-transparent.png",
+        "xunit.runner.visualstudio.2.4.3.nupkg.sha512",
+        "xunit.runner.visualstudio.nuspec"
+      ]
     }
   },
   "projectFileDependencyGroups": {
@@ -6415,15 +6452,21 @@
       "Swashbuckle.AspNetCore >= 6.5.0",
       "itext7 >= 7.2.0",
       "supabase-csharp >= 0.15.0",
-      "xunit >= 2.8.0"
+      "xunit >= 2.8.0",
+      "xunit.runner.visualstudio >= 2.4.3"
     ]
   },
   "packageFolders": {
+<<<<<<< HEAD
     "C:\\Users\\2003h\\.nuget\\packages\\": {}
+=======
+    "C:\\Users\\vane_\\.nuget\\packages\\": {}
+>>>>>>> 98041cac0da6885a72e70fa9dfdff6368a64d7a3
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\2003h\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
       "projectName": "CyberMercadillo",
       "projectPath": "C:\\Users\\2003h\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
@@ -6433,12 +6476,21 @@
       "configFilePaths": [
         "C:\\Users\\2003h\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+=======
+      "projectUniqueName": "C:\\Users\\vane_\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
+      "projectName": "CyberMercadillo",
+      "projectPath": "C:\\Users\\vane_\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\CyberMercadillo.csproj",
+      "packagesPath": "C:\\Users\\vane_\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\vane_\\OneDrive\\Documentos\\GitHub\\CyberMercadillo\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\vane_\\AppData\\Roaming\\NuGet\\NuGet.Config"
+>>>>>>> 98041cac0da6885a72e70fa9dfdff6368a64d7a3
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -6485,6 +6537,10 @@
           "xunit": {
             "target": "Package",
             "version": "[2.8.0, )"
+          },
+          "xunit.runner.visualstudio": {
+            "target": "Package",
+            "version": "[2.4.3, )"
           }
         },
         "imports": [
@@ -6501,6 +6557,7 @@
         "downloadDependencies": [
           {
             "name": "Microsoft.AspNetCore.App.Ref",
+<<<<<<< HEAD
             "version": "[7.0.15, 7.0.15]"
           },
           {
@@ -6514,6 +6571,21 @@
           {
             "name": "Microsoft.WindowsDesktop.App.Ref",
             "version": "[7.0.15, 7.0.15]"
+=======
+            "version": "[7.0.16, 7.0.16]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[7.0.16, 7.0.16]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[7.0.16, 7.0.16]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[7.0.16, 7.0.16]"
+>>>>>>> 98041cac0da6885a72e70fa9dfdff6368a64d7a3
           }
         ],
         "frameworkReferences": {
@@ -6524,7 +6596,11 @@
             "privateAssets": "all"
           }
         },
+<<<<<<< HEAD
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100-preview.2.24157.14\\RuntimeIdentifierGraph.json"
+=======
+        "runtimeIdentifierGraphPath": "D:\\dotnet\\sdk\\8.0.102\\RuntimeIdentifierGraph.json"
+>>>>>>> 98041cac0da6885a72e70fa9dfdff6368a64d7a3
       }
     }
   }

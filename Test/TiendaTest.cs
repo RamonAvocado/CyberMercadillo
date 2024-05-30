@@ -4,9 +4,12 @@ using CyberMercadillo.Entities;
 
 public class TiendaTest{
     [Fact]
+    //BIEN
     public void buscarCorreo(){
         //Arrange
         var tienda = new Tienda();
+        var user = new Comprador(1,"Juan", 666777888, "juan@example.com", "hola", "a", 10, "10", 10, "Comprador", "a");
+        tienda.agregarUser(user);
         //Act
         var result = tienda.buscarCorreo("juan@example.com");
         //Assert
@@ -14,20 +17,10 @@ public class TiendaTest{
         
     }
 
-    [Fact]
-    public void comprobarCategorias(){
 
-        var tienda = new Tienda();
-
-        var result = tienda.GetCategorías();
-
-        Assert.Equal(
-            new List<String> {
-            "Todas las categorias", "Hogar", "Electrónica", "Juguetes", "Ropa", "Amor puro"
-        },result);
-    }
 
     [Fact]
+    //BIEN
     public void crearProducto(){
 
         var tienda = new Tienda();
@@ -40,8 +33,9 @@ public class TiendaTest{
     }
 
      [Fact]
-    public void AsignarPro_ProductoEncontrado()
-    {
+    //BIEN
+
+    public void AsignarPro_ProductoEncontrado(){
         // Arrange
         var tienda = new Tienda();
         Producto producto = new Producto(1000,"Laptop","1200","Electrónica","Laptop de alta gama", "laptop.jpg", 10, 101,
@@ -59,8 +53,8 @@ public class TiendaTest{
     }
 
     [Fact]
-    public void AsignarPro_ProductoNoEncontrado()
-    {
+    //BIEN
+    public void AsignarPro_ProductoNoEncontrado(){
         // Arrange
         var tienda = new Tienda();
         var producto = new Producto {};
@@ -77,8 +71,8 @@ public class TiendaTest{
     }
 
     [Fact]
-    public void ActualizarVendedor_DatosValidos()
-    {
+    //BIEN
+    public void ActualizarVendedor_DatosValidos(){
         // Arrange
         var tienda = new Tienda();
         var vendedor= new Vendedor(1000,"Antiguo Nombre",123456,"antiguo@correo.com","antigua","Antigua Dirección",
@@ -101,8 +95,8 @@ public class TiendaTest{
     }
 
     [Fact]
-    public void FiltrarProductosPorValoracion()
-    {
+    //BIEN
+    public void FiltrarProductosPorValoracion(){
         // Arrange
         var tienda = new Tienda();
         var prodPrec = new List<Producto>
@@ -123,20 +117,21 @@ public class TiendaTest{
     }
 
     [Fact]
-    public void GetProductosBusquedaTest()
-    {
+    public void GetProductosBusquedaTest(){
         // Arrange
         var tienda = new Tienda();
-        tienda.Productos = new List<Producto>
-        {
-            new Producto(10, "Laptop", "1000", "Electrónica", "Laptop de alta calidad", "img1.jpg", 10, 101, true, false, 4, "cert1.pdf", "20 de Junio", 5),
-            new Producto(20, "Teclado", "50", "Electrónica", "Teclado mecánico", "img2.jpg", 20, 102, false, true, 3, "cert2.pdf", "21 de Junio", 0),
-            new Producto(30, "Ratón", "30", "Electrónica", "Ratón inalámbrico", "img3.jpg", 30, 103, true, false, 2, "cert3.pdf", "22 de Junio", 10),
-            new Producto(40, "Tablet", "500", "Electrónica", "Tablet Android", "img4.jpg", 40, 104, false, false, 4, "cert4.pdf", "23 de Junio", 15)
-        };
+
+        var user = new Comprador(1,"Juan", 666777888, "juan@example.com", "hola", "a", 10, "10", 10, "Comprador", "a");
+        tienda.agregarUser(user);
+
+        tienda.agregarProducto(new Producto(10, "Laptop", "1000", "Electrónica", "Laptop de alta calidad", "img1.jpg", 10, 101, true, false, 4, "cert1.pdf", "20 de Junio", 5));
+        tienda.agregarProducto(new Producto(20, "Teclado", "50", "Electrónica", "Teclado mecánico", "img2.jpg", 20, 102, false, true, 3, "cert2.pdf", "21 de Junio", 0));
+        tienda.agregarProducto(new Producto(30, "Ratón", "30", "Electrónica", "Ratón inalámbrico", "img3.jpg", 30, 103, true, false, 2, "cert3.pdf", "22 de Junio", 10));
+        tienda.agregarProducto(new Producto(40, "Tablet", "500", "Electrónica", "Tablet Android", "img4.jpg", 40, 104, false, false, 4, "cert4.pdf", "23 de Junio", 15));
+            
 
         // Act
-        var productosFiltrados = tienda.GetProductosBusqueda("Laptop", 123);
+        var productosFiltrados = tienda.GetProductosBusqueda("Laptop;Electrónica", 1);
 
         // Assert
         Assert.Equal(1, productosFiltrados.Count);

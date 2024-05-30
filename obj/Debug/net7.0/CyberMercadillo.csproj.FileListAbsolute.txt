@@ -583,6 +583,7 @@ C:\Users\Jordi\Documents\GitHub\CyberMercadillo\bin\Debug\net7.0\zh-Hans\Microso
 C:\Users\Jordi\Documents\GitHub\CyberMercadillo\bin\Debug\net7.0\zh-Hant\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
 C:\Users\Jordi\Documents\GitHub\CyberMercadillo\bin\Debug\net7.0\zh-Hant\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
 C:\Users\Jordi\Documents\GitHub\CyberMercadillo\bin\Debug\net7.0\zh-Hant\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+<<<<<<< HEAD
 C:\Users\2003h\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\testhost.exe
 C:\Users\2003h\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\testhost.dll
 C:\Users\2003h\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\Microsoft.VisualStudio.CodeCoverage.Shim.dll
@@ -662,3 +663,11 @@ C:\Users\2003h\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\zh-Ha
 C:\Users\2003h\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\zh-Hant\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
 C:\Users\2003h\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\zh-Hant\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
 C:\Users\2003h\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\zh-Hant\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+=======
+C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\xunit.runner.reporters.netcoreapp10.dll
+C:\Users\ramon\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\xunit.runner.utility.netcoreapp10.dll
+C:\Users\vane_\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+C:\Users\vane_\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\xunit.runner.reporters.netcoreapp10.dll
+C:\Users\vane_\OneDrive\Documentos\GitHub\CyberMercadillo\bin\Debug\net7.0\xunit.runner.utility.netcoreapp10.dll
+>>>>>>> 98041cac0da6885a72e70fa9dfdff6368a64d7a3

@@ -13,7 +13,8 @@
           "Swashbuckle.AspNetCore": "6.5.0",
           "itext7": "7.2.0",
           "supabase-csharp": "0.15.0",
-          "xunit": "2.8.0"
+          "xunit": "2.8.0",
+          "xunit.runner.visualstudio": "2.4.3"
         },
         "runtime": {
           "CyberMercadillo.dll": {}
@@ -1228,7 +1229,8 @@
             "fileVersion": "2.8.0.0"
           }
         }
-      }
+      },
+      "xunit.runner.visualstudio/2.4.3": {}
     }
   },
   "libraries": {
@@ -2027,6 +2029,13 @@
       "sha512": "sha512-TyyrZesHB9ODZMS9c73OqiBz4x0vL944JCkSPBWW5w6PF2LlUfdfXRjjOhoIOuY6lTmEgl07rS4/Jot9mCYnpg==",
       "path": "xunit.extensibility.execution/2.8.0",
       "hashPath": "xunit.extensibility.execution.2.8.0.nupkg.sha512"
+    },
+    "xunit.runner.visualstudio/2.4.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kZZSmOmKA8OBlAJaquPXnJJLM9RwQ27H7BMVqfMLUcTi9xHinWGJiWksa3D4NEtz0wZ/nxd2mogObvBgJKCRhQ==",
+      "path": "xunit.runner.visualstudio/2.4.3",
+      "hashPath": "xunit.runner.visualstudio.2.4.3.nupkg.sha512"
     }
   }
 }
