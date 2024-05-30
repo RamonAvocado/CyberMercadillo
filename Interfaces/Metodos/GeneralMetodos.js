@@ -14,6 +14,10 @@ var TipoUsuarioRegistrado;
 let formSubmitEventListenerAdded = false;
 let formSubmitEventListenerAdded2 = false;
 
+//import Usuario  from '/BusinessLogic/Usuario.cs';
+//import InstantaneaUsuario  from '/BusinessLogic/InstantaneaUsuario.cs';
+//import conserjeDeInstantaneasUsuario  from '/BusinessLogic/conserjeDeInstantaneasUsuario.cs';
+
 
 
 
@@ -992,14 +996,61 @@ async function CierroSesionCuenta() {
     window.location.href = '../index.html';
 }
 
-function validatePasswords() {
+function showRepeatPassword() {
+    var repeatPasswordContainer = document.getElementById('repeat-password-container');
+    repeatPasswordContainer.style.display = 'block';
+}
+
+async function combinedFunction() {
     var password = document.getElementById('ContraseñaUsu').value;
     var repeatPassword = document.getElementById('RContraseñaUsu').value;
-    var errorMessage = document.getElementById('error-message');
+    var errorMessage1 = document.getElementById('error-message1');
+    var errorMessage2 = document.getElementById('error-message2');
 
+    // Validar si las contraseñas coinciden
     if (password !== repeatPassword) {
-        errorMessage.style.display = 'block';
+        errorMessage1.style.display = 'block';
+        errorMessage2.style.display = 'none';
+        return; // Salir de la función si las contraseñas no coinciden
     } else {
-        errorMessage.style.display = 'none';
+        errorMessage1.style.display = 'none';
+
+        var idUser = localStorage.getItem('UsuarioID');
+        console.log('ID del vendedor seleccionado: ' + idUser);
+
+        var requestBody = {
+            idUser: idUser,
+            password: password
+        };
+
+        try {
+            const response = await fetch(`${lugarDeEjecucion}/VerificarContraseñas`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody)
+            });
+
+            if (response.ok) {
+                console.log("respuesta ok");
+                const jsonResponse = await response.json();
+                const guay = jsonResponse.guay;
+
+                if (guay == false)
+                {
+                    console.log("las contraseña anterior es IGUAL que la nueva");
+                    errorMessage2.style.display = 'block';
+                }
+                else {
+                    console.log("las contraseña anterior es DISTINTA de la nueva");
+                    errorMessage2.style.display = 'none';
+                }
+            } else {
+                console.error('Error en el backend: ', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error inesperado:', error);
+        }
     }
 }

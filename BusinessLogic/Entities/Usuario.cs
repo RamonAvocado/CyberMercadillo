@@ -33,5 +33,18 @@ namespace CyberMercadillo.Entities
             tipoUsuario = tipoUser;
             fotoPerfil = string.Empty;
         }
+
+        public InstantaneaUsuario CrearInstantaneaUsuario(string contra)
+        {
+            return new InstantaneaUsuario(contra);
+        }
+
+        public void RecuperarInstantaneaUsuario(InstantaneaUsuario instantanea)
+        {
+            if (instantanea != null)
+            {
+                contraseña = instantanea.ObtenerContraseña();
+            }
+        }
     }
 }

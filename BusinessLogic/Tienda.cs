@@ -29,7 +29,6 @@ public class Tienda
     public List<CarritosDeCompra> CarritosDeCompra = new List<CarritosDeCompra>();
     public List<ListaDeseados> ListaDeseados = new List<ListaDeseados>();
 
-
     public Usuario UsuarioRegistrado = new Comprador(0,"x", 1, "x", "x", "x", 1, "x", 1, "x","x");
 
     public void Pregunta()
@@ -835,6 +834,45 @@ return productos;
             comprador.CVV=cvv;
             comprador.fotoPerfil=imgPerfil;
             return comprador;
+    }
+
+
+    public ConserjeDeInstantaneasUsuario Conserje = new ConserjeDeInstantaneasUsuario();
+
+    public bool VerificarContraseñas(string contraseña, int idusuario){            
+
+        Usuario usuarioFalso = new Tecnico(0,"Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se", "Tecnico");
+        Usuario usuarioEncontrado;
+        usuarioEncontrado = Usuarios.Find(u => u.idusuario == idusuario) ?? usuarioFalso;
+        Console.WriteLine("contraseña nueva: " + contraseña);
+        Console.WriteLine("contraseña vieja usuer: " + usuarioEncontrado.contraseña +"\n");
+
+        var instantanea = Conserje.RecuperarInstantanea(usuarioEncontrado.idusuario);
+
+    // Si no hay instantánea en la primera interacción, crear una nueva
+        if(instantanea==null){
+            Console.WriteLine("No existe instantanea, asi que guardo la contraseña anterior");
+            instantanea = usuarioEncontrado.CrearInstantaneaUsuario(usuarioEncontrado.contraseña??"");
+            //Console.WriteLine("contraseña vieja de instantanea: " + instantanea.ObtenerContraseña()+"\n");
+            Conserje.GuardarInstantanea(usuarioEncontrado.idusuario, instantanea);
+            return true;
+        }else
+        {
+            Console.WriteLine("Existe instantanea, asi que guardo la contraseña anterior");
+            var oldPassword = instantanea.ObtenerContraseña();
+            if (oldPassword == contraseña) {
+                Console.WriteLine("La contraseña es igual a la antigua");
+                return false;
+            } else {
+                Console.WriteLine("La contraseña es diferente a la antigua"+"\n");
+        //ahora guardo la nueva contraseña
+                instantanea.EstablecerContraseña(contraseña);
+                Conserje.GuardarInstantanea(usuarioEncontrado.idusuario, instantanea);
+        //modificar la contraseña del usuario
+                usuarioEncontrado.contraseña = contraseña;
+                return true;
+            }
+        }
     }
 }
 

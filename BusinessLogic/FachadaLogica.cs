@@ -206,6 +206,10 @@ class FachadaLogica{
         return tienda.buscarCorreo(correo);
     }
 
+    public bool VerificarContraseñas(string contraseña, int idusuario){
+        return tienda.VerificarContraseñas(contraseña, idusuario);
+    }
+
     public Vendedor buscarVendedor(string idbuscado){
         return tienda.buscarUserVendedor(idbuscado);
     }

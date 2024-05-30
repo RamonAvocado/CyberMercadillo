@@ -344,7 +344,7 @@ function mostrarPedidos(carritos){
                         console.log('Usuario actualizado correctamente');
                         //mostrarResultado(data.resultado); 
 
-                        window.location.reload();
+                        window.location.href = `./InterfazVendedor.html`;
                     } else {
                         console.error('Error al actualizar el producto:', response.statusText);
                     }
@@ -365,8 +365,10 @@ function ActualizarComprador() {
 }
 
 async function handleFormSubmitCompr()
-{   var errorMessage = document.getElementById('error-message');
-    if (errorMessage.style.display == 'block') {
+{   
+    var errorMessage1 = document.getElementById('error-message1');
+    var errorMessage2 = document.getElementById('error-message2');
+    if (errorMessage1.style.display == 'block' || errorMessage2.style.display == 'block') {
         alert("Por favor ingrese los datos correctamente");
     } else {
             const formData = new FormData(event.target);             
@@ -412,7 +414,7 @@ async function handleFormSubmitCompr()
                     console.log('Usuario actualizado correctamente');
                     //mostrarResultado(data.resultado); 
 
-                    window.location.reload();
+                    window.location.href = `./InterfazComprador.html`;
                 } else {
                     console.error('Error al actualizar el producto:', response.statusText);
                 }
