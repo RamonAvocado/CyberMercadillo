@@ -838,42 +838,54 @@ return productos;
 
 
     public ConserjeDeInstantaneasUsuario Conserje = new ConserjeDeInstantaneasUsuario();
+    
+    bool PrimInstantCreada = false;
+public bool VerificarContraseñas(string nuevaContraseña, int idUsuario)
+{
+    // Usuario por defecto en caso de no encontrar el usuario buscado
+    Usuario usuarioFalso = new Tecnico(0, "Prueba", 1000, "PruebaCorreo", "PruebaContra", "Yo que se", "Tecnico");
+    Usuario usuarioEncontrado = Usuarios.Find(u => u.idusuario == idUsuario) ?? usuarioFalso;
 
-    public bool VerificarContraseñas(string contraseña, int idusuario){            
-
-        Usuario usuarioFalso = new Tecnico(0,"Prueba", 1000, "Pruebacorreo", "Pruebacontra", "Yo que se", "Tecnico");
-        Usuario usuarioEncontrado;
-        usuarioEncontrado = Usuarios.Find(u => u.idusuario == idusuario) ?? usuarioFalso;
-        Console.WriteLine("contraseña nueva: " + contraseña);
-        Console.WriteLine("contraseña vieja usuer: " + usuarioEncontrado.contraseña +"\n");
-
-        var instantanea = Conserje.RecuperarInstantanea(usuarioEncontrado.idusuario);
-
-    // Si no hay instantánea en la primera interacción, crear una nueva
-        if(instantanea==null){
-            Console.WriteLine("No existe instantanea, asi que guardo la contraseña anterior");
-            instantanea = usuarioEncontrado.CrearInstantaneaUsuario(usuarioEncontrado.contraseña??"");
-            //Console.WriteLine("contraseña vieja de instantanea: " + instantanea.ObtenerContraseña()+"\n");
-            Conserje.GuardarInstantanea(usuarioEncontrado.idusuario, instantanea);
-            return true;
-        }else
-        {
-            Console.WriteLine("Existe instantanea, asi que guardo la contraseña anterior");
-            var oldPassword = instantanea.ObtenerContraseña();
-            if (oldPassword == contraseña) {
-                Console.WriteLine("La contraseña es igual a la antigua");
-                return false;
-            } else {
-                Console.WriteLine("La contraseña es diferente a la antigua"+"\n");
-        //ahora guardo la nueva contraseña
-                instantanea.EstablecerContraseña(contraseña);
-                Conserje.GuardarInstantanea(usuarioEncontrado.idusuario, instantanea);
-        //modificar la contraseña del usuario
-                usuarioEncontrado.contraseña = contraseña;
-                return true;
-            }
-        }
+    if(!PrimInstantCreada){
+        Console.WriteLine("No xiste instantánea, guardo la primera contraseña");
+        Conserje.GuardarInstantanea(usuarioEncontrado.idusuario, usuarioEncontrado.CrearInstantaneaUsuario(usuarioEncontrado.contraseña ?? ""));
+        PrimInstantCreada = true;
     }
+
+    //Recupero la instantanea del usuario
+    var instantanea = Conserje.RecuperarInstantanea(usuarioEncontrado.idusuario);
+
+    Console.WriteLine("Existe instantánea, verificando contraseñas");
+    var oldPassword = instantanea.ObtenerContraseña();
+
+    if (oldPassword == nuevaContraseña){
+        Console.WriteLine("La nueva contraseña es igual a la antigua");
+        return false;
+    }
+    else{
+        Console.WriteLine("La nueva contraseña es diferente a la antigua\n");
+        return true;
+    }
+}
+
+public void GuardarInstantaneaUsuario(string nuevaContraseña, int idUsuario){
+    // Usuario por defecto en caso de no encontrar el usuario buscado
+    Usuario usuarioFalso = new Tecnico(0, "Prueba", 1000, "PruebaCorreo", "PruebaContra", "Yo que se", "Tecnico");
+    Usuario usuarioEncontrado = Usuarios.Find(u => u.idusuario == idUsuario) ?? usuarioFalso;
+
+    var instantanea = Conserje.RecuperarInstantanea(usuarioEncontrado.idusuario);
+
+    //si existe instantanea, es que el usuario ha modificado la contraseña, sino existe que no haga nada
+    if(instantanea != null){
+        // Guardar la nueva contraseña en la instantánea
+        instantanea.EstablecerContraseña(nuevaContraseña);
+        Conserje.GuardarInstantanea(usuarioEncontrado.idusuario, instantanea);
+
+        // Modificar la contraseña del usuario
+        usuarioEncontrado.contraseña = nuevaContraseña;
+    }
+}
+
 }
 
 

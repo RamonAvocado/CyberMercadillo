@@ -731,6 +731,25 @@ class Servicios{
             }catch (Exception ex){errorDefault(context,ex);}
         });
 
+        app.MapPost("/GuardarInstantaneaUsuario", async (HttpContext context, Supabase.Client client) =>
+        {
+            using var reader = new StreamReader(context.Request.Body);
+            try
+            {
+                var requestBody = await reader.ReadToEndAsync();
+                var searchData = JsonConvert.DeserializeObject<JObject>(requestBody);
+
+                var idUser = searchData["idUser"].ToObject<int>();
+                var password = searchData["password"].ToObject<string>();
+
+                fachadaLogica.GuardarInstantaneaUsuario(password ?? "", idUser);
+                
+                var jsonResponse = new { };
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(jsonResponse));
+                   
+            }catch (Exception ex){errorDefault(context,ex);}
+        });
 
         app.MapGet("/getBusquedas", (HttpContext context, Supabase.Client client) =>
         {

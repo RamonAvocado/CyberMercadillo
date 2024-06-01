@@ -343,6 +343,7 @@ function mostrarPedidos(carritos){
                         //const data = await response.json();
                         console.log('Usuario actualizado correctamente');
                         //mostrarResultado(data.resultado); 
+                        GuardarInstantaneaUsuario();
 
                         window.location.href = `./InterfazVendedor.html`;
                     } else {
@@ -363,6 +364,7 @@ function ActualizarComprador() {
         formSubmitEventListenerAddedComp = true;
     }
 }
+
 
 async function handleFormSubmitCompr()
 {   
@@ -412,6 +414,7 @@ async function handleFormSubmitCompr()
                     console.log(user);
                     //const data = await response.json();
                     console.log('Usuario actualizado correctamente');
+                    GuardarInstantaneaUsuario();
                     //mostrarResultado(data.resultado); 
 
                     window.location.href = `./InterfazComprador.html`;
@@ -421,5 +424,35 @@ async function handleFormSubmitCompr()
             } catch (error) {
                 console.error('Error inesperado:', error);
             }
+    }
+}
+
+
+
+async function GuardarInstantaneaUsuario() {
+    var password = document.getElementById('ContraseñaUsu').value;
+    var idUser = localStorage.getItem('UsuarioID');
+
+    var requestBody = {
+        idUser: idUser,
+        password: password
+    };
+
+    try {
+        const response = await fetch(`${lugarDeEjecucion}/GuardarInstantaneaUsuario`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody)
+        });
+
+        if (response.ok) {
+            console.log("Respuesta ok");
+        } else {
+            console.error('Error en el backend: ', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error inesperado:', error);
     }
 }

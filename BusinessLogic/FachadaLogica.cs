@@ -210,6 +210,10 @@ class FachadaLogica{
         return tienda.VerificarContraseñas(contraseña, idusuario);
     }
 
+     public void GuardarInstantaneaUsuario(string contraseña, int idusuario){
+        tienda.GuardarInstantaneaUsuario(contraseña, idusuario);
+    }
+
     public Vendedor buscarVendedor(string idbuscado){
         return tienda.buscarUserVendedor(idbuscado);
     }
