@@ -395,55 +395,9 @@ function mostrarUnProducto(producto) {
     productButtons.appendChild(comprarButton);*/
 
     const carritoButton = document.createElement('button');
-    carritoButton.classList.add('carritoButton'); // Usar la misma clase para el estilo
-
-    // Crear el texto del botón
-    const buttonText = document.createElement('span');
-    buttonText.classList.add('button__text');
-    buttonText.textContent = 'Añadir al Carrito de Compra';
-    carritoButton.appendChild(buttonText);
-
-    // Crear el icono del botón
-    const buttonIcon = document.createElement('span');
-    buttonIcon.classList.add('button__icon');
-
-    // Crear el SVG del icono del carrito
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('viewBox', '0 0 16 16');
-    svg.setAttribute('fill', 'currentColor');
-    svg.setAttribute('height', '24');
-    svg.setAttribute('width', '24');
-    svg.classList.add('bi', 'bi-cart2', 'svg');
-
-    // Crear el path del SVG
-    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    path.setAttribute('d', 'M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z');
-    svg.appendChild(path);
-
-    // Agregar el SVG al icono del botón
-    buttonIcon.appendChild(svg);
-
-    // Agregar el icono al botón
-    carritoButton.appendChild(buttonIcon);
-
-    // Agregar el botón al contenedor de botones
+    carritoButton.classList.add('carritoButton');
+    carritoButton.textContent = 'Añadir al Carrito de Compra';
     productButtons.appendChild(carritoButton);
-
-    // Agregar el contenedor de botones al producto
-    productCard.appendChild(productButtons);
-
-    // Agregar el producto al contenedor principal
-    container.appendChild(productCard);
-
-    // Evento de clic en el contenedor de flecha semi visible para cambiar la imagen principal
-        if (imagenes.length > 1) {
-            contenedorFlecha.addEventListener('click', function() {
-                const index = imagenes.indexOf(imagenPrincipal.src);
-                const siguienteIndex = (index + 1) % imagenes.length;
-                imagenPrincipal.src = imagenes[siguienteIndex];
-            });
-        }
-    
 
     const cantidadLabel = document.createElement('label');
     cantidadLabel.htmlFor = 'cantidad';
@@ -466,15 +420,7 @@ function mostrarUnProducto(producto) {
     
     const deseosButton = document.createElement('button');
     deseosButton.classList.add('deseosButton');
-    deseosButton.innerHTML = `
-        <span class="button__text">Añadir a Lista de Deseados</span>
-        <span class="button__icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg">
-                <line y2="19" y1="5" x2="12" x1="12"></line>
-                <line y2="12" y1="12" x2="19" x1="5"></line>
-            </svg>
-        </span>
-    `;
+    deseosButton.textContent = 'Añadir lista de deseos';
     productButtons.appendChild(deseosButton);
 
     // Agregar el contenedor de botones al producto
@@ -797,7 +743,7 @@ async function mostrarCarritoCompra (carrCompra){
         const buttonContainer = document.querySelector('.button-container');
         const tramitarBoton = document.createElement('button');
         tramitarBoton.textContent = "Tramitar Pedido";
-        tramitarBoton.className = "boton-Compra tramitar-boton";
+        tramitarBoton.className = "tramitar-boton";
         tramitarBoton.onclick = TramitarPedido; // Asigna la función TramitarPedido al evento click del botón
         buttonContainer.appendChild(tramitarBoton);    
     }
@@ -880,13 +826,9 @@ async function mostrarUnProductoCompra(producto, cantidad, productsContainer) {
     descripcion.innerHTML = `<h1>${producto.nombreproducto + " " + producto.precio} €</h1>
     <p>Llegada el: ${producto.llegada}</p>
     <h2>Cantidad: ${cantidad} </h2 style="font-size: 18px;">
-    <button class="boton-Compra" onclick="aumentarCantidad(${producto.idproducto}, ${cantidad}, ${producto.cantidad})">+</button>
-    <button class="boton-Compra" onclick="disminuirCantidad(${producto.idproducto}, ${cantidad})">-</button>
-    <button class="boton-Quitar" onclick="eliminarProducto(${producto.idproducto})">
-    <svg viewBox="0 0 448 512" class="svgIcon">
-        <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"></path>
-    </svg>
-    </button>`;
+    <button onclick="aumentarCantidad( ${producto.idproducto}, ${cantidad}, ${producto.cantidad})">+</button>
+    <button onclick="disminuirCantidad(${producto.idproducto}, ${cantidad})">-</button>
+    <button onclick="eliminarProducto(${producto.idproducto})">Quitar</button>`;
 
     // Añadir elementos al contenedor del producto
     productDiv.appendChild(img);

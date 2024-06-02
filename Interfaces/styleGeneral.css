@@ -48,7 +48,6 @@ header {
     border: none;
     background: none;
     cursor: pointer
-    
 }
 
 /* TEXTO CyberMercadillo */
@@ -70,7 +69,7 @@ header {
     text-align: center;
     font-weight: bold;
     padding: 1.1em 3.5em; /* Aumentado el padding de forma moderada */
-    border: 4px solid #db0eea; /* Mantener el grosor del borde */
+    border: 4px solid #FF0072; /* Mantener el grosor del borde */
     border-radius: 4px; /* Mantener el radio del borde */
     position: relative;
     box-shadow: 0 5px 12px rgba(0, 0, 0, 0.2), 0 7px 9px rgba(0, 0, 0, 0.1); /* Ajuste leve del tamaño de la sombra */
@@ -90,7 +89,7 @@ header {
     bottom: 0;
     opacity: 0;
     content: '';
-    background-color: #bd0ec9;
+    background-color: #FF0072;
     z-index: -1;
 }
 
@@ -120,7 +119,6 @@ header {
     background-color: #d9d9d9;
     padding: 1px;
     text-align: center;
-    
 }
 /* Estilos para la lista de navegación */
 .nav-list {
@@ -175,7 +173,7 @@ header {
     width: 140px;
     border-radius: 50px;
     transition-duration: 0.3s;
-    background-color: rgb(183, 17, 205);
+    background-color: rgb(181, 160, 255);
     align-items: center;
 }
   
@@ -213,12 +211,9 @@ header {
     margin: 5px; /* Ajusta el valor según sea necesario */
     margin-left: 50px; /* Agrega una sangría de 50px a la izquierda */
     margin-top: 20px;
-    display: inline-block;; /* Para que el elemento ocupe el ancho disponible */
+    display: flex; /* Para que el elemento ocupe el ancho disponible */
     justify-content: flex-start; /* Alinea el contenido al principio del contenedor */
     align-items: center; /* Centra verticalmente el contenido */
-    vertical-align: top;
-    position: relative;
-
 }
 
 
@@ -352,6 +347,95 @@ footer {
     cursor: pointer;
 }
 
+
+/* ESTO NO CAMBIA NADA, LO DEJO COMENTADO PQ PUEDE QUE ME HAYA DEJADO
+   ALGUN HTML */
+/* 
+ .product-card.selected {
+    border: 2px solid blue; 
+    box-shadow: 0 0 5px blue; 
+}    */
+
+
+/*     NO SE QUE HACE ESTO+++++ */
+
+/* Información del producto */
+ /* .product-info h3 {
+    font-size: 18px;
+    margin: 0;
+}
+
+.product-info p {
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+
+.product-info h3,
+.product-info p {
+    max-width: 200px; 
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; 
+} 
+
+
+/*     NO SE QUE HACE ESTO+++++ */
+/* 
+select {
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+} 
+
+
+.num-paginaDest {
+    background-color: #d9d9d9;
+    padding: 1px;
+    text-align: center;
+    list-style: none;
+    display: flex; 
+    justify-content: center;  
+    align-items: center;  
+    gap: 20px;  
+}
+
+
+
+.botones-vendedor{
+    margin: 20px;  
+    margin-right: 50px;   
+    margin-left: 50px; 
+    display: flex;  
+    justify-content: flex-end;  
+    align-items: center;   
+} */
+
+
+
+
+/* BOTON HITORIAL DE BUSQUEDA */
+/* BOTONES A QUITAR/EDITAR+++++++++++  */
+
+ 
+/* .cart-btn{
+    margin: 20px; 
+} */
+
+
+/* .boton-historial{
+    margin: 20px; 
+    margin-right: 50px; 
+    margin-left: auto; 
+    display: flex;
+    justify-content: flex-end; 
+    align-items: center; 
+}  */
+
+
+
+
 /* ESTO ES PARA LOS BOTONES SUPERIORES */
 .styled-button {
     font-size: 18px;
@@ -407,130 +491,7 @@ footer {
     margin-left: 150px;
 }
 
-
-/* ESTE ES EL BOTÓN DEL CARRITO DE COMPRA */
-
-.boton-carro {
-    --width: 250px; /* Incremento del ancho */
-    --height: 70px; /* Incremento de la altura */
-    --tooltip-height: 35px;
-    --tooltip-width: 90px;
-    --gap-between-tooltip-to-button: 18px;
-    --button-color: #FFA500;
-    --tooltip-color: #fff;
-    width: var(--width);
-    height: var(--height);
-    background: var(--button-color);
-    position: relative;
-    text-align: center;
-    border-radius: 0.45em;
-    font-family: "Arial";
-    font-weight: 800;
-    font-size: 1.2em; /* Aumento del tamaño del texto */
-    transition: background 0.3s;
-    border: 4px solid #000000;
-}
-
-.boton-carro::before {
-    position: absolute;
-    content: attr(data-tooltip);
-    width: var(--tooltip-width);
-    height: var(--tooltip-height);
-    background-color: #555;
-    font-size: 0.9rem;
-    color: #fff;
-    border-radius: .25em;
-    line-height: var(--tooltip-height);
-    bottom: calc(var(--height) + var(--gap-between-tooltip-to-button) + 10px);
-    left: calc(50% - var(--tooltip-width) / 2);
-}
-
-.boton-carro::after {
-    position: absolute;
-    content: '';
-    width: 0;
-    height: 0;
-    border: 10px solid transparent;
-    border-top-color: #555;
-    left: calc(50% - 10px);
-    bottom: calc(100% + var(--gap-between-tooltip-to-button) - 10px);
-}
-
-.boton-carro::after, .boton-carro::before {
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.5s;
-}
-
-.text {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.button-wrapper, .text, .icon {
-    overflow: hidden;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    color: #fff;
-}
-
-.text {
-    top: 0;
-}
-
-.text, .icon {
-    transition: top 0.5s;
-}
-
-.icon {
-    color: #fff;
-    top: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.icon svg {
-    width: 40px;
-    height: 40px;
-}
-
-.boton-carro:hover {
-    background: var(--button-color); 
-    background: #FFA500;
-}
-
-.boton-carro:hover .text {
-    top: -100%;
-}
-
-.boton-carro:hover .icon {
-    top: 0;
-}
-
-.boton-carro:hover::before, .boton-carro:hover::after {
-    opacity: 0;
-    visibility: hidden;
-}
-
-.boton-carro:hover::after {
-    bottom: calc(var(--height) + var(--gap-between-tooltip-to-button) - 20px);
-}
-
-.boton-carro:hover::before {
-    bottom: calc(var(--height) + var(--gap-between-tooltip-to-button));
-}
-
 #sesion-carro-link {
-    margin-left: auto; /* Mantener el botón a la derecha */
-    margin-right: 50px;
-    margin-top: 20px;
-}
-
-.flex-carro {
-    display: flex; /* Flexbox para alinear elementos horizontalmente */
-    align-items: center; /* Alinear elementos verticalmente */
+    margin-left: auto; /* Mover el elemento de CARRITO DE COMPRA a la derecha */
+    margin-top: 10px;
 }

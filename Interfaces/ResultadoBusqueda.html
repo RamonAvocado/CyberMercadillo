@@ -31,10 +31,11 @@
         </div>
         <div id = "resultados" style = "font-size: 28px;"></div>
     </header>
-    <div class="grupo-nav-list">
+    <div class = "grupo-nav-list">
         <nav>
             <ul class="nav-list">
-                <li id="sesion-user-link" class="flex-container"></li>
+                <li id="sesion-user-link"class="flex-container"></li>
+                <li id="sesion-carro-link"></li>
                 <li id="sesion-link"></li>
                 <li>
                     <div class="user-icons">
@@ -44,50 +45,33 @@
             </ul>
         </nav>
     </div>
-    <div class="flex-carro">
-        <div class="boton-Volver">
-            <button onclick="volverPaginaAnterior()" class="volver-btn">
-                <svg viewBox="0 0 384 512" class="svgIcon">
-                    <path d="M41.4 214.6c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L141.2 288H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H141.2l105.5-105.5c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"></path>
-                </svg>
-            </button>
-        </div>
-        <div id="sesion-carro-link">
-            <div data-tooltip="Carrito de compra" class="boton-carro" onclick="location.href='./CarritoDeCompra.html'">
-                <div class="button-wrapper">
-                    <div class="text">CARRITO DE COMPRA</div>
-                    <span class="icon">
-                        <svg viewBox="0 0 16 16" class="bi bi-cart2" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"></path>
-                        </svg>
-                    </span>
-                </div>
-            </div>
-        </div>
+    <div class="boton-Volver">
+        <button onclick="volverPaginaAnterior()" class="volver-btn">
+            <svg viewBox="0 0 384 512" class="svgIcon">
+                <path
+                    d="M41.4 214.6c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L141.2 288H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H141.2l105.5-105.5c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"
+                ></path>
+            </svg>
+        </button>
     </div>
+    <!-- <div class="boton-historial">
+        <button onclick = "irAHistorialDeBúsqueda()" class="search-history-btn">Historial de Búsqueda</button>
+    </div> -->
+
     <div class="main-section">
         <div class="filters-section">
             <!-- Aquí he añadido los filtros para categoría, precio y valoración -->
-            <h2>Categoría</h2>
+            <h3>Categoría</h3>
             <select id="categorySelect">
                 <option value="Todas las categorías">Todas las categorías</option>
             </select>
 
-            <h2>Precio</h2>
-            <!-- <label class="switch">
-                <input type="checkbox" id="toggle-precio">
-                <span class="slider"></span>
-            </label> -->
+            <h3>Precio</h3>
             <input type="number" id="minPrice" placeholder="Precio mínimo">
             <input type="number" id="maxPrice" placeholder="Precio máximo">
             <button onclick="filtrarPrecio()">Filtrar Precio</button>
 
-            <h2>Valoración huella Eco</h2>
-            <!-- <label class="switch">
-                <input type="checkbox">
-                <span class="slider"></span>
-            </label> -->
-
+            <h3>Valoración huella Eco</h3>
             <select id="rating">
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -96,9 +80,6 @@
                 <option value="5">5</option>
             </select>
             <button onclick="filtrarValorEco()">Filtrar Eco</button>
-            
-            
-            <!-- <button onclick="filtrarValorEco()" class="boton-FiltrosGeneral">Aplicar Filtros</button> -->
         </div>
 
         <div class="resultado-busqueda-container">

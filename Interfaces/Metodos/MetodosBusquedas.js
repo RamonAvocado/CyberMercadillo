@@ -340,6 +340,63 @@ async function CargaCategorias() {
     }
 }
 
+/*
+function mostrarCategorias(array) {
+    const categoryButtonsContainer = document.getElementById('categoryButtons');
+    categoryButtonsContainer.innerHTML = '';
+
+    // Obtener la última categoría seleccionada del localStorage
+    //PREGUNTAR
+    if(localStorage.getItem('categoriaSeleccionada') == "null"){localStorage.setItem('categoriaSeleccionada', localStorage.getItem('categoriaProductoBusqueda'));}
+    let categoriaSeleccionada = localStorage.getItem('categoriaSeleccionada');
+    
+
+    // Agregar botón "Todas las categorías"
+    const todasLasCategoriasButton = document.createElement('button');
+    todasLasCategoriasButton.textContent = 'Todas las categorías';
+    todasLasCategoriasButton.classList.add('category-button');
+    todasLasCategoriasButton.addEventListener('click', function() {
+
+        localStorage.setItem('categoriaSeleccionada', 'Todas las categorias');
+
+        var limpiarResult = document.getElementById('resultados');
+        limpiarResult.innerHTML = `<p></p>`;
+
+        var searchTerm = localStorage.getItem('searchTerm');
+
+        buscarProd(searchTerm, 'Todas las categorias');
+        
+    });
+    categoryButtonsContainer.appendChild(todasLasCategoriasButton);  
+    array.forEach(categoria => {
+        const categoryButton = document.createElement('button');
+        categoryButton.textContent = categoria;
+        categoryButton.classList.add('category-button');
+        categoryButton.addEventListener('click', function() {
+
+            categoriaSeleccionada = categoria;
+            localStorage.setItem('categoriaSeleccionada', categoriaSeleccionada);          
+            var limpiarResult = document.getElementById('resultados');
+            limpiarResult.innerHTML = `<p></p>`;
+
+
+            //PREGUNTAR
+            //var searchTerm = localStorage.getItem('searchTerm');
+            var searchTerm = document.getElementById('searchInput').value;
+
+
+            if (categoriaSeleccionada === 'Todas las categorías') {
+                buscarProd(searchTerm, categoriaSeleccionada);
+            } else {
+                ProductosFiltroCategoria(categoriaSeleccionada);
+            }
+        });
+        categoryButtonsContainer.appendChild(categoryButton);
+    });
+    localStorage.setItem('categoriaSeleccionada', categoriaSeleccionada);
+}
+*/
+
 function mostrarCategorias(array) {
     const selectElement = document.getElementById('categorySelect');
 
@@ -519,21 +576,3 @@ async function borrarCuenta() {
         console.error('Error inesperado:', error);
     }
 }
-
-
-/*ESTO ES PARA EL TOGGLE SWITCH DE LOS FILTROS*/ 
-
-document.getElementById('toggle-precio').addEventListener('change', function () {
-    const isChecked = this.checked;
-    const priceInputs = document.querySelectorAll('.price-input');
-
-    priceInputs.forEach(input => {
-        if (isChecked) {
-            input.classList.remove('disabled');
-            input.removeAttribute('disabled');
-        } else {
-            input.classList.add('disabled');
-            input.setAttribute('disabled', 'disabled');
-        }
-    });
-});

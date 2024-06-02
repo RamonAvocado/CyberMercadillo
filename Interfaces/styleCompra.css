@@ -1,4 +1,25 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
+.header {
+    background-color: #8a2f91;
+    color: #000;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    padding-left: 50px;
+    margin-left: 20px;
+    margin-right: 15px;
+    margin-top: 20px;
+
+}
 
 .close-button {
     cursor: pointer;
@@ -9,15 +30,12 @@
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    border-top-left-radius: 50px; /* Añadido */
-    border-top-right-radius: 50px; /* Añadido */
     border-bottom-left-radius: 50px;
     border-bottom-right-radius: 50px;
     margin-left: 20px;
     margin-right: 15px;
     margin-bottom: 20px;
 }
-
 
 .informacion-compra{
     margin-left: 50px;
@@ -61,14 +79,15 @@
     align-items: center; /* Alinear los elementos verticalmente */
 }
 
- .PagoImg {
+img {
     border-radius: 40px;
-    width: 100%; 
-    height: 200px; 
+    width: 100%; /* Establecer el ancho de la imagen al 100% del contenedor */
+    height: 200px; /* Establecer una altura fija para todas las imágenes */
+    object-fit: contain; /* Escalar la imagen para que quepa dentro del contenedor sin recortarla */
     border: 1px solid #ddd;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px; 
-} 
+    margin-bottom: 10px; /* Añadir espacio entre la imagen y la descripción */
+}
 
 .shipping-info h1{
     margin-top: 25px;
@@ -93,7 +112,7 @@ input {
     margin-top: 20px;
 }
 
-.boton-Compra {
+button {
     padding: 18px 28px;
     font-size: 24px;
     border: none;
@@ -102,69 +121,15 @@ input {
     color: #fff;
     border-radius: 35px;
     margin-right: 10px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .boton-Compra:hover {
-    background-color: #ca800a;
-  }
-  
+}
 
 .button-container {
     text-align: center;
 }
 
-
-/* INICIO BTN QUITAR */
-
-.boton-Quitar {
-    width: 140px;
-    height: 50px;
-    border-radius: 50px;
-    background-color: rgb(255, 69, 69);
-    border: none;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
-    cursor: pointer;
-    transition-duration: .3s;
-    overflow: hidden;
-    position: relative;
+.back-button {
+    background-color: #f9a825;
 }
-
-.boton-Quitar .svgIcon {
-    width: 50px;
-    transition-duration: .3s;
-    transform: translateY(60%);
-}
-
-.boton-Quitar .svgIcon path {
-    fill: white;
-}
-
-.boton-Quitar:hover {
-    background-color: rgb(180, 5, 5);
-}
-
-.boton-Quitar::before {
-    position: absolute;
-    top: -20px;
-    content: "Quitar";
-    color: white;
-    transition-duration: .3s;
-    font-size: 13px;
-    opacity: 1;
-    transform: translateY(30px);
-    transition-duration: .3s;
-}
-
-
-
-/* FIN BTN QUITAR */
-
-
 .inter-final h1{
     font-size: 22px;
    }
@@ -175,7 +140,9 @@ input {
     margin-top: 20px;
 }
 
-
+.checkout-button {
+    background-color: #f9a825;
+}
 
 .elegir-pago {
     margin-top: 20px;
@@ -205,11 +172,6 @@ input {
     justify-content: right; /* Mueve el botón hacia la derecha */
 }
 
-.modificar-direc:hover {
-
-    background-color: #ca800a;
-}
-
 .modif{
     display: flex;
     flex-direction:column;
@@ -235,112 +197,12 @@ input {
     margin-right: 20px;
 }
 
-.modificar-tarjeta-btn {
-    padding: 18px 28px;
-    font-size: 24px;
-    border: none;
-    cursor: pointer;
-    background-color: #f9a825;
-    color: #fff;
-    border-radius: 35px;
-    transition: background-color 0.3s ease;
-}
-
-.modificar-tarjeta-btn:hover {
-    background-color: #ca800a;
-}
-
 .modificar-tarjeta-btn:disabled {
     opacity: 0.6; /* Cambia la opacidad del botón cuando está deshabilitado */
     cursor: not-allowed; /* Cambia el cursor a 'no permitido' cuando está deshabilitado */
 }
 
-/* .checkout-button {
-    padding: 18px 28px;
-    font-size: 24px;
-    border: none;
-    cursor: pointer;
-    background-color: #0bb61c;
-    color: #fff;
-    border-radius: 35px;
-    transition: background-color 0.3s ease;
-}
-
-.checkout-button:hover {
-    background-color: #058011;
-} */
-
 .checkout-button:disabled {
     opacity: 0.6; /* Cambia la opacidad del botón cuando está deshabilitado */
     cursor: not-allowed; /* Cambia el cursor a 'no permitido' cuando está deshabilitado */
-}
-.checkout-button {
-    position: relative;
-    font-size: 17px;
-    cursor: pointer;
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 1em 2.5em;
-    display: inline-block;
-    border-radius: 6em;
-    transition: all .2s;
-    border: none;
-    font-family: inherit;
-    font-weight: bold;
-    color: rgb(255, 255, 255);
-    background-color: rgb(6, 170, 6);
-}
-
-.checkout-button:not(:disabled):hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
-
-.checkout-button:not(:disabled):active {
-    transform: translateY(-1px);
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-}
-
-.checkout-button::after {
-    content: "";
-    display: inline-block;
-    height: 100%;
-    width: 100%;
-    border-radius: 100px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    transition: all .4s;
-    background-color: green;
-}
-
-.checkout-button:not(:disabled):hover::after {
-    transform: scaleX(1.4) scaleY(1.6);
-    opacity: 0;
-}
-
-.checkout-button:not(:disabled):active::after {
-    transform: scaleX(1.4) scaleY(1.6);
-    opacity: 0;
-}
-
-/* CODIGO ESTABA EN EL HTML */
-.product-compra img {
-    width: 200px; /* Tamaño de la imagen */
-    margin-right: 20px; /* Espacio entre la imagen y el texto */
-    border-radius: 40px;
-    height: 200px; 
-    border: 1px solid #ddd;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
-}
-
-.descripción {
-    flex: 1; /* Ocupar todo el espacio disponible */
-}
-
-.descripción h1 {
-    margin-top: 0; /* Eliminar margen superior del título */
-    
 }

@@ -3,56 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber Mercadillo</title>
-    <link rel="stylesheet" href="styleGeneral.css">
     <link rel="stylesheet" href="styleCompra.css">
-
+    <title>Checkout</title>
 </head>
 <body>
-    <input type="hidden" id="idUsuario" value="-1">
-    <input type="hidden" id="idProducto" value="-1">
-    <header>
-        <div  class="parte-superior">
-            <div class="img-logo">   
-                <button onclick="redirigirABusqueda()" class="logo-button">
-                    <!-- Coloca la imagen dentro del botón -->
-                    <img src="Imagenes/Logo.png" alt="Logo Cyber Mercadillo" style="width: 180px; height: auto;">
-                </button>
-            </div>
-            <h1>
-                <span>Cyber </span><br>
-                <span>Mercadillo</span>
-            </h1>          
+    <header class="header">
+        <div calss ="nombre-producto">
+            <h1>COMPRAR AHORA</h1>
         </div>
     </header>
-    <div class="grupo-nav-list">
-        <nav>
-            <ul class="nav-list">
-                <li id="sesion-user-link" class="flex-container"></li>
-                <li id="sesion-link"></li>
-                <li>
-                    <div class="user-icons">
-                        <!-- Iconos de usuario (por ejemplo, inicio de sesión, carrito de compras) -->
-                    </div>
-                </li>
-            </ul>
-        </nav>
-    </div>
-    <div class="flex-carro">
-        <div class="boton-Volver">
-            <button onclick="volverPaginaAnterior()" class="volver-btn">
-                <svg viewBox="0 0 384 512" class="svgIcon">
-                    <path d="M41.4 214.6c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L141.2 288H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H141.2l105.5-105.5c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"></path>
-                </svg>
-            </button>
-        </div>
-    </div>
-    <div class = "texto-titulo">
-        <h2>Tramitar Pedido</h2>
-    </div>
-
-
-
     <div class="product-container-compra">
         <div class="informacion-compra">
             <div class="shipping-info">
@@ -61,14 +20,14 @@
                     <h1 class="direccion_facturacion"></h1>
                 </div>
                 <div class="modif">
-                    <button class="boton-Compra"> Modificar Dirección</button>
+                    <button class="modificar-direc"> Modificar Dirección</button>
                 </div>
             </div>
             <div class="elegir-pago">
                 <h3>Elegir método de pago:</h3>
                 <div class="centro_img">   
-                    <img src="Imagenes/Paypal.png" class="PagoImg">
-                    <img src="Imagenes/Tarjeta.png" class="PagoImg">
+                    <img src="Imagenes/Paypal.png">
+                    <img src="Imagenes/Tarjeta.png">
                 </div>
             </div>
             <div class="payment-info">
@@ -95,6 +54,7 @@
                     <h2 class="total-cost">Total: </h2>
                 </div>
                 <div class="button-container">
+                    <button onclick="volverPaginaAnterior()" class="volver-btn">Volver</button>
                     <button onclick="FinalizarCompra()" class="checkout-button">Finalizar Compra</button>
                 </div>
             </div>
