@@ -837,53 +837,39 @@ return productos;
     }
 
 
-    public ConserjeDeInstantaneasUsuario Conserje = new ConserjeDeInstantaneasUsuario();
-    
-    bool PrimInstantCreada = false;
+//no puedo tener instantáneas en la clase tienda. Hay que manejarlas en la calse Usuario  
+
+bool PrimInstantCreada = false;
+
 public bool VerificarContraseñas(string nuevaContraseña, int idUsuario)
 {
     // Usuario por defecto en caso de no encontrar el usuario buscado
     Usuario usuarioFalso = new Tecnico(0, "Prueba", 1000, "PruebaCorreo", "PruebaContra", "Yo que se", "Tecnico");
     Usuario usuarioEncontrado = Usuarios.Find(u => u.idusuario == idUsuario) ?? usuarioFalso;
 
+    //creo la primera instantánea del usuario
     if(!PrimInstantCreada){
         Console.WriteLine("No xiste instantánea, guardo la primera contraseña");
-        Conserje.GuardarInstantanea(usuarioEncontrado.idusuario, usuarioEncontrado.CrearInstantaneaUsuario(usuarioEncontrado.contraseña ?? ""));
+        usuarioEncontrado.CrearInstantaneaUsuario(usuarioEncontrado.contraseña??"");
         PrimInstantCreada = true;
     }
 
-    //Recupero la instantanea del usuario
-    var instantanea = Conserje.RecuperarInstantanea(usuarioEncontrado.idusuario);
-
-    Console.WriteLine("Existe instantánea, verificando contraseñas");
-    var oldPassword = instantanea.ObtenerContraseña();
-
-    if (oldPassword == nuevaContraseña){
-        Console.WriteLine("La nueva contraseña es igual a la antigua");
-        return false;
-    }
-    else{
-        Console.WriteLine("La nueva contraseña es diferente a la antigua\n");
-        return true;
-    }
+    //NO utilizamos el memento para vovler atrás, sino para utilizarlo como simple comparación para luego actualizarlo
+    var ok = usuarioEncontrado.ComprobarContraseña(nuevaContraseña);
+    return ok;
 }
 
+
+//Este método no te deja usarlo, hasta que no hayas hecho algún cambio en el usuario
+// por lo tanto, si el usuario ha modificado la contraseña, va a existir instantánea y asi la "ACTUALIZO", 
+//guardándola en el diccionario en el mismo sito. Si no ha modificado la contraseña, creo la instantánea con la contraseña vieja
 public void GuardarInstantaneaUsuario(string nuevaContraseña, int idUsuario){
     // Usuario por defecto en caso de no encontrar el usuario buscado
     Usuario usuarioFalso = new Tecnico(0, "Prueba", 1000, "PruebaCorreo", "PruebaContra", "Yo que se", "Tecnico");
     Usuario usuarioEncontrado = Usuarios.Find(u => u.idusuario == idUsuario) ?? usuarioFalso;
 
-    var instantanea = Conserje.RecuperarInstantanea(usuarioEncontrado.idusuario);
-
-    //si existe instantanea, es que el usuario ha modificado la contraseña, sino existe que no haga nada
-    if(instantanea != null){
-        // Guardar la nueva contraseña en la instantánea
-        instantanea.EstablecerContraseña(nuevaContraseña);
-        Conserje.GuardarInstantanea(usuarioEncontrado.idusuario, instantanea);
-
-        // Modificar la contraseña del usuario
-        usuarioEncontrado.contraseña = nuevaContraseña;
-    }
+    usuarioEncontrado.CrearInstantaneaUsuario(nuevaContraseña);
+    usuarioEncontrado.contraseña = nuevaContraseña;
 }
 
 }

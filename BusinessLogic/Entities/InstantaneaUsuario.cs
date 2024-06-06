@@ -24,10 +24,5 @@ namespace CyberMercadillo.Entities
         {
             return contraseña;
         }
-
-        public void EstablecerContraseña(string nuevaContraseña)
-        {
-            contraseña = nuevaContraseña;
-        }
     }
 }
