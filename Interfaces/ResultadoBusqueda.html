@@ -105,10 +105,9 @@
     <script src="./Metodos/MetodosBusquedas.js"></script>
     <script src="./Metodos/MetodosUser.js"></script>
     <script src="./Metodos/MetodosNavegacion.js"></script>
-
     <script>
         document.getElementById('searchInput').value = localStorage.getItem('searchTerm');
-
+ 
         if(localStorage.getItem('paginaAnterior') != "HistorialDeBusqueda.html" && localStorage.getItem('paginaAnterior') != "ResultadoBusqueda.html"){
             //CAMBIO
             if(localStorage.getItem('categoriaSeleccionada') == null){localStorage.setItem('categoriaSeleccionada', "Todas las categorias");}
@@ -116,16 +115,23 @@
         } else {
             //Si te mueves desde historial hacia busqueda
             CargaCategorias();
+ 
             if(localStorage.getItem('paginaAnterior') == "ResultadoBusqueda.html"){
                 localStorage.setItem('categoriaSeleccionada', localStorage.getItem('categoriaProductoBusqueda'));
             }
+ 
+ 
             //Problema
             searchTerm = localStorage.getItem('searchTerm');
             categoriaSelect = localStorage.getItem('categoriaProductoBusqueda');
-            buscarProd(searchTerm, categoriaSelect); 
+            buscarProd(searchTerm, categoriaSelect);
             //CREO QUE AQUI ES DONDE SE BUSCA DOS VECES
             ProductosFiltroCategoria(searchTerm, categoriaSelect);
-  
+           
+ 
+        }
+        if(localStorage.getItem('searchTerm') == ''){
+            CargarProductosRecomendad();
         }
         window.addEventListener('unload', GuardarBDD);
         window.addEventListener('unload', () => {localStorage.setItem('paginaAnterior', "ResultadoBusqueda.html");});

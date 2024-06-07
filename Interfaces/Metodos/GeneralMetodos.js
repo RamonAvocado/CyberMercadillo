@@ -283,14 +283,14 @@ async function handleFormSubmitComprador(TipoUsuarioRegistrado) {
     var errorMessage8 = document.getElementById('FechaCadError1');
     var errorMessage9 = document.getElementById('FechaCadError2');
     var errorMessage10 = document.getElementById('FechaCadError3');
-    if (errorMessage1.style.display == 'block' || errorMessage2.style.display == 'block' ||
+    //if (errorMessage1.style.display == 'block' || errorMessage2.style.display == 'block' ||
         errorMessage3.style.display == 'block' || errorMessage4.style.display == 'block' ||
         errorMessage5.style.display == 'block' || errorMessage6.style.display == 'block' ||
         errorMessage7.style.display == 'block' || errorMessage8.style.display == 'block' ||
         errorMessage9.style.display == 'block' || errorMessage10.style.display == 'block' 
-    ) {
-        alert("Por favor ingrese los datos correctamente");
-    } else {
+    //) {
+    //    alert("Por favor ingrese los datos correctamente");
+    //} else {
         const formData = new FormData(document.getElementById('agregarCompradorForm'));
         const cvv = formData.get('CVV');
         const numTarj = formData.get('NumTarj');
@@ -338,7 +338,7 @@ async function handleFormSubmitComprador(TipoUsuarioRegistrado) {
         } catch (error) {
             console.error('Error inesperado:', error);
         }
-    }
+    //}
 }
 
 function irAPagianValidaciones() {

@@ -841,7 +841,6 @@ bool PrimInstantCreada = false;
 
 public ConserjeDeInstantaneasUsuario conserje = new ConserjeDeInstantaneasUsuario();
 
-
 public bool VerificarContraseñas(string nuevaContraseña, int idUsuario)
 {
     // Usuario por defecto en caso de no encontrar el usuario buscado
@@ -866,8 +865,10 @@ public void GuardarInstantaneaUsuario(string nuevaContraseña, int idUsuario){
     Usuario usuarioEncontrado = Usuarios.Find(u => u.idusuario == idUsuario) ?? usuarioFalso;
 
     //creo la nueva instantánea para guardarla en el diccionario y reemplazar la anterior.
-    conserje.GuardarInstantanea(idUsuario, usuarioEncontrado.CrearInstantaneaUsuario(nuevaContraseña));
-    usuarioEncontrado.contraseña = nuevaContraseña;
+    if(conserje.RecuperarInstantanea(idUsuario) == null){
+        conserje.GuardarInstantanea(idUsuario, usuarioEncontrado.CrearInstantaneaUsuario(nuevaContraseña));
+        usuarioEncontrado.contraseña = nuevaContraseña;
+    }
 }
 
 }
