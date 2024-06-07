@@ -34,23 +34,16 @@ namespace CyberMercadillo.Entities
             fotoPerfil = string.Empty;
         }
 
-//El conserje va a manejar las intantáneas del usuario, asi que creo la colección de instantáneas aquí
-    public ConserjeDeInstantaneasUsuario conserje = new ConserjeDeInstantaneasUsuario();
-
-
 //Creo la instanánea del usuario y la guardo en la lísta coserje
-        public void CrearInstantaneaUsuario(string contra)
+        public InstantaneaUsuario CrearInstantaneaUsuario(string contra)
         {
-            var instantánea = new InstantaneaUsuario(contra);
-            conserje.GuardarInstantanea(idusuario, instantánea);
+            return new InstantaneaUsuario(contra);
         }
 
 
 //Función donde recupero la instantánea y comparo las contraseñas
-        public bool ComprobarContraseña( string nuevaContraseña)
+        public bool ComprobarContraseña(string nuevaContraseña, InstantaneaUsuario instantanea)
         {
-            //recupero la instantánea del usuario para comparar la contraseña
-            var instantanea = conserje.RecuperarInstantanea(idusuario);
             var oldPassword = instantanea.ObtenerContraseña();
 
             if (oldPassword == nuevaContraseña){
