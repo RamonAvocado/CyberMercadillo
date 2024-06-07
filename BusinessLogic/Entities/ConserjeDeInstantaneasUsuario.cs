@@ -13,16 +13,16 @@ namespace CyberMercadillo.Entities
 {
     public class ConserjeDeInstantaneasUsuario
     {
-        private Dictionary<int, InstantaneaUsuario> Instantaneas = new Dictionary<int, InstantaneaUsuario>();
+        private Dictionary<int, InstantaneaUsuario> instantaneas = new Dictionary<int, InstantaneaUsuario>();
 
         public void GuardarInstantanea(int idUsuario, InstantaneaUsuario instantanea)
         {
-            Instantaneas[idUsuario] = instantanea;
+            instantaneas[idUsuario] = instantanea;
         }
 
         public InstantaneaUsuario RecuperarInstantanea(int idUsuario)
         {
-            return Instantaneas.ContainsKey(idUsuario) ? Instantaneas[idUsuario] : null;
+            return instantaneas.ContainsKey(idUsuario) ? instantaneas[idUsuario] : null;
         }
     }
 }
